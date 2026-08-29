@@ -43,6 +43,7 @@ export interface Database {
           country_code?: string;
           created_at?: string | null;
         };
+        Relationships: [];
       };
       vehicles: {
         Row: {
@@ -111,6 +112,7 @@ export interface Database {
           location_id?: number | null;
           created_at?: string | null;
         };
+        Relationships: [];
       };
       bookings: {
         Row: {
@@ -169,6 +171,7 @@ export interface Database {
           source?: BookingSource | null;
           created_at?: string | null;
         };
+        Relationships: [];
       };
       leads: {
         Row: {
@@ -216,6 +219,7 @@ export interface Database {
           notified?: boolean | null;
           created_at?: string | null;
         };
+        Relationships: [];
       };
       daily_stats: {
         Row: {
@@ -236,6 +240,7 @@ export interface Database {
           sales_count?: number | null;
           purchases?: number | null;
         };
+        Relationships: [];
       };
     };
     Views: {
@@ -249,6 +254,7 @@ export interface Database {
           sales_count: number;
           revenue: number;
         };
+        Relationships: [];
       };
       v_sales_by_country: {
         Row: {
@@ -257,6 +263,7 @@ export interface Database {
           sales_count: number;
           revenue: number;
         };
+        Relationships: [];
       };
     };
     Functions: {
