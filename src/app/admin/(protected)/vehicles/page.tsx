@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { VehicleImage } from "@/components/site/vehicle-image";
 import { Pencil, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -132,7 +132,7 @@ export default function AdminVehiclesPage() {
       render: (row) => (
         <div className="flex items-center gap-2.5">
           <div className="relative size-10 shrink-0 overflow-hidden rounded-md bg-muted">
-            <Image src={row.image_url} alt={row.name} fill sizes="40px" className="object-cover" />
+            <VehicleImage src={row.image_url} alt={row.name} fill sizes="40px" className="object-cover" />
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium text-foreground">{row.name}</span>

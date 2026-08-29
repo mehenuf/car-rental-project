@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { supabase } from "@/lib/supabase";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 const NOTIFICATIONS = [
   { id: 1, text: "New booking from Tom Smith" },
@@ -55,6 +56,8 @@ export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
         <Button type="button" size="icon" className="sm:hidden" aria-label="Add new">
           <Plus />
         </Button>
+
+        <ThemeToggle />
 
         <DropdownMenu>
           <DropdownMenuTrigger

@@ -55,7 +55,7 @@ export default function AdminLoginPage() {
             <Car className="size-6 text-primary" />
             <span className="font-heading text-lg font-bold text-foreground">BestCar</span>
           </div>
-          <CardTitle className="text-xl">Admin sign in</CardTitle>
+          <CardTitle as="h1" className="text-xl">Admin sign in</CardTitle>
           <CardDescription>Sign in to manage vehicles and bookings.</CardDescription>
         </CardHeader>
         <CardContent>

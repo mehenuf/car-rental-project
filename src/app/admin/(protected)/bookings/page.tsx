@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Image from "next/image";
+import { VehicleImage } from "@/components/site/vehicle-image";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { DateRangePicker } from "@/components/admin/date-range-picker";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -113,7 +113,7 @@ export default function AdminBookingsPage() {
         <div className="flex items-center gap-2.5">
           <div className="relative size-10 shrink-0 overflow-hidden rounded-md bg-muted">
             {row.vehicle?.image_url && (
-              <Image
+              <VehicleImage
                 src={row.vehicle.image_url}
                 alt={row.vehicle.name}
                 fill

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { VehicleImage } from "@/components/site/vehicle-image";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
@@ -83,7 +83,7 @@ export function RecentTransactionsPanel({
         <div className="flex items-center gap-2.5">
           <div className="relative size-9 shrink-0 overflow-hidden rounded-md bg-muted">
             {row.vehicle?.image_url && (
-              <Image
+              <VehicleImage
                 src={row.vehicle.image_url}
                 alt={row.vehicle.name}
                 fill
@@ -183,7 +183,7 @@ export function RecentTransactionsPanel({
               <div className="flex items-center gap-2.5">
                 <div className="relative size-10 shrink-0 overflow-hidden rounded-md bg-muted">
                   {row.vehicle?.image_url && (
-                    <Image
+                    <VehicleImage
                       src={row.vehicle.image_url}
                       alt={row.vehicle.name}
                       fill

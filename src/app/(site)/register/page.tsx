@@ -77,7 +77,7 @@ export default function RegisterPage() {
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-muted/40 p-(--space-sm)">
       <Card className="w-full max-w-sm">
         <CardHeader className="items-center text-center">
-          <CardTitle className="text-xl">Create an account</CardTitle>
+          <CardTitle as="h1" className="text-xl">Create an account</CardTitle>
           <CardDescription>Sign up to book cars faster next time.</CardDescription>
         </CardHeader>
         <CardContent>

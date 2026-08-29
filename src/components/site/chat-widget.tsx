@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useRef, useState, type FormEvent, type KeyboardEvent } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { MessageCircle, Send, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { VehicleImage } from "@/components/site/vehicle-image";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 
@@ -170,9 +170,14 @@ export function ChatWidget() {
       )}
 
       {open && (
-        <div className="fixed inset-0 z-50 flex flex-col bg-card sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[600px] sm:w-96 sm:rounded-2xl sm:border sm:border-border sm:shadow-xl">
+        <div
+          role="dialog"
+          aria-modal="false"
+          aria-labelledby="chat-widget-title"
+          className="fixed inset-0 z-50 flex flex-col bg-card sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[600px] sm:w-96 sm:rounded-2xl sm:border sm:border-border sm:shadow-xl"
+        >
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-(--space-sm)">
-            <span className="font-heading text-base font-semibold text-foreground">
+            <span id="chat-widget-title" className="font-heading text-base font-semibold text-foreground">
               Best Auto Assistant
             </span>
             <button
@@ -185,7 +190,12 @@ export function ChatWidget() {
             </button>
           </div>
 
-          <div className="flex flex-1 flex-col gap-(--space-sm) overflow-y-auto p-(--space-sm)">
+          <div
+            role="log"
+            aria-live="polite"
+            aria-label="Chat messages"
+            className="flex flex-1 flex-col gap-(--space-sm) overflow-y-auto p-(--space-sm)"
+          >
             {messages.length === 0 && (
               <div className="flex flex-col gap-(--space-xs)">
                 <p className="text-sm text-muted-foreground">
@@ -221,9 +231,9 @@ export function ChatWidget() {
                     {message.content ||
                       (loading && index === messages.length - 1 ? (
                         <span className="inline-flex gap-1">
-                          <span className="size-1.5 animate-bounce rounded-full bg-current [animation-delay:-0.3s]" />
-                          <span className="size-1.5 animate-bounce rounded-full bg-current [animation-delay:-0.15s]" />
-                          <span className="size-1.5 animate-bounce rounded-full bg-current" />
+                          <span className="size-1.5 animate-pulse rounded-full bg-current [animation-delay:-0.3s]" />
+                          <span className="size-1.5 animate-pulse rounded-full bg-current [animation-delay:-0.15s]" />
+                          <span className="size-1.5 animate-pulse rounded-full bg-current" />
                         </span>
                       ) : (
                         ""
@@ -239,7 +249,7 @@ export function ChatWidget() {
                           className="flex items-center gap-2.5 rounded-xl border border-border bg-card p-2 transition-colors hover:bg-muted"
                         >
                           <div className="relative size-12 shrink-0 overflow-hidden rounded-lg bg-muted">
-                            <Image
+                            <VehicleImage
                               src={vehicle.image_url}
                               alt={vehicle.name}
                               fill
@@ -275,6 +285,7 @@ export function ChatWidget() {
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask about a car..."
+              aria-label="Message"
               disabled={loading}
               rows={1}
               className="max-h-32 min-h-9 flex-1 resize-none py-2"

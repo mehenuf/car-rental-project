@@ -96,35 +96,35 @@ const LOCATIONS = [
 const VEHICLES = [
   // Popular
   { name: "Toyota Corolla", brand: "Toyota", category: "popular", price: 45, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb" },
-  { name: "Honda Civic", brand: "Honda", category: "popular", price: 48, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1590362891991-f776e747a588" },
-  { name: "Volkswagen Golf", brand: "Volkswagen", category: "popular", price: 50, seats: 5, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1622551941772-a0e2f4a54f1b" },
-  { name: "Hyundai Elantra", brand: "Hyundai", category: "popular", price: 42, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1617469767053-d3b523a0b982" },
-  { name: "Ford Focus", brand: "Ford", category: "popular", price: 44, seats: 5, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1541899481282-d53bffe3c35d" },
-  { name: "Nissan Sentra", brand: "Nissan", category: "popular", price: 43, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1552519507-da3b142c6e3d" },
+  { name: "Honda Civic", brand: "Honda", category: "popular", price: 48, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1594070319944-7c0cbebb6f58" },
+  { name: "Volkswagen Golf", brand: "Volkswagen", category: "popular", price: 50, seats: 5, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1605475300127-0a31e8273bc2" },
+  { name: "Hyundai Elantra", brand: "Hyundai", category: "popular", price: 42, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1645145214095-84fca73e0cc5" },
+  { name: "Ford Focus", brand: "Ford", category: "popular", price: 44, seats: 5, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1551206820-1a2050e76dd7" },
+  { name: "Nissan Sentra", brand: "Nissan", category: "popular", price: 43, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1568074531989-e069eaf92fd2" },
 
   // Large
-  { name: "Toyota Land Cruiser", brand: "Toyota", category: "large", price: 120, seats: 7, transmission: "automatic", fuel: "diesel", image: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf" },
-  { name: "Chevrolet Suburban", brand: "Chevrolet", category: "large", price: 135, seats: 8, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b" },
-  { name: "Ford Explorer", brand: "Ford", category: "large", price: 110, seats: 7, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1533106418989-88406c7cc8ca" },
-  { name: "Kia Carnival", brand: "Kia", category: "large", price: 95, seats: 8, transmission: "automatic", fuel: "diesel", image: "https://images.unsplash.com/photo-1621007805272-611562e9899a" },
-  { name: "Honda Pilot", brand: "Honda", category: "large", price: 105, seats: 7, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1568844293986-8d0400bd4745" },
-  { name: "GMC Yukon", brand: "GMC", category: "large", price: 140, seats: 8, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1605559911160-a3d95d213904" },
+  { name: "Toyota Land Cruiser", brand: "Toyota", category: "large", price: 120, seats: 7, transmission: "automatic", fuel: "diesel", image: "https://images.unsplash.com/photo-1650530579355-7ad9d4766043" },
+  { name: "Chevrolet Suburban", brand: "Chevrolet", category: "large", price: 135, seats: 8, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1597730071805-f87fe40f6796" },
+  { name: "Ford Explorer", brand: "Ford", category: "large", price: 110, seats: 7, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1606611013016-969c19ba27bb" },
+  { name: "Kia Carnival", brand: "Kia", category: "large", price: 95, seats: 8, transmission: "automatic", fuel: "diesel", image: "https://images.unsplash.com/photo-1672216197924-89b8d14a47b1" },
+  { name: "Honda Pilot", brand: "Honda", category: "large", price: 105, seats: 7, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1708148246994-b7b3c818090d" },
+  { name: "GMC Yukon", brand: "GMC", category: "large", price: 140, seats: 8, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1761318752375-978b6922a157" },
 
   // Small
-  { name: "Fiat 500", brand: "Fiat", category: "small", price: 30, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1541443131876-44b03de101c5" },
-  { name: "Mini Cooper", brand: "Mini", category: "small", price: 38, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1617654112368-307921291f42" },
-  { name: "Smart ForTwo", brand: "Smart", category: "small", price: 28, seats: 2, transmission: "automatic", fuel: "electric", image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341" },
-  { name: "Volkswagen Up!", brand: "Volkswagen", category: "small", price: 27, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1502877338535-766e1452684a" },
-  { name: "Kia Picanto", brand: "Kia", category: "small", price: 26, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1591293835940-8f6c94a12a10" },
-  { name: "Toyota Aygo", brand: "Toyota", category: "small", price: 25, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1622199815353-2f7d0e6ad0a0" },
+  { name: "Fiat 500", brand: "Fiat", category: "small", price: 30, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1536667842290-7602f6a43a2b" },
+  { name: "Mini Cooper", brand: "Mini", category: "small", price: 38, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1600016326108-40b24ee22cd3" },
+  { name: "Smart ForTwo", brand: "Smart", category: "small", price: 28, seats: 2, transmission: "automatic", fuel: "electric", image: "https://images.unsplash.com/photo-1777226807153-f73e2b74506c" },
+  { name: "Volkswagen Up!", brand: "Volkswagen", category: "small", price: 27, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1550948505-31ddd529fe61" },
+  { name: "Kia Picanto", brand: "Kia", category: "small", price: 26, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1628066961967-de52104e87a4" },
+  { name: "Toyota Aygo", brand: "Toyota", category: "small", price: 25, seats: 4, transmission: "manual", fuel: "petrol", image: "https://images.unsplash.com/photo-1604046938596-c6561689c9ee" },
 
   // Exclusive
   { name: "BMW 5 Series", brand: "BMW", category: "exclusive", price: 180, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1555215695-3004980ad54e" },
-  { name: "Mercedes-Benz E-Class", brand: "Mercedes-Benz", category: "exclusive", price: 190, seats: 5, transmission: "automatic", fuel: "diesel", image: "https://images.unsplash.com/photo-1563720223185-11003d516935" },
+  { name: "Mercedes-Benz E-Class", brand: "Mercedes-Benz", category: "exclusive", price: 190, seats: 5, transmission: "automatic", fuel: "diesel", image: "https://images.unsplash.com/photo-1609703048009-d3576872b32c" },
   { name: "Audi A6", brand: "Audi", category: "exclusive", price: 175, seats: 5, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6" },
   { name: "Tesla Model S", brand: "Tesla", category: "exclusive", price: 220, seats: 5, transmission: "automatic", fuel: "electric", image: "https://images.unsplash.com/photo-1560958089-b8a1929cea89" },
   { name: "Porsche Panamera", brand: "Porsche", category: "exclusive", price: 260, seats: 4, transmission: "automatic", fuel: "petrol", image: "https://images.unsplash.com/photo-1503376780353-7e6692767b70" },
-  { name: "Range Rover Sport", brand: "Land Rover", category: "exclusive", price: 210, seats: 5, transmission: "automatic", fuel: "diesel", image: "https://images.unsplash.com/photo-1519641471654-76ce0107ad1b" },
+  { name: "Range Rover Sport", brand: "Land Rover", category: "exclusive", price: 210, seats: 5, transmission: "automatic", fuel: "diesel", image: "https://images.unsplash.com/photo-1549632891-a0bea6d0355b" },
 ];
 
 const FEATURES_POOL = [

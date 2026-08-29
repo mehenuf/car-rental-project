@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { VehicleImage } from "@/components/site/vehicle-image";
 import { cn } from "@/lib/utils";
 
 export function VehicleGallery({ images, name }: { images: string[]; name: string }) {
@@ -13,7 +13,8 @@ export function VehicleGallery({ images, name }: { images: string[]; name: strin
     <div className="flex flex-col gap-(--space-xs)">
       <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl bg-muted">
         {activeSrc && (
-          <Image
+          <VehicleImage
+            key={activeSrc}
             src={activeSrc}
             alt={name}
             fill
@@ -35,7 +36,7 @@ export function VehicleGallery({ images, name }: { images: string[]; name: strin
                 i === active ? "ring-accent" : "ring-transparent opacity-70 hover:opacity-100"
               )}
             >
-              <Image src={src} alt={`${name} thumbnail ${i + 1}`} fill sizes="64px" className="object-cover" />
+              <VehicleImage src={src} alt={`${name} thumbnail ${i + 1}`} fill sizes="64px" className="object-cover" />
             </button>
           ))}
         </div>

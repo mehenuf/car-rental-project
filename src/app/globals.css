@@ -87,11 +87,14 @@
   --surface: oklch(1 0 0);
 
   --success: oklch(0.72 0.17 145);
-  --success-foreground: oklch(0.99 0 0);
+  /* Navy, not white — white-on-success/warning/accent measures ~2.3:1,
+     failing WCAG AA (needs 4.5:1) even for large text. Navy clears 6.5:1+
+     against all three, since they're all medium-light hues. */
+  --success-foreground: var(--navy);
   --warning: oklch(0.74 0.16 55);
-  --warning-foreground: oklch(0.99 0 0);
+  --warning-foreground: var(--navy);
   --info: oklch(0.62 0.19 255);
-  --info-foreground: oklch(0.99 0 0);
+  --info-foreground: var(--navy);
 
   --shadow-tint: oklch(0.26 0.06 265 / 8%);
 
@@ -121,8 +124,12 @@
   --muted: oklch(0.95 0.006 275);
   --muted-foreground: oklch(0.52 0.02 270);
   --accent: var(--accent-orange);
-  --accent-foreground: oklch(0.99 0 0);
-  --destructive: oklch(0.6 0.21 25);
+  --accent-foreground: var(--navy);
+  /* 0.56, not the more common 0.6 — this color is used as text on the page
+     background (destructive buttons/menu items are text-on-tint, not
+     solid-fill), and 0.6 only cleared 4.08:1 against it, short of AA's
+     4.5:1. 0.56 keeps the same hue/chroma and clears 4.8:1. */
+  --destructive: oklch(0.56 0.21 25);
   --border: oklch(0.9 0.008 275);
   --input: oklch(0.9 0.008 275);
   --ring: var(--accent-orange);
@@ -137,9 +144,9 @@
   --sidebar: var(--navy);
   --sidebar-foreground: oklch(0.85 0.02 270);
   --sidebar-primary: var(--accent-orange);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-primary-foreground: var(--navy);
   --sidebar-accent: var(--accent-orange);
-  --sidebar-accent-foreground: oklch(0.99 0 0);
+  --sidebar-accent-foreground: var(--navy);
   --sidebar-border: oklch(1 0 0 / 8%);
   --sidebar-ring: var(--accent-orange);
 }
@@ -158,7 +165,7 @@
   --muted: oklch(0.27 0.02 270);
   --muted-foreground: oklch(0.7 0.02 270);
   --accent: var(--accent-orange);
-  --accent-foreground: oklch(0.99 0 0);
+  --accent-foreground: var(--navy);
   --destructive: oklch(0.7 0.19 22);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
@@ -172,9 +179,9 @@
   --sidebar: oklch(0.13 0.02 270);
   --sidebar-foreground: oklch(0.85 0.02 270);
   --sidebar-primary: var(--accent-orange);
-  --sidebar-primary-foreground: oklch(0.99 0 0);
+  --sidebar-primary-foreground: var(--navy);
   --sidebar-accent: var(--accent-orange);
-  --sidebar-accent-foreground: oklch(0.99 0 0);
+  --sidebar-accent-foreground: var(--navy);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: var(--accent-orange);
 }
@@ -196,5 +203,20 @@
   h5,
   h6 {
     @apply font-heading;
+  }
+}
+
+/* Shorten, don't remove: animations/transitions still run (so anything
+   waiting on animationend/transitionend still fires and end states still
+   resolve), just too fast to perceive — real motion-sickness relief
+   without silently breaking state that depends on those events. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

@@ -1,8 +1,8 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { buttonVariants } from "@/components/ui/button";
+import { VehicleImage } from "@/components/site/vehicle-image";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useApiData } from "@/hooks/use-api-data";
@@ -57,7 +57,7 @@ export function BestSellerPanel({
             : data.map((vehicle) => (
                 <div key={vehicle.id} className="flex items-center gap-3">
                   <div className="relative size-12 shrink-0 overflow-hidden rounded-lg bg-muted">
-                    <Image
+                    <VehicleImage
                       src={vehicle.image_url}
                       alt={vehicle.name}
                       fill

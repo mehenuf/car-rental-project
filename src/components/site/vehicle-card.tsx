@@ -1,10 +1,10 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { Heart } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { VehicleImage } from "@/components/site/vehicle-image";
 import { useFavorites } from "@/hooks/use-favorites";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
@@ -37,7 +37,7 @@ export function VehicleCard({ vehicle }: { vehicle: Tables<"vehicles"> }) {
         href={`/cars/${vehicle.slug}`}
         className="relative mt-(--space-xs) block aspect-[4/3] w-full overflow-hidden bg-muted"
       >
-        <Image
+        <VehicleImage
           src={vehicle.image_url}
           alt={vehicle.name}
           fill

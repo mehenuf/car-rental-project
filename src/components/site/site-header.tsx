@@ -18,6 +18,7 @@ import {
 import { SITE_NAV_LINKS } from "@/lib/site-nav";
 import { supabase } from "@/lib/supabase";
 import { useSupabaseUser } from "@/hooks/use-supabase-user";
+import { ThemeToggle } from "@/components/theme-toggle";
 
 function initialsFor(name: string) {
   return name
@@ -66,6 +67,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="ml-auto hidden items-center gap-2 lg:flex">
+          <ThemeToggle />
           {!loading && !user && (
             <>
               <Link href="/register" className={buttonVariants({ variant: "outline" })}>
@@ -102,16 +104,18 @@ export function SiteHeader() {
           )}
         </div>
 
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          className="ml-auto lg:hidden"
-          onClick={() => setOpen(true)}
-          aria-label="Open menu"
-        >
-          <Menu />
-        </Button>
+        <div className="ml-auto flex items-center gap-1 lg:hidden">
+          <ThemeToggle />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            onClick={() => setOpen(true)}
+            aria-label="Open menu"
+          >
+            <Menu />
+          </Button>
+        </div>
       </div>
 
       <Sheet open={open} onOpenChange={setOpen}>

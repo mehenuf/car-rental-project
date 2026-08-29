@@ -76,3 +76,8 @@ supabase/.temp/
 *.sqlite3
 *.db
 *.dump
+
+# impeccable design-skill working files — local product/design notes, not for the public repo
+PRODUCT.md
+DESIGN.md
+.impeccable/
