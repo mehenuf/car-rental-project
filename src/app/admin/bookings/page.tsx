@@ -6,13 +6,8 @@ import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { DateRangePicker } from "@/components/admin/date-range-picker";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { LabeledSelectValue } from "@/components/labeled-select-value";
 import { useApiData } from "@/hooks/use-api-data";
 import { defaultDateRange, toApiDate, type DateRange } from "@/lib/date-range";
 import { formatCurrency, formatDate } from "@/lib/format";
@@ -174,11 +169,14 @@ export default function AdminBookingsPage() {
           onValueChange={(value) => handleStatusChange(row.id, value as BookingStatus)}
           disabled={updatingId === row.id}
         >
-          <SelectTrigger
-            size="sm"
-            className={`w-32 capitalize ${STATUS_TRIGGER_STYLES[row.status]}`}
-          >
-            <SelectValue />
+          <SelectTrigger size="sm" className={`w-32 ${STATUS_TRIGGER_STYLES[row.status]}`}>
+            <LabeledSelectValue
+              options={[
+                { value: "success", label: "Success" },
+                { value: "pending", label: "Pending" },
+                { value: "cancelled", label: "Cancelled" },
+              ]}
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="success">Success</SelectItem>
@@ -224,7 +222,15 @@ export default function AdminBookingsPage() {
               }}
             >
               <SelectTrigger className="sm:w-36">
-                <SelectValue placeholder="Status" />
+                <LabeledSelectValue
+                  placeholder="Status"
+                  options={[
+                    { value: "all", label: "All statuses" },
+                    { value: "success", label: "Success" },
+                    { value: "pending", label: "Pending" },
+                    { value: "cancelled", label: "Cancelled" },
+                  ]}
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All statuses</SelectItem>

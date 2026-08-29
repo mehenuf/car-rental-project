@@ -7,13 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { LabeledSelectValue } from "@/components/labeled-select-value";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { VehicleFormDialog, type VehicleFormValues } from "@/components/admin/vehicle-form-dialog";
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
@@ -254,7 +249,16 @@ export default function AdminVehiclesPage() {
               }}
             >
               <SelectTrigger className="sm:w-40">
-                <SelectValue placeholder="Category" />
+                <LabeledSelectValue
+                  placeholder="Category"
+                  options={[
+                    { value: "all", label: "All categories" },
+                    { value: "popular", label: "Popular" },
+                    { value: "large", label: "Large" },
+                    { value: "small", label: "Small" },
+                    { value: "exclusive", label: "Exclusive" },
+                  ]}
+                />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All categories</SelectItem>

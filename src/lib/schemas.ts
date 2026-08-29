@@ -98,15 +98,22 @@ export const DateOnlySchema = z
 // GET /api/vehicles
 // ---------------------------------------------------------------
 
+/** Accepts a single category or a comma-separated list, e.g. "popular,large". */
+const CategoryListSchema = z
+  .string()
+  .transform((value) => value.split(",").map((v) => v.trim()).filter(Boolean))
+  .pipe(z.array(VehicleCategorySchema).min(1));
+
 export const VehiclesQuerySchema = z
   .object({
-    category: VehicleCategorySchema.optional(),
+    category: CategoryListSchema.optional(),
     minPrice: z.coerce.number().nonnegative().optional(),
     maxPrice: z.coerce.number().nonnegative().optional(),
     seats: z.coerce.number().int().positive().optional(),
     transmission: TransmissionSchema.optional(),
     fuel: FuelSchema.optional(),
     available: QueryBooleanSchema.optional(),
+    locationId: z.coerce.number().int().positive().optional(),
     sortBy: VehicleSortBySchema.optional(),
     sortOrder: SortOrderSchema.optional(),
     page: PageSchema.optional(),

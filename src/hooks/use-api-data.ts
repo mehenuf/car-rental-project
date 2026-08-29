@@ -46,12 +46,15 @@ export function useApiData<T>(url: string | null): UseApiDataResult<T> {
       }
     }
 
-    // Resetting isLoading synchronously here (not inside a callback) is
-    // intentional: `url` is the fetch's request key, so this must flip
-    // before `run()`'s first await, or a stale "loaded" state would flash
-    // between the key changing and the new response arriving.
+    // Resetting synchronously here (not inside a callback) is intentional:
+    // `url` is the fetch's request key, so loading/data must flip before
+    // `run()`'s first await — otherwise stale data for the *previous* key
+    // would stay visible (or a stale "loaded" state would flash) while the
+    // new request is still in flight. Every consumer already gates on
+    // `isLoading` before reading `data`, so clearing it here is safe.
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(true);
+    setData(null);
     run();
 
     return () => {

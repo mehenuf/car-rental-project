@@ -74,13 +74,15 @@ export type VehicleSortBy = "price_per_day" | "rating" | "created_at" | "name";
 export type SortOrder = "asc" | "desc";
 
 export interface VehicleFilters extends Pagination {
-  category?: VehicleCategory;
+  /** One or more categories — matches any of them. */
+  category?: VehicleCategory[];
   minPrice?: number;
   maxPrice?: number;
   seats?: number;
   transmission?: Transmission;
   fuel?: Fuel;
   available?: boolean;
+  locationId?: number;
   sortBy?: VehicleSortBy;
   sortOrder?: SortOrder;
   /** Case-insensitive match against name, brand, or slug. */
@@ -98,6 +100,7 @@ export async function getVehicles(
     transmission,
     fuel,
     available,
+    locationId,
     sortBy = "created_at",
     sortOrder = "desc",
     search,
@@ -107,13 +110,14 @@ export async function getVehicles(
 
   let query = supabaseAdmin.from("vehicles").select("*", { count: "exact" });
 
-  if (category) query = query.eq("category", category);
+  if (category && category.length > 0) query = query.in("category", category);
   if (minPrice !== undefined) query = query.gte("price_per_day", minPrice);
   if (maxPrice !== undefined) query = query.lte("price_per_day", maxPrice);
   if (seats !== undefined) query = query.gte("seats", seats);
   if (transmission) query = query.eq("transmission", transmission);
   if (fuel) query = query.eq("fuel", fuel);
   if (available !== undefined) query = query.eq("available", available);
+  if (locationId !== undefined) query = query.eq("location_id", locationId);
   if (search) {
     const escaped = search.replace(/[%_]/g, (c) => `\\${c}`);
     query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
@@ -460,4 +464,18 @@ export async function updateBookingStatus(
   if (error) throw new Error(`updateBookingStatus: ${error.message}`);
   if (!booking) throw new NotFoundError(`Booking ${id} not found`);
   return booking;
+}
+
+// ---------------------------------------------------------------
+// getLocations — powers the customer site's pick-up/drop-off dropdowns.
+// ---------------------------------------------------------------
+
+export async function getLocations(): Promise<Tables<"locations">[]> {
+  const { data, error } = await supabaseAdmin
+    .from("locations")
+    .select("*")
+    .order("city", { ascending: true });
+
+  if (error) throw new Error(`getLocations: ${error.message}`);
+  return data ?? [];
 }

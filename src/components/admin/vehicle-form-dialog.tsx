@@ -14,13 +14,8 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { LabeledSelectValue } from "@/components/labeled-select-value";
 import type { Fuel, Tables, Transmission, VehicleCategory } from "@/types/database";
 
 export interface VehicleFormValues {
@@ -173,7 +168,14 @@ export function VehicleFormDialog({
                 onValueChange={(value) => set("category", value as VehicleCategory)}
               >
                 <SelectTrigger id="v-category" className="w-full">
-                  <SelectValue />
+                  <LabeledSelectValue
+                    options={[
+                      { value: "popular", label: "Popular" },
+                      { value: "large", label: "Large" },
+                      { value: "small", label: "Small" },
+                      { value: "exclusive", label: "Exclusive" },
+                    ]}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="popular">Popular</SelectItem>
@@ -230,7 +232,12 @@ export function VehicleFormDialog({
                 onValueChange={(value) => set("transmission", value as Transmission)}
               >
                 <SelectTrigger id="v-transmission" className="w-full">
-                  <SelectValue />
+                  <LabeledSelectValue
+                    options={[
+                      { value: "automatic", label: "Automatic" },
+                      { value: "manual", label: "Manual" },
+                    ]}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="automatic">Automatic</SelectItem>
@@ -241,7 +248,14 @@ export function VehicleFormDialog({
             <Field label="Fuel" htmlFor="v-fuel">
               <Select value={values.fuel} onValueChange={(value) => set("fuel", value as Fuel)}>
                 <SelectTrigger id="v-fuel" className="w-full">
-                  <SelectValue />
+                  <LabeledSelectValue
+                    options={[
+                      { value: "petrol", label: "Petrol" },
+                      { value: "diesel", label: "Diesel" },
+                      { value: "hybrid", label: "Hybrid" },
+                      { value: "electric", label: "Electric" },
+                    ]}
+                  />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="petrol">Petrol</SelectItem>

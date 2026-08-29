@@ -4,13 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { LabeledSelectValue } from "@/components/labeled-select-value";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useApiData } from "@/hooks/use-api-data";
 import { toApiDate, type DateRange } from "@/lib/date-range";
@@ -149,7 +144,15 @@ export function RecentTransactionsPanel({
             }}
           >
             <SelectTrigger size="sm" className="w-36">
-              <SelectValue placeholder="Status" />
+              <LabeledSelectValue
+                placeholder="Status"
+                options={[
+                  { value: "all", label: "All statuses" },
+                  { value: "success", label: "Success" },
+                  { value: "pending", label: "Pending" },
+                  { value: "cancelled", label: "Cancelled" },
+                ]}
+              />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All statuses</SelectItem>
