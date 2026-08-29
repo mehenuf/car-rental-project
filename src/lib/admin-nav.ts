@@ -23,6 +23,7 @@ import {
   Ticket,
   TrendingDown,
   Undo2,
+  Users,
 } from "lucide-react";
 
 export interface AdminNavItem {
@@ -87,6 +88,7 @@ export const ADMIN_NAV: AdminNavGroup[] = [
     label: "Sales",
     items: [
       { label: "Sales", href: "/admin/bookings", icon: Receipt },
+      { label: "Leads", href: "/admin/leads", icon: Users },
       { label: "Invoices", href: "/admin/sales/invoices", icon: FileText },
       { label: "Sales Return", href: "/admin/sales/returns", icon: Undo2 },
       { label: "Quotation", href: "/admin/sales/quotation", icon: FileSignature },

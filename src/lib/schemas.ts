@@ -262,7 +262,25 @@ export const StatsQuerySchema = z
 // ---------------------------------------------------------------
 
 export const LeadsQuerySchema = z.object({
-  limit: z.coerce.number().int().positive().max(100).optional(),
+  page: PageSchema.optional(),
+  pageSize: PageSizeSchema.optional(),
+});
+
+// ---------------------------------------------------------------
+// POST /api/chat
+//
+// Only "user"/"assistant" are accepted — deliberately no "system" role, so
+// a visitor can never smuggle their own instructions into the AI's system
+// prompt by labeling a message "system".
+// ---------------------------------------------------------------
+
+export const ChatMessageSchema = z.object({
+  role: z.enum(["user", "assistant"]),
+  content: z.string().trim().min(1).max(2000),
+});
+
+export const ChatRequestSchema = z.object({
+  messages: z.array(ChatMessageSchema).min(1).max(20),
 });
 
 // ---------------------------------------------------------------

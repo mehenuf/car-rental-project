@@ -64,6 +64,9 @@ CLAUDE.md
 # private working notes — session handoff summaries, not for the public repo
 PROJECT_CONTEXT.md
 
+# local scratch file for manually testing /api/chat
+chat-test.json
+
 # Supabase local CLI state (can hold local service-role/DB keys)
 .supabase/
 supabase/.temp/

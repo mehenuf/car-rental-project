@@ -9,6 +9,7 @@ import { BestSellerPanel } from "@/components/admin/best-seller-panel";
 import { RecentTransactionsPanel } from "@/components/admin/recent-transactions-panel";
 import { SalesAnalyticsChart } from "@/components/admin/sales-analytics-chart";
 import { SalesByCountryPanel } from "@/components/admin/sales-by-country-panel";
+import { LeadQualityPanel } from "@/components/admin/lead-quality-panel";
 import { defaultDateRange, type DateRange } from "@/lib/date-range";
 
 const CURRENT_USER_NAME = "Mike Witzel";
@@ -54,6 +55,8 @@ export default function AdminDashboardPage() {
         <SalesAnalyticsChart range={range} refreshKey={refreshKey} />
         <SalesByCountryPanel range={range} refreshKey={refreshKey} />
       </div>
+
+      <LeadQualityPanel refreshKey={refreshKey} />
     </div>
   );
 }

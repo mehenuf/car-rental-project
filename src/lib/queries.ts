@@ -388,18 +388,38 @@ export async function createBooking(
 }
 
 // ---------------------------------------------------------------
-// getLeads
+// getLeads — highest score first.
 // ---------------------------------------------------------------
 
-export async function getLeads(limit: number = 20): Promise<Tables<"leads">[]> {
-  const { data, error } = await supabaseAdmin
+export async function getLeads(
+  pagination: Pagination = {}
+): Promise<PaginatedResult<Tables<"leads">>> {
+  const [from, to] = toRange(pagination);
+
+  const { data, error, count } = await supabaseAdmin
     .from("leads")
-    .select("*")
+    .select("*", { count: "exact" })
     .order("score", { ascending: false })
-    .limit(limit);
+    .range(from, to);
 
   if (error) throw new Error(`getLeads: ${error.message}`);
-  return data ?? [];
+  return { data: data ?? [], count: count ?? 0 };
+}
+
+// ---------------------------------------------------------------
+// createLead — written by the AI lead-scoring pass (see
+// /api/chat/score), never by the customer directly.
+// ---------------------------------------------------------------
+
+export async function createLead(data: TablesInsert<"leads">): Promise<Tables<"leads">> {
+  const { data: lead, error } = await supabaseAdmin
+    .from("leads")
+    .insert(data)
+    .select("*")
+    .single();
+
+  if (error) throw new Error(`createLead: ${error.message}`);
+  return lead;
 }
 
 // ---------------------------------------------------------------

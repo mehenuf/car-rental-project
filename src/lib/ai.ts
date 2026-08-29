@@ -10,7 +10,7 @@ export interface AIMessage {
   content: string;
 }
 
-const GROQ_MODEL = "openai/gpt-oss-120b";
+export const GROQ_MODEL = "openai/gpt-oss-120b";
 const GEMINI_MODEL = "gemini-2.0-flash";
 
 async function callGroq(messages: AIMessage[]): Promise<string> {
