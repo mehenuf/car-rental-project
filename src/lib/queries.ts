@@ -7,6 +7,7 @@ import type {
   Fuel,
   Tables,
   TablesInsert,
+  TablesUpdate,
   Transmission,
   VehicleCategory,
   Views,
@@ -82,6 +83,8 @@ export interface VehicleFilters extends Pagination {
   available?: boolean;
   sortBy?: VehicleSortBy;
   sortOrder?: SortOrder;
+  /** Case-insensitive match against name, brand, or slug. */
+  search?: string;
 }
 
 export async function getVehicles(
@@ -97,6 +100,7 @@ export async function getVehicles(
     available,
     sortBy = "created_at",
     sortOrder = "desc",
+    search,
   } = filters;
 
   const [from, to] = toRange(filters);
@@ -110,6 +114,10 @@ export async function getVehicles(
   if (transmission) query = query.eq("transmission", transmission);
   if (fuel) query = query.eq("fuel", fuel);
   if (available !== undefined) query = query.eq("available", available);
+  if (search) {
+    const escaped = search.replace(/[%_]/g, (c) => `\\${c}`);
+    query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
+  }
 
   query = query.order(sortBy, { ascending: sortOrder === "asc" }).range(from, to);
 
@@ -200,8 +208,8 @@ export async function getDashboardStats(
  * the view (or querying `bookings` directly) in schema.sql.
  */
 export async function getBestSellers(
-  startDate: string,
-  endDate: string,
+  startDate?: string,
+  endDate?: string,
   limit: number = 5
 ): Promise<Views<"v_best_sellers">[]> {
   void startDate;
@@ -227,16 +235,42 @@ export interface RecentTransactionsOptions extends Pagination {
   status?: BookingStatus;
   sortBy?: TransactionSortBy;
   sortOrder?: SortOrder;
+  /** Filters on `created_at`, inclusive of the whole day. */
+  startDate?: string;
+  endDate?: string;
+  /** Case-insensitive match against `customer_name` or `reference`. */
+  search?: string;
+}
+
+/** A booking row with just enough of its vehicle joined in for display
+ * (thumbnail + name) — e.g. the dashboard's Recent Transactions table. */
+export interface BookingWithVehicle extends Tables<"bookings"> {
+  vehicle: Pick<Tables<"vehicles">, "name" | "image_url"> | null;
 }
 
 export async function getRecentTransactions(
   options: RecentTransactionsOptions = {}
-): Promise<PaginatedResult<Tables<"bookings">>> {
-  const { status, sortBy = "created_at", sortOrder = "desc" } = options;
+): Promise<PaginatedResult<BookingWithVehicle>> {
+  const {
+    status,
+    sortBy = "created_at",
+    sortOrder = "desc",
+    startDate,
+    endDate,
+    search,
+  } = options;
   const [from, to] = toRange(options);
 
-  let query = supabaseAdmin.from("bookings").select("*", { count: "exact" });
+  let query = supabaseAdmin
+    .from("bookings")
+    .select("*, vehicle:vehicles(name, image_url)", { count: "exact" });
   if (status) query = query.eq("status", status);
+  if (startDate) query = query.gte("created_at", `${startDate}T00:00:00.000Z`);
+  if (endDate) query = query.lte("created_at", `${endDate}T23:59:59.999Z`);
+  if (search) {
+    const escaped = search.replace(/[%_]/g, (c) => `\\${c}`);
+    query = query.or(`customer_name.ilike.%${escaped}%,reference.ilike.%${escaped}%`);
+  }
   query = query.order(sortBy, { ascending: sortOrder === "asc" }).range(from, to);
 
   const { data, error, count } = await query;
@@ -286,8 +320,8 @@ export async function getMonthlySales(year: number): Promise<MonthlySales[]> {
  * but results are always all-time.
  */
 export async function getSalesByCountry(
-  startDate: string,
-  endDate: string
+  startDate?: string,
+  endDate?: string
 ): Promise<Views<"v_sales_by_country">[]> {
   void startDate;
   void endDate;
@@ -362,4 +396,68 @@ export async function getLeads(limit: number = 20): Promise<Tables<"leads">[]> {
 
   if (error) throw new Error(`getLeads: ${error.message}`);
   return data ?? [];
+}
+
+// ---------------------------------------------------------------
+// Vehicle admin writes (createVehicle, updateVehicle, deleteVehicle)
+// ---------------------------------------------------------------
+
+export async function createVehicle(
+  data: TablesInsert<"vehicles">
+): Promise<Tables<"vehicles">> {
+  const { data: vehicle, error } = await supabaseAdmin
+    .from("vehicles")
+    .insert(data)
+    .select("*")
+    .single();
+
+  if (error) throw new Error(`createVehicle: ${error.message}`);
+  return vehicle;
+}
+
+export async function updateVehicle(
+  id: string,
+  data: TablesUpdate<"vehicles">
+): Promise<Tables<"vehicles">> {
+  const { data: vehicle, error } = await supabaseAdmin
+    .from("vehicles")
+    .update(data)
+    .eq("id", id)
+    .select("*")
+    .maybeSingle();
+
+  if (error) throw new Error(`updateVehicle: ${error.message}`);
+  if (!vehicle) throw new NotFoundError(`Vehicle ${id} not found`);
+  return vehicle;
+}
+
+export async function deleteVehicle(id: string): Promise<void> {
+  const { error, count } = await supabaseAdmin
+    .from("vehicles")
+    .delete({ count: "exact" })
+    .eq("id", id);
+
+  if (error) throw new Error(`deleteVehicle: ${error.message}`);
+  if (!count) throw new NotFoundError(`Vehicle ${id} not found`);
+}
+
+// ---------------------------------------------------------------
+// updateBookingStatus — admin-only; unlike createBooking, this is allowed
+// to set status directly (see PATCH /api/bookings/[id]).
+// ---------------------------------------------------------------
+
+export async function updateBookingStatus(
+  id: string,
+  status: BookingStatus
+): Promise<Tables<"bookings">> {
+  const { data: booking, error } = await supabaseAdmin
+    .from("bookings")
+    .update({ status })
+    .eq("id", id)
+    .select("*")
+    .maybeSingle();
+
+  if (error) throw new Error(`updateBookingStatus: ${error.message}`);
+  if (!booking) throw new NotFoundError(`Booking ${id} not found`);
+  return booking;
 }

@@ -89,6 +89,11 @@ const QueryBooleanSchema = z
 const PageSchema = z.coerce.number().int().positive();
 const PageSizeSchema = z.coerce.number().int().positive().max(100);
 
+export const DateOnlySchema = z
+  .string()
+  .regex(/^\d{4}-\d{2}-\d{2}$/, "must be in YYYY-MM-DD format")
+  .refine((value) => !Number.isNaN(Date.parse(value)), "must be a valid date");
+
 // ---------------------------------------------------------------
 // GET /api/vehicles
 // ---------------------------------------------------------------
@@ -106,6 +111,8 @@ export const VehiclesQuerySchema = z
     sortOrder: SortOrderSchema.optional(),
     page: PageSchema.optional(),
     pageSize: PageSizeSchema.optional(),
+    /** Case-insensitive match against name, brand, or slug. */
+    search: z.string().trim().min(1).optional(),
   })
   .refine(
     (data) =>
@@ -122,6 +129,70 @@ export const VehicleSlugParamSchema = z.object({
 });
 
 // ---------------------------------------------------------------
+// POST / PATCH / DELETE /api/vehicles
+//
+// PATCH and DELETE operate on the collection route (not a `/[id]` segment)
+// with the target `id` in the body — `/api/vehicles/[slug]` already owns
+// that dynamic segment for the public GET-by-slug lookup, and Next.js
+// doesn't allow two differently-named dynamic params at the same route
+// position (`[slug]` and `[id]` siblings). Admin-only, so this is fine.
+// ---------------------------------------------------------------
+
+const VehicleFieldsSchema = z.object({
+  slug: z.string().trim().min(1, "slug is required"),
+  name: z.string().trim().min(1, "name is required"),
+  brand: z.string().trim().min(1, "brand is required"),
+  category: VehicleCategorySchema,
+  price_per_day: z.coerce.number().positive(),
+  seats: z.coerce.number().int().positive(),
+  doors: z.coerce.number().int().positive(),
+  transmission: TransmissionSchema,
+  fuel: FuelSchema,
+  image_url: z.url("image_url must be a valid URL"),
+  gallery: z.array(z.url()),
+  description: z.string().nullable(),
+  features: z.array(z.string()),
+  rating: z.coerce.number().min(0).max(5),
+  review_count: z.coerce.number().int().nonnegative(),
+  stock: z.coerce.number().int().nonnegative(),
+  available: z.boolean(),
+  location_id: z.coerce.number().int().nullable(),
+});
+
+export const CreateVehicleSchema = VehicleFieldsSchema.partial({
+  seats: true,
+  doors: true,
+  gallery: true,
+  description: true,
+  features: true,
+  rating: true,
+  review_count: true,
+  stock: true,
+  available: true,
+  location_id: true,
+});
+
+export const UpdateVehicleSchema = VehicleFieldsSchema.partial().extend({
+  id: z.uuid("id must be a valid UUID"),
+});
+
+export const DeleteVehicleSchema = z.object({
+  id: z.uuid("id must be a valid UUID"),
+});
+
+// ---------------------------------------------------------------
+// PATCH /api/bookings/[id] — admin-only status change.
+// ---------------------------------------------------------------
+
+export const BookingIdParamSchema = z.object({
+  id: z.uuid("id must be a valid UUID"),
+});
+
+export const UpdateBookingStatusSchema = z.object({
+  status: BookingStatusSchema,
+});
+
+// ---------------------------------------------------------------
 // GET /api/bookings
 // ---------------------------------------------------------------
 
@@ -131,6 +202,11 @@ export const BookingsQuerySchema = z.object({
   sortOrder: SortOrderSchema.optional(),
   page: PageSchema.optional(),
   pageSize: PageSizeSchema.optional(),
+  /** Filters on `created_at`, inclusive. */
+  startDate: DateOnlySchema.optional(),
+  endDate: DateOnlySchema.optional(),
+  /** Matches customer_name or reference, case-insensitive. */
+  search: z.string().trim().min(1).optional(),
 });
 
 // ---------------------------------------------------------------
@@ -164,11 +240,6 @@ export const CreateBookingSchema = z
 // GET /api/stats
 // ---------------------------------------------------------------
 
-const DateOnlySchema = z
-  .string()
-  .regex(/^\d{4}-\d{2}-\d{2}$/, "must be in YYYY-MM-DD format")
-  .refine((value) => !Number.isNaN(Date.parse(value)), "must be a valid date");
-
 export const StatsQuerySchema = z
   .object({
     startDate: DateOnlySchema,
@@ -185,4 +256,31 @@ export const StatsQuerySchema = z
 
 export const LeadsQuerySchema = z.object({
   limit: z.coerce.number().int().positive().max(100).optional(),
+});
+
+// ---------------------------------------------------------------
+// GET /api/best-sellers
+// ---------------------------------------------------------------
+
+export const BestSellersQuerySchema = z.object({
+  startDate: DateOnlySchema.optional(),
+  endDate: DateOnlySchema.optional(),
+  limit: z.coerce.number().int().positive().max(20).optional(),
+});
+
+// ---------------------------------------------------------------
+// GET /api/monthly-sales
+// ---------------------------------------------------------------
+
+export const MonthlySalesQuerySchema = z.object({
+  year: z.coerce.number().int().min(2000).max(2100),
+});
+
+// ---------------------------------------------------------------
+// GET /api/sales-by-country
+// ---------------------------------------------------------------
+
+export const SalesByCountryQuerySchema = z.object({
+  startDate: DateOnlySchema.optional(),
+  endDate: DateOnlySchema.optional(),
 });
