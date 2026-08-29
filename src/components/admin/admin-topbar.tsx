@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Bell, Menu, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -12,6 +13,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { supabase } from "@/lib/supabase";
 
 const NOTIFICATIONS = [
   { id: 1, text: "New booking from Tom Smith" },
@@ -20,6 +22,14 @@ const NOTIFICATIONS = [
 ];
 
 export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
+  const router = useRouter();
+
+  async function handleLogout() {
+    await supabase.auth.signOut();
+    router.push("/admin/login");
+    router.refresh();
+  }
+
   return (
     <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center gap-(--space-sm) border-b border-border bg-card px-(--space-sm) shadow-xs">
       <Button
@@ -86,7 +96,9 @@ export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
             <DropdownMenuItem>Profile</DropdownMenuItem>
             <DropdownMenuItem>Settings</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem variant="destructive">Log out</DropdownMenuItem>
+            <DropdownMenuItem variant="destructive" onClick={handleLogout}>
+              Log out
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

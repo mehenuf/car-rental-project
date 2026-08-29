@@ -61,6 +61,9 @@ CLAUDE.md
 # reference
 /reference/
 
+# private working notes — session handoff summaries, not for the public repo
+PROJECT_CONTEXT.md
+
 # Supabase local CLI state (can hold local service-role/DB keys)
 .supabase/
 supabase/.temp/
