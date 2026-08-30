@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { VehicleImage } from "@/components/site/vehicle-image";
-import { Pencil, Plus, Trash2 } from "lucide-react";
+import { CarFront, Pencil, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { LabeledSelectValue } from "@/components/labeled-select-value";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
+import { EmptyState } from "@/components/ui/empty-state";
 import { VehicleFormDialog, type VehicleFormValues } from "@/components/admin/vehicle-form-dialog";
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { useApiData } from "@/hooks/use-api-data";
@@ -60,6 +61,14 @@ export default function AdminVehiclesPage() {
   const { data, isLoading, error } = useApiData<VehiclesResponse>(
     `/api/vehicles?${params.toString()}`
   );
+
+  const hasActiveFilters = category !== "all" || debouncedSearch !== "";
+
+  function clearFilters() {
+    setSearch("");
+    setCategory("all");
+    setPage(1);
+  }
 
   function handleSortChange(key: string) {
     if (key === sortBy) {
@@ -284,7 +293,31 @@ export default function AdminVehiclesPage() {
             pageSize={PAGE_SIZE}
             totalCount={data?.count ?? 0}
             onPageChange={setPage}
-            emptyMessage="No vehicles match your filters."
+            emptyMessage={
+              hasActiveFilters ? (
+                <EmptyState
+                  icon={CarFront}
+                  title="No vehicles match these filters"
+                  description="Try a different search term or category, or clear your filters to see the full fleet."
+                  action={
+                    <Button type="button" variant="outline" onClick={clearFilters}>
+                      Clear filters
+                    </Button>
+                  }
+                />
+              ) : (
+                <EmptyState
+                  icon={CarFront}
+                  title="No vehicles yet"
+                  description="Add your first vehicle to start building out the fleet."
+                  action={
+                    <Button type="button" onClick={openCreate} className="gap-1.5">
+                      <Plus className="size-4" /> Add Vehicle
+                    </Button>
+                  }
+                />
+              )
+            }
           />
         </CardContent>
       </Card>

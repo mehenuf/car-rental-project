@@ -191,7 +191,7 @@ export function ChatWidget() {
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Open chat"
-          className="fixed right-6 bottom-6 z-50 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105"
+          className="fixed bottom-6 left-6 z-50 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105"
         >
           <MessageCircle className="size-6" />
         </button>
@@ -202,7 +202,7 @@ export function ChatWidget() {
           role="dialog"
           aria-modal="false"
           aria-labelledby="chat-widget-title"
-          className="fixed inset-0 z-50 flex flex-col bg-card sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[600px] sm:w-96 sm:rounded-2xl sm:border sm:border-border sm:shadow-xl"
+          className="fixed inset-0 z-50 flex flex-col bg-card sm:inset-auto sm:bottom-6 sm:left-6 sm:h-[600px] sm:w-96 sm:rounded-2xl sm:border sm:border-border sm:shadow-xl"
         >
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-(--space-sm)">
             <span id="chat-widget-title" className="font-heading text-base font-semibold text-foreground">

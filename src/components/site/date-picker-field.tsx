@@ -34,7 +34,7 @@ export function DatePickerField({
             <Button
               type="button"
               variant="ghost"
-              className="h-auto justify-start gap-2 px-0 py-0 font-normal text-foreground hover:bg-transparent"
+              className="h-auto min-h-11 justify-start gap-2 px-0 py-0 font-normal text-foreground hover:bg-transparent"
             />
           }
         >

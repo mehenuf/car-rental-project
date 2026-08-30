@@ -105,11 +105,12 @@ export function SiteHeader() {
         </div>
 
         <div className="ml-auto flex items-center gap-1 lg:hidden">
-          <ThemeToggle />
+          <ThemeToggle className="size-11" />
           <Button
             type="button"
             variant="ghost"
             size="icon"
+            className="size-11"
             onClick={() => setOpen(true)}
             aria-label="Open menu"
           >

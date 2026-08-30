@@ -157,7 +157,7 @@ function RentalLeg({
         <div className="flex flex-col gap-1">
           <span className="text-xs font-medium text-muted-foreground">Location</span>
           <Select value={locationId} onValueChange={(value) => onLocationChange(value ?? "")}>
-            <SelectTrigger className="h-auto w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0">
+            <SelectTrigger className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0">
               <MapPin className="size-4 shrink-0 text-muted-foreground" />
               <SelectValue placeholder="Select your city">
                 {(value: string | null) => {
@@ -181,7 +181,7 @@ function RentalLeg({
         <div className="flex flex-col gap-1">
           <span className="text-xs font-medium text-muted-foreground">Time</span>
           <Select value={time} onValueChange={(value) => onTimeChange(value ?? time)}>
-            <SelectTrigger className="h-auto w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0">
+            <SelectTrigger className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

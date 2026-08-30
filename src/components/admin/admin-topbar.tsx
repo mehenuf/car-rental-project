@@ -37,7 +37,7 @@ export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
         type="button"
         variant="ghost"
         size="icon"
-        className="md:hidden"
+        className="size-11 md:hidden"
         onClick={onMenuClick}
         aria-label="Open menu"
       >
@@ -53,11 +53,11 @@ export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
         <Button type="button" className="hidden gap-1.5 sm:inline-flex">
           <Plus /> Add New
         </Button>
-        <Button type="button" size="icon" className="sm:hidden" aria-label="Add new">
+        <Button type="button" size="icon" className="size-11 sm:hidden" aria-label="Add new">
           <Plus />
         </Button>
 
-        <ThemeToggle />
+        <ThemeToggle className="size-11 sm:size-8" />
 
         <DropdownMenu>
           <DropdownMenuTrigger
@@ -66,7 +66,7 @@ export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="relative"
+                className="relative size-11 sm:size-8"
                 aria-label="Notifications"
               />
             }
@@ -87,7 +87,13 @@ export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
 
         <DropdownMenu>
           <DropdownMenuTrigger
-            render={<button type="button" className="rounded-full" aria-label="Account menu" />}
+            render={
+              <button
+                type="button"
+                className="flex size-11 items-center justify-center rounded-full sm:size-8"
+                aria-label="Account menu"
+              />
+            }
           >
             <Avatar>
               <AvatarFallback>MW</AvatarFallback>

@@ -15,7 +15,7 @@ export function VehicleCard({ vehicle }: { vehicle: Tables<"vehicles"> }) {
   const favorited = isFavorite(vehicle.id);
 
   return (
-    <Card className="group gap-0 overflow-hidden p-0 shadow-card ring-0 transition-shadow hover:shadow-lg">
+    <Card className="group animate-in fade-in slide-in-from-bottom-3 gap-0 overflow-hidden p-0 shadow-card ring-0 duration-500 transition-shadow hover:shadow-lg">
       <div className="flex items-center justify-between gap-2 px-(--space-sm) pt-(--space-sm)">
         <span className="truncate font-heading text-sm font-semibold text-foreground">
           {vehicle.name}

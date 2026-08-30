@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import { MessagesSquare } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
+import { EmptyState } from "@/components/ui/empty-state";
 import { leadScoreBadgeClass, URGENCY_LABEL } from "@/components/admin/lead-quality-panel";
 import { useApiData } from "@/hooks/use-api-data";
 import { formatTimeAgo } from "@/lib/format";
@@ -103,7 +105,13 @@ export default function AdminLeadsPage() {
             pageSize={PAGE_SIZE}
             totalCount={data?.count ?? 0}
             onPageChange={setPage}
-            emptyMessage="No scored conversations yet."
+            emptyMessage={
+              <EmptyState
+                icon={MessagesSquare}
+                title="No leads yet"
+                description="Once a visitor chats with the assistant for a few messages, their conversation gets scored and shows up here."
+              />
+            }
           />
         </CardContent>
       </Card>

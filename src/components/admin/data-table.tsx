@@ -22,7 +22,7 @@ export interface DataTableProps<T> {
   getRowId: (row: T) => string;
   isLoading?: boolean;
   skeletonRows?: number;
-  emptyMessage?: string;
+  emptyMessage?: ReactNode;
   sortBy?: string;
   sortOrder?: "asc" | "desc";
   onSortChange?: (key: string) => void;
@@ -98,9 +98,11 @@ export function DataTable<T>({
                 ))
               : data.length === 0
                 ? (
-                    <TableRow>
-                      <TableCell colSpan={columns.length} className="py-8 text-center text-muted-foreground">
-                        {emptyMessage}
+                    <TableRow className="hover:bg-transparent">
+                      <TableCell colSpan={columns.length} className="py-10">
+                        <div className="flex flex-col items-center gap-3 text-center text-muted-foreground">
+                          {emptyMessage}
+                        </div>
                       </TableCell>
                     </TableRow>
                   )
@@ -124,7 +126,11 @@ export function DataTable<T>({
               <Skeleton key={`skeleton-card-${i}`} className="h-24 w-full rounded-lg" />
             ))
           : data.length === 0
-            ? <p className="py-8 text-center text-sm text-muted-foreground">{emptyMessage}</p>
+            ? (
+                <div className="flex flex-col items-center gap-3 py-10 text-center text-sm text-muted-foreground">
+                  {emptyMessage}
+                </div>
+              )
             : data.map((row, index) => (
                 <div key={getRowId(row)} className="rounded-lg border border-border p-(--space-xs)">
                   {renderMobileCard

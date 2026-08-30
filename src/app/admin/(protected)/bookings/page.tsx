@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ClipboardList } from "lucide-react";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { DataTable, type DataTableColumn } from "@/components/admin/data-table";
 import { DateRangePicker } from "@/components/admin/date-range-picker";
@@ -8,6 +10,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { LabeledSelectValue } from "@/components/labeled-select-value";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 import { useApiData } from "@/hooks/use-api-data";
 import { defaultDateRange, toApiDate, type DateRange } from "@/lib/date-range";
 import { formatCurrency, formatDate } from "@/lib/format";
@@ -74,6 +78,20 @@ export default function AdminBookingsPage() {
   const { data, isLoading, error } = useApiData<BookingsResponse>(
     `/api/bookings?${params.toString()}`
   );
+
+  const defaultRange = defaultDateRange();
+  const hasActiveFilters =
+    status !== "all" ||
+    debouncedSearch !== "" ||
+    toApiDate(range.from) !== toApiDate(defaultRange.from) ||
+    toApiDate(range.to) !== toApiDate(defaultRange.to);
+
+  function clearFilters() {
+    setSearch("");
+    setStatus("all");
+    setRange(defaultDateRange());
+    setPage(1);
+  }
 
   function handleSortChange(key: string) {
     if (key === sortBy) {
@@ -264,7 +282,31 @@ export default function AdminBookingsPage() {
             pageSize={PAGE_SIZE}
             totalCount={data?.count ?? 0}
             onPageChange={setPage}
-            emptyMessage="No bookings match your filters."
+            emptyMessage={
+              hasActiveFilters ? (
+                <EmptyState
+                  icon={ClipboardList}
+                  title="No bookings match these filters"
+                  description="Try a wider date range, a different status, or clear your filters."
+                  action={
+                    <Button type="button" variant="outline" onClick={clearFilters}>
+                      Clear filters
+                    </Button>
+                  }
+                />
+              ) : (
+                <EmptyState
+                  icon={ClipboardList}
+                  title="No bookings yet"
+                  description="Once a customer books a car, it'll show up here."
+                  action={
+                    <Link href="/" className={buttonVariants({ variant: "outline" })}>
+                      View the homepage
+                    </Link>
+                  }
+                />
+              )
+            }
           />
         </CardContent>
       </Card>

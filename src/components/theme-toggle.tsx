@@ -11,7 +11,7 @@ import { Button } from "@/components/ui/button";
  * class on `<html>` via a blocking inline script before hydration, so the
  * right icon is already showing on first paint, no flash either way.
  */
-export function ThemeToggle() {
+export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
 
   return (
@@ -19,6 +19,7 @@ export function ThemeToggle() {
       type="button"
       variant="ghost"
       size="icon"
+      className={className}
       onClick={() => setTheme(resolvedTheme === "dark" ? "light" : "dark")}
       aria-label="Toggle theme"
     >
