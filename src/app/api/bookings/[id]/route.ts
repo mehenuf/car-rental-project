@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateBookingStatus } from "@/lib/queries";
 import { withErrorHandling } from "@/lib/api-response";
+import { requireAdmin } from "@/lib/require-admin";
 import { BookingIdParamSchema, UpdateBookingStatusSchema } from "@/lib/schemas";
 
 /**
@@ -9,6 +10,7 @@ import { BookingIdParamSchema, UpdateBookingStatusSchema } from "@/lib/schemas";
  */
 export const PATCH = withErrorHandling(
   async (request: NextRequest, context: { params: Promise<{ id: string }> }) => {
+    await requireAdmin();
     const { id } = BookingIdParamSchema.parse(await context.params);
     const body = await request.json();
     const { status } = UpdateBookingStatusSchema.parse(body);

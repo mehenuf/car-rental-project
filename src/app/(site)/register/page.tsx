@@ -3,7 +3,7 @@
 import { useState, type FormEvent } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CheckCircle2, Loader2 } from "lucide-react";
+import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -17,60 +17,39 @@ export default function RegisterPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
     setLoading(true);
 
-    const { data, error: signUpError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: { full_name: fullName } },
+    const response = await fetch("/api/auth/signup", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ fullName, email, password }),
     });
 
-    if (signUpError) {
-      setError(signUpError.message);
+    if (!response.ok) {
+      const body = await response.json().catch(() => null);
+      setError(body?.error?.message ?? "Something went wrong. Please try again.");
       setLoading(false);
       return;
     }
 
-    if (data.session) {
-      // Email confirmation is off for this project — signUp already logged
-      // them in.
-      router.push("/");
-      router.refresh();
+    // Account is created (and pre-confirmed) server-side; sign in here so
+    // the browser client sets the real session cookie.
+    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+
+    if (signInError) {
+      // Vanishingly unlikely right after a successful signup, but don't
+      // strand the user on a broken form if it happens.
+      setError("Account created, but automatic sign-in failed. Please log in.");
+      setLoading(false);
       return;
     }
 
-    // Email confirmation is required before a session exists.
-    setNeedsEmailConfirmation(true);
-    setLoading(false);
-  }
-
-  if (needsEmailConfirmation) {
-    return (
-      <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-muted/40 p-(--space-sm)">
-        <Card className="w-full max-w-sm">
-          <CardContent className="flex flex-col items-center gap-(--space-sm) pt-(--space-sm) text-center">
-            <CheckCircle2 className="size-10 text-success" />
-            <div>
-              <h1 className="font-heading text-lg font-medium text-foreground">
-                Check your email
-              </h1>
-              <p className="mt-1 text-sm text-muted-foreground">
-                We sent a confirmation link to <span className="font-medium">{email}</span>.
-                Confirm your address, then log in.
-              </p>
-            </div>
-            <Link href="/login" className="text-sm font-medium text-primary hover:underline">
-              Back to log in
-            </Link>
-          </CardContent>
-        </Card>
-      </div>
-    );
+    router.push("/");
+    router.refresh();
   }
 
   return (

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createVehicle, deleteVehicle, getVehicles, updateVehicle } from "@/lib/queries";
 import { withErrorHandling } from "@/lib/api-response";
+import { requireAdmin } from "@/lib/require-admin";
 import {
   CreateVehicleSchema,
   DeleteVehicleSchema,
@@ -23,6 +24,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
 
 /** POST /api/vehicles — admin-only create. */
 export const POST = withErrorHandling(async (request: NextRequest) => {
+  await requireAdmin();
   const body = await request.json();
   const input = CreateVehicleSchema.parse(body);
   const vehicle = await createVehicle(input);
@@ -34,6 +36,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
  * rather than the URL; see the note on `UpdateVehicleSchema` for why.
  */
 export const PATCH = withErrorHandling(async (request: NextRequest) => {
+  await requireAdmin();
   const body = await request.json();
   const { id, ...fields } = UpdateVehicleSchema.parse(body);
   const vehicle = await updateVehicle(id, fields);
@@ -42,6 +45,7 @@ export const PATCH = withErrorHandling(async (request: NextRequest) => {
 
 /** DELETE /api/vehicles — admin-only delete, target `id` in the body. */
 export const DELETE = withErrorHandling(async (request: NextRequest) => {
+  await requireAdmin();
   const body = await request.json();
   const { id } = DeleteVehicleSchema.parse(body);
   await deleteVehicle(id);

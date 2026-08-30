@@ -4,6 +4,7 @@ import { getAIResponse, type AIMessage } from "@/lib/ai";
 import { buildLeadScoringPrompt } from "@/lib/prompts";
 import { createLead } from "@/lib/queries";
 import { ChatRequestSchema } from "@/lib/schemas";
+import { notifyLeadWebhook } from "@/lib/webhook";
 
 /**
  * The AI's analyst reply, validated before anything gets saved. Field names
@@ -79,7 +80,7 @@ export async function POST(request: NextRequest) {
       return NO_CONTENT;
     }
 
-    await createLead({
+    const lead = await createLead({
       score: result.data.score,
       budget_band: result.data.budget,
       urgency: result.data.urgency,
@@ -88,6 +89,8 @@ export async function POST(request: NextRequest) {
       transcript: messages,
       source: "chat",
     });
+
+    notifyLeadWebhook(lead);
 
     return NO_CONTENT;
   } catch (error) {

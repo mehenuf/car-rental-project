@@ -1,11 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createBooking, getRecentTransactions } from "@/lib/queries";
 import { withErrorHandling } from "@/lib/api-response";
+import { requireAdmin } from "@/lib/require-admin";
 import { BookingsQuerySchema, CreateBookingSchema, searchParamsToObject } from "@/lib/schemas";
 import { notifyBookingWebhook } from "@/lib/webhook";
 
-/** GET /api/bookings?status=&sortBy=&sortOrder=&page=&pageSize= */
+/** GET /api/bookings?status=&sortBy=&sortOrder=&page=&pageSize= — admin-only, lists all customer bookings. */
 export const GET = withErrorHandling(async (request: NextRequest) => {
+  await requireAdmin();
   const query = BookingsQuerySchema.parse(
     searchParamsToObject(request.nextUrl.searchParams)
   );

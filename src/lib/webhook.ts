@@ -47,3 +47,41 @@ async function sendBookingWebhook(booking: Tables<"bookings">): Promise<void> {
     console.error("notifyBookingWebhook: request failed", error);
   }
 }
+
+/**
+ * Fires the AI-scored lead's details off to n8n. Never awaited by the
+ * caller on the critical path — the lead is already saved by the time this
+ * runs, and nothing here is allowed to affect the response sent back to
+ * the chat widget.
+ */
+export function notifyLeadWebhook(lead: Tables<"leads">): void {
+  void sendLeadWebhook(lead);
+}
+
+async function sendLeadWebhook(lead: Tables<"leads">): Promise<void> {
+  const url = process.env.N8N_WEBHOOK_URL;
+  if (!url) return;
+
+  try {
+    const payload = {
+      name: lead.name,
+      email: lead.email,
+      phone: lead.phone,
+      score: lead.score,
+      budget_band: lead.budget_band,
+      urgency: lead.urgency,
+      intent_summary: lead.intent_summary,
+      next_action: lead.next_action,
+      source: lead.source,
+    };
+
+    await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: AbortSignal.timeout(WEBHOOK_TIMEOUT_MS),
+    });
+  } catch (error) {
+    console.error("notifyLeadWebhook: request failed", error);
+  }
+}

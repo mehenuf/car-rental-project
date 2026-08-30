@@ -309,3 +309,13 @@ export const SalesByCountryQuerySchema = z.object({
   startDate: DateOnlySchema.optional(),
   endDate: DateOnlySchema.optional(),
 });
+
+// ---------------------------------------------------------------
+// POST /api/auth/signup
+// ---------------------------------------------------------------
+
+export const SignupSchema = z.object({
+  fullName: z.string().trim().min(1, "Full name is required").max(200),
+  email: z.string().trim().toLowerCase().email("Enter a valid email address"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
+});
