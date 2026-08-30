@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createBooking, getRecentTransactions } from "@/lib/queries";
 import { withErrorHandling } from "@/lib/api-response";
 import { BookingsQuerySchema, CreateBookingSchema, searchParamsToObject } from "@/lib/schemas";
+import { notifyBookingWebhook } from "@/lib/webhook";
 
 /** GET /api/bookings?status=&sortBy=&sortOrder=&page=&pageSize= */
 export const GET = withErrorHandling(async (request: NextRequest) => {
@@ -29,6 +30,8 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
     payment_method: input.payment_method ?? null,
     source: input.source,
   });
+
+  notifyBookingWebhook(booking);
 
   return NextResponse.json(booking, { status: 201 });
 });
