@@ -67,11 +67,54 @@ export function ChatWidget() {
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [launcherBlocked, setLauncherBlocked] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
+  const launcherRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, open]);
+
+  // The closed launcher is pinned to a screen corner on every page, so it can
+  // land on top of a page's own call-to-action (e.g. "Book Now" on a vehicle
+  // page). A page opts an element out of that overlap with `data-chat-avoid`;
+  // we fade the launcher out while it would otherwise cover one.
+  useEffect(() => {
+    if (open) return;
+    const launcher = launcherRef.current;
+    if (!launcher) return;
+
+    let frame = 0;
+    function updateBlocked() {
+      frame = 0;
+      const launcherRect = launcher!.getBoundingClientRect();
+      const blocked = Array.from(
+        document.querySelectorAll<HTMLElement>("[data-chat-avoid]")
+      ).some((el) => {
+        const r = el.getBoundingClientRect();
+        return (
+          launcherRect.left < r.right &&
+          launcherRect.right > r.left &&
+          launcherRect.top < r.bottom &&
+          launcherRect.bottom > r.top
+        );
+      });
+      setLauncherBlocked(blocked);
+    }
+    function scheduleUpdate() {
+      if (frame) return;
+      frame = requestAnimationFrame(updateBlocked);
+    }
+
+    updateBlocked();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate);
+    return () => {
+      if (frame) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+    };
+  }, [open]);
 
   async function sendMessage(text: string) {
     const trimmed = text.trim();
@@ -188,10 +231,16 @@ export function ChatWidget() {
     <>
       {!open && (
         <button
+          ref={launcherRef}
           type="button"
           onClick={() => setOpen(true)}
           aria-label="Open chat"
-          className="fixed bottom-6 left-6 z-50 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105"
+          aria-hidden={launcherBlocked}
+          tabIndex={launcherBlocked ? -1 : 0}
+          className={cn(
+            "fixed bottom-6 left-6 z-50 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-[opacity,transform] hover:scale-105",
+            launcherBlocked ? "pointer-events-none opacity-0" : "opacity-100"
+          )}
         >
           <MessageCircle className="size-6" />
         </button>

@@ -180,7 +180,13 @@ export function VehicleBookingPanel({
           <span className="font-heading text-xl font-bold text-accent">{formatCurrency(total)}</span>
         </div>
 
-        <Button type="button" size="lg" disabled={!datesValid} onClick={() => setDialogOpen(true)}>
+        <Button
+          type="button"
+          size="lg"
+          disabled={!datesValid}
+          onClick={() => setDialogOpen(true)}
+          data-chat-avoid
+        >
           Book Now
         </Button>
       </CardContent>
