@@ -17,6 +17,12 @@ const LeadScoreResultSchema = z.object({
   urgency: z.enum(["immediate", "this_week", "browsing", "unknown"]),
   summary: z.string().trim().min(1),
   next_step: z.string().trim().min(1),
+  // Only present when the prompt actually asked for them — see
+  // buildLeadScoringPrompt's needCustomerName/needCustomerEmail. Nullable
+  // because the AI is told to say null rather than guess.
+  customer_name: z.string().trim().min(1).nullable().optional(),
+  customer_email: z.string().trim().min(1).nullable().optional(),
+  vehicle_interest: z.string().trim().min(1).nullable().optional(),
 });
 
 function formatTranscript(messages: { role: string; content: string }[]): string {
@@ -49,11 +55,16 @@ export async function POST(request: NextRequest) {
     const parsed = ChatRequestSchema.safeParse(body);
     if (!parsed.success) return NO_CONTENT;
 
-    const { messages } = parsed.data;
+    const { messages, customer_name: sessionName, customer_email: sessionEmail } = parsed.data;
     if (messages.length < 3) return NO_CONTENT;
 
+    // Verified session data always wins — no reason to ask the AI to
+    // extract a field we already know for certain.
+    const needCustomerName = !sessionName;
+    const needCustomerEmail = !sessionEmail;
+
     const baseMessages: AIMessage[] = [
-      { role: "system", content: buildLeadScoringPrompt() },
+      { role: "system", content: buildLeadScoringPrompt({ needCustomerName, needCustomerEmail }) },
       { role: "user", content: `Conversation:\n${formatTranscript(messages)}` },
     ];
 
@@ -68,7 +79,10 @@ export async function POST(request: NextRequest) {
         {
           role: "user",
           content:
-            "That reply didn't match the required format. Reply again with ONLY a valid JSON object containing exactly: score (whole number 0-100), budget (low/mid/high/unknown), urgency (immediate/this_week/browsing/unknown), summary (one sentence), next_step (one sentence). No extra text.",
+            "That reply didn't match the required format. Reply again with ONLY a valid JSON object containing exactly: score (whole number 0-100), budget (low/mid/high/unknown), urgency (immediate/this_week/browsing/unknown), summary (one sentence), next_step (one sentence)" +
+            (needCustomerName ? ", customer_name (string or null)" : "") +
+            (needCustomerEmail ? ", customer_email (string or null)" : "") +
+            ", vehicle_interest (string or null). No extra text.",
         },
       ];
       raw = await getAIResponse(retryMessages);
@@ -88,9 +102,13 @@ export async function POST(request: NextRequest) {
       next_action: result.data.next_step,
       transcript: messages,
       source: "chat",
+      // Verified session data (from a logged-in visitor) always wins over
+      // whatever the AI thinks it spotted in the conversation text.
+      name: sessionName ?? result.data.customer_name ?? null,
+      email: sessionEmail ?? result.data.customer_email ?? null,
     });
 
-    await notifyLeadWebhook(lead);
+    await notifyLeadWebhook(lead, result.data.vehicle_interest);
 
     return NO_CONTENT;
   } catch (error) {

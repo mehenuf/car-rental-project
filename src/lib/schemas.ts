@@ -281,6 +281,11 @@ export const ChatMessageSchema = z.object({
 
 export const ChatRequestSchema = z.object({
   messages: z.array(ChatMessageSchema).min(1).max(20),
+  // Populated by the chat widget only when the visitor has a verified
+  // Supabase session — omitted entirely (not sent as "") for a guest, so
+  // "unknown" and "logged in with no name set" stay distinguishable.
+  customer_name: z.string().trim().min(1).optional(),
+  customer_email: z.string().trim().email().optional(),
 });
 
 // ---------------------------------------------------------------

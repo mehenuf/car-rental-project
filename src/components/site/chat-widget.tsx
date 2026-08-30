@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { formatCurrency } from "@/lib/format";
+import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
 interface RecommendedVehicle {
@@ -36,6 +37,31 @@ function toApiMessages(messages: ChatMessage[]) {
   return messages.map(({ role, content }) => ({ role, content }));
 }
 
+interface SessionCustomerInfo {
+  customer_name?: string;
+  customer_email?: string;
+}
+
+/**
+ * Only returns fields when a real session exists — a guest gets `{}`, not
+ * `{ customer_name: "", customer_email: "" }`. An empty string would mean
+ * something different from "we don't know," and the score route relies on
+ * that distinction to decide whether to trust this over what the AI finds.
+ */
+async function getSessionCustomerInfo(): Promise<SessionCustomerInfo> {
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const user = session?.user;
+  if (!user) return {};
+
+  const info: SessionCustomerInfo = {};
+  const fullName = user.user_metadata?.full_name;
+  if (typeof fullName === "string" && fullName.trim()) info.customer_name = fullName;
+  if (user.email) info.customer_email = user.email;
+  return info;
+}
+
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -56,6 +82,8 @@ export function ChatWidget() {
     setInput("");
     setLoading(true);
 
+    const sessionInfo = await getSessionCustomerInfo();
+
     function updateLastMessage(update: Partial<ChatMessage>) {
       setMessages((prev) => {
         const next = [...prev];
@@ -68,7 +96,7 @@ export function ChatWidget() {
       const res = await fetch("/api/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ messages: toApiMessages(outgoing) }),
+        body: JSON.stringify({ messages: toApiMessages(outgoing), ...sessionInfo }),
       });
 
       const reader = res.body?.getReader();
@@ -134,7 +162,7 @@ export function ChatWidget() {
         fetch("/api/chat/score", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ messages: toApiMessages(finalMessages) }),
+          body: JSON.stringify({ messages: toApiMessages(finalMessages), ...sessionInfo }),
         }).catch(() => {});
       }
     } catch {

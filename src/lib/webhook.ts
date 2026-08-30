@@ -61,12 +61,20 @@ async function sendBookingWebhook(booking: Tables<"bookings">): Promise<void> {
  * are synthesized/stood-in for here. `lead_score` in particular must stay
  * named exactly that: n8n's routing checks that field to decide hot vs
  * cold.
+ *
+ * `vehicleInterest` is the AI-extracted car model from the scoring pass
+ * (see LeadScoreResultSchema in score/route.ts) — used for `vehicle_name`
+ * when present, since it's a much better stand-in than the general intent
+ * summary. Falls back to the summary when the AI didn't spot one.
  */
-export function notifyLeadWebhook(lead: Tables<"leads">): Promise<void> {
-  return sendLeadWebhook(lead);
+export function notifyLeadWebhook(
+  lead: Tables<"leads">,
+  vehicleInterest?: string | null
+): Promise<void> {
+  return sendLeadWebhook(lead, vehicleInterest);
 }
 
-async function sendLeadWebhook(lead: Tables<"leads">): Promise<void> {
+async function sendLeadWebhook(lead: Tables<"leads">, vehicleInterest?: string | null): Promise<void> {
   const url = process.env.N8N_WEBHOOK_URL;
   if (!url) return;
 
@@ -75,7 +83,7 @@ async function sendLeadWebhook(lead: Tables<"leads">): Promise<void> {
       reference: `LEAD-${lead.id.slice(0, 8)}`,
       customer_name: lead.name ?? "Website visitor",
       email: lead.email ?? "",
-      vehicle_name: lead.intent_summary,
+      vehicle_name: vehicleInterest ?? lead.intent_summary,
       total_amount: 0,
       lead_score: lead.score,
     };

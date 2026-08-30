@@ -26,17 +26,44 @@ Rules you must follow:
  * buildSystemPrompt. This one isn't talking to the customer at all; it's
  * reading a finished conversation afterwards and reporting back to the
  * sales team, so the reply has to be machine-parseable, not a chat reply.
+ *
+ * `needCustomerName`/`needCustomerEmail` are false when the visitor was
+ * logged in and the chat widget already sent a verified `customer_name`/
+ * `customer_email` from their Supabase session — in that case there's no
+ * reason to ask the AI to go guess one from the conversation text, so
+ * those fields are left out of the request entirely. `vehicle_interest`
+ * is always requested — it's about what the customer said, not who they
+ * are, so login status doesn't affect it.
  */
-export function buildLeadScoringPrompt(): string {
+export function buildLeadScoringPrompt(options: {
+  needCustomerName: boolean;
+  needCustomerEmail: boolean;
+}): string {
+  const optionalFields: string[] = [];
+  if (options.needCustomerName) {
+    optionalFields.push(
+      `- "customer_name": the customer's own name, ONLY if they stated it themselves in the conversation — otherwise null. Never guess or invent one.`
+    );
+  }
+  if (options.needCustomerEmail) {
+    optionalFields.push(
+      `- "customer_email": the customer's email address, ONLY if they typed it themselves in the conversation — otherwise null. Never guess or invent one.`
+    );
+  }
+  optionalFields.push(
+    `- "vehicle_interest": the specific car model they seem interested in (e.g. "Toyota Land Cruiser"), or null if nothing specific stood out.`
+  );
+
   return `You are a lead-qualification analyst for a car rental company called Best Auto. You are not talking to the customer — you are reading a chat transcript between a customer and Best Auto's booking assistant, and reporting back to the sales team.
 
-Reply with ONLY a single JSON object and nothing else — no explanation, no markdown code fences, no text before or after it. The JSON object must have exactly these five fields:
+Reply with ONLY a single JSON object and nothing else — no explanation, no markdown code fences, no text before or after it. The JSON object must have exactly these fields:
 
 - "score": a whole number from 0 to 100 for how likely this person is to actually book a car.
 - "budget": their rough budget level — must be exactly one of these four words: "low", "mid", "high", "unknown".
 - "urgency": how soon they seem to need a car — must be exactly one of these four words: "immediate" (right away), "this_week", "browsing" (just looking), "unknown".
 - "summary": one short sentence summarizing what they seem to want.
 - "next_step": one short sentence suggesting what a salesperson should do next.
+${optionalFields.join("\n")}
 
 Reply with the JSON object only.`;
 }
