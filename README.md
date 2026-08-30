@@ -1,5 +1,16 @@
 # BestCar
 
+![Next.js](https://img.shields.io/badge/Next.js-16-000000?logo=next.js&logoColor=white)
+![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
+![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-Postgres%20%26%20Auth-3ECF8E?logo=supabase&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-v4-06B6D4?logo=tailwindcss&logoColor=white)
+![Zod](https://img.shields.io/badge/Validation-Zod-3E67B1?logo=zod&logoColor=white)
+![AI](https://img.shields.io/badge/AI-Groq%20%2B%20Gemini-F55036)
+![n8n](https://img.shields.io/badge/Automation-n8n-EA4B71?logo=n8n&logoColor=white)
+![Status](https://img.shields.io/badge/status-technical%20assessment-blue)
+[![License](https://img.shields.io/badge/license-All%20Rights%20Reserved-lightgrey)](LICENSE)
+
 ## 1. Project overview
 
 BestCar is a car rental platform built as a technical assessment (Web Designer/Web Developer + AI Automation role). It has a public site where customers browse real vehicle inventory, filter by category or price, and submit a booking request, plus an admin dashboard where staff manage the fleet, review bookings, and see AI-qualified sales leads. It also includes a chat assistant on the customer site and an n8n automation that logs new bookings and scored leads outside the app.
@@ -12,25 +23,27 @@ BestCar is a car rental platform built as a technical assessment (Web Designer/W
 
 ## 3. Screenshots
 
+Drop the actual image files into `docs/screenshots/` using the filenames below. See [docs/screenshots/README.md](docs/screenshots/README.md) for the exact list. Once a file is in place, GitHub will render it here automatically. Until then, each one shows as a broken-image icon, which is expected.
+
 **Homepage (desktop)**
 
-[PASTE SCREENSHOT HERE]
+![Homepage desktop](docs/screenshots/homepage-desktop.png)
 
 **Homepage (mobile)**
 
-[PASTE SCREENSHOT HERE]
+![Homepage mobile](docs/screenshots/homepage-mobile.png)
 
 **Admin dashboard (desktop)**
 
-[PASTE SCREENSHOT HERE]
+![Admin dashboard desktop](docs/screenshots/admin-dashboard-desktop.png)
 
 **Admin dashboard (mobile)**
 
-[PASTE SCREENSHOT HERE]
+![Admin dashboard mobile](docs/screenshots/admin-dashboard-mobile.png)
 
 **Chat widget in use**
 
-[PASTE SCREENSHOT HERE]
+![Chat widget in use](docs/screenshots/chat-widget.png)
 
 ## 4. Tech stack
 
@@ -415,14 +428,23 @@ The chat widget appears on every page of the customer site. It answers questions
 
 **Exported workflow.** [automation/n8n-workflow.json](automation/n8n-workflow.json)
 
-**Execution screenshots.** Paste screenshots below showing the workflow actually running:
+**Execution screenshots.** Drop the actual image files into `docs/screenshots/` using the filenames below (also listed in [docs/screenshots/README.md](docs/screenshots/README.md)).
 
-- A successful execution triggered by a real booking
-- A successful execution triggered by a scored lead, routed as "hot"
-- A successful execution triggered by a scored lead, routed as "cold"
-- The resulting rows in the Google Sheet
+**A successful execution triggered by a real booking**
 
-[PASTE SCREENSHOTS HERE]
+![Automation: booking execution](docs/screenshots/automation-booking-execution.png)
+
+**A successful execution triggered by a scored lead, routed as "hot"**
+
+![Automation: hot lead execution](docs/screenshots/automation-hot-lead-execution.png)
+
+**A successful execution triggered by a scored lead, routed as "cold"**
+
+![Automation: cold lead execution](docs/screenshots/automation-cold-lead-execution.png)
+
+**The resulting rows in the Google Sheet**
+
+![Automation: Google Sheet rows](docs/screenshots/automation-google-sheet-rows.png)
 
 ## 10. Design decisions and trade-offs
 
@@ -441,3 +463,7 @@ The chat widget appears on every page of the customer site. It answers questions
 1. **A real per-date availability check.** Query existing bookings for a vehicle before confirming a request, so a car with active bookings across a date range shows as unavailable instead of relying on a manually maintained `stock` number.
 2. **Payment processing.** Right now a booking is a request, not a transaction. No payment gateway is integrated, and everything lands as `pending` for an admin to follow up on manually. Adding Stripe, or something similar, at the booking step would make this a real checkout flow.
 3. **A durable rate limiter and webhook retry queue.** The chat endpoint's rate limiting and the n8n webhook calls both currently live in memory on a single server process: a rate-limit counter that resets on every deploy, and a webhook call that is simply dropped and logged if n8n is briefly unreachable. Moving both onto something persistent, such as Redis for rate limiting and a small retry queue for webhooks, would let both survive a restart and a transient n8n outage.
+
+## License
+
+All rights reserved. See [LICENSE](LICENSE) for the full text. This is not open source: the code is shared here for review as part of a job application and technical assessment, not for reuse or redistribution.
