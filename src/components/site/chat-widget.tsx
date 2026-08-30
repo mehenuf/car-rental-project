@@ -323,6 +323,7 @@ export function ChatWidget() {
                         <Link
                           key={vehicle.slug}
                           href={`/cars/${vehicle.slug}`}
+                          onClick={() => setOpen(false)}
                           className="flex items-center gap-2.5 rounded-xl border border-border bg-card p-2 transition-colors hover:bg-muted"
                         >
                           <div className="relative size-12 shrink-0 overflow-hidden rounded-lg bg-muted">
