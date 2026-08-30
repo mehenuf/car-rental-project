@@ -44,7 +44,10 @@ export function HeroSection() {
               priority
             />
           </div>
-          <div className="absolute -bottom-6 -left-6 flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card ring-1 ring-foreground/5">
+          <div
+            data-chat-avoid
+            className="absolute -bottom-6 -left-6 flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card ring-1 ring-foreground/5"
+          >
             <div className="flex size-10 items-center justify-center rounded-full bg-accent/15 text-accent">
               <Star className="size-5 fill-current" />
             </div>

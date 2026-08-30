@@ -109,8 +109,14 @@ export function ChatWidget() {
     updateBlocked();
     window.addEventListener("scroll", scheduleUpdate, { passive: true });
     window.addEventListener("resize", scheduleUpdate);
+    // Catches layout shifts scroll/resize miss entirely, e.g. an image or
+    // web font finishing its load and reflowing an avoided element into
+    // (or out of) the launcher's corner without the page itself scrolling.
+    const resizeObserver = new ResizeObserver(scheduleUpdate);
+    resizeObserver.observe(document.documentElement);
     return () => {
       if (frame) cancelAnimationFrame(frame);
+      resizeObserver.disconnect();
       window.removeEventListener("scroll", scheduleUpdate);
       window.removeEventListener("resize", scheduleUpdate);
     };
@@ -234,7 +240,7 @@ export function ChatWidget() {
           ref={launcherRef}
           type="button"
           onClick={() => setOpen(true)}
-          aria-label="Open chat"
+          aria-label={messages.length > 0 ? "Open chat (conversation in progress)" : "Open chat"}
           aria-hidden={launcherBlocked}
           tabIndex={launcherBlocked ? -1 : 0}
           className={cn(
@@ -243,6 +249,12 @@ export function ChatWidget() {
           )}
         >
           <MessageCircle className="size-6" />
+          {messages.length > 0 && (
+            <span
+              aria-hidden="true"
+              className="absolute top-1 right-1 size-2.5 rounded-full bg-emerald-500 ring-2 ring-background"
+            />
+          )}
         </button>
       )}
 
