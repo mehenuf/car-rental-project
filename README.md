@@ -22,13 +22,11 @@ BestCar is a car rental platform built as a technical assessment (Web Designer/W
 
 ## 2. Live links
 
-- **Live site:** [PASTE LIVE SITE URL HERE]
-- **Admin dashboard:** [PASTE ADMIN DASHBOARD URL HERE]
-- **GitHub repository:** [PASTE GITHUB REPO URL HERE]
+- **Live site:** [Click here to go to the live site.](https://car-rental-project-mehenuf.vercel.app/)
+- **Admin dashboard:** [Click here to go to the admmin page.](https://car-rental-project-mehenuf.vercel.app/admin)
+- **GitHub repository:** [https://github.com/mehenuf/car-rental-project.git](https://github.com/mehenuf/car-rental-project.git)
 
 ## 3. Screenshots
-
-See [docs/screenshots/README.md](docs/screenshots/README.md) for the full list of expected files and what each one shows.
 
 **Homepage (desktop)**
 
