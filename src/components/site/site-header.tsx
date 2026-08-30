@@ -19,15 +19,7 @@ import { SITE_NAV_LINKS } from "@/lib/site-nav";
 import { supabase } from "@/lib/supabase";
 import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { ThemeToggle } from "@/components/theme-toggle";
-
-function initialsFor(name: string) {
-  return name
-    .split(/\s+/)
-    .filter(Boolean)
-    .slice(0, 2)
-    .map((part) => part[0]!.toUpperCase())
-    .join("");
-}
+import { initialsFor } from "@/lib/format";
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);

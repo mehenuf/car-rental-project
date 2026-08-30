@@ -11,20 +11,23 @@ import { SalesAnalyticsChart } from "@/components/admin/sales-analytics-chart";
 import { SalesByCountryPanel } from "@/components/admin/sales-by-country-panel";
 import { LeadQualityPanel } from "@/components/admin/lead-quality-panel";
 import { defaultDateRange, type DateRange } from "@/lib/date-range";
-
-const CURRENT_USER_NAME = "Mike Witzel";
+import { useSupabaseUser } from "@/hooks/use-supabase-user";
 
 export default function AdminDashboardPage() {
   const [range, setRange] = useState<DateRange>(() => defaultDateRange());
   const [refreshKey, setRefreshKey] = useState(0);
+  const { user } = useSupabaseUser();
 
   const handleRefresh = useCallback(() => setRefreshKey((key) => key + 1), []);
+
+  const fullName = user?.user_metadata?.full_name as string | undefined;
+  const firstName = fullName?.split(" ")[0] || user?.email?.split("@")[0] || "there";
 
   return (
     <div className="flex flex-col gap-(--space-md)">
       <div className="flex flex-col gap-(--space-sm) sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-lg font-medium text-foreground sm:text-xl">
-          <span aria-hidden>👋</span> Hi {CURRENT_USER_NAME},{" "}
+          <span aria-hidden>👋</span> Hi {firstName},{" "}
           <span className="font-normal text-muted-foreground">
             here&apos;s what&apos;s happening with your store today.
           </span>

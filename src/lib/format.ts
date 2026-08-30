@@ -9,6 +9,16 @@ export function formatCurrency(value: number): string {
   return currencyFormatter.format(value);
 }
 
+/** "Jane Doe" -> "JD"; falls back gracefully for a single word or an email. */
+export function initialsFor(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]!.toUpperCase())
+    .join("");
+}
+
 export function formatNumber(value: number): string {
   return numberFormatter.format(value);
 }

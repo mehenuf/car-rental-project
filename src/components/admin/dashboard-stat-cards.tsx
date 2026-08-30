@@ -31,7 +31,7 @@ export function DashboardStatCards({
         <Card className="justify-center p-(--space-sm) shadow-card ring-0">
           <CardContent className="flex items-center justify-between gap-(--space-sm) px-0">
             <div className="flex flex-col gap-2">
-              <span className="text-sm font-medium text-accent">Weekly Earning</span>
+              <span className="text-sm font-medium text-accent">Total Earning</span>
               {isLoading || !data ? (
                 <Skeleton className="h-8 w-32" />
               ) : (

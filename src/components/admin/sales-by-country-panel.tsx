@@ -1,8 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
-import { ArrowDownRight, ArrowUpRight, ChevronDown } from "lucide-react";
-import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useApiData } from "@/hooks/use-api-data";
 import { toApiDate, type DateRange } from "@/lib/date-range";
@@ -43,14 +43,6 @@ export function SalesByCountryPanel({
     <Card className="shadow-card ring-0">
       <CardHeader>
         <CardTitle>Sales by Countries</CardTitle>
-        <CardAction>
-          {/* Visual only, matching the reference image's period chip — the
-              data itself already follows the date range picker above. */}
-          <div className="flex items-center gap-1.5 rounded-lg border border-input px-2.5 py-1 text-sm text-muted-foreground select-none">
-            This Week
-            <ChevronDown className="size-3.5" />
-          </div>
-        </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col gap-(--space-sm)">
         {error && <p className="text-sm text-destructive">{error}</p>}
