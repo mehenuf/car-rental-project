@@ -49,13 +49,21 @@ async function sendBookingWebhook(booking: Tables<"bookings">): Promise<void> {
 }
 
 /**
- * Fires the AI-scored lead's details off to n8n. Never awaited by the
- * caller on the critical path — the lead is already saved by the time this
- * runs, and nothing here is allowed to affect the response sent back to
- * the chat widget.
+ * Fires the AI-scored lead's details off to n8n. Returns a promise so the
+ * caller (the /api/chat/score route, itself called without being awaited
+ * from the browser) can await it before the serverless function ends —
+ * failures still never surface, since `sendLeadWebhook` swallows its own
+ * errors below.
+ *
+ * Field names deliberately mirror the booking webhook's payload (see
+ * `sendBookingWebhook`) so the same n8n workflow can handle either kind of
+ * event — a chat lead has no reference, customer name, or car, so those
+ * are synthesized/stood-in for here. `lead_score` in particular must stay
+ * named exactly that: n8n's routing checks that field to decide hot vs
+ * cold.
  */
-export function notifyLeadWebhook(lead: Tables<"leads">): void {
-  void sendLeadWebhook(lead);
+export function notifyLeadWebhook(lead: Tables<"leads">): Promise<void> {
+  return sendLeadWebhook(lead);
 }
 
 async function sendLeadWebhook(lead: Tables<"leads">): Promise<void> {
@@ -64,15 +72,12 @@ async function sendLeadWebhook(lead: Tables<"leads">): Promise<void> {
 
   try {
     const payload = {
-      name: lead.name,
-      email: lead.email,
-      phone: lead.phone,
-      score: lead.score,
-      budget_band: lead.budget_band,
-      urgency: lead.urgency,
-      intent_summary: lead.intent_summary,
-      next_action: lead.next_action,
-      source: lead.source,
+      reference: `LEAD-${lead.id.slice(0, 8)}`,
+      customer_name: lead.name ?? "Website visitor",
+      email: lead.email ?? "",
+      vehicle_name: lead.intent_summary,
+      total_amount: 0,
+      lead_score: lead.score,
     };
 
     await fetch(url, {

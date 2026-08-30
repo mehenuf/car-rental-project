@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
       source: "chat",
     });
 
-    notifyLeadWebhook(lead);
+    await notifyLeadWebhook(lead);
 
     return NO_CONTENT;
   } catch (error) {
