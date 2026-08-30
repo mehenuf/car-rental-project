@@ -84,3 +84,9 @@ supabase/.temp/
 PRODUCT.md
 DESIGN.md
 .impeccable/
+
+# local notes on capturing screenshots, not for the public repo
+docs/screenshots/README.md
+
+# local notes on exporting/adding the n8n workflow, not for the public repo
+automation/README.md

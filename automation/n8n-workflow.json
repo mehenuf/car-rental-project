@@ -1,0 +1,382 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "booking-created",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "9c593432-5e45-4a54-8197-89be21fece7b",
+      "name": "Webhook",
+      "webhookId": "e7d9457a-8ed4-4bf3-bfb8-79c8e2c5fc85"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "13e7589d-da46-4a7a-8cdd-52a19bb0f211",
+              "leftValue": "={{ $json.body.lead_score }}",
+              "rightValue": 70,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        224,
+        0
+      ],
+      "id": "e0672956-c8be-4930-ad49-f82fe220b16d",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.groq.com/openai/v1/chat/completions",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"model\": \"openai/gpt-oss-120b\",\n  \"reasoning_effort\": \"low\",\n  \"messages\": [\n    {\"role\": \"system\", \"content\": \"You write short, warm follow-up messages for a car rental company. Maximum 100 words. Sign off as the Best Auto team. If the total amount is 0, this is a website chat inquiry, not a confirmed booking — do not mention a price or 'locking it in'; instead write a friendly note offering to help them find the right car and inviting them to reply with questions.\"},\n    {\"role\": \"user\", \"content\": \"Write a follow-up for {{ $json.body.customer_name }} regarding: {{ $json.body.vehicle_name }}. Total: ${{ $json.body.total_amount }}. Reference: {{ $json.body.reference }}.\"}\n  ],\n  \"max_tokens\": 600\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.5,
+      "position": [
+        448,
+        -96
+      ],
+      "id": "75d812ae-ad56-4416-8dfc-d8f92d356e81",
+      "name": "HTTP Request",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "792woADytcr1s1Ba",
+          "name": "Header Auth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ttspQBog_UigOXnZ8XKS_q3rBP1aSqdoK4jYjhKV4QE",
+          "mode": "list",
+          "cachedResultName": "Car Rental Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ttspQBog_UigOXnZ8XKS_q3rBP1aSqdoK4jYjhKV4QE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ttspQBog_UigOXnZ8XKS_q3rBP1aSqdoK4jYjhKV4QE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now }}",
+            "Reference": "={{ $('Webhook').item.json.body.reference }}",
+            "Customer Name": "={{ $('Webhook').item.json.body.customer_name }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}",
+            "Vehicle": "={{ $('Webhook').item.json.body.vehicle_name }}",
+            "Amount": "={{ $('Webhook').item.json.body.total_amount }}",
+            "Lead Score": "={{ $('Webhook').item.json.body.lead_score }}",
+            "Message": "={{ $json.choices[0].message.content }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Reference",
+              "displayName": "Reference",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Vehicle",
+              "displayName": "Vehicle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Lead Score",
+              "displayName": "Lead Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Message",
+              "displayName": "Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        672,
+        -96
+      ],
+      "id": "0ea1f30c-07de-4450-b18a-866d83475206",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jlDBdh68OUB3tTX1",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "1ttspQBog_UigOXnZ8XKS_q3rBP1aSqdoK4jYjhKV4QE",
+          "mode": "list",
+          "cachedResultName": "Car Rental Leads",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ttspQBog_UigOXnZ8XKS_q3rBP1aSqdoK4jYjhKV4QE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 1421017393,
+          "mode": "list",
+          "cachedResultName": "Just Browsing",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1ttspQBog_UigOXnZ8XKS_q3rBP1aSqdoK4jYjhKV4QE/edit#gid=1421017393"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Timestamp": "={{ $now }}",
+            "Reference": "={{ $('Webhook').item.json.body.reference }}",
+            "Customer Name": "={{ $('Webhook').item.json.body.customer_name }}",
+            "Email": "={{ $('Webhook').item.json.body.email }}",
+            "Vehicle": "={{ $('Webhook').item.json.body.vehicle_name }}",
+            "Amount": "={{ $('Webhook').item.json.body.total_amount }}",
+            "Lead Score": "={{ $('Webhook').item.json.body.lead_score }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Timestamp",
+              "displayName": "Timestamp",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Reference",
+              "displayName": "Reference",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Customer Name",
+              "displayName": "Customer Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Email",
+              "displayName": "Email",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Vehicle",
+              "displayName": "Vehicle",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Amount",
+              "displayName": "Amount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Lead Score",
+              "displayName": "Lead Score",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        448,
+        96
+      ],
+      "id": "5c7c48c8-d129-482a-a0c5-7054184b2f24",
+      "name": "Append row in sheet1",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "jlDBdh68OUB3tTX1",
+          "name": "Google Sheets account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append row in sheet1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "56a40eb5-d08b-4aa3-8216-e26b300ac5a8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "681df4e7e2860ce2b5d75b96a64a0220a863d9d703df10b93eb048c15710fdcf"
+  },
+  "nodeGroups": [],
+  "id": "rrjs7kZWM5vNpd0Z",
+  "tags": []
+}

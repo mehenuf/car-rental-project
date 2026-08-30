@@ -13,7 +13,7 @@
 
 ## 1. Project overview
 
-BestCar is a car rental platform built as a technical assessment (Web Designer/Web Developer + AI Automation role). It has a public site where customers browse real vehicle inventory, filter by category or price, and submit a booking request, plus an admin dashboard where staff manage the fleet, review bookings, and see AI-qualified sales leads. It also includes a chat assistant on the customer site and an n8n automation that logs new bookings and scored leads outside the app.
+BestCar is a car rental platform built as a technical assessment (Web Designer/Web Developer + AI Automation role). It has a public site where customers browse real vehicle inventory, filter by category or price, and submit a booking request, plus an admin dashboard where staff manage the fleet, review bookings, and see AI-qualified sales leads. It also includes a chat assistant on the customer site and an n8n automation that logs AI-scored leads to a Google Sheet outside the app.
 
 ## 2. Live links
 
@@ -23,7 +23,7 @@ BestCar is a car rental platform built as a technical assessment (Web Designer/W
 
 ## 3. Screenshots
 
-Drop the actual image files into `docs/screenshots/` using the filenames below. See [docs/screenshots/README.md](docs/screenshots/README.md) for the exact list. Once a file is in place, GitHub will render it here automatically. Until then, each one shows as a broken-image icon, which is expected.
+See [docs/screenshots/README.md](docs/screenshots/README.md) for the full list of expected files and what each one shows.
 
 **Homepage (desktop)**
 
@@ -56,7 +56,7 @@ Drop the actual image files into `docs/screenshots/` using the filenames below. 
 - **Groq (`openai/gpt-oss-120b`) with a Gemini fallback.** Groq is fast and cheap for the chat assistant. Gemini is a second, independent provider so the chat feature keeps working if Groq has an outage.
 - **Recharts.** It draws the sales analytics chart on the admin dashboard.
 - **react-day-picker.** This is the calendar control used for picking pickup and drop-off dates.
-- **n8n.** It listens for booking and lead webhooks from the app and logs them to Google Sheets, so that part of the automation did not need its own hosted service written from scratch.
+- **n8n.** It listens for the lead-scoring webhook from the app and logs the result to a Google Sheet, so that part of the automation did not need its own hosted service written from scratch.
 - **Vercel Analytics.** Basic page-view tracking on the deployed site.
 
 ## 5. Architecture diagram
@@ -79,11 +79,13 @@ flowchart LR
     API -->|reads / writes vehicles, bookings, leads| DB
     API -->|verifies session + role claim| DB
     API -->|chat replies + lead scoring| AI
-    API -->|booking created / lead scored| N8N
+    API -->|lead scored| N8N
     N8N -->|appends a row| Sheets
 ```
 
 The browser never talks to Supabase, Groq, Gemini, or n8n directly. Every one of those goes through a Next.js API route first. That route is what applies validation, checks admin permission, and keeps API keys on the server.
+
+The app also sends a webhook on every new booking, to the same URL, but no n8n workflow currently does anything with it. Only the lead-scoring webhook has a working automation behind it, which is why the diagram above only shows that path.
 
 ## 6. Local setup
 
@@ -104,7 +106,7 @@ Create a `.env.local` file in the project root with the following variables:
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase's service-role key. This one is server-only. It bypasses row-level security, so it is used for admin writes, booking creation, and lead scoring. |
 | `GROQ_API_KEY` | API key for Groq, the primary AI provider behind the chat assistant. |
 | `GEMINI_API_KEY` | API key for Gemini, the automatic fallback if a Groq request fails. |
-| `N8N_WEBHOOK_URL` | The n8n webhook URL that receives booking and lead events. This one is optional. If it is missing, the app just skips sending the webhook instead of failing. |
+| `N8N_WEBHOOK_URL` | The n8n webhook URL that receives lead and booking events (only the lead-scoring one currently has a workflow acting on it; see section 9). This one is optional. If it is missing, the app just skips sending the webhook instead of failing. |
 
 Once the database exists (see the Supabase project's `schema.sql` for table definitions), seed it with sample vehicles and bookings:
 
@@ -266,7 +268,7 @@ Public. This is what the customer-facing booking form calls. `status` and `lead_
 }
 ```
 
-`total_amount` is calculated on the server from the vehicle's `price_per_day` and the number of days. It is never trusted from the client. On success, the booking's details are also sent to the n8n webhook in the background. See section 9 for details.
+`total_amount` is calculated on the server from the vehicle's `price_per_day` and the number of days. It is never trusted from the client. On success, the booking's details are also sent to the n8n webhook URL in the background, but no automation currently acts on that particular event. See section 9 for details.
 
 ### `PATCH /api/bookings/[id]`
 
@@ -422,17 +424,15 @@ The chat widget appears on every page of the customer site. It answers questions
 
 ## 9. The automation
 
-**What triggers it.** Two events fire a webhook to n8n: a customer submitting a booking (`POST /api/bookings`), and a chat conversation getting scored as a lead (`POST /api/chat/score`). Both webhook calls are fire-and-forget from the app's side. A failure to reach n8n is logged and swallowed, and it never affects whether the booking or lead itself gets saved.
+Only one automation is actually built and working right now: the one described below, triggered by a scored lead. The app also fires a webhook to the same URL when a booking is created (see section 7), but there's currently no n8n workflow behind that event; it's a leftover hook for a second automation that hasn't been built yet.
+
+**What triggers it.** A chat conversation getting scored as a lead (`POST /api/chat/score`) fires a webhook to n8n. This call is fire-and-forget from the app's side. A failure to reach n8n is logged and swallowed, and it never affects whether the lead itself gets saved to the database.
 
 **What the workflow does.** n8n receives the webhook, checks the `lead_score` field to route the event as a hot or cold lead, and appends a row to a Google Sheet recording the customer's name, email, the car or intent involved, the amount, and the score.
 
 **Exported workflow.** [automation/n8n-workflow.json](automation/n8n-workflow.json)
 
-**Execution screenshots.** Drop the actual image files into `docs/screenshots/` using the filenames below (also listed in [docs/screenshots/README.md](docs/screenshots/README.md)).
-
-**A successful execution triggered by a real booking**
-
-![Automation: booking execution](docs/screenshots/automation-booking-execution.png)
+**Execution screenshots.**
 
 **A successful execution triggered by a scored lead, routed as "hot"**
 
@@ -463,6 +463,7 @@ The chat widget appears on every page of the customer site. It answers questions
 1. **A real per-date availability check.** Query existing bookings for a vehicle before confirming a request, so a car with active bookings across a date range shows as unavailable instead of relying on a manually maintained `stock` number.
 2. **Payment processing.** Right now a booking is a request, not a transaction. No payment gateway is integrated, and everything lands as `pending` for an admin to follow up on manually. Adding Stripe, or something similar, at the booking step would make this a real checkout flow.
 3. **A durable rate limiter and webhook retry queue.** The chat endpoint's rate limiting and the n8n webhook calls both currently live in memory on a single server process: a rate-limit counter that resets on every deploy, and a webhook call that is simply dropped and logged if n8n is briefly unreachable. Moving both onto something persistent, such as Redis for rate limiting and a small retry queue for webhooks, would let both survive a restart and a transient n8n outage.
+4. **A second n8n workflow for the booking webhook.** The app already sends a webhook on every new booking, but nothing in n8n currently reacts to it. Building that workflow, for example to notify staff or log the booking to its own sheet, would put that existing hook to use instead of leaving it silently ignored.
 
 ## License
 
