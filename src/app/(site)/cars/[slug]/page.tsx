@@ -45,7 +45,7 @@ export default async function VehicleDetailPage({
                 </h1>
                 <p className="text-muted-foreground">{vehicle.brand}</p>
               </div>
-              <div className="flex items-center gap-1.5 text-accent">
+              <div className="flex items-center gap-1.5 text-accent-text">
                 <Star className="size-5 fill-current" />
                 <span className="font-semibold text-foreground">{vehicle.rating.toFixed(1)}</span>
                 <span className="text-sm text-muted-foreground">
@@ -74,7 +74,7 @@ export default async function VehicleDetailPage({
                 <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {vehicle.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <Check className="size-4 shrink-0 text-accent" />
+                      <Check className="size-4 shrink-0 text-accent-text" />
                       {feature}
                     </li>
                   ))}
@@ -110,7 +110,7 @@ export default async function VehicleDetailPage({
 function Spec({ icon: Icon, label, value }: { icon: LucideIcon; label: string; value: string }) {
   return (
     <div className="flex flex-col items-center gap-1 text-center">
-      <Icon className="size-5 text-accent" />
+      <Icon className="size-5 text-accent-text" />
       <span className="text-sm font-medium text-foreground capitalize">{value}</span>
       <span className="text-xs text-muted-foreground">{label}</span>
     </div>

@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import { VehicleCard } from "@/components/site/vehicle-card";
-import { Reveal } from "@/components/site/reveal";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -83,14 +82,14 @@ export function CarDealsSection() {
 
   return (
     <section id="rental-deals" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
-      <Reveal className="flex flex-col items-center gap-2 text-center">
+      <div className="flex flex-col items-center gap-2 text-center">
         <h2 className="font-heading text-3xl font-bold text-foreground">
           Most Popular Car Rental Deals
         </h2>
         <p className="max-w-xl text-muted-foreground">
           A well-maintained fleet ready to book for any trip, short or long.
         </p>
-      </Reveal>
+      </div>
 
       <div className="mt-(--space-md) flex items-center justify-center gap-6 border-b border-border">
         {TABS.map((tab) => (

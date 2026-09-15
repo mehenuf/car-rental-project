@@ -26,7 +26,7 @@ export function SiteFooter() {
         <div className="grid grid-cols-1 gap-(--space-md) sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div className="flex flex-col gap-(--space-xs)">
             <Link href="/" className="flex items-center gap-2 font-heading text-lg font-bold text-foreground">
-              <Car className="size-6 text-accent" />
+              <Car className="size-6 text-accent-text" />
               BestCar
             </Link>
             <p className="max-w-xs text-sm text-muted-foreground">

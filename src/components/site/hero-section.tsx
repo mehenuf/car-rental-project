@@ -2,62 +2,68 @@ import Link from "next/link";
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
-import { Reveal } from "@/components/site/reveal";
 
 export function HeroSection() {
   return (
-    <section className="relative overflow-hidden bg-background">
-      <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-(--space-lg) px-(--space-sm) py-(--space-xl) lg:grid-cols-2 lg:py-(--space-2xl)">
-        <Reveal className="flex flex-col gap-(--space-sm)">
-          <span className="inline-flex w-fit items-center gap-2 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
-            <span className="size-1.5 rounded-full bg-accent" aria-hidden />
-            Trusted car rental platform in the UK
-          </span>
-          <h1 className="font-heading text-4xl font-extrabold leading-[1.1] text-foreground sm:text-5xl lg:text-6xl">
-            Fast and easy way to <span className="text-accent">rent a car</span>
+    <section className="relative flex min-h-[92dvh] flex-col overflow-hidden bg-background sm:min-h-[85dvh]">
+      <div className="absolute inset-0">
+        <Image
+          src="https://images.unsplash.com/photo-1633121945200-05b2a267caee?auto=format&fit=crop&w=2400&q=80"
+          alt=""
+          fill
+          sizes="100vw"
+          priority
+          className="object-cover"
+        />
+        {/* Scrim: asphalt-dark at the edges where text and controls sit,
+            clear over the middle of the frame where the light trails read. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/10" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/40 to-transparent" />
+      </div>
+
+      <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-(--space-sm) pt-20">
+        <div className="animate-title-card flex max-w-2xl flex-col gap-(--space-sm)">
+          <h1 className="font-heading text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl">
+            Rent the road
+            <br />
+            <span className="text-accent">tonight.</span>
           </h1>
-          <p className="max-w-md text-base text-muted-foreground sm:text-lg">
-            Pick your dates, choose your car, and book in minutes. No account required, and the
-            price you see is the price you pay.
+          <p className="max-w-md text-base text-white/80 sm:text-lg">
+            Pick your dates, choose your car, and drive off in minutes. No account required, and
+            the price you see is the price you pay.
           </p>
           <div className="flex flex-col gap-3 pt-(--space-2xs) sm:flex-row">
-            <Link href="#search-bar" className={buttonVariants({ size: "lg", className: "px-8" })}>
+            <Link
+              href="#search-bar"
+              className={buttonVariants({ size: "lg", className: "px-8 shadow-lg shadow-black/30" })}
+            >
               Book now
             </Link>
             <Link
               href="/cars"
-              className={buttonVariants({ variant: "outline", size: "lg", className: "px-8" })}
+              className={buttonVariants({
+                variant: "outline",
+                size: "lg",
+                className: "border-white/30 bg-white/5 px-8 text-white hover:bg-white/15",
+              })}
             >
               See all cars
             </Link>
           </div>
-        </Reveal>
+        </div>
 
-        <Reveal delayMs={150} className="relative mx-auto aspect-[4/3] w-full max-w-lg">
-          <div className="absolute inset-6 rounded-[3rem] bg-accent/15 blur-2xl" aria-hidden />
-          <div className="relative size-full overflow-hidden rounded-[2rem] shadow-card">
-            <Image
-              src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
-              alt="Car available for rent"
-              fill
-              sizes="(min-width: 1024px) 500px, 90vw"
-              className="object-cover"
-              priority
-            />
+        <div
+          data-chat-avoid
+          className="mt-(--space-lg) flex w-fit items-center gap-3 rounded-2xl bg-white/10 p-4 backdrop-blur-sm ring-1 ring-white/10"
+        >
+          <div className="flex size-10 items-center justify-center rounded-full bg-accent/20 text-accent">
+            <Star className="size-5 fill-current" />
           </div>
-          <div
-            data-chat-avoid
-            className="absolute -bottom-6 -left-6 flex items-center gap-3 rounded-2xl bg-card p-4 shadow-card ring-1 ring-foreground/5"
-          >
-            <div className="flex size-10 items-center justify-center rounded-full bg-accent/15 text-accent">
-              <Star className="size-5 fill-current" />
-            </div>
-            <div className="flex flex-col">
-              <span className="text-sm font-bold text-foreground">4.9 / 5</span>
-              <span className="text-xs text-muted-foreground">2,400+ happy renters</span>
-            </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-bold text-white">4.9 / 5</span>
+            <span className="text-xs text-white/70">2,400+ happy renters</span>
           </div>
-        </Reveal>
+        </div>
       </div>
     </section>
   );

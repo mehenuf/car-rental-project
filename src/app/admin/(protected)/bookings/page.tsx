@@ -144,7 +144,7 @@ export default function AdminBookingsPage() {
             <span className="text-sm font-medium text-foreground">
               {row.vehicle?.name ?? "-"}
             </span>
-            <span className="text-xs text-accent">#{row.reference}</span>
+            <span className="text-xs text-accent-text">#{row.reference}</span>
           </div>
         </div>
       ),

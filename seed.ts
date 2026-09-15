@@ -191,7 +191,7 @@ async function main() {
     gallery: [
       `${v.image}?auto=format&fit=crop&w=1200&q=80`,
     ],
-    description: `A reliable ${v.brand} ${v.name}, well maintained and ready for your next trip.`,
+    description: `A reliable ${v.name}, well maintained and ready for your next trip.`,
     features: shuffleAndTake(FEATURES_POOL, randomInt(3, 6)),
     rating: (4 + Math.random()).toFixed(1),
     review_count: randomInt(8, 240),

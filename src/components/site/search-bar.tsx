@@ -152,7 +152,7 @@ function RentalLeg({
 }) {
   return (
     <div className="flex flex-1 flex-col gap-(--space-sm) p-(--space-sm)">
-      <span className="text-sm font-semibold text-accent">{heading}</span>
+      <span className="text-sm font-semibold text-accent-text">{heading}</span>
       <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-3">
         <div className="flex flex-col gap-1">
           <span id={`${heading}-location-label`} className="text-xs font-medium text-muted-foreground">

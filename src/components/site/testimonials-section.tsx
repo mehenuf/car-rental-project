@@ -4,7 +4,6 @@ import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { Reveal } from "@/components/site/reveal";
 import { cn } from "@/lib/utils";
 
 interface Testimonial {
@@ -99,14 +98,14 @@ export function TestimonialsSection() {
 
   return (
     <section id="testimonials" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
-      <Reveal className="flex flex-col items-center gap-2 text-center">
+      <div className="flex flex-col items-center gap-2 text-center">
         <h2 className="font-heading text-3xl font-bold text-foreground">
           Trusted by Thousands of Happy Customers
         </h2>
         <p className="max-w-xl text-muted-foreground">
           Real stories from renters who booked their next trip with BestCar.
         </p>
-      </Reveal>
+      </div>
 
       <div className="relative mt-(--space-lg)">
         <div
@@ -120,7 +119,7 @@ export function TestimonialsSection() {
               className="w-full shrink-0 snap-start gap-3 p-(--space-md) shadow-card ring-0 sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.667rem)]"
             >
               <div className="flex items-center gap-3">
-                <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-accent/15 font-heading text-sm font-bold text-accent">
+                <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-accent/15 font-heading text-sm font-bold text-accent-text">
                   {initials(testimonial.name)}
                 </div>
                 <div className="flex flex-col">
@@ -128,7 +127,7 @@ export function TestimonialsSection() {
                   <span className="text-xs text-muted-foreground">{testimonial.location}</span>
                 </div>
               </div>
-              <div className="flex gap-0.5 text-accent">
+              <div className="flex gap-0.5 text-accent-text">
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}

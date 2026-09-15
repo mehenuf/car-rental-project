@@ -73,7 +73,7 @@ export function DataTable<T>({
                     <button
                       type="button"
                       onClick={() => onSortChange?.(col.key)}
-                      className="inline-flex items-center gap-1 font-medium text-foreground hover:text-accent"
+                      className="inline-flex items-center gap-1 font-medium text-foreground hover:text-accent-text"
                     >
                       {col.header}
                       <SortIcon active={sortBy === col.key} order={sortOrder} />

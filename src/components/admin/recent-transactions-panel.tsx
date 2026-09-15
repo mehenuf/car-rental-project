@@ -111,7 +111,7 @@ export function RecentTransactionsPanel({
           <span className="text-sm text-foreground capitalize">
             {row.payment_method?.replace("_", " ") ?? "-"}
           </span>
-          <span className="text-xs text-accent">#{row.reference}</span>
+          <span className="text-xs text-accent-text">#{row.reference}</span>
         </div>
       ),
     },
@@ -203,7 +203,7 @@ export function RecentTransactionsPanel({
                 <BookingStatusBadge status={row.status} />
               </div>
               <div className="flex items-center justify-between text-sm">
-                <span className="text-accent">#{row.reference}</span>
+                <span className="text-accent-text">#{row.reference}</span>
                 <span className="font-medium text-foreground">
                   {formatCurrency(row.total_amount)}
                 </span>

@@ -19,7 +19,7 @@ export default async function BookingConfirmationPage({
 
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center gap-(--space-md) px-(--space-sm) py-(--space-2xl) text-center">
-      <div className="flex size-16 items-center justify-center rounded-full bg-accent/10 text-accent">
+      <div className="flex size-16 items-center justify-center rounded-full bg-accent/10 text-accent-text">
         <Clock className="size-8" />
       </div>
       <div className="flex flex-col gap-2">
@@ -68,7 +68,7 @@ function Row({
       <span
         className={
           emphasize
-            ? "font-heading text-lg font-bold text-accent"
+            ? "font-heading text-lg font-bold text-accent-text"
             : "font-medium text-foreground"
         }
       >

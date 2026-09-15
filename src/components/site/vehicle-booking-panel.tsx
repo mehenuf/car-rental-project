@@ -189,7 +189,7 @@ export function VehicleBookingPanel({
         </div>
         <div className="flex items-center justify-between border-t border-border pt-(--space-sm)">
           <span className="font-heading text-base font-semibold text-foreground">Total</span>
-          <span className="font-heading text-xl font-bold text-accent">{formatCurrency(total)}</span>
+          <span className="font-heading text-xl font-bold text-accent-text">{formatCurrency(total)}</span>
         </div>
 
         <Button

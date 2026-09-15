@@ -42,7 +42,7 @@ export function SiteHeader() {
           href="/"
           className="flex shrink-0 items-center gap-2 font-heading text-lg font-bold text-foreground"
         >
-          <Car className="size-6 text-accent" />
+          <Car className="size-6 text-accent-text" />
           BestCar
         </Link>
 
@@ -119,7 +119,7 @@ export function SiteHeader() {
         <SheetContent side="right" className="flex w-72 flex-col">
           <SheetHeader>
             <SheetTitle className="flex items-center gap-2">
-              <Car className="size-6 text-accent" /> BestCar
+              <Car className="size-6 text-accent-text" /> BestCar
             </SheetTitle>
           </SheetHeader>
           <nav className="flex flex-col gap-1 px-4">

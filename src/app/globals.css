@@ -35,6 +35,12 @@
   --color-destructive: var(--destructive);
   --color-accent-foreground: var(--accent-foreground);
   --color-accent: var(--accent);
+  /* Gold used as plain TEXT (not a solid-fill background) needs its own,
+     darker value in light mode — the vivid gold used for buttons/badges
+     only clears ~1.8:1 as text against a near-white page, badly failing
+     WCAG AA. Dark mode's near-black background has no such problem, so
+     this equals --accent there. See the .dark / :root blocks below. */
+  --color-accent-text: var(--accent-text);
   --color-muted-foreground: var(--muted-foreground);
   --color-muted: var(--muted);
   --color-secondary-foreground: var(--secondary-foreground);
@@ -61,10 +67,12 @@
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
 
-  /* Brand navy, exposed directly for the few places that need the raw
-     brand color rather than a semantic role (e.g. gradients). */
-  --color-navy: var(--navy);
-  --color-navy-light: var(--navy-light);
+  /* Brand asphalt/gold, exposed directly for the few places that need the
+     raw brand color rather than a semantic role (e.g. gradients, scrims). */
+  --color-asphalt: var(--asphalt);
+  --color-asphalt-light: var(--asphalt-light);
+  --color-gold: var(--gold);
+  --color-gold-dark: var(--gold-dark);
 
   /* Shadows, tinted with the brand navy instead of pure black */
   --shadow-color: var(--shadow-tint);
@@ -78,25 +86,37 @@
 }
 
 :root {
-  /* ---- Brand palette ------------------------------------------------ */
-  --navy: oklch(0.26 0.06 265);
-  --navy-light: oklch(0.34 0.06 265);
-  --accent-orange: oklch(0.74 0.16 55);
-  --accent-orange-dark: oklch(0.65 0.18 50);
-  --page-bg: oklch(0.975 0.004 275);
+  /* ---- Brand palette: "Night Drive" ----------------------------------
+     Cool near-black asphalt as the structural color, warm headlight-gold
+     as the one accent. Light mode ("Daylight Drive") is a cool overcast
+     sky, not a warm cream — the brand accent is what carries warmth, not
+     the ground it sits on. */
+  --asphalt: oklch(0.22 0.02 255);
+  --asphalt-light: oklch(0.32 0.02 255);
+  --gold: oklch(0.78 0.15 80);
+  --gold-dark: oklch(0.68 0.16 72);
+  /* Text-safe gold for light mode: the vivid --gold above is for solid
+     fills (buttons/badges), not for rendering as plain text on the page
+     background — see the --color-accent-text comment above. */
+  --gold-text: oklch(0.5 0.16 72);
+  --page-bg: oklch(0.965 0.006 240);
   --surface: oklch(1 0 0);
 
-  --success: oklch(0.72 0.17 145);
-  /* Navy, not white — white-on-success/warning/accent measures ~2.3:1,
-     failing WCAG AA (needs 4.5:1) even for large text. Navy clears 6.5:1+
-     against all three, since they're all medium-light hues. */
-  --success-foreground: var(--navy);
-  --warning: oklch(0.74 0.16 55);
-  --warning-foreground: var(--navy);
+  --success: oklch(0.72 0.17 155);
+  /* Asphalt, not white — white-on-success/warning/info measures well under
+     WCAG AA's 4.5:1 even for large text, since all three are medium-light
+     hues by design (so a solid badge and its "text-on-tint" sibling can
+     share one value). Dark asphalt text clears 6.5:1+ against all three. */
+  --success-foreground: var(--asphalt);
+  /* A distinct hue from --gold (the brand accent) on purpose — a warning
+     badge sharing the accent's exact hue would read as "call to action,"
+     not "caution." */
+  --warning: oklch(0.72 0.17 45);
+  --warning-foreground: var(--asphalt);
   --info: oklch(0.62 0.19 255);
-  --info-foreground: var(--navy);
+  --info-foreground: var(--asphalt);
 
-  --shadow-tint: oklch(0.26 0.06 265 / 8%);
+  --shadow-tint: oklch(0.22 0.02 255 / 10%);
 
   /* ---- Spacing scale -------------------------------------------------
      Named, semantic spacing on top of Tailwind's numeric scale — use via
@@ -112,78 +132,81 @@
 
   /* ---- shadcn semantic roles ------------------------------------------ */
   --background: var(--page-bg);
-  --foreground: var(--navy);
+  --foreground: var(--asphalt);
   --card: var(--surface);
-  --card-foreground: var(--navy);
+  --card-foreground: var(--asphalt);
   --popover: var(--surface);
-  --popover-foreground: var(--navy);
-  --primary: var(--navy);
+  --popover-foreground: var(--asphalt);
+  --primary: var(--asphalt);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.95 0.006 275);
-  --secondary-foreground: var(--navy);
-  --muted: oklch(0.95 0.006 275);
-  --muted-foreground: oklch(0.52 0.02 270);
-  --accent: var(--accent-orange);
-  --accent-foreground: var(--navy);
+  --secondary: oklch(0.94 0.006 240);
+  --secondary-foreground: var(--asphalt);
+  --muted: oklch(0.94 0.006 240);
+  --muted-foreground: oklch(0.48 0.015 250);
+  --accent: var(--gold);
+  --accent-foreground: var(--asphalt);
+  --accent-text: var(--gold-text);
   /* 0.56, not the more common 0.6 — this color is used as text on the page
      background (destructive buttons/menu items are text-on-tint, not
      solid-fill), and 0.6 only cleared 4.08:1 against it, short of AA's
      4.5:1. 0.56 keeps the same hue/chroma and clears 4.8:1. */
   --destructive: oklch(0.56 0.21 25);
-  --border: oklch(0.9 0.008 275);
-  --input: oklch(0.9 0.008 275);
-  --ring: var(--accent-orange);
-  --chart-1: var(--accent-orange);
-  --chart-2: var(--navy);
+  --border: oklch(0.89 0.008 240);
+  --input: oklch(0.89 0.008 240);
+  --ring: var(--gold-dark);
+  --chart-1: var(--gold);
+  --chart-2: var(--asphalt);
   --chart-3: var(--info);
   --chart-4: var(--success);
-  --chart-5: oklch(0.7 0.02 270);
+  --chart-5: oklch(0.65 0.015 250);
   --radius: 0.85rem;
 
-  /* Dark navy sidebar, orange highlight for the active item */
-  --sidebar: var(--navy);
-  --sidebar-foreground: oklch(0.85 0.02 270);
-  --sidebar-primary: var(--accent-orange);
-  --sidebar-primary-foreground: var(--navy);
-  --sidebar-accent: var(--accent-orange);
-  --sidebar-accent-foreground: var(--navy);
+  /* Sidebar is always dark asphalt regardless of site theme — a deliberate
+     constant, the one surface that never changes character. */
+  --sidebar: oklch(0.13 0.015 255);
+  --sidebar-foreground: oklch(0.82 0.02 90);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: var(--asphalt);
+  --sidebar-accent: var(--gold);
+  --sidebar-accent-foreground: var(--asphalt);
   --sidebar-border: oklch(1 0 0 / 8%);
-  --sidebar-ring: var(--accent-orange);
+  --sidebar-ring: var(--gold);
 }
 
 .dark {
-  --background: oklch(0.16 0.02 270);
-  --foreground: oklch(0.96 0.006 270);
-  --card: oklch(0.2 0.02 270);
-  --card-foreground: oklch(0.96 0.006 270);
-  --popover: oklch(0.2 0.02 270);
-  --popover-foreground: oklch(0.96 0.006 270);
-  --primary: oklch(0.85 0.02 270);
-  --primary-foreground: var(--navy);
-  --secondary: oklch(0.27 0.02 270);
-  --secondary-foreground: oklch(0.96 0.006 270);
-  --muted: oklch(0.27 0.02 270);
-  --muted-foreground: oklch(0.7 0.02 270);
-  --accent: var(--accent-orange);
-  --accent-foreground: var(--navy);
+  --background: oklch(0.15 0.015 255);
+  --foreground: oklch(0.97 0.006 90);
+  --card: oklch(0.19 0.015 255);
+  --card-foreground: oklch(0.97 0.006 90);
+  --popover: oklch(0.19 0.015 255);
+  --popover-foreground: oklch(0.97 0.006 90);
+  --primary: oklch(0.95 0.006 90);
+  --primary-foreground: var(--asphalt);
+  --secondary: oklch(0.25 0.015 255);
+  --secondary-foreground: oklch(0.97 0.006 90);
+  --muted: oklch(0.25 0.015 255);
+  --muted-foreground: oklch(0.68 0.015 90);
+  --accent: var(--gold);
+  --accent-foreground: var(--asphalt);
+  --accent-text: var(--gold);
   --destructive: oklch(0.7 0.19 22);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);
-  --ring: var(--accent-orange);
-  --chart-1: var(--accent-orange);
-  --chart-2: oklch(0.85 0.02 270);
+  --ring: var(--gold);
+  --chart-1: var(--gold);
+  --chart-2: oklch(0.95 0.006 90);
   --chart-3: var(--info);
   --chart-4: var(--success);
-  --chart-5: oklch(0.6 0.02 270);
-  --shadow-tint: oklch(0 0 0 / 30%);
-  --sidebar: oklch(0.13 0.02 270);
-  --sidebar-foreground: oklch(0.85 0.02 270);
-  --sidebar-primary: var(--accent-orange);
-  --sidebar-primary-foreground: var(--navy);
-  --sidebar-accent: var(--accent-orange);
-  --sidebar-accent-foreground: var(--navy);
+  --chart-5: oklch(0.55 0.015 90);
+  --shadow-tint: oklch(0 0 0 / 45%);
+  --sidebar: oklch(0.11 0.015 255);
+  --sidebar-foreground: oklch(0.82 0.02 90);
+  --sidebar-primary: var(--gold);
+  --sidebar-primary-foreground: var(--asphalt);
+  --sidebar-accent: var(--gold);
+  --sidebar-accent-foreground: var(--asphalt);
   --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: var(--accent-orange);
+  --sidebar-ring: var(--gold);
 }
 
 @layer base {
@@ -204,6 +227,40 @@
   h6 {
     @apply font-heading;
   }
+}
+
+/* ---------------------------------------------------------------------
+   Signature motion: the hero's one authored entrance. Everything else on
+   the page uses ordinary transitions — this is the moment that earns
+   authorship, so it's the only place a bespoke keyframe animation lives.
+   ------------------------------------------------------------------- */
+@keyframes title-card-in {
+  from {
+    opacity: 0;
+    transform: translateY(28px) scale(1.015);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+.animate-title-card {
+  animation: title-card-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Theme every browser-native surface from the palette instead of leaving
+   OS defaults — selection, caret, and scrollbar are part of the design
+   system too, not chrome nobody drew. */
+::selection {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+
+html {
+  scrollbar-color: var(--muted-foreground) transparent;
 }
 
 /* Shorten, don't remove: animations/transitions still run (so anything
