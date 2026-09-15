@@ -92,7 +92,7 @@ export default function AdminLeadsPage() {
 
       <Card className="shadow-card ring-0">
         <CardHeader>
-          <CardTitle>All Leads (highest score first)</CardTitle>
+          <CardTitle as="h2">All Leads (highest score first)</CardTitle>
         </CardHeader>
         <CardContent>
           {error && <p className="mb-2 text-sm text-destructive">{error}</p>}

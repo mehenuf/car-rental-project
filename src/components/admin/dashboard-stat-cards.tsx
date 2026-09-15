@@ -100,7 +100,7 @@ function ChangeIndicator({ value }: { value: number | null }) {
       <span
         className={cn(
           "flex items-center gap-0.5 font-medium",
-          isUp ? "text-success" : "text-destructive"
+          isUp ? "text-success-text" : "text-destructive"
         )}
       >
         <Icon className="size-3.5" />

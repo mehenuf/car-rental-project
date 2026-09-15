@@ -214,9 +214,18 @@ export function VehicleBookingPanel({
           <form className="flex flex-col gap-(--space-sm)" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="b-name">Full name</Label>
-              <Input id="b-name" value={name} onChange={(e) => setName(e.target.value)} />
+              <Input
+                id="b-name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                required
+                aria-invalid={Boolean(fieldErrors.customer_name)}
+                aria-describedby={fieldErrors.customer_name ? "b-name-error" : undefined}
+              />
               {fieldErrors.customer_name && (
-                <p className="text-xs text-destructive">{fieldErrors.customer_name}</p>
+                <p id="b-name-error" role="alert" className="text-xs text-destructive">
+                  {fieldErrors.customer_name}
+                </p>
               )}
             </div>
             <div className="flex flex-col gap-1.5">
@@ -226,16 +235,38 @@ export function VehicleBookingPanel({
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                required
+                aria-invalid={Boolean(fieldErrors.email)}
+                aria-describedby={fieldErrors.email ? "b-email-error" : undefined}
               />
-              {fieldErrors.email && <p className="text-xs text-destructive">{fieldErrors.email}</p>}
+              {fieldErrors.email && (
+                <p id="b-email-error" role="alert" className="text-xs text-destructive">
+                  {fieldErrors.email}
+                </p>
+              )}
             </div>
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="b-phone">Phone (optional)</Label>
-              <Input id="b-phone" type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} />
-              {fieldErrors.phone && <p className="text-xs text-destructive">{fieldErrors.phone}</p>}
+              <Input
+                id="b-phone"
+                type="tel"
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                aria-invalid={Boolean(fieldErrors.phone)}
+                aria-describedby={fieldErrors.phone ? "b-phone-error" : undefined}
+              />
+              {fieldErrors.phone && (
+                <p id="b-phone-error" role="alert" className="text-xs text-destructive">
+                  {fieldErrors.phone}
+                </p>
+              )}
             </div>
 
-            {submitError && <p className="text-sm text-destructive">{submitError}</p>}
+            {submitError && (
+              <p role="alert" className="text-sm text-destructive">
+                {submitError}
+              </p>
+            )}
 
             <DialogFooter className="-mx-4 -mb-4">
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>

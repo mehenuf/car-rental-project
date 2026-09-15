@@ -1,12 +1,28 @@
 import { notFound } from "next/navigation";
 import { Check, Cog, DoorOpen, Fuel as FuelIcon, Star, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
+import type { Metadata } from "next";
 import { getVehicleBySlug, getVehicles } from "@/lib/queries";
 import { Badge } from "@/components/ui/badge";
 import { VehicleGallery } from "@/components/site/vehicle-gallery";
 import { VehicleBookingPanel } from "@/components/site/vehicle-booking-panel";
 import { VehicleCard } from "@/components/site/vehicle-card";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
+}): Promise<Metadata> {
+  const { slug } = await params;
+  const vehicle = await getVehicleBySlug(slug);
+  if (!vehicle) return {};
+
+  return {
+    title: `${vehicle.name} — ${vehicle.brand}`,
+    description: `Rent the ${vehicle.name} from ${vehicle.brand}. ${vehicle.category} category, rated ${vehicle.rating.toFixed(1)}/5 from ${vehicle.review_count} reviews.`,
+  };
+}
 
 export default async function VehicleDetailPage({
   params,

@@ -21,6 +21,38 @@ import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { initialsFor } from "@/lib/format";
 
+function AccountMenu({
+  displayName,
+  isAdmin,
+  onLogout,
+}: {
+  displayName: string;
+  isAdmin: boolean;
+  onLogout: () => void;
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={<button type="button" className="rounded-full" aria-label="Account menu" />}
+      >
+        <Avatar>
+          <AvatarFallback>{initialsFor(displayName || "?")}</AvatarFallback>
+        </Avatar>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>{displayName}</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem render={<Link href={isAdmin ? "/admin" : "/dashboard"} />}>
+          <LayoutDashboard /> {isAdmin ? "Admin Dashboard" : "My Bookings"}
+        </DropdownMenuItem>
+        <DropdownMenuItem variant="destructive" onClick={onLogout}>
+          Log out
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const router = useRouter();
@@ -46,7 +78,7 @@ export function SiteHeader() {
           BestCar
         </Link>
 
-        <nav className="ml-6 hidden items-center gap-6 lg:flex">
+        <nav className="ml-4 hidden items-center gap-4 md:flex lg:ml-6 lg:gap-6">
           {SITE_NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -58,6 +90,10 @@ export function SiteHeader() {
           ))}
         </nav>
 
+        {/* Full auth actions (text links + both CTAs) only fit from lg up —
+            below that, the compact tablet block right after this one covers
+            md-lg with a single CTA instead of leaving a hamburger-only dead
+            zone despite there being room for the nav. */}
         <div className="ml-auto hidden items-center gap-2 lg:flex">
           <ThemeToggle />
           {!loading && !user && (
@@ -78,29 +114,23 @@ export function SiteHeader() {
           )}
 
           {user && (
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={<button type="button" className="rounded-full" aria-label="Account menu" />}
-              >
-                <Avatar>
-                  <AvatarFallback>{initialsFor(displayName || "?")}</AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>{displayName}</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                <DropdownMenuItem render={<Link href={isAdmin ? "/admin" : "/dashboard"} />}>
-                  <LayoutDashboard /> {isAdmin ? "Admin Dashboard" : "My Bookings"}
-                </DropdownMenuItem>
-                <DropdownMenuItem variant="destructive" onClick={handleLogout}>
-                  Log out
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <AccountMenu displayName={displayName} isAdmin={isAdmin} onLogout={handleLogout} />
           )}
         </div>
 
-        <div className="ml-auto flex items-center gap-1 lg:hidden">
+        <div className="ml-auto hidden items-center gap-2 md:flex lg:hidden">
+          <ThemeToggle />
+          {!loading && !user && (
+            <Link href="/login" className={buttonVariants({ size: "sm" })}>
+              Log In
+            </Link>
+          )}
+          {user && (
+            <AccountMenu displayName={displayName} isAdmin={isAdmin} onLogout={handleLogout} />
+          )}
+        </div>
+
+        <div className="ml-auto flex items-center gap-1 md:hidden">
           <ThemeToggle className="size-11" />
           <Button
             type="button"

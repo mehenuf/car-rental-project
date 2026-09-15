@@ -134,7 +134,7 @@ export function RecentTransactionsPanel({
   return (
     <Card className="shadow-card ring-0">
       <CardHeader>
-        <CardTitle>Recent Transactions</CardTitle>
+        <CardTitle as="h2">Recent Transactions</CardTitle>
         <CardAction>
           <Select
             value={status}

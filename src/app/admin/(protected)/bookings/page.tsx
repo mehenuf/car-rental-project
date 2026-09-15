@@ -40,8 +40,8 @@ const PAGE_SIZE = 10;
 type SortBy = "created_at" | "total_amount" | "pickup_at";
 
 const STATUS_TRIGGER_STYLES: Record<BookingStatus, string> = {
-  success: "border-success/30 bg-success/10 text-success",
-  pending: "border-info/30 bg-info/10 text-info",
+  success: "border-success/30 bg-success/10 text-success-text",
+  pending: "border-info/30 bg-info/10 text-info-text",
   cancelled: "border-destructive/30 bg-destructive/10 text-destructive",
 };
 
@@ -221,7 +221,7 @@ export default function AdminBookingsPage() {
 
       <Card className="shadow-card ring-0">
         <CardHeader className="flex flex-col items-stretch gap-(--space-xs) xl:flex-row xl:items-center xl:justify-between">
-          <CardTitle>All Bookings</CardTitle>
+          <CardTitle as="h2">All Bookings</CardTitle>
           <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             <Input
               placeholder="Search by customer or reference"

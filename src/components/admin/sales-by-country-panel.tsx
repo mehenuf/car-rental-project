@@ -42,7 +42,7 @@ export function SalesByCountryPanel({
   return (
     <Card className="shadow-card ring-0">
       <CardHeader>
-        <CardTitle>Sales by Countries</CardTitle>
+        <CardTitle as="h2">Sales by Countries</CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-(--space-sm)">
         {error && <p className="text-sm text-destructive">{error}</p>}
@@ -92,7 +92,7 @@ function ChangeLine({ value }: { value: number | null }) {
       <span
         className={cn(
           "flex items-center gap-0.5 font-medium",
-          isUp ? "text-success" : "text-destructive"
+          isUp ? "text-success-text" : "text-destructive"
         )}
       >
         <Icon className="size-4" />

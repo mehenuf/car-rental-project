@@ -188,7 +188,7 @@ export default function AdminVehiclesPage() {
         <Badge
           className={
             row.available
-              ? "border-0 bg-success/15 text-success"
+              ? "border-0 bg-success/15 text-success-text"
               : "border-0 bg-muted text-muted-foreground"
           }
         >
@@ -239,7 +239,7 @@ export default function AdminVehiclesPage() {
 
       <Card className="shadow-card ring-0">
         <CardHeader className="flex flex-col items-stretch gap-(--space-xs) sm:flex-row sm:items-center sm:justify-between">
-          <CardTitle>All Vehicles</CardTitle>
+          <CardTitle as="h2">All Vehicles</CardTitle>
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
               placeholder="Search by name, brand, or slug"

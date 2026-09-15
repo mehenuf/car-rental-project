@@ -32,7 +32,7 @@ export function BestSellerPanel({
   return (
     <Card className="shadow-card ring-0">
       <CardHeader>
-        <CardTitle>Best Seller</CardTitle>
+        <CardTitle as="h2">Best Seller</CardTitle>
         <CardAction>
           <Link href="/admin/vehicles" className={buttonVariants({ variant: "outline", size: "sm" })}>
             View All

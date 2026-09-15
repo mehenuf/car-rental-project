@@ -21,8 +21,12 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "BestCar Admin",
-  description: "Car rental admin dashboard",
+  title: {
+    template: "%s | BestCar",
+    default: "BestCar — Rent a Car in Minutes",
+  },
+  description:
+    "Book a rental car in minutes. No account required, transparent pricing, pick-up points across the country.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

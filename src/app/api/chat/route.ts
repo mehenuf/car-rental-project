@@ -48,8 +48,15 @@ function isRateLimited(visitorId: string): boolean {
 }
 
 function getVisitorId(request: NextRequest): string {
+  // The FIRST entry in x-forwarded-for is whatever the client itself sent —
+  // trivially spoofable to dodge rate limiting. The LAST entry is the one
+  // our own edge/proxy appended after seeing the real socket, so it's the
+  // only hop in the chain a client can't forge.
   const forwardedFor = request.headers.get("x-forwarded-for");
-  if (forwardedFor) return forwardedFor.split(",")[0].trim();
+  if (forwardedFor) {
+    const hops = forwardedFor.split(",");
+    return hops[hops.length - 1].trim();
+  }
   return request.headers.get("x-real-ip") ?? "unknown";
 }
 

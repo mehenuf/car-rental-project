@@ -258,7 +258,7 @@ export function ChatWidget() {
         >
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-(--space-sm)">
             <span id="chat-widget-title" className="font-heading text-base font-semibold text-foreground">
-              Best Auto Assistant
+              BestCar Assistant
             </span>
             <button
               type="button"

@@ -1,10 +1,13 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Clock } from "lucide-react";
+import type { Metadata } from "next";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { getBookingByReference } from "@/lib/queries";
+
+export const metadata: Metadata = { title: "Booking Confirmed" };
 
 export default async function BookingConfirmationPage({
   searchParams,

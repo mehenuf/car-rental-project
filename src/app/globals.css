@@ -62,10 +62,13 @@
   /* Status colors — used by badges, arrows, chart accents */
   --color-success: var(--success);
   --color-success-foreground: var(--success-foreground);
+  --color-success-text: var(--success-text);
   --color-warning: var(--warning);
   --color-warning-foreground: var(--warning-foreground);
+  --color-warning-text: var(--warning-text);
   --color-info: var(--info);
   --color-info-foreground: var(--info-foreground);
+  --color-info-text: var(--info-text);
 
   /* Brand asphalt/gold, exposed directly for the few places that need the
      raw brand color rather than a semantic role (e.g. gradients, scrims). */
@@ -108,13 +111,23 @@
      hues by design (so a solid badge and its "text-on-tint" sibling can
      share one value). Dark asphalt text clears 6.5:1+ against all three. */
   --success-foreground: var(--asphalt);
+  /* Same story as --gold-text: the vivid --success/--warning/--info above
+     are for solid fills and tinted badge backgrounds, not for rendering as
+     plain text on the page — at full brightness they clear only ~2-3.3:1
+     as text, short of AA's 4.5:1. These darker siblings are for text (icon
+     + label combos on bg-success/15 etc.) in light mode; dark mode's
+     near-black background has no such problem, so they equal the base
+     color there. See the .dark block below. */
+  --success-text: oklch(0.48 0.17 155);
   /* A distinct hue from --gold (the brand accent) on purpose — a warning
      badge sharing the accent's exact hue would read as "call to action,"
      not "caution." */
   --warning: oklch(0.72 0.17 45);
   --warning-foreground: var(--asphalt);
+  --warning-text: oklch(0.52 0.17 45);
   --info: oklch(0.62 0.19 255);
   --info-foreground: var(--asphalt);
+  --info-text: oklch(0.48 0.19 255);
 
   --shadow-tint: oklch(0.22 0.02 255 / 10%);
 
@@ -153,7 +166,11 @@
   --destructive: oklch(0.56 0.21 25);
   --border: oklch(0.89 0.008 240);
   --input: oklch(0.89 0.008 240);
-  --ring: var(--gold-dark);
+  /* --gold-dark's full-strength contrast (2.68-2.96:1) already misses the
+     3:1 AA minimum for a non-text focus indicator against this light page
+     — --gold-text (built for the same "too vivid to read against light
+     backgrounds" problem) clears 5.5-6.2:1 instead. */
+  --ring: var(--gold-text);
   --chart-1: var(--gold);
   --chart-2: var(--asphalt);
   --chart-3: var(--info);
@@ -189,6 +206,9 @@
   --accent: var(--gold);
   --accent-foreground: var(--asphalt);
   --accent-text: var(--gold);
+  --success-text: var(--success);
+  --warning-text: var(--warning);
+  --info-text: var(--info);
   --destructive: oklch(0.7 0.19 22);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);

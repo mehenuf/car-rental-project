@@ -11,8 +11,8 @@ import type { Tables } from "@/types/database";
 
 /** Green ≥70, amber 40-69, grey below 40. Shared with the /admin/leads page. */
 export function leadScoreBadgeClass(score: number): string {
-  if (score >= 70) return "border-success/30 bg-success/10 text-success";
-  if (score >= 40) return "border-warning/30 bg-warning/10 text-warning";
+  if (score >= 70) return "border-success/30 bg-success/10 text-success-text";
+  if (score >= 40) return "border-warning/30 bg-warning/10 text-warning-text";
   return "border-border bg-muted text-muted-foreground";
 }
 
@@ -36,7 +36,7 @@ export function LeadQualityPanel({ refreshKey }: { refreshKey: number }) {
   return (
     <Card className="shadow-card ring-0">
       <CardHeader>
-        <CardTitle>Lead Quality</CardTitle>
+        <CardTitle as="h2">Lead Quality</CardTitle>
         <CardAction>
           <Link href="/admin/leads" className={buttonVariants({ variant: "outline", size: "sm" })}>
             View All

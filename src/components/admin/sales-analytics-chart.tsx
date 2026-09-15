@@ -80,7 +80,7 @@ export function SalesAnalyticsChart({
   return (
     <Card className="shadow-card ring-0">
       <CardHeader>
-        <CardTitle>Sales Analytics</CardTitle>
+        <CardTitle as="h2">Sales Analytics</CardTitle>
         <CardAction>
           <Select value={String(year)} onValueChange={(value) => setYear(Number(value))}>
             <SelectTrigger size="sm" className="w-24">
