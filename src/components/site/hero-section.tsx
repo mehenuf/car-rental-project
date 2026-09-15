@@ -1,27 +1,21 @@
 import Link from "next/link";
-import Image from "next/image";
 import { Star } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { HeroParallaxBackground } from "@/components/site/hero-parallax-background";
 
 export function HeroSection() {
   return (
     <section className="relative flex min-h-[92dvh] flex-col overflow-hidden bg-background sm:min-h-[85dvh]">
-      <div className="absolute inset-0">
-        <Image
-          src="https://images.unsplash.com/photo-1633121945200-05b2a267caee?auto=format&fit=crop&w=2400&q=80"
-          alt=""
-          fill
-          sizes="100vw"
-          priority
-          className="object-cover"
-        />
-        {/* Scrim: asphalt-dark at the edges where text and controls sit,
-            clear over the middle of the frame where the light trails read. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/10" />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/40 to-transparent" />
-      </div>
+      <HeroParallaxBackground />
 
-      <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-center px-(--space-sm) pt-20">
+      {/* justify-end + a fixed bottom padding (not justify-center) is
+          deliberate: content anchored a fixed distance from the section's
+          bottom edge always clears the search bar's negative-margin
+          overlap below it, regardless of exact viewport height. Centering
+          this content instead left inconsistent, sometimes-zero clearance
+          on short/wide viewports, where the trust badge could collide with
+          the search bar. */}
+      <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end px-(--space-sm) pt-20 pb-24 sm:pb-28">
         <div className="animate-title-card flex max-w-2xl flex-col gap-(--space-sm)">
           <h1 className="font-heading text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl">
             Rent the road
