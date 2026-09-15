@@ -1,14 +1,16 @@
 "use client";
 
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useLayoutEffect, useRef, useState, type ReactNode } from "react";
 import { cn } from "@/lib/utils";
 
 /**
  * Progressive-enhancement scroll reveal: fades/slides content in once it
- * enters the viewport. Starts fully visible on the server and during the
- * first paint, so content is never hidden from anyone without JS or before
- * hydration; the hidden state is only applied client-side, right before the
- * element is observed, avoiding a flash of un-animated content on scroll.
+ * enters the viewport. Renders fully visible on the server and on first
+ * paint; the hidden pre-reveal state is only applied client-side inside
+ * `useLayoutEffect` (which runs before the browser paints), and only for
+ * elements confirmed to be off-screen at that moment. This means content
+ * already in the viewport on load is never hidden even for a single frame,
+ * and content without JS is never hidden at all.
  * `prefers-reduced-motion` is handled globally in globals.css (collapses
  * the transition duration to near-zero), so no extra check is needed here.
  */
@@ -22,17 +24,17 @@ export function Reveal({
   delayMs?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const [ready, setReady] = useState(false); // client mounted, IO attached
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const el = ref.current;
-    if (!el || typeof IntersectionObserver === "undefined") {
-      setVisible(true);
-      return;
-    }
+    if (!el || typeof IntersectionObserver === "undefined") return;
 
-    setReady(true);
+    const rect = el.getBoundingClientRect();
+    const alreadyInView = rect.top < window.innerHeight && rect.bottom > 0;
+    if (alreadyInView) return; // stays visible, no animation needed
+
+    setVisible(false);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -52,7 +54,7 @@ export function Reveal({
       style={delayMs ? { transitionDelay: `${delayMs}ms` } : undefined}
       className={cn(
         "transition-[opacity,transform] duration-700 ease-out",
-        ready && !visible ? "translate-y-6 opacity-0" : "translate-y-0 opacity-100",
+        visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0",
         className
       )}
     >

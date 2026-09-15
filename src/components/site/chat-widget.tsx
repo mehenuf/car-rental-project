@@ -79,14 +79,21 @@ export function ChatWidget() {
   // land on top of a page's own call-to-action (e.g. "Book Now" on a vehicle
   // page). A page opts an element out of that overlap with `data-chat-avoid`;
   // we fade the launcher out while it would otherwise cover one.
+  //
+  // Checked every animation frame rather than on scroll/resize events: a
+  // web-font swap or an async layout shift that doesn't change the page's
+  // total height (both common — e.g. font loading nudges a heading's line
+  // height without changing document height) would otherwise go undetected
+  // and leave the launcher sitting on top of real content indefinitely. A
+  // few `getBoundingClientRect()` reads per frame against a handful of
+  // elements is negligible, and only runs while the launcher is closed.
   useEffect(() => {
     if (open) return;
     const launcher = launcherRef.current;
     if (!launcher) return;
 
-    let frame = 0;
-    function updateBlocked() {
-      frame = 0;
+    let raf = 0;
+    function tick() {
       const launcherRect = launcher!.getBoundingClientRect();
       const blocked = Array.from(
         document.querySelectorAll<HTMLElement>("[data-chat-avoid]")
@@ -99,27 +106,11 @@ export function ChatWidget() {
           launcherRect.bottom > r.top
         );
       });
-      setLauncherBlocked(blocked);
+      setLauncherBlocked((prev) => (prev === blocked ? prev : blocked));
+      raf = requestAnimationFrame(tick);
     }
-    function scheduleUpdate() {
-      if (frame) return;
-      frame = requestAnimationFrame(updateBlocked);
-    }
-
-    updateBlocked();
-    window.addEventListener("scroll", scheduleUpdate, { passive: true });
-    window.addEventListener("resize", scheduleUpdate);
-    // Catches layout shifts scroll/resize miss entirely, e.g. an image or
-    // web font finishing its load and reflowing an avoided element into
-    // (or out of) the launcher's corner without the page itself scrolling.
-    const resizeObserver = new ResizeObserver(scheduleUpdate);
-    resizeObserver.observe(document.documentElement);
-    return () => {
-      if (frame) cancelAnimationFrame(frame);
-      resizeObserver.disconnect();
-      window.removeEventListener("scroll", scheduleUpdate);
-      window.removeEventListener("resize", scheduleUpdate);
-    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [open]);
 
   async function sendMessage(text: string) {
@@ -244,7 +235,7 @@ export function ChatWidget() {
           aria-hidden={launcherBlocked}
           tabIndex={launcherBlocked ? -1 : 0}
           className={cn(
-            "fixed bottom-6 left-6 z-50 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-[opacity,transform] hover:scale-105",
+            "fixed right-6 bottom-6 z-50 flex size-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-[opacity,transform] hover:scale-105",
             launcherBlocked ? "pointer-events-none opacity-0" : "opacity-100"
           )}
         >
@@ -263,7 +254,7 @@ export function ChatWidget() {
           role="dialog"
           aria-modal="false"
           aria-labelledby="chat-widget-title"
-          className="fixed inset-0 z-50 flex flex-col bg-card sm:inset-auto sm:bottom-6 sm:left-6 sm:h-[600px] sm:w-96 sm:rounded-2xl sm:border sm:border-border sm:shadow-xl"
+          className="fixed inset-0 z-50 flex flex-col bg-card sm:inset-auto sm:right-6 sm:bottom-6 sm:h-[600px] sm:w-96 sm:rounded-2xl sm:border sm:border-border sm:shadow-xl"
         >
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-(--space-sm)">
             <span id="chat-widget-title" className="font-heading text-base font-semibold text-foreground">

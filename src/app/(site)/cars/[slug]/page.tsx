@@ -54,7 +54,10 @@ export default async function VehicleDetailPage({
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-(--space-sm) rounded-xl border border-border p-(--space-sm) sm:grid-cols-4">
+            <div
+              data-chat-avoid
+              className="grid grid-cols-2 gap-(--space-sm) rounded-xl border border-border p-(--space-sm) sm:grid-cols-4"
+            >
               <Spec icon={Users} label="Seats" value={String(vehicle.seats)} />
               <Spec icon={DoorOpen} label="Doors" value={String(vehicle.doors)} />
               <Spec icon={Cog} label="Transmission" value={vehicle.transmission} />

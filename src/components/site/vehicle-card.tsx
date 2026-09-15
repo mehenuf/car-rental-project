@@ -46,7 +46,7 @@ export function VehicleCard({ vehicle }: { vehicle: Tables<"vehicles"> }) {
         />
       </Link>
 
-      <div className="flex items-center justify-between gap-2 p-(--space-sm)">
+      <div data-chat-avoid className="flex items-center justify-between gap-2 p-(--space-sm)">
         <span className="font-heading text-lg font-bold text-foreground">
           {formatCurrency(vehicle.price_per_day)}
           <span className="text-sm font-normal text-muted-foreground">/day</span>
