@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 interface Testimonial {
   name: string;
@@ -98,14 +99,14 @@ export function TestimonialsSection() {
 
   return (
     <section id="testimonials" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
-      <div className="flex flex-col items-center gap-2 text-center">
+      <ScrollReveal className="flex flex-col items-center gap-2 text-center" delay={0.1}>
         <h2 className="font-heading text-3xl font-bold text-foreground">
           Trusted by Thousands of Happy Customers
         </h2>
         <p className="max-w-xl text-muted-foreground">
           Real stories from renters who booked their next trip with BestCar.
         </p>
-      </div>
+      </ScrollReveal>
 
       <div className="relative mt-(--space-lg)">
         <div

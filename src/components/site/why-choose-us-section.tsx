@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BadgeCheck, Headset, MapPinned } from "lucide-react";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 const FEATURES = [
   {
@@ -24,7 +25,10 @@ export function WhyChooseUsSection() {
   return (
     <section id="why-choose-us" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
       <div className="grid grid-cols-1 items-center gap-(--space-xl) lg:grid-cols-2">
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-card">
+        <ScrollReveal
+          y={28}
+          className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-card"
+        >
           <Image
             src="https://images.unsplash.com/photo-1608142129869-8bc08524503a?auto=format&fit=crop&w=1200&q=80"
             alt="City street at night with a car driving toward the skyline"
@@ -32,20 +36,24 @@ export function WhyChooseUsSection() {
             sizes="(min-width: 1024px) 500px, 90vw"
             className="object-cover"
           />
-        </div>
+        </ScrollReveal>
 
         <div className="flex flex-col gap-(--space-md)">
-          <div className="flex flex-col gap-2">
+          <ScrollReveal className="flex flex-col gap-2">
             <h2 className="font-heading text-3xl font-bold text-foreground">Why Choose Us</h2>
             <p className="max-w-md text-muted-foreground">
               A high-performing car rental service built around convenience, transparency, and
               reliability.
             </p>
-          </div>
+          </ScrollReveal>
 
           <div className="flex flex-col gap-(--space-md)">
-            {FEATURES.map((feature) => (
-              <div key={feature.title} className="flex items-start gap-4">
+            {FEATURES.map((feature, index) => (
+              <ScrollReveal
+                key={feature.title}
+                delay={index * 0.12}
+                className="flex items-start gap-4"
+              >
                 <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent-text">
                   <feature.icon className="size-5" />
                 </div>
@@ -55,7 +63,7 @@ export function WhyChooseUsSection() {
                   </h3>
                   <p className="text-sm text-muted-foreground">{feature.description}</p>
                 </div>
-              </div>
+              </ScrollReveal>
             ))}
           </div>
         </div>

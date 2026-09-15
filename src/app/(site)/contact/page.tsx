@@ -1,4 +1,5 @@
 import { Mail, MessageCircle, Phone } from "lucide-react";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 export const metadata = { title: "Contact Us" };
 
@@ -23,7 +24,7 @@ const CHANNELS = [
 export default function ContactPage() {
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-(--space-lg) px-(--space-sm) py-(--space-2xl)">
-      <div className="flex flex-col gap-(--space-2xs) text-center">
+      <ScrollReveal className="flex flex-col gap-(--space-2xs) text-center">
         <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
           Get in touch
         </h1>
@@ -31,11 +32,15 @@ export default function ContactPage() {
           Questions about a booking, a vehicle, or your account? Reach us through any of the
           channels below.
         </p>
-      </div>
+      </ScrollReveal>
 
       <div className="flex flex-col divide-y divide-border border-t border-border">
-        {CHANNELS.map(({ icon: Icon, title, body }) => (
-          <div key={title} className="flex items-center gap-4 py-(--space-md)">
+        {CHANNELS.map(({ icon: Icon, title, body }, index) => (
+          <ScrollReveal
+            key={title}
+            className="flex items-center gap-4 py-(--space-md)"
+            delay={index * 0.1}
+          >
             <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent-text">
               <Icon className="size-5" aria-hidden />
             </div>
@@ -43,7 +48,7 @@ export default function ContactPage() {
               <h2 className="font-heading text-sm font-semibold text-foreground">{title}</h2>
               <p className="text-sm text-muted-foreground">{body}</p>
             </div>
-          </div>
+          </ScrollReveal>
         ))}
       </div>
     </div>

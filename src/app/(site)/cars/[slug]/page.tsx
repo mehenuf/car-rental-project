@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { VehicleGallery } from "@/components/site/vehicle-gallery";
 import { VehicleBookingPanel } from "@/components/site/vehicle-booking-panel";
 import { VehicleCard } from "@/components/site/vehicle-card";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 export default async function VehicleDetailPage({
   params,
@@ -69,7 +70,7 @@ export default async function VehicleDetailPage({
             )}
 
             {vehicle.features.length > 0 && (
-              <div className="flex flex-col gap-2">
+              <ScrollReveal className="flex flex-col gap-2" delay={0.12}>
                 <h2 className="font-heading text-lg font-semibold text-foreground">Features</h2>
                 <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {vehicle.features.map((feature) => (
@@ -79,7 +80,7 @@ export default async function VehicleDetailPage({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </ScrollReveal>
             )}
           </div>
         </div>
@@ -94,14 +95,14 @@ export default async function VehicleDetailPage({
       </div>
 
       {similar.length > 0 && (
-        <div className="mt-(--space-xl) flex flex-col gap-(--space-md)">
+        <ScrollReveal className="mt-(--space-xl) flex flex-col gap-(--space-md)" delay={0.2}>
           <h2 className="font-heading text-2xl font-bold text-foreground">Similar Vehicles</h2>
           <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-2 lg:grid-cols-3">
             {similar.map((v) => (
               <VehicleCard key={v.id} vehicle={v} />
             ))}
           </div>
-        </div>
+        </ScrollReveal>
       )}
     </div>
   );

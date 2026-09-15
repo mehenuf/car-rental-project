@@ -1,4 +1,5 @@
 import { CalendarDays, Car, MapPin } from "lucide-react";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 const STEPS = [
   {
@@ -21,9 +22,11 @@ const STEPS = [
 export function HowItWorksSection() {
   return (
     <section id="how-it-works" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
-      <h2 className="max-w-md font-heading text-3xl font-bold text-foreground">
-        Renting a car with us takes three simple steps, from picking a location to driving away.
-      </h2>
+      <ScrollReveal className="max-w-md font-heading text-3xl font-bold text-foreground">
+        <h2>
+          Renting a car with us takes three simple steps, from picking a location to driving away.
+        </h2>
+      </ScrollReveal>
 
       <div className="relative mt-(--space-xl)">
         {/* The road: a solid shoulder line top and bottom, a dashed lane
@@ -39,7 +42,11 @@ export function HowItWorksSection() {
 
         <div className="relative grid grid-cols-1 gap-(--space-lg) md:grid-cols-3">
           {STEPS.map((step, i) => (
-            <div key={step.title} className="flex flex-col items-center gap-3 text-center">
+            <ScrollReveal
+              key={step.title}
+              className="flex flex-col items-center gap-3 text-center"
+              delay={[0, 0.12, 0.24][i]}
+            >
               <div className="relative flex size-16 items-center justify-center rounded-full bg-card text-accent-text ring-1 ring-border">
                 <step.icon className="size-7" />
                 <span className="absolute -top-1.5 -right-1.5 flex size-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
@@ -48,7 +55,7 @@ export function HowItWorksSection() {
               </div>
               <h3 className="font-heading text-lg font-semibold text-foreground">{step.title}</h3>
               <p className="max-w-xs text-sm text-muted-foreground">{step.description}</p>
-            </div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

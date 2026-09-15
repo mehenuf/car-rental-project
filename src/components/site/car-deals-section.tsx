@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { VehicleCard } from "@/components/site/vehicle-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -82,14 +83,14 @@ export function CarDealsSection() {
 
   return (
     <section id="rental-deals" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
-      <div className="flex flex-col items-center gap-2 text-center">
+      <ScrollReveal className="flex flex-col items-center gap-2 text-center" delay={0.1}>
         <h2 className="font-heading text-3xl font-bold text-foreground">
           Most Popular Car Rental Deals
         </h2>
         <p className="max-w-xl text-muted-foreground">
           A well-maintained fleet ready to book for any trip, short or long.
         </p>
-      </div>
+      </ScrollReveal>
 
       <div className="mt-(--space-md) flex items-center justify-center gap-6 border-b border-border">
         {TABS.map((tab) => (
