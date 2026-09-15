@@ -1,7 +1,7 @@
 import "server-only";
 import { randomBytes } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase-server";
-import { NotFoundError } from "@/lib/errors";
+import { ConflictError, NotFoundError } from "@/lib/errors";
 import type {
   BookingStatus,
   Fuel,
@@ -361,12 +361,15 @@ export async function createBooking(
 
   const { data: vehicle, error: vehicleError } = await supabaseAdmin
     .from("vehicles")
-    .select("price_per_day")
+    .select("price_per_day, stock, available")
     .eq("id", data.vehicle_id)
     .maybeSingle();
 
   if (vehicleError) throw new Error(`createBooking: ${vehicleError.message}`);
   if (!vehicle) throw new NotFoundError(`Vehicle ${data.vehicle_id} not found`);
+  if (!vehicle.available || vehicle.stock <= 0) {
+    throw new ConflictError("This vehicle is no longer available for booking.");
+  }
 
   const days = daysBetween(data.pickup_at, data.dropoff_at);
   const totalAmount = Math.round(vehicle.price_per_day * days * 100) / 100;
@@ -384,7 +387,61 @@ export async function createBooking(
     .single();
 
   if (error) throw new Error(`createBooking: ${error.message}`);
+
+  // Best-effort stock decrement. Races between two concurrent bookings for
+  // the last unit can both pass the check above, but the RPC below floors
+  // at 0 rather than going negative, and a missed decrement only ever
+  // under-books (never sells a car that was already fully booked), so this
+  // is deliberately not wrapped in a transaction with the insert.
+  const nextStock = Math.max(0, vehicle.stock - 1);
+  await supabaseAdmin
+    .from("vehicles")
+    .update({ stock: nextStock, available: nextStock > 0 })
+    .eq("id", data.vehicle_id);
+
   return booking;
+}
+
+// ---------------------------------------------------------------
+// getBookingByReference — used by the booking-confirmation page so it
+// renders real, server-verified data instead of trusting URL query params.
+// ---------------------------------------------------------------
+
+export async function getBookingByReference(
+  reference: string
+): Promise<BookingWithVehicle | null> {
+  const { data, error } = await supabaseAdmin
+    .from("bookings")
+    .select("*, vehicle:vehicles(name, image_url)")
+    .eq("reference", reference)
+    .maybeSingle();
+
+  if (error) throw new Error(`getBookingByReference: ${error.message}`);
+  return data ?? null;
+}
+
+// ---------------------------------------------------------------
+// getBookingsForIdentity — "my bookings" for the guest cookie / signed-in
+// customer. Powers /dashboard and the booking form's contact pre-fill.
+// ---------------------------------------------------------------
+
+export async function getBookingsForIdentity(identity: {
+  userId?: string | null;
+  guestId?: string | null;
+}): Promise<BookingWithVehicle[]> {
+  const { userId, guestId } = identity;
+  if (!userId && !guestId) return [];
+
+  let query = supabaseAdmin
+    .from("bookings")
+    .select("*, vehicle:vehicles(name, image_url)")
+    .order("created_at", { ascending: false });
+
+  query = userId ? query.eq("user_id", userId) : query.eq("guest_id", guestId!);
+
+  const { data, error } = await query;
+  if (error) throw new Error(`getBookingsForIdentity: ${error.message}`);
+  return data ?? [];
 }
 
 // ---------------------------------------------------------------

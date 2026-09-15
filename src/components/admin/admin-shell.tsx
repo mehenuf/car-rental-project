@@ -10,11 +10,11 @@ export function AdminShell({ children }: { children: ReactNode }) {
   const [mobileNavOpen, setMobileNavOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen w-full bg-background">
+    <div className="flex min-h-[100dvh] w-full bg-background">
       <AdminSidebar />
       <AdminMobileSidebar open={mobileNavOpen} onOpenChange={setMobileNavOpen} />
 
-      <div className="flex min-h-screen min-w-0 flex-1 flex-col">
+      <div className="flex min-h-[100dvh] min-w-0 flex-1 flex-col">
         <AdminTopbar onMenuClick={() => setMobileNavOpen(true)} />
         <main className="min-w-0 flex-1 p-(--space-sm) lg:p-(--space-md)">{children}</main>
         <AdminFooter />

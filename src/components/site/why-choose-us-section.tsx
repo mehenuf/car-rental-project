@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { BadgeCheck, Headset, MapPinned } from "lucide-react";
+import { Reveal } from "@/components/site/reveal";
 
 const FEATURES = [
   {
@@ -24,7 +25,7 @@ export function WhyChooseUsSection() {
   return (
     <section id="why-choose-us" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
       <div className="grid grid-cols-1 items-center gap-(--space-xl) lg:grid-cols-2">
-        <div className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-card">
+        <Reveal className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-card">
           <Image
             src="https://images.unsplash.com/photo-1449965408869-eaa3f722e40d?auto=format&fit=crop&w=1200&q=80"
             alt="Customer picking up their rental car"
@@ -32,20 +33,20 @@ export function WhyChooseUsSection() {
             sizes="(min-width: 1024px) 500px, 90vw"
             className="object-cover"
           />
-        </div>
+        </Reveal>
 
         <div className="flex flex-col gap-(--space-md)">
-          <div className="flex flex-col gap-2">
+          <Reveal delayMs={100} className="flex flex-col gap-2">
             <h2 className="font-heading text-3xl font-bold text-foreground">Why Choose Us</h2>
             <p className="max-w-md text-muted-foreground">
               A high-performing car rental service built around convenience, transparency, and
               reliability.
             </p>
-          </div>
+          </Reveal>
 
           <div className="flex flex-col gap-(--space-md)">
-            {FEATURES.map((feature) => (
-              <div key={feature.title} className="flex items-start gap-4">
+            {FEATURES.map((feature, i) => (
+              <Reveal key={feature.title} delayMs={150 + i * 100} className="flex items-start gap-4">
                 <div className="flex size-12 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent">
                   <feature.icon className="size-5" />
                 </div>
@@ -55,7 +56,7 @@ export function WhyChooseUsSection() {
                   </h3>
                   <p className="text-sm text-muted-foreground">{feature.description}</p>
                 </div>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>

@@ -94,10 +94,10 @@ export function RecentTransactionsPanel({
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium text-foreground">
-              {row.vehicle?.name ?? "—"}
+              {row.vehicle?.name ?? "-"}
             </span>
             <span className="text-xs text-muted-foreground">
-              {row.created_at ? formatTimeAgo(row.created_at) : "—"}
+              {row.created_at ? formatTimeAgo(row.created_at) : "-"}
             </span>
           </div>
         </div>
@@ -109,7 +109,7 @@ export function RecentTransactionsPanel({
       render: (row) => (
         <div className="flex flex-col">
           <span className="text-sm text-foreground capitalize">
-            {row.payment_method?.replace("_", " ") ?? "—"}
+            {row.payment_method?.replace("_", " ") ?? "-"}
           </span>
           <span className="text-xs text-accent">#{row.reference}</span>
         </div>
@@ -194,10 +194,10 @@ export function RecentTransactionsPanel({
                 </div>
                 <div className="flex flex-1 flex-col">
                   <span className="text-sm font-medium text-foreground">
-                    {row.vehicle?.name ?? "—"}
+                    {row.vehicle?.name ?? "-"}
                   </span>
                   <span className="text-xs text-muted-foreground">
-                    {row.created_at ? formatTimeAgo(row.created_at) : "—"}
+                    {row.created_at ? formatTimeAgo(row.created_at) : "-"}
                   </span>
                 </div>
                 <BookingStatusBadge status={row.status} />

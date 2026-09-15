@@ -2,26 +2,27 @@ import Link from "next/link";
 import Image from "next/image";
 import { Star } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { Reveal } from "@/components/site/reveal";
 
 export function HeroSection() {
   return (
     <section className="relative overflow-hidden bg-background">
       <div className="mx-auto grid max-w-7xl grid-cols-1 items-center gap-(--space-lg) px-(--space-sm) py-(--space-xl) lg:grid-cols-2 lg:py-(--space-2xl)">
-        <div className="flex flex-col gap-(--space-sm)">
+        <Reveal className="flex flex-col gap-(--space-sm)">
           <span className="inline-flex w-fit items-center gap-2 rounded-full bg-accent/10 px-3 py-1 text-xs font-semibold text-accent">
             <span className="size-1.5 rounded-full bg-accent" aria-hidden />
-            100% Trusted Car Rental Platform in the UK
+            Trusted car rental platform in the UK
           </span>
           <h1 className="font-heading text-4xl font-extrabold leading-[1.1] text-foreground sm:text-5xl lg:text-6xl">
-            Fast and Easy Way to <span className="text-accent">Rent a Car</span>
+            Fast and easy way to <span className="text-accent">rent a car</span>
           </h1>
           <p className="max-w-md text-base text-muted-foreground sm:text-lg">
-            Our car rental booking platform is built for rental businesses of any size —
-            manage your fleet, take bookings, and grow your business with easy-to-use tools.
+            Pick your dates, choose your car, and book in minutes. No account required, and the
+            price you see is the price you pay.
           </p>
           <div className="flex flex-col gap-3 pt-(--space-2xs) sm:flex-row">
             <Link href="#search-bar" className={buttonVariants({ size: "lg", className: "px-8" })}>
-              Booking Now
+              Book now
             </Link>
             <Link
               href="/cars"
@@ -30,9 +31,9 @@ export function HeroSection() {
               See all cars
             </Link>
           </div>
-        </div>
+        </Reveal>
 
-        <div className="relative mx-auto aspect-[4/3] w-full max-w-lg">
+        <Reveal delayMs={150} className="relative mx-auto aspect-[4/3] w-full max-w-lg">
           <div className="absolute inset-6 rounded-[3rem] bg-accent/15 blur-2xl" aria-hidden />
           <div className="relative size-full overflow-hidden rounded-[2rem] shadow-card">
             <Image
@@ -56,7 +57,7 @@ export function HeroSection() {
               <span className="text-xs text-muted-foreground">2,400+ happy renters</span>
             </div>
           </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   );

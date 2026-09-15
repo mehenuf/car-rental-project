@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { Reveal } from "@/components/site/reveal";
 import { cn } from "@/lib/utils";
 
 interface Testimonial {
@@ -33,7 +34,7 @@ const TESTIMONIALS: Testimonial[] = [
     location: "London, UK",
     rating: 4,
     quote:
-      "Great experience overall — drop-off was quick and painless. Only wish there were more pick-up points near the airport.",
+      "Great experience overall, drop-off was quick and painless. Only wish there were more pick-up points near the airport.",
   },
   {
     name: "Daniel Kim",
@@ -98,14 +99,14 @@ export function TestimonialsSection() {
 
   return (
     <section id="testimonials" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
-      <div className="flex flex-col items-center gap-2 text-center">
+      <Reveal className="flex flex-col items-center gap-2 text-center">
         <h2 className="font-heading text-3xl font-bold text-foreground">
           Trusted by Thousands of Happy Customers
         </h2>
         <p className="max-w-xl text-muted-foreground">
           Real stories from renters who booked their next trip with BestCar.
         </p>
-      </div>
+      </Reveal>
 
       <div className="relative mt-(--space-lg)">
         <div

@@ -87,6 +87,7 @@ export function CarsFilterSidebar({
       <div className="flex flex-col gap-(--space-xs)">
         <h3 className="text-sm font-semibold text-foreground">Price per day</h3>
         <Slider
+          aria-label="Price per day range"
           value={priceDraft}
           min={PRICE_MIN}
           max={PRICE_MAX}
@@ -101,12 +102,14 @@ export function CarsFilterSidebar({
       </div>
 
       <div className="flex flex-col gap-(--space-xs)">
-        <h3 className="text-sm font-semibold text-foreground">Seats</h3>
+        <h3 id="filter-seats-label" className="text-sm font-semibold text-foreground">
+          Seats
+        </h3>
         <Select
           value={filters.seats ? String(filters.seats) : "any"}
           onValueChange={(value) => onSeatsChange(value === "any" ? null : Number(value))}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger aria-labelledby="filter-seats-label" className="w-full">
             <LabeledSelectValue
               options={[
                 { value: "any", label: "Any" },
@@ -126,14 +129,16 @@ export function CarsFilterSidebar({
       </div>
 
       <div className="flex flex-col gap-(--space-xs)">
-        <h3 className="text-sm font-semibold text-foreground">Transmission</h3>
+        <h3 id="filter-transmission-label" className="text-sm font-semibold text-foreground">
+          Transmission
+        </h3>
         <Select
           value={filters.transmission ?? "any"}
           onValueChange={(value) =>
             onTransmissionChange(value === "any" ? null : (value as Transmission))
           }
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger aria-labelledby="filter-transmission-label" className="w-full">
             <LabeledSelectValue
               options={[
                 { value: "any", label: "Any" },
@@ -151,12 +156,14 @@ export function CarsFilterSidebar({
       </div>
 
       <div className="flex flex-col gap-(--space-xs)">
-        <h3 className="text-sm font-semibold text-foreground">Fuel Type</h3>
+        <h3 id="filter-fuel-label" className="text-sm font-semibold text-foreground">
+          Fuel Type
+        </h3>
         <Select
           value={filters.fuel ?? "any"}
           onValueChange={(value) => onFuelChange(value === "any" ? null : (value as Fuel))}
         >
-          <SelectTrigger className="w-full">
+          <SelectTrigger aria-labelledby="filter-fuel-label" className="w-full">
             <LabeledSelectValue
               options={[
                 { value: "any", label: "Any" },

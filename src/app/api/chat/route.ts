@@ -88,7 +88,7 @@ async function buildFallbackReply(lastUserMessage: string): Promise<string> {
   }
 
   if (matches.length === 0) {
-    return "Our assistant is briefly unavailable, and we don't have any cars listed right now — please check back soon.";
+    return "Our assistant is briefly unavailable, and we don't have any cars listed right now. Please check back soon.";
   }
 
   const list = matches.map((v) => `${v.name} ($${v.price_per_day}/day)`).join(", ");
@@ -172,7 +172,7 @@ export async function POST(request: NextRequest) {
 
   if (isRateLimited(visitorId)) {
     return textResponse(
-      "You're sending messages a little quickly — give it a few seconds and try again!",
+      "You're sending messages a little quickly. Give it a few seconds and try again!",
       429
     );
   }
@@ -181,12 +181,12 @@ export async function POST(request: NextRequest) {
   try {
     body = await request.json();
   } catch {
-    return textResponse("That request didn't look right — please try sending your message again.", 400);
+    return textResponse("That request didn't look right. Please try sending your message again.", 400);
   }
 
   const parsed = ChatRequestSchema.safeParse(body);
   if (!parsed.success) {
-    return textResponse("That request didn't look right — please try sending your message again.", 400);
+    return textResponse("That request didn't look right. Please try sending your message again.", 400);
   }
 
   const { messages } = parsed.data;

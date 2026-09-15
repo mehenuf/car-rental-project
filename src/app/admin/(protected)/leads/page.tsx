@@ -49,7 +49,7 @@ export default function AdminLeadsPage() {
       key: "intent_summary",
       header: "Summary",
       className: "max-w-sm",
-      render: (row) => <span className="text-sm text-foreground">{row.intent_summary ?? "—"}</span>,
+      render: (row) => <span className="text-sm text-foreground">{row.intent_summary ?? "-"}</span>,
     },
     {
       key: "budget_band",
@@ -73,14 +73,14 @@ export default function AdminLeadsPage() {
       key: "next_action",
       header: "Next Step",
       className: "max-w-sm",
-      render: (row) => <span className="text-sm text-muted-foreground">{row.next_action ?? "—"}</span>,
+      render: (row) => <span className="text-sm text-muted-foreground">{row.next_action ?? "-"}</span>,
     },
     {
       key: "created_at",
       header: "When",
       render: (row) => (
         <span className="text-sm text-muted-foreground">
-          {row.created_at ? formatTimeAgo(row.created_at) : "—"}
+          {row.created_at ? formatTimeAgo(row.created_at) : "-"}
         </span>
       ),
     },

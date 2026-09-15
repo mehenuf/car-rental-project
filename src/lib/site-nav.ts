@@ -5,8 +5,8 @@ export interface SiteNavLink {
 
 export const SITE_NAV_LINKS: SiteNavLink[] = [
   { label: "Home", href: "/" },
+  { label: "Cars", href: "/cars" },
   { label: "How It Works", href: "/#how-it-works" },
-  { label: "Rental Deals", href: "/#rental-deals" },
-  { label: "Why Choose Us", href: "/#why-choose-us" },
-  { label: "Testimonial", href: "/#testimonials" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];

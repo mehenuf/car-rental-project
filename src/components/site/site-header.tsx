@@ -62,6 +62,12 @@ export function SiteHeader() {
           <ThemeToggle />
           {!loading && !user && (
             <>
+              <Link
+                href="/dashboard"
+                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              >
+                My Bookings
+              </Link>
               <Link href="/register" className={buttonVariants({ variant: "outline" })}>
                 Register
               </Link>
@@ -83,11 +89,9 @@ export function SiteHeader() {
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>{displayName}</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-                {isAdmin && (
-                  <DropdownMenuItem render={<Link href="/admin" />}>
-                    <LayoutDashboard /> Admin Dashboard
-                  </DropdownMenuItem>
-                )}
+                <DropdownMenuItem render={<Link href={isAdmin ? "/admin" : "/dashboard"} />}>
+                  <LayoutDashboard /> {isAdmin ? "Admin Dashboard" : "My Bookings"}
+                </DropdownMenuItem>
                 <DropdownMenuItem variant="destructive" onClick={handleLogout}>
                   Log out
                 </DropdownMenuItem>
@@ -134,6 +138,13 @@ export function SiteHeader() {
             {!loading && !user && (
               <>
                 <Link
+                  href="/dashboard"
+                  onClick={() => setOpen(false)}
+                  className={buttonVariants({ variant: "outline" })}
+                >
+                  My Bookings
+                </Link>
+                <Link
                   href="/register"
                   onClick={() => setOpen(false)}
                   className={buttonVariants({ variant: "outline" })}
@@ -151,15 +162,13 @@ export function SiteHeader() {
                 <div className="flex items-center gap-2 px-1 text-sm font-medium text-foreground">
                   <User className="size-4" /> {displayName}
                 </div>
-                {isAdmin && (
-                  <Link
-                    href="/admin"
-                    onClick={() => setOpen(false)}
-                    className={buttonVariants({ variant: "outline" })}
-                  >
-                    Admin Dashboard
-                  </Link>
-                )}
+                <Link
+                  href={isAdmin ? "/admin" : "/dashboard"}
+                  onClick={() => setOpen(false)}
+                  className={buttonVariants({ variant: "outline" })}
+                >
+                  {isAdmin ? "Admin Dashboard" : "My Bookings"}
+                </Link>
                 <Button type="button" variant="destructive" onClick={handleLogout}>
                   Log out
                 </Button>

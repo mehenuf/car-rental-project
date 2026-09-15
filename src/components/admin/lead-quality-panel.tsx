@@ -71,7 +71,7 @@ export function LeadQualityPanel({ refreshKey }: { refreshKey: number }) {
                       {URGENCY_LABEL[lead.urgency ?? "unknown"] ?? "Unknown"}
                     </span>
                   </div>
-                  <p className="text-sm text-foreground">{lead.intent_summary ?? "—"}</p>
+                  <p className="text-sm text-foreground">{lead.intent_summary ?? "-"}</p>
                   {lead.next_action && (
                     <p className="text-xs text-muted-foreground">Next: {lead.next_action}</p>
                   )}

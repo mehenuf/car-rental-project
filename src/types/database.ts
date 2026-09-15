@@ -132,9 +132,11 @@ export interface Database {
           phone: string | null;
           pickup_location_id: number | null;
           dropoff_location_id: number | null;
+          guest_id: string | null;
+          user_id: string | null;
           pickup_at: string;
           dropoff_at: string;
-          /** Generated column (`greatest(1, extract(day from dropoff_at - pickup_at))`) — read-only. */
+          /** Generated column (`greatest(1, extract(day from dropoff_at - pickup_at))`), read-only. */
           days: number;
           total_amount: number;
           payment_method: PaymentMethod | null;
@@ -152,6 +154,8 @@ export interface Database {
           phone?: string | null;
           pickup_location_id?: number | null;
           dropoff_location_id?: number | null;
+          guest_id?: string | null;
+          user_id?: string | null;
           pickup_at: string;
           dropoff_at: string;
           total_amount: number;
@@ -170,6 +174,8 @@ export interface Database {
           phone?: string | null;
           pickup_location_id?: number | null;
           dropoff_location_id?: number | null;
+          guest_id?: string | null;
+          user_id?: string | null;
           pickup_at?: string;
           dropoff_at?: string;
           total_amount?: number;

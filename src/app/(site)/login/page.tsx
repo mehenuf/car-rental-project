@@ -38,7 +38,7 @@ export default function LoginPage() {
     // Admin accounts land in the admin dashboard automatically; everyone
     // else goes back to the site.
     const isAdmin = data.user.app_metadata?.role === "admin";
-    router.push(isAdmin ? "/admin" : "/");
+    router.push(isAdmin ? "/admin" : "/dashboard");
     router.refresh();
   }
 

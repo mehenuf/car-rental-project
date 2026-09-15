@@ -27,7 +27,7 @@ export default function AdminDashboardPage() {
     <div className="flex flex-col gap-(--space-md)">
       <div className="flex flex-col gap-(--space-sm) sm:flex-row sm:items-center sm:justify-between">
         <h1 className="text-lg font-medium text-foreground sm:text-xl">
-          <span aria-hidden>👋</span> Hi {firstName},{" "}
+          Hi {firstName},{" "}
           <span className="font-normal text-muted-foreground">
             here&apos;s what&apos;s happening with your store today.
           </span>

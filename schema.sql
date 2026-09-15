@@ -61,6 +61,8 @@ create table bookings (
   phone             text,
   pickup_location_id  int references locations(id),
   dropoff_location_id int references locations(id),
+  guest_id          uuid,                  -- issued in an httpOnly cookie to non-logged-in browsers
+  user_id           uuid references auth.users(id) on delete set null,
   pickup_at         timestamptz not null,
   dropoff_at        timestamptz not null,
   days              int generated always as
@@ -77,6 +79,8 @@ create table bookings (
 create index bookings_created_idx on bookings(created_at desc);
 create index bookings_status_idx  on bookings(status);
 create index bookings_vehicle_idx on bookings(vehicle_id);
+create index bookings_guest_idx   on bookings(guest_id);
+create index bookings_user_idx    on bookings(user_id);
 
 -- ---------------------------------------------------------------
 -- leads  (written by the AI qualification call)

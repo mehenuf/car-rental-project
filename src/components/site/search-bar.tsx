@@ -155,9 +155,14 @@ function RentalLeg({
       <span className="text-sm font-semibold text-accent">{heading}</span>
       <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-3">
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium text-muted-foreground">Location</span>
+          <span id={`${heading}-location-label`} className="text-xs font-medium text-muted-foreground">
+            Location
+          </span>
           <Select value={locationId} onValueChange={(value) => onLocationChange(value ?? "")}>
-            <SelectTrigger className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0">
+            <SelectTrigger
+              aria-labelledby={`${heading}-location-label`}
+              className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0"
+            >
               <MapPin className="size-4 shrink-0 text-muted-foreground" />
               <SelectValue placeholder="Select your city">
                 {(value: string | null) => {
@@ -179,9 +184,14 @@ function RentalLeg({
         <DatePickerField label="Date" value={date} onChange={onDateChange} minDate={minDate} />
 
         <div className="flex flex-col gap-1">
-          <span className="text-xs font-medium text-muted-foreground">Time</span>
+          <span id={`${heading}-time-label`} className="text-xs font-medium text-muted-foreground">
+            Time
+          </span>
           <Select value={time} onValueChange={(value) => onTimeChange(value ?? time)}>
-            <SelectTrigger className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0">
+            <SelectTrigger
+              aria-labelledby={`${heading}-time-label`}
+              className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0"
+            >
               <SelectValue />
             </SelectTrigger>
             <SelectContent>

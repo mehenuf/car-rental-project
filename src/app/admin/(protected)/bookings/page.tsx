@@ -142,7 +142,7 @@ export default function AdminBookingsPage() {
           </div>
           <div className="flex flex-col">
             <span className="text-sm font-medium text-foreground">
-              {row.vehicle?.name ?? "—"}
+              {row.vehicle?.name ?? "-"}
             </span>
             <span className="text-xs text-accent">#{row.reference}</span>
           </div>
@@ -165,7 +165,7 @@ export default function AdminBookingsPage() {
       sortable: true,
       render: (row) => (
         <span className="text-sm text-muted-foreground">
-          {formatDate(row.pickup_at)} &ndash; {formatDate(row.dropoff_at)}
+          {formatDate(row.pickup_at)} - {formatDate(row.dropoff_at)}
         </span>
       ),
     },
@@ -174,7 +174,7 @@ export default function AdminBookingsPage() {
       header: "Payment",
       render: (row) => (
         <span className="text-sm text-foreground capitalize">
-          {row.payment_method?.replace("_", " ") ?? "—"}
+          {row.payment_method?.replace("_", " ") ?? "-"}
         </span>
       ),
     },

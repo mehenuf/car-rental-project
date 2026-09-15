@@ -18,3 +18,10 @@ export class NotFoundError extends ApiError {
     this.name = "NotFoundError";
   }
 }
+
+export class ConflictError extends ApiError {
+  constructor(message: string) {
+    super(409, message);
+    this.name = "ConflictError";
+  }
+}

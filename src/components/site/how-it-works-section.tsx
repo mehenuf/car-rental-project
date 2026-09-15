@@ -1,4 +1,5 @@
 import { CalendarDays, Car, MapPin } from "lucide-react";
+import { Reveal } from "@/components/site/reveal";
 
 const STEPS = [
   {
@@ -9,7 +10,7 @@ const STEPS = [
   {
     icon: CalendarDays,
     title: "Pick-up Date",
-    description: "Tell us when you need the car and for how long — we'll hold it for you.",
+    description: "Tell us when you need the car and for how long. We'll hold it for you.",
   },
   {
     icon: Car,
@@ -46,14 +47,18 @@ export function HowItWorksSection() {
         </svg>
 
         <div className="relative grid grid-cols-1 gap-(--space-lg) md:grid-cols-3">
-          {STEPS.map((step) => (
-            <div key={step.title} className="flex flex-col items-center gap-3 text-center">
-              <div className="flex size-16 items-center justify-center rounded-full bg-accent/10 text-accent ring-8 ring-background">
+          {STEPS.map((step, i) => (
+            <Reveal
+              key={step.title}
+              delayMs={i * 120}
+              className="flex flex-col items-center gap-3 text-center"
+            >
+              <div className="flex size-16 items-center justify-center rounded-full bg-accent/10 text-accent ring-8 ring-background transition-transform duration-300 hover:scale-110">
                 <step.icon className="size-7" />
               </div>
               <h3 className="font-heading text-lg font-semibold text-foreground">{step.title}</h3>
               <p className="max-w-xs text-sm text-muted-foreground">{step.description}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>

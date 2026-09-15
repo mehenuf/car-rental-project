@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -73,6 +73,26 @@ export function VehicleBookingPanel({
   const [submitError, setSubmitError] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Pre-fill contact details for a returning visitor in this browser, from
+  // either their signed-in account or a prior guest booking.
+  useEffect(() => {
+    let cancelled = false;
+    fetch("/api/bookings/mine")
+      .then((res) => (res.ok ? res.json() : null))
+      .then((body: { contact: { name: string; email: string; phone: string | null } | null } | null) => {
+        if (cancelled || !body?.contact) return;
+        setName((current) => current || body.contact!.name);
+        setEmail((current) => current || body.contact!.email);
+        setPhone((current) => current || body.contact!.phone || "");
+      })
+      .catch(() => {
+        // Pre-fill is a convenience, not a requirement — silently skip.
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
   const days = pickupDate && dropoffDate ? daysBetween(pickupDate, dropoffDate) : 1;
   const total = vehicle.price_per_day * days;
   const datesValid = Boolean(pickupDate && dropoffDate && dropoffDate > pickupDate);
@@ -128,15 +148,7 @@ export function VehicleBookingPanel({
         throw new Error("error" in body ? body.error.message : "Failed to create booking");
       }
       const booking = body as BookingResponse;
-
-      const params = new URLSearchParams({
-        ref: booking.reference,
-        car: vehicle.name,
-        pickupDate: booking.pickup_at,
-        dropoffDate: booking.dropoff_at,
-        total: String(booking.total_amount),
-      });
-      router.push(`/booking-confirmation?${params.toString()}`);
+      router.push(`/booking-confirmation?ref=${encodeURIComponent(booking.reference)}`);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Failed to create booking");
     } finally {
@@ -196,7 +208,7 @@ export function VehicleBookingPanel({
           <DialogHeader>
             <DialogTitle>Complete your booking</DialogTitle>
             <DialogDescription>
-              {vehicle.name} &mdash; {days} day{days === 1 ? "" : "s"} for {formatCurrency(total)}
+              {vehicle.name}, {days} day{days === 1 ? "" : "s"} for {formatCurrency(total)}
             </DialogDescription>
           </DialogHeader>
           <form className="flex flex-col gap-(--space-sm)" onSubmit={handleSubmit}>
