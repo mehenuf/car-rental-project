@@ -1,5 +1,6 @@
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { LiveChatTrigger } from "@/components/site/live-chat-trigger";
 
 export const metadata = { title: "Contact Us" };
 
@@ -7,7 +8,8 @@ const CHANNELS = [
   {
     icon: MessageCircle,
     title: "Live chat",
-    body: "The fastest way to reach us. Open the chat bubble in the corner of any page.",
+    body: "The fastest way to reach us — click to open the chat.",
+    isLiveChat: true,
   },
   {
     icon: Mail,
@@ -35,21 +37,29 @@ export default function ContactPage() {
       </ScrollReveal>
 
       <div className="flex flex-col divide-y divide-border border-t border-border">
-        {CHANNELS.map(({ icon: Icon, title, body }, index) => (
-          <ScrollReveal
-            key={title}
-            className="flex items-center gap-4 py-(--space-md)"
-            delay={index * 0.1}
-          >
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent-text">
-              <Icon className="size-5" aria-hidden />
-            </div>
-            <div className="flex flex-col gap-0.5">
-              <h2 className="font-heading text-sm font-semibold text-foreground">{title}</h2>
-              <p className="text-sm text-muted-foreground">{body}</p>
-            </div>
-          </ScrollReveal>
-        ))}
+        {CHANNELS.map(({ icon: Icon, title, body, isLiveChat }, index) => {
+          const content = (
+            <>
+              <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent-text">
+                <Icon className="size-5" aria-hidden />
+              </div>
+              <div className="flex flex-col gap-0.5">
+                <h2 className="font-heading text-sm font-semibold text-foreground">{title}</h2>
+                <p className="text-sm text-muted-foreground">{body}</p>
+              </div>
+            </>
+          );
+
+          return (
+            <ScrollReveal key={title} delay={index * 0.1}>
+              {isLiveChat ? (
+                <LiveChatTrigger>{content}</LiveChatTrigger>
+              ) : (
+                <div className="flex items-center gap-4 py-(--space-md)">{content}</div>
+              )}
+            </ScrollReveal>
+          );
+        })}
       </div>
     </div>
   );

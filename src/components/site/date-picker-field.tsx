@@ -14,6 +14,7 @@ export function DatePickerField({
   minDate,
   placeholder = "Select date",
   className,
+  triggerClassName,
 }: {
   label: string;
   value: Date | undefined;
@@ -22,6 +23,10 @@ export function DatePickerField({
   minDate?: Date;
   placeholder?: string;
   className?: string;
+  /** Overrides the trigger button's own styling — e.g. the search bar
+   * gives it a real bordered-field look, distinct from this component's
+   * default borderless/ghost treatment used in the booking panel. */
+  triggerClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
   const labelId = useId();
@@ -39,7 +44,10 @@ export function DatePickerField({
               type="button"
               variant="ghost"
               aria-labelledby={`${labelId} ${valueId}`}
-              className="h-auto min-h-11 justify-start gap-2 px-0 py-0 font-normal text-foreground hover:bg-transparent"
+              className={cn(
+                "h-auto min-h-11 justify-start gap-2 px-0 py-0 font-normal text-foreground hover:bg-transparent",
+                triggerClassName
+              )}
             />
           }
         >

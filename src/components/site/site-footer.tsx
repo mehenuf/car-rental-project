@@ -55,7 +55,7 @@ export function SiteFooter() {
 
         <div className="flex flex-col items-center justify-between gap-(--space-xs) border-t border-border pt-(--space-sm) text-sm text-muted-foreground sm:flex-row">
           <p>&copy; {new Date().getFullYear()} BestCar. All rights reserved.</p>
-          <div className="flex items-center gap-4">
+          <div data-chat-avoid className="flex items-center gap-4">
             <Link href="/privacy" className="hover:text-foreground">
               Privacy Policy
             </Link>

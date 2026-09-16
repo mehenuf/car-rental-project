@@ -161,14 +161,14 @@ function RentalLeg({
     <div className="flex flex-1 flex-col gap-(--space-sm) p-(--space-sm)">
       <span className="text-sm font-semibold text-accent-text">{heading}</span>
       <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-3">
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <span id={`${heading}-location-label`} className="text-xs font-medium text-muted-foreground">
             Location
           </span>
           <Select value={locationId} onValueChange={(value) => onLocationChange(value ?? "")}>
             <SelectTrigger
               aria-labelledby={`${heading}-location-label`}
-              className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0"
+              className="h-auto min-h-11 w-full gap-2 rounded-lg border border-border bg-background/60 px-3 py-2.5 shadow-none hover:bg-background"
             >
               <MapPin className="size-4 shrink-0 text-muted-foreground" />
               {/* Full "City, Country" only in the open list, where there's
@@ -194,16 +194,23 @@ function RentalLeg({
           </Select>
         </div>
 
-        <DatePickerField label="Date" value={date} onChange={onDateChange} minDate={minDate} />
+        <DatePickerField
+          label="Date"
+          value={date}
+          onChange={onDateChange}
+          minDate={minDate}
+          className="gap-1.5"
+          triggerClassName="w-full rounded-lg border border-border bg-background/60 px-3 py-2.5 hover:bg-background hover:text-foreground"
+        />
 
-        <div className="flex flex-col gap-1">
+        <div className="flex flex-col gap-1.5">
           <span id={`${heading}-time-label`} className="text-xs font-medium text-muted-foreground">
             Time
           </span>
           <Select value={time} onValueChange={(value) => onTimeChange(value ?? time)}>
             <SelectTrigger
               aria-labelledby={`${heading}-time-label`}
-              className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0"
+              className="h-auto min-h-11 w-full gap-2 rounded-lg border border-border bg-background/60 px-3 py-2.5 shadow-none hover:bg-background"
             >
               <SelectValue />
             </SelectTrigger>

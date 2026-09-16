@@ -63,6 +63,11 @@ async function getSessionCustomerInfo(): Promise<SessionCustomerInfo> {
   return info;
 }
 
+/** Dispatched by any page that wants to open the widget itself — e.g. the
+ * Contact page's "Live chat" row — instead of just describing where the
+ * launcher is. */
+export const OPEN_CHAT_EVENT = "bestcar:open-chat";
+
 export function ChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -97,6 +102,14 @@ export function ChatWidget() {
       launcherRef.current?.focus();
     }
   }, [open]);
+
+  useEffect(() => {
+    function handleOpenRequest() {
+      setOpen(true);
+    }
+    window.addEventListener(OPEN_CHAT_EVENT, handleOpenRequest);
+    return () => window.removeEventListener(OPEN_CHAT_EVENT, handleOpenRequest);
+  }, []);
 
   // The closed launcher is pinned to a screen corner on every page, so it can
   // land on top of a page's own call-to-action (e.g. "Book Now" on a vehicle
