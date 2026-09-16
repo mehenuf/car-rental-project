@@ -5,6 +5,15 @@ import { CarDealsSection } from "@/components/site/car-deals-section";
 import { HowItWorksSection } from "@/components/site/how-it-works-section";
 import { WhyChooseUsSection } from "@/components/site/why-choose-us-section";
 import { Skeleton } from "@/components/ui/skeleton";
+import { getVehicleCards } from "@/lib/queries";
+
+const DEALS_PAGE_SIZE = 8;
+
+// Vehicle stock/availability changes at runtime (bookings, admin edits) —
+// without this, Next would statically freeze the deals section's data at
+// build time, since the homepage otherwise has no per-request dynamic
+// input (no searchParams/cookies) to force dynamic rendering on its own.
+export const revalidate = 60;
 
 // Below the fold on every viewport size — deferred so its JS doesn't
 // compete with the hero/search bar/deals for the initial render.
@@ -27,13 +36,21 @@ const TestimonialsSection = dynamic(
   }
 );
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { data: deals, count: dealsCount } = await getVehicleCards({
+    category: ["popular"],
+    page: 1,
+    pageSize: DEALS_PAGE_SIZE,
+    sortBy: "created_at",
+    sortOrder: "desc",
+  });
+
   return (
     <>
       <HeroSection />
       <SearchBar />
       <HowItWorksSection />
-      <CarDealsSection />
+      <CarDealsSection initialVehicles={deals} initialCount={dealsCount} />
       <WhyChooseUsSection />
       <TestimonialsSection />
     </>

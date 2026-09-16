@@ -29,10 +29,15 @@ function CarsPageFallback() {
   );
 }
 
-export default function CarsPage() {
+export default async function CarsPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  const resolvedSearchParams = await searchParams;
   return (
     <Suspense fallback={<CarsPageFallback />}>
-      <CarsPageContent />
+      <CarsPageContent searchParams={resolvedSearchParams} />
     </Suspense>
   );
 }

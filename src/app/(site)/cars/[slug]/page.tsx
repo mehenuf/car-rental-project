@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Check, Cog, DoorOpen, Fuel as FuelIcon, Star, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { getVehicleBySlug, getVehicles } from "@/lib/queries";
+import { getVehicleBySlug, getVehicleCards } from "@/lib/queries";
 import { Badge } from "@/components/ui/badge";
 import { VehicleGallery } from "@/components/site/vehicle-gallery";
 import { VehicleBookingPanel } from "@/components/site/vehicle-booking-panel";
@@ -37,7 +37,7 @@ export default async function VehicleDetailPage({
   const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) notFound();
 
-  const { data: sameCategory } = await getVehicles({
+  const { data: sameCategory } = await getVehicleCards({
     category: [vehicle.category],
     pageSize: 4,
   });

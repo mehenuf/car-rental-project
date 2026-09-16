@@ -1,12 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { VehicleCard } from "@/components/site/vehicle-card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import type { Tables, VehicleCategory } from "@/types/database";
+import type { VehicleCardData } from "@/lib/queries";
+import type { VehicleCategory } from "@/types/database";
 
 const TABS: { label: string; value: VehicleCategory }[] = [
   { label: "Popular", value: "popular" },
@@ -18,19 +19,38 @@ const TABS: { label: string; value: VehicleCategory }[] = [
 const PAGE_SIZE = 8;
 
 interface VehiclesResponse {
-  data: Tables<"vehicles">[];
+  data: VehicleCardData[];
   count: number;
 }
 
-export function CarDealsSection() {
+/** The "popular" tab (page 1) is rendered server-side by the homepage and
+ * passed in as `initialVehicles`/`initialCount` — no client fetch, no
+ * loading skeleton, on the by-far-most-common path (a fresh homepage
+ * load). Only switching tabs or loading more pages triggers a client
+ * fetch, and even then it asks for the lean `fields=card` column set. */
+export function CarDealsSection({
+  initialVehicles,
+  initialCount,
+}: {
+  initialVehicles: VehicleCardData[];
+  initialCount: number;
+}) {
   const [activeTab, setActiveTab] = useState<VehicleCategory>("popular");
   const [page, setPage] = useState(1);
-  const [items, setItems] = useState<Tables<"vehicles">[]>([]);
-  const [totalCount, setTotalCount] = useState(0);
-  const [isLoading, setIsLoading] = useState(true);
+  const [items, setItems] = useState<VehicleCardData[]>(initialVehicles);
+  const [totalCount, setTotalCount] = useState(initialCount);
+  const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const isInitialRender = useRef(true);
 
   useEffect(() => {
+    // The very first render already has server-fetched data for
+    // activeTab="popular"/page=1 — skip re-fetching it on mount.
+    if (isInitialRender.current) {
+      isInitialRender.current = false;
+      return;
+    }
+
     let cancelled = false;
 
     async function run() {
@@ -41,6 +61,7 @@ export function CarDealsSection() {
           pageSize: String(PAGE_SIZE),
           sortBy: "created_at",
           sortOrder: "desc",
+          fields: "card",
         });
         const res = await fetch(`/api/vehicles?${params.toString()}`);
         const body = (await res.json()) as unknown;
@@ -64,7 +85,6 @@ export function CarDealsSection() {
     // See use-api-data.ts for why this synchronous reset (rather than one
     // inside a callback) is intentional: `activeTab`/`page` is the request
     // key, so loading must flip before the first await.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(true);
     run();
 
