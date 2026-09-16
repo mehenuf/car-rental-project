@@ -2,6 +2,7 @@ import "server-only";
 import { randomBytes } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { ConflictError, NotFoundError } from "@/lib/errors";
+import { daysBetween } from "@/lib/date-range";
 import type {
   BookingStatus,
   Fuel,
@@ -35,15 +36,6 @@ function toRange({ page = 1, pageSize = 20 }: Pagination): [number, number] {
   return [from, to];
 }
 
-/** Number of whole days between two dates, matching the `bookings.days`
- * generated column formula: `greatest(1, extract(day from (dropoff - pickup)))`. */
-function daysBetween(pickupAt: string | Date, dropoffAt: string | Date): number {
-  const pickup = new Date(pickupAt).getTime();
-  const dropoff = new Date(dropoffAt).getTime();
-  const diffDays = Math.floor((dropoff - pickup) / (1000 * 60 * 60 * 24));
-  return Math.max(1, diffDays);
-}
-
 /** Returns the immediately preceding period of the same length as [start, end]. */
 function previousPeriod(startDate: string, endDate: string): { start: string; end: string } {
   const start = new Date(startDate);
@@ -57,6 +49,14 @@ function previousPeriod(startDate: string, endDate: string): { start: string; en
     start: prevStart.toISOString().slice(0, 10),
     end: prevEnd.toISOString().slice(0, 10),
   };
+}
+
+/** Escapes every character PostgREST's filter-string grammar treats as
+ * structural (`,` separates `.or()` clauses, `(`/`)` are grouping syntax,
+ * `%`/`_` are ILIKE wildcards) so a search value can never inject
+ * additional filter clauses — e.g. a value like `x,stock.eq.0`. */
+function escapePostgrestValue(value: string): string {
+  return value.replace(/[%_,()]/g, (c) => `\\${c}`);
 }
 
 function percentChange(current: number, previous: number): number | null {
@@ -119,7 +119,7 @@ export async function getVehicles(
   if (available !== undefined) query = query.eq("available", available);
   if (locationId !== undefined) query = query.eq("location_id", locationId);
   if (search) {
-    const escaped = search.replace(/[%_]/g, (c) => `\\${c}`);
+    const escaped = escapePostgrestValue(search);
     query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
   }
 
@@ -129,6 +129,62 @@ export async function getVehicles(
   if (error) throw new Error(`getVehicles: ${error.message}`);
 
   return { data: data ?? [], count: count ?? 0 };
+}
+
+/** The columns every card-only consumer of the vehicle catalog actually
+ * renders (VehicleCard) — the public /cars grid, the homepage deals
+ * section, and "similar vehicles" don't need the full row (description,
+ * gallery, features, review_count, location_id, ...) that the admin
+ * table's edit dialog does. */
+export type VehicleCardData = Pick<
+  Tables<"vehicles">,
+  "id" | "slug" | "name" | "image_url" | "price_per_day" | "available" | "stock"
+>;
+
+const VEHICLE_CARD_COLUMNS = "id, slug, name, image_url, price_per_day, available, stock";
+
+export async function getVehicleCards(
+  filters: VehicleFilters = {}
+): Promise<PaginatedResult<VehicleCardData>> {
+  const {
+    category,
+    minPrice,
+    maxPrice,
+    seats,
+    transmission,
+    fuel,
+    available,
+    locationId,
+    sortBy = "created_at",
+    sortOrder = "desc",
+    search,
+  } = filters;
+
+  const [from, to] = toRange(filters);
+
+  let query = supabaseAdmin
+    .from("vehicles")
+    .select(VEHICLE_CARD_COLUMNS, { count: "exact" });
+
+  if (category && category.length > 0) query = query.in("category", category);
+  if (minPrice !== undefined) query = query.gte("price_per_day", minPrice);
+  if (maxPrice !== undefined) query = query.lte("price_per_day", maxPrice);
+  if (seats !== undefined) query = query.gte("seats", seats);
+  if (transmission) query = query.eq("transmission", transmission);
+  if (fuel) query = query.eq("fuel", fuel);
+  if (available !== undefined) query = query.eq("available", available);
+  if (locationId !== undefined) query = query.eq("location_id", locationId);
+  if (search) {
+    const escaped = escapePostgrestValue(search);
+    query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
+  }
+
+  query = query.order(sortBy, { ascending: sortOrder === "asc" }).range(from, to);
+
+  const { data, error, count } = await query;
+  if (error) throw new Error(`getVehicleCards: ${error.message}`);
+
+  return { data: (data ?? []) as unknown as VehicleCardData[], count: count ?? 0 };
 }
 
 // ---------------------------------------------------------------
@@ -188,9 +244,11 @@ export async function getDashboardStats(
   startDate: string,
   endDate: string
 ): Promise<DashboardStats> {
-  const current = await sumDailyStats(startDate, endDate);
   const prev = previousPeriod(startDate, endDate);
-  const previous = await sumDailyStats(prev.start, prev.end);
+  const [current, previous] = await Promise.all([
+    sumDailyStats(startDate, endDate),
+    sumDailyStats(prev.start, prev.end),
+  ]);
 
   return {
     totalRevenue: current.revenue,
@@ -272,7 +330,7 @@ export async function getRecentTransactions(
   if (startDate) query = query.gte("created_at", `${startDate}T00:00:00.000Z`);
   if (endDate) query = query.lte("created_at", `${endDate}T23:59:59.999Z`);
   if (search) {
-    const escaped = search.replace(/[%_]/g, (c) => `\\${c}`);
+    const escaped = escapePostgrestValue(search);
     query = query.or(`customer_name.ilike.%${escaped}%,reference.ilike.%${escaped}%`);
   }
   query = query.order(sortBy, { ascending: sortOrder === "asc" }).range(from, to);
@@ -308,7 +366,7 @@ export async function getMonthlySales(year: number): Promise<MonthlySales[]> {
   const revenueByMonth = new Array<number>(12).fill(0);
   for (const row of data ?? []) {
     const month = new Date(row.date).getUTCMonth(); // 0-11
-    revenueByMonth[month] += row.revenue ?? 0;
+    revenueByMonth[month] = (revenueByMonth[month] ?? 0) + (row.revenue ?? 0);
   }
 
   return revenueByMonth.map((revenue, index) => ({ month: index + 1, revenue }));
@@ -371,6 +429,21 @@ export async function createBooking(
     throw new ConflictError("This vehicle is no longer available for booking.");
   }
 
+  // Atomically claim a unit before inserting the booking: the RPC's
+  // `where stock > 0` guard doubles as the availability check, so if a
+  // concurrent request already took the last unit between the read above
+  // and this call, it returns zero rows here and the booking is aborted
+  // instead of both requests succeeding against the same unit (the race
+  // the earlier read-then-write version of this function allowed).
+  const { data: claimed, error: claimError } = await supabaseAdmin.rpc(
+    "decrement_vehicle_stock",
+    { p_vehicle_id: data.vehicle_id }
+  );
+  if (claimError) throw new Error(`createBooking: ${claimError.message}`);
+  if (!claimed || claimed.length === 0) {
+    throw new ConflictError("This vehicle is no longer available for booking.");
+  }
+
   const days = daysBetween(data.pickup_at, data.dropoff_at);
   const totalAmount = Math.round(vehicle.price_per_day * days * 100) / 100;
 
@@ -386,18 +459,12 @@ export async function createBooking(
     .select("*")
     .single();
 
-  if (error) throw new Error(`createBooking: ${error.message}`);
-
-  // Best-effort stock decrement. Races between two concurrent bookings for
-  // the last unit can both pass the check above, but the RPC below floors
-  // at 0 rather than going negative, and a missed decrement only ever
-  // under-books (never sells a car that was already fully booked), so this
-  // is deliberately not wrapped in a transaction with the insert.
-  const nextStock = Math.max(0, vehicle.stock - 1);
-  await supabaseAdmin
-    .from("vehicles")
-    .update({ stock: nextStock, available: nextStock > 0 })
-    .eq("id", data.vehicle_id);
+  if (error) {
+    // The claimed unit would otherwise be stranded as permanently
+    // unavailable if the booking insert itself fails after it.
+    await supabaseAdmin.rpc("increment_vehicle_stock", { p_vehicle_id: data.vehicle_id });
+    throw new Error(`createBooking: ${error.message}`);
+  }
 
   return booking;
 }
@@ -531,6 +598,14 @@ export async function updateBookingStatus(
   id: string,
   status: BookingStatus
 ): Promise<Tables<"bookings">> {
+  const { data: existing, error: existingError } = await supabaseAdmin
+    .from("bookings")
+    .select("status, vehicle_id")
+    .eq("id", id)
+    .maybeSingle();
+  if (existingError) throw new Error(`updateBookingStatus: ${existingError.message}`);
+  if (!existing) throw new NotFoundError(`Booking ${id} not found`);
+
   const { data: booking, error } = await supabaseAdmin
     .from("bookings")
     .update({ status })
@@ -540,6 +615,19 @@ export async function updateBookingStatus(
 
   if (error) throw new Error(`updateBookingStatus: ${error.message}`);
   if (!booking) throw new NotFoundError(`Booking ${id} not found`);
+
+  // Cancelling a booking frees the unit createBooking claimed for it —
+  // otherwise stock only ever goes down and a car with several cancelled
+  // (not actually out) bookings eventually becomes unbookable for no
+  // real reason. Guarded on the *previous* status so re-saving an
+  // already-cancelled booking doesn't award stock twice.
+  if (status === "cancelled" && existing.status !== "cancelled" && existing.vehicle_id) {
+    const { error: restoreError } = await supabaseAdmin.rpc("increment_vehicle_stock", {
+      p_vehicle_id: existing.vehicle_id,
+    });
+    if (restoreError) throw new Error(`updateBookingStatus: ${restoreError.message}`);
+  }
+
   return booking;
 }
 

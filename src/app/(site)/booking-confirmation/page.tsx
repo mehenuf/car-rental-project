@@ -6,6 +6,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { getBookingByReference } from "@/lib/queries";
+import { readRequestIdentity } from "@/lib/guest";
 
 export const metadata: Metadata = { title: "Booking Confirmed" };
 
@@ -19,6 +20,20 @@ export default async function BookingConfirmationPage({
 
   const booking = await getBookingByReference(ref);
   if (!booking) notFound();
+
+  // The reference alone (a 3-byte hex string) is brute-forceable, so it
+  // can't be the only gate on viewing someone else's booking details.
+  // Every booking created after the guest/user identity migration carries
+  // a guest_id or user_id set from the requester's own cookie/session at
+  // creation time — require that same identity to view it. Bookings from
+  // before that migration have neither column set, so they're left
+  // unrestricted rather than breaking access to pre-existing data.
+  const identity = await readRequestIdentity();
+  const hasOwner = Boolean(booking.user_id || booking.guest_id);
+  const isOwner =
+    (booking.user_id !== null && booking.user_id === identity.userId) ||
+    (booking.guest_id !== null && booking.guest_id === identity.guestId);
+  if (hasOwner && !isOwner) notFound();
 
   return (
     <div className="mx-auto flex max-w-lg flex-col items-center gap-(--space-md) px-(--space-sm) py-(--space-2xl) text-center">

@@ -4,6 +4,7 @@ import { getAvailableVehiclesContext } from "@/lib/chat-context";
 import { buildSystemPrompt } from "@/lib/prompts";
 import { getVehicles } from "@/lib/queries";
 import { ChatRequestSchema } from "@/lib/schemas";
+import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
 
 const PLAIN_TEXT_HEADERS = { "Content-Type": "text/plain; charset=utf-8" };
 
@@ -11,54 +12,7 @@ function textResponse(body: string, status = 200): Response {
   return new Response(body, { status, headers: PLAIN_TEXT_HEADERS });
 }
 
-// ---------------------------------------------------------------
-// Rate limiting — 10 messages/minute per visitor, tracked with a plain
-// in-memory Map. Not shared across server instances and reset on every
-// deploy/restart, which is fine for what this is: a soft speed bump
-// against someone hammering the endpoint, not a durable abuse ledger.
-// Cleared entirely once it holds more than 5000 visitors so it can never
-// grow without bound on a long-running server.
-// ---------------------------------------------------------------
-
-const RATE_LIMIT = 10;
-const RATE_LIMIT_WINDOW_MS = 60_000;
-const MAX_TRACKED_VISITORS = 5000;
-
-const recentMessageTimestamps = new Map<string, number[]>();
-
-function isRateLimited(visitorId: string): boolean {
-  const now = Date.now();
-  const recent = (recentMessageTimestamps.get(visitorId) ?? []).filter(
-    (t) => now - t < RATE_LIMIT_WINDOW_MS
-  );
-
-  if (recent.length >= RATE_LIMIT) {
-    recentMessageTimestamps.set(visitorId, recent);
-    return true;
-  }
-
-  recent.push(now);
-  recentMessageTimestamps.set(visitorId, recent);
-
-  if (recentMessageTimestamps.size > MAX_TRACKED_VISITORS) {
-    recentMessageTimestamps.clear();
-  }
-
-  return false;
-}
-
-function getVisitorId(request: NextRequest): string {
-  // The FIRST entry in x-forwarded-for is whatever the client itself sent —
-  // trivially spoofable to dodge rate limiting. The LAST entry is the one
-  // our own edge/proxy appended after seeing the real socket, so it's the
-  // only hop in the chain a client can't forge.
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  if (forwardedFor) {
-    const hops = forwardedFor.split(",");
-    return hops[hops.length - 1].trim();
-  }
-  return request.headers.get("x-real-ip") ?? "unknown";
-}
+const isRateLimited = createRateLimiter({ limit: 10, windowMs: 60_000 });
 
 // ---------------------------------------------------------------
 // Fallback — used only when Groq fails to even start responding. Skips

@@ -25,3 +25,10 @@ export class ConflictError extends ApiError {
     this.name = "ConflictError";
   }
 }
+
+export class RateLimitError extends ApiError {
+  constructor(message = "Too many requests. Please try again in a moment.") {
+    super(429, message);
+    this.name = "RateLimitError";
+  }
+}

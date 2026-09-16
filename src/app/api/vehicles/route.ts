@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { createVehicle, deleteVehicle, getVehicles, updateVehicle } from "@/lib/queries";
+import { createVehicle, deleteVehicle, getVehicleCards, getVehicles, updateVehicle } from "@/lib/queries";
 import { withErrorHandling } from "@/lib/api-response";
 import { requireAdmin } from "@/lib/require-admin";
 import {
@@ -12,13 +12,17 @@ import {
 
 /**
  * GET /api/vehicles?category=&minPrice=&maxPrice=&seats=&transmission=&fuel=
- *                   &available=&sortBy=&sortOrder=&page=&pageSize=
+ *                   &available=&sortBy=&sortOrder=&page=&pageSize=&fields=
+ *
+ * `fields=card` returns only the columns VehicleCard renders (used by
+ * client-side tab-switch/load-more fetches on the homepage) instead of
+ * every vehicle column (the shape the admin table's edit dialog needs).
  */
 export const GET = withErrorHandling(async (request: NextRequest) => {
-  const query = VehiclesQuerySchema.parse(
+  const { fields, ...query } = VehiclesQuerySchema.parse(
     searchParamsToObject(request.nextUrl.searchParams)
   );
-  const result = await getVehicles(query);
+  const result = fields === "card" ? await getVehicleCards(query) : await getVehicles(query);
   return NextResponse.json(result);
 });
 

@@ -5,6 +5,13 @@ import { buildLeadScoringPrompt } from "@/lib/prompts";
 import { createLead } from "@/lib/queries";
 import { ChatRequestSchema } from "@/lib/schemas";
 import { notifyLeadWebhook } from "@/lib/webhook";
+import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
+
+// Unlike /api/chat, this endpoint has no legitimate high-frequency caller
+// (the widget fires it at most once per real conversation) — this only
+// exists to stop a script from hitting it directly and repeatedly with a
+// fabricated transcript to burn paid AI calls and spam the leads table.
+const isRateLimited = createRateLimiter({ limit: 10, windowMs: 60_000 });
 
 /**
  * The AI's analyst reply, validated before anything gets saved. Field names
@@ -32,7 +39,7 @@ function formatTranscript(messages: { role: string; content: string }[]): string
 /** Models sometimes wrap JSON in ```json fences despite being told not to. */
 function tryExtractJson(raw: string): unknown {
   const fenced = raw.match(/```(?:json)?\s*([\s\S]*?)\s*```/i);
-  const candidate = (fenced ? fenced[1] : raw).trim();
+  const candidate = (fenced?.[1] ?? raw).trim();
   try {
     return JSON.parse(candidate);
   } catch {
@@ -51,6 +58,8 @@ const NO_CONTENT = new Response(null, { status: 204 });
  */
 export async function POST(request: NextRequest) {
   try {
+    if (isRateLimited(getVisitorId(request))) return NO_CONTENT;
+
     const body = await request.json();
     const parsed = ChatRequestSchema.safeParse(body);
     if (!parsed.success) return NO_CONTENT;

@@ -150,6 +150,33 @@ group by l.country, l.country_code
 order by sales_count desc;
 
 -- ---------------------------------------------------------------
+-- Atomic stock adjustment — see migrations/0002_atomic_stock_functions.sql
+-- for the rationale (fixes a TOCTOU overbooking race).
+-- ---------------------------------------------------------------
+create or replace function decrement_vehicle_stock(p_vehicle_id uuid)
+returns table (id uuid, stock int, available boolean)
+language sql
+as $$
+  update vehicles
+  set stock = stock - 1,
+      available = (stock - 1) > 0
+  where vehicles.id = p_vehicle_id
+    and stock > 0
+  returning vehicles.id, vehicles.stock, vehicles.available;
+$$;
+
+create or replace function increment_vehicle_stock(p_vehicle_id uuid)
+returns table (id uuid, stock int, available boolean)
+language sql
+as $$
+  update vehicles
+  set stock = stock + 1,
+      available = true
+  where vehicles.id = p_vehicle_id
+  returning vehicles.id, vehicles.stock, vehicles.available;
+$$;
+
+-- ---------------------------------------------------------------
 -- Row Level Security — enable, then allow public read only.
 -- Writes go through Next.js route handlers using the service role key.
 -- ---------------------------------------------------------------

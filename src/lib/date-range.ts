@@ -52,6 +52,18 @@ export function previousPeriod(range: DateRange): DateRange {
   return { from, to };
 }
 
+/** Number of whole days between two dates, matching the `bookings.days`
+ * generated column formula: `greatest(1, extract(day from (dropoff - pickup)))`.
+ * Shared between the server-side price calculation in createBooking and the
+ * client-side pre-submit price preview in VehicleBookingPanel, so the two
+ * can never silently drift apart. */
+export function daysBetween(pickupAt: string | Date, dropoffAt: string | Date): number {
+  const pickup = new Date(pickupAt).getTime();
+  const dropoff = new Date(dropoffAt).getTime();
+  const diffDays = Math.floor((dropoff - pickup) / (1000 * 60 * 60 * 24));
+  return Math.max(1, diffDays);
+}
+
 export function formatRangeLabel(range: DateRange): string {
   const fmt = (d: Date) =>
     d.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });

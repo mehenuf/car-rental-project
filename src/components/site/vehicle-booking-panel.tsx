@@ -17,6 +17,7 @@ import { Label } from "@/components/ui/label";
 import { DatePickerField } from "@/components/site/date-picker-field";
 import { CreateBookingSchema } from "@/lib/schemas";
 import { formatCurrency } from "@/lib/format";
+import { daysBetween } from "@/lib/date-range";
 import type { Tables } from "@/types/database";
 
 function startOfToday(): Date {
@@ -29,12 +30,6 @@ function parseDateParam(value: string | undefined, fallback: Date): Date {
   if (!value) return fallback;
   const parsed = new Date(value);
   return Number.isNaN(parsed.getTime()) ? fallback : parsed;
-}
-
-/** Matches the `days` generated column / createBooking's server-side formula. */
-function daysBetween(pickup: Date, dropoff: Date): number {
-  const diff = Math.floor((dropoff.getTime() - pickup.getTime()) / (1000 * 60 * 60 * 24));
-  return Math.max(1, diff);
 }
 
 interface BookingResponse {
@@ -96,6 +91,7 @@ export function VehicleBookingPanel({
   const days = pickupDate && dropoffDate ? daysBetween(pickupDate, dropoffDate) : 1;
   const total = vehicle.price_per_day * days;
   const datesValid = Boolean(pickupDate && dropoffDate && dropoffDate > pickupDate);
+  const soldOut = !vehicle.available || vehicle.stock <= 0;
 
   function handlePickupChange(date: Date | undefined) {
     setPickupDate(date);
@@ -195,12 +191,17 @@ export function VehicleBookingPanel({
         <Button
           type="button"
           size="lg"
-          disabled={!datesValid}
+          disabled={soldOut || !datesValid}
           onClick={() => setDialogOpen(true)}
           data-chat-avoid
         >
-          Book Now
+          {soldOut ? "Sold Out" : "Book Now"}
         </Button>
+        {soldOut && (
+          <p className="text-center text-sm text-muted-foreground">
+            This vehicle isn&apos;t available for booking right now.
+          </p>
+        )}
       </CardContent>
 
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>

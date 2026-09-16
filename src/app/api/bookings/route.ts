@@ -5,6 +5,14 @@ import { requireAdmin } from "@/lib/require-admin";
 import { resolveRequestIdentity } from "@/lib/guest";
 import { BookingsQuerySchema, CreateBookingSchema, searchParamsToObject } from "@/lib/schemas";
 import { notifyBookingWebhook } from "@/lib/webhook";
+import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
+import { RateLimitError } from "@/lib/errors";
+
+// A public, unauthenticated, state-mutating endpoint (creates a real
+// booking and decrements the target vehicle's stock on every success) —
+// without this, a script could repeatedly POST for one vehicle_id and
+// drain it to zero, denying real customers that inventory.
+const isRateLimited = createRateLimiter({ limit: 5, windowMs: 60_000 });
 
 /** GET /api/bookings?status=&sortBy=&sortOrder=&page=&pageSize= — admin-only, lists all customer bookings. */
 export const GET = withErrorHandling(async (request: NextRequest) => {
@@ -20,6 +28,8 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
  * guest cookie minted on first booking) so the confirmation page and
  * /dashboard can look this booking back up later without a login. */
 export const POST = withErrorHandling(async (request: NextRequest) => {
+  if (isRateLimited(getVisitorId(request))) throw new RateLimitError();
+
   const body = await request.json();
   const input = CreateBookingSchema.parse(body);
   const identity = await resolveRequestIdentity();

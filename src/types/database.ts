@@ -307,6 +307,14 @@ export interface Database {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
       };
+      decrement_vehicle_stock: {
+        Args: { p_vehicle_id: string };
+        Returns: { id: string; stock: number; available: boolean }[];
+      };
+      increment_vehicle_stock: {
+        Args: { p_vehicle_id: string };
+        Returns: { id: string; stock: number; available: boolean }[];
+      };
     };
     Enums: Record<string, never>;
     CompositeTypes: Record<string, never>;

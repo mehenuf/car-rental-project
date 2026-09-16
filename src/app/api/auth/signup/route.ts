@@ -1,8 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { withErrorHandling } from "@/lib/api-response";
-import { ApiError } from "@/lib/errors";
+import { ApiError, RateLimitError } from "@/lib/errors";
 import { SignupSchema } from "@/lib/schemas";
+import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
+
+// A public, unauthenticated endpoint that creates a real, pre-confirmed
+// Supabase Auth user on every success — without this, a script could
+// mass-create accounts with no throttle at all.
+const isRateLimited = createRateLimiter({ limit: 5, windowMs: 60_000 });
 
 /**
  * POST /api/auth/signup
@@ -19,6 +25,8 @@ import { SignupSchema } from "@/lib/schemas";
  * the actual browser session/cookie is established the normal way.
  */
 export const POST = withErrorHandling(async (request: NextRequest) => {
+  if (isRateLimited(getVisitorId(request))) throw new RateLimitError();
+
   const body = await request.json();
   const { fullName, email, password } = SignupSchema.parse(body);
 

@@ -120,6 +120,9 @@ export const VehiclesQuerySchema = z
     pageSize: PageSizeSchema.optional(),
     /** Case-insensitive match against name, brand, or slug. */
     search: z.string().trim().min(1).optional(),
+    /** "card" selects the lean column set the public listing/deals grid
+     * actually renders instead of every vehicle column. */
+    fields: z.enum(["card"]).optional(),
   })
   .refine(
     (data) =>
