@@ -11,7 +11,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
@@ -22,25 +21,42 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { initialsFor } from "@/lib/format";
 
 function AccountMenu({
-  displayName,
+  name,
+  email,
   isAdmin,
   onLogout,
 }: {
-  displayName: string;
+  name: string;
+  email: string;
   isAdmin: boolean;
   onLogout: () => void;
 }) {
+  const initialsSource = name || email;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         render={<button type="button" className="rounded-full" aria-label="Account menu" />}
       >
         <Avatar>
-          <AvatarFallback>{initialsFor(displayName || "?")}</AvatarFallback>
+          <AvatarFallback>{initialsFor(initialsSource || "?")}</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuLabel>{displayName}</DropdownMenuLabel>
+      <DropdownMenuContent align="end" className="w-64">
+        {/* A name/email pair reads as a real account identity; the raw
+            email alone in a plain menu-label style read as debug output,
+            not a personalized "you're signed in" moment. */}
+        <div className="flex items-center gap-3 px-2.5 py-2">
+          <Avatar className="size-9">
+            <AvatarFallback>{initialsFor(initialsSource || "?")}</AvatarFallback>
+          </Avatar>
+          <div className="flex min-w-0 flex-col">
+            <span className="truncate text-sm font-semibold text-foreground">
+              {name || "My Account"}
+            </span>
+            <span className="truncate text-xs text-muted-foreground">{email}</span>
+          </div>
+        </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem render={<Link href={isAdmin ? "/admin" : "/dashboard"} />}>
           <LayoutDashboard /> {isAdmin ? "Admin Dashboard" : "My Bookings"}
@@ -65,7 +81,8 @@ export function SiteHeader() {
     router.refresh();
   }
 
-  const displayName = (user?.user_metadata?.full_name as string | undefined) || user?.email || "";
+  const fullName = (user?.user_metadata?.full_name as string | undefined) || "";
+  const displayName = fullName || user?.email || "";
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-sm supports-backdrop-filter:bg-card/85">
@@ -114,7 +131,7 @@ export function SiteHeader() {
           )}
 
           {user && (
-            <AccountMenu displayName={displayName} isAdmin={isAdmin} onLogout={handleLogout} />
+            <AccountMenu name={fullName} email={user.email ?? ""} isAdmin={isAdmin} onLogout={handleLogout} />
           )}
         </div>
 
@@ -126,7 +143,7 @@ export function SiteHeader() {
             </Link>
           )}
           {user && (
-            <AccountMenu displayName={displayName} isAdmin={isAdmin} onLogout={handleLogout} />
+            <AccountMenu name={fullName} email={user.email ?? ""} isAdmin={isAdmin} onLogout={handleLogout} />
           )}
         </div>
 

@@ -20,6 +20,7 @@ interface Location {
   id: number;
   city: string;
   country: string;
+  country_code: string;
 }
 
 const TIME_OPTIONS = Array.from({ length: 29 }, (_, i) => {
@@ -116,7 +117,13 @@ export function SearchBar() {
             time={dropoffTime}
             onTimeChange={setDropoffTime}
           />
-          <div className="flex items-center justify-center p-(--space-sm) lg:pl-(--space-md)">
+          {/* items-end, not items-center: each leg's heading label sits above
+              its Location/Date/Time row, so centering against the whole
+              (taller) stretched column height would leave the button
+              floating above the row it belongs next to. Bottom-aligning
+              (both this wrapper and each leg share the same p-(--space-sm))
+              lines the button up with that row instead. */}
+          <div className="flex items-end justify-center p-(--space-sm) lg:pl-(--space-md)">
             <Button type="button" size="lg" className="w-full gap-2 lg:w-auto" onClick={handleSearch}>
               <Search className="size-4" />
               Search
@@ -164,10 +171,16 @@ function RentalLeg({
               className="h-auto min-h-11 w-full gap-2 border-0 p-0 shadow-none focus-visible:ring-0"
             >
               <MapPin className="size-4 shrink-0 text-muted-foreground" />
+              {/* Full "City, Country" only in the open list, where there's
+                  room — the closed trigger uses the 2-letter country code
+                  so a long name (e.g. "United Arab Emirates") never
+                  truncates mid-word against the chevron. */}
               <SelectValue placeholder="Select your city">
                 {(value: string | null) => {
                   const selected = locations.find((loc) => String(loc.id) === value);
-                  return selected ? `${selected.city}, ${selected.country}` : "Select your city";
+                  return selected
+                    ? `${selected.city}, ${selected.country_code.toUpperCase()}`
+                    : "Select your city";
                 }}
               </SelectValue>
             </SelectTrigger>

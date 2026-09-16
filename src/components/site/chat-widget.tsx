@@ -106,10 +106,11 @@ export function ChatWidget() {
   // Event-driven rather than polled every frame: scroll/resize (rAF-batched
   // so a scroll gesture recomputes at most once per frame, not once per
   // native scroll event) cover the launcher or a target actually moving on
-  // screen, a ResizeObserver on document.body covers async content shifting
-  // page height (the same detection SmoothScrollProvider already uses for
-  // ScrollTrigger), and document.fonts.ready covers a web-font swap nudging
-  // text metrics without changing the body's own size.
+  // screen, document.fonts.ready covers a web-font swap nudging text
+  // metrics, and a MutationObserver on document.body covers any async
+  // content change directly — including a client-fetched grid replacing
+  // its skeleton with real cards of the same overall height, which a
+  // ResizeObserver alone (no net height change) would never re-trigger for.
   useEffect(() => {
     if (open) return;
     const launcher = launcherRef.current;
@@ -145,14 +146,18 @@ export function ChatWidget() {
     window.addEventListener("scroll", scheduleCheck, { passive: true });
     window.addEventListener("resize", scheduleCheck);
     document.fonts?.ready.then(check);
-    const resizeObserver = new ResizeObserver(scheduleCheck);
-    resizeObserver.observe(document.body);
+    // childList only (no attributes): a skeleton-to-data swap adds/removes
+    // nodes, which this catches directly. GSAP's own scroll-driven tweens
+    // only ever mutate `style` on existing nodes, so this stays silent
+    // during normal scroll animation instead of re-checking every frame.
+    const mutationObserver = new MutationObserver(scheduleCheck);
+    mutationObserver.observe(document.body, { childList: true, subtree: true });
 
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("scroll", scheduleCheck);
       window.removeEventListener("resize", scheduleCheck);
-      resizeObserver.disconnect();
+      mutationObserver.disconnect();
     };
   }, [open]);
 
