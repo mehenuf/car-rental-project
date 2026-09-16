@@ -14,7 +14,10 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * directly to scroll position so it never runs ahead of or lags the user's
  * own input. The image wrapper is sized larger than its slot (120% height,
  * offset -10%) so the parallax travel never reveals empty space at the
- * top/bottom edges.
+ * top/bottom edges. A slow, one-way Ken Burns zoom runs independently on
+ * load (not tied to scroll) for the "establishing shot" feel a static
+ * photo can't give — it shares the same element as the scroll parallax
+ * since `scale` and `yPercent` don't conflict as GSAP properties.
  */
 export function HeroParallaxBackground() {
   const wrapRef = useRef<HTMLDivElement>(null);
@@ -34,6 +37,12 @@ export function HeroParallaxBackground() {
             scrub: true,
           },
         });
+
+        gsap.fromTo(
+          imgRef.current,
+          { scale: 1 },
+          { scale: 1.08, duration: 24, ease: "none" }
+        );
       });
       return () => mm.revert();
     },

@@ -28,12 +28,16 @@ export function ScrollReveal({
   className,
   delay = 0,
   y = 20,
+  scale = 0.97,
 }: {
   children: ReactNode;
   className?: string;
   delay?: number;
   /** Travel distance in px. Kept small by default — this is a "subtle" reveal, not a dramatic one. */
   y?: number;
+  /** Starting scale, animating to 1 alongside the fade/rise — a small
+   * amount of depth instead of a flat 2D slide. Set to 1 to disable. */
+  scale?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
@@ -50,10 +54,11 @@ export function ScrollReveal({
 
         gsap.fromTo(
           el,
-          { autoAlpha: 0, y },
+          { autoAlpha: 0, y, scale },
           {
             autoAlpha: 1,
             y: 0,
+            scale: 1,
             duration: 1.1,
             delay,
             ease: "power2.out",

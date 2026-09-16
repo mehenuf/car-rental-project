@@ -1,7 +1,10 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
 import { Heart } from "lucide-react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { VehicleImage } from "@/components/site/vehicle-image";
@@ -11,13 +14,72 @@ import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { VehicleCardData } from "@/lib/queries";
 
+gsap.registerPlugin(useGSAP);
+
+/** Maximum tilt in degrees — kept small (a premium hint of depth, not a
+ * gimmick) and applied via GSAP's quickTo so continuous pointer-move
+ * values never touch React state or trigger a re-render. */
+const MAX_TILT_DEG = 6;
+
 export function VehicleCard({ vehicle }: { vehicle: VehicleCardData }) {
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(vehicle.id);
   const soldOut = !vehicle.available || vehicle.stock <= 0;
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(
+    () => {
+      const card = cardRef.current;
+      if (!card || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+      // transformPerspective is self-contained on the element (unlike CSS
+      // `perspective`, which has to live on the parent) — exactly what's
+      // needed here since VehicleCard doesn't control its grid parent.
+      gsap.set(card, { transformPerspective: 800 });
+
+      const rotateX = gsap.quickTo(card, "rotateX", { duration: 0.4, ease: "power3.out" });
+      const rotateY = gsap.quickTo(card, "rotateY", { duration: 0.4, ease: "power3.out" });
+      const lift = gsap.quickTo(card, "z", { duration: 0.4, ease: "power3.out" });
+
+      // Mouse events, not pointer events: this is a hover-only effect with
+      // no sensible touch equivalent (there's no sustained "position" to
+      // tilt against on tap), so scoping to mouse-like devices is also the
+      // semantically correct choice, not just the more reliable one.
+      function handleMouseMove(e: MouseEvent) {
+        const rect = card!.getBoundingClientRect();
+        const px = (e.clientX - rect.left) / rect.width - 0.5;
+        const py = (e.clientY - rect.top) / rect.height - 0.5;
+        rotateY(px * MAX_TILT_DEG * 2);
+        rotateX(-py * MAX_TILT_DEG * 2);
+      }
+
+      function handleMouseLeave() {
+        rotateX(0);
+        rotateY(0);
+        lift(0);
+      }
+
+      function handleMouseEnter() {
+        lift(12);
+      }
+
+      card.addEventListener("mousemove", handleMouseMove);
+      card.addEventListener("mouseenter", handleMouseEnter);
+      card.addEventListener("mouseleave", handleMouseLeave);
+      return () => {
+        card.removeEventListener("mousemove", handleMouseMove);
+        card.removeEventListener("mouseenter", handleMouseEnter);
+        card.removeEventListener("mouseleave", handleMouseLeave);
+      };
+    },
+    { scope: cardRef }
+  );
 
   return (
-    <Card className="group animate-in fade-in slide-in-from-bottom-3 gap-0 overflow-hidden p-0 shadow-card ring-0 duration-500 transition-shadow hover:shadow-lg">
+    <Card
+      ref={cardRef}
+      className="group animate-in fade-in slide-in-from-bottom-3 gap-0 overflow-hidden p-0 shadow-card ring-0 duration-500 [transform-style:preserve-3d] [will-change:transform] hover:shadow-xl"
+    >
       <div className="flex items-center justify-between gap-2 px-(--space-sm) pt-(--space-sm)">
         <span className="truncate font-heading text-sm font-semibold text-foreground">
           {vehicle.name}
