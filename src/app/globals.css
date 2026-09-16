@@ -233,6 +233,15 @@
   * {
     @apply border-border outline-ring/50;
   }
+  /* Explicit width/offset/style instead of relying on the browser's native
+     `outline: auto` — that renders at inconsistent thickness and ignores
+     each element's border-radius, which is what produced the blocky,
+     misaligned gold rectangles around rounded images/cards site-wide. This
+     one rule makes every focus ring the same shape everywhere. */
+  *:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+  }
   body {
     @apply bg-background text-foreground;
   }
