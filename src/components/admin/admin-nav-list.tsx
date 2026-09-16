@@ -44,7 +44,7 @@ export function AdminNavList({
                     title={item.label}
                     aria-current={active ? "page" : undefined}
                     className={cn(
-                      "flex items-center gap-2.5 rounded-lg px-(--space-xs) py-2 text-sm font-medium text-sidebar-foreground/75 transition-colors hover:bg-white/[0.06] hover:text-sidebar-foreground",
+                      "flex min-h-11 items-center gap-2.5 rounded-lg px-(--space-xs) py-2 text-sm font-medium text-sidebar-foreground/75 transition-colors hover:bg-white/[0.06] hover:text-sidebar-foreground",
                       collapsibleLabels && "justify-center lg:justify-start",
                       active &&
                         "bg-sidebar-accent text-sidebar-accent-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"

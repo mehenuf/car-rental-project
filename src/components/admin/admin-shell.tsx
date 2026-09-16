@@ -16,7 +16,9 @@ export function AdminShell({ children }: { children: ReactNode }) {
 
       <div className="flex min-h-[100dvh] min-w-0 flex-1 flex-col">
         <AdminTopbar onMenuClick={() => setMobileNavOpen(true)} />
-        <main className="min-w-0 flex-1 p-(--space-sm) lg:p-(--space-md)">{children}</main>
+        <main id="main-content" className="min-w-0 flex-1 p-(--space-sm) lg:p-(--space-md)">
+          {children}
+        </main>
         <AdminFooter />
       </div>
     </div>

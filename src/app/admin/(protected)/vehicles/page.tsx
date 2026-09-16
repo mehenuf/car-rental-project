@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { CarFront, Pencil, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { VehicleFormDialog, type VehicleFormValues } from "@/components/admin/vehicle-form-dialog";
 import { ConfirmDialog } from "@/components/admin/confirm-dialog";
 import { useApiData } from "@/hooks/use-api-data";
+import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { formatCurrency } from "@/lib/format";
 import type { Tables, VehicleCategory } from "@/types/database";
 
@@ -27,7 +28,7 @@ type SortBy = "price_per_day" | "rating" | "created_at" | "name";
 
 export default function AdminVehiclesPage() {
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const debouncedSearch = useDebouncedValue(search, 400);
   const [category, setCategory] = useState<VehicleCategory | "all">("all");
   const [sortBy, setSortBy] = useState<SortBy>("created_at");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -43,11 +44,6 @@ export default function AdminVehiclesPage() {
   const [isDeleting, setIsDeleting] = useState(false);
   const [deleteError, setDeleteError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const timeout = setTimeout(() => setDebouncedSearch(search), 400);
-    return () => clearTimeout(timeout);
-  }, [search]);
-
   const params = new URLSearchParams({
     sortBy,
     sortOrder,
@@ -58,9 +54,7 @@ export default function AdminVehiclesPage() {
   if (category !== "all") params.set("category", category);
   if (debouncedSearch) params.set("search", debouncedSearch);
 
-  const { data, isLoading, error } = useApiData<VehiclesResponse>(
-    `/api/vehicles?${params.toString()}`
-  );
+  const result = useApiData<VehiclesResponse>(`/api/vehicles?${params.toString()}`);
 
   const hasActiveFilters = category !== "all" || debouncedSearch !== "";
 
@@ -243,6 +237,7 @@ export default function AdminVehiclesPage() {
           <div className="flex flex-col gap-2 sm:flex-row">
             <Input
               placeholder="Search by name, brand, or slug"
+              aria-label="Search vehicles by name, brand, or slug"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -280,18 +275,20 @@ export default function AdminVehiclesPage() {
           </div>
         </CardHeader>
         <CardContent>
-          {error && <p className="mb-2 text-sm text-destructive">{error}</p>}
+          {result.status === "error" && (
+            <p className="mb-2 text-sm text-destructive">{result.error}</p>
+          )}
           <DataTable
             columns={columns}
-            data={data?.data ?? []}
+            data={result.status === "success" ? result.data.data : []}
             getRowId={(row) => row.id}
-            isLoading={isLoading}
+            isLoading={result.status === "loading"}
             sortBy={sortBy}
             sortOrder={sortOrder}
             onSortChange={handleSortChange}
             page={page}
             pageSize={PAGE_SIZE}
-            totalCount={data?.count ?? 0}
+            totalCount={result.status === "success" ? result.data.count : 0}
             onPageChange={setPage}
             emptyMessage={
               hasActiveFilters ? (

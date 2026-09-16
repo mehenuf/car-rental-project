@@ -68,7 +68,19 @@ export function DataTable<T>({
           <TableHeader>
             <TableRow className="hover:bg-transparent">
               {columns.map((col) => (
-                <TableHead key={col.key} className={cn(alignClass[col.align ?? "left"], col.className)}>
+                <TableHead
+                  key={col.key}
+                  aria-sort={
+                    col.sortable
+                      ? sortBy === col.key
+                        ? sortOrder === "asc"
+                          ? "ascending"
+                          : "descending"
+                        : "none"
+                      : undefined
+                  }
+                  className={cn(alignClass[col.align ?? "left"], col.className)}
+                >
                   {col.sortable ? (
                     <button
                       type="button"

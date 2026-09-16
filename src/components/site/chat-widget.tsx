@@ -18,6 +18,7 @@ interface RecommendedVehicle {
 }
 
 interface ChatMessage {
+  id: number;
   role: "user" | "assistant";
   content: string;
   recommendedVehicles?: RecommendedVehicle[];
@@ -70,30 +71,55 @@ export function ChatWidget() {
   const [launcherBlocked, setLauncherBlocked] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const launcherRef = useRef<HTMLButtonElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const nextMessageId = useRef(0);
+
+  function newMessage(message: Omit<ChatMessage, "id">): ChatMessage {
+    nextMessageId.current += 1;
+    return { ...message, id: nextMessageId.current };
+  }
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
   }, [messages, open]);
+
+  // Move focus into the panel when a user explicitly opens it (the
+  // launcher button that had focus is unmounted, so without this focus
+  // would silently reset to <body>), and back to the launcher on close —
+  // WAI-ARIA APG guidance for non-modal dialogs like this one. Skipped on
+  // the initial mount (open starts false) so page load never steals focus.
+  const hasOpenedOnce = useRef(false);
+  useEffect(() => {
+    if (open) {
+      hasOpenedOnce.current = true;
+      closeButtonRef.current?.focus();
+    } else if (hasOpenedOnce.current) {
+      launcherRef.current?.focus();
+    }
+  }, [open]);
 
   // The closed launcher is pinned to a screen corner on every page, so it can
   // land on top of a page's own call-to-action (e.g. "Book Now" on a vehicle
   // page). A page opts an element out of that overlap with `data-chat-avoid`;
   // we fade the launcher out while it would otherwise cover one.
   //
-  // Checked every animation frame rather than on scroll/resize events: a
-  // web-font swap or an async layout shift that doesn't change the page's
-  // total height (both common — e.g. font loading nudges a heading's line
-  // height without changing document height) would otherwise go undetected
-  // and leave the launcher sitting on top of real content indefinitely. A
-  // few `getBoundingClientRect()` reads per frame against a handful of
-  // elements is negligible, and only runs while the launcher is closed.
+  // Event-driven rather than polled every frame: scroll/resize (rAF-batched
+  // so a scroll gesture recomputes at most once per frame, not once per
+  // native scroll event) cover the launcher or a target actually moving on
+  // screen, a ResizeObserver on document.body covers async content shifting
+  // page height (the same detection SmoothScrollProvider already uses for
+  // ScrollTrigger), and document.fonts.ready covers a web-font swap nudging
+  // text metrics without changing the body's own size.
   useEffect(() => {
     if (open) return;
     const launcher = launcherRef.current;
     if (!launcher) return;
 
-    let raf = 0;
-    function tick() {
+    let rafId = 0;
+    let scheduled = false;
+
+    function check() {
+      scheduled = false;
       const launcherRect = launcher!.getBoundingClientRect();
       const blocked = Array.from(
         document.querySelectorAll<HTMLElement>("[data-chat-avoid]")
@@ -107,18 +133,35 @@ export function ChatWidget() {
         );
       });
       setLauncherBlocked((prev) => (prev === blocked ? prev : blocked));
-      raf = requestAnimationFrame(tick);
     }
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+
+    function scheduleCheck() {
+      if (scheduled) return;
+      scheduled = true;
+      rafId = requestAnimationFrame(check);
+    }
+
+    check();
+    window.addEventListener("scroll", scheduleCheck, { passive: true });
+    window.addEventListener("resize", scheduleCheck);
+    document.fonts?.ready.then(check);
+    const resizeObserver = new ResizeObserver(scheduleCheck);
+    resizeObserver.observe(document.body);
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      window.removeEventListener("scroll", scheduleCheck);
+      window.removeEventListener("resize", scheduleCheck);
+      resizeObserver.disconnect();
+    };
   }, [open]);
 
   async function sendMessage(text: string) {
     const trimmed = text.trim();
     if (!trimmed || loading) return;
 
-    const outgoing: ChatMessage[] = [...messages, { role: "user", content: trimmed }];
-    setMessages([...outgoing, { role: "assistant", content: "" }]);
+    const outgoing: ChatMessage[] = [...messages, newMessage({ role: "user", content: trimmed })];
+    setMessages([...outgoing, newMessage({ role: "assistant", content: "" })]);
     setInput("");
     setLoading(true);
 
@@ -126,9 +169,9 @@ export function ChatWidget() {
 
     function updateLastMessage(update: Partial<ChatMessage>) {
       setMessages((prev) => {
-        const next = [...prev];
-        next[next.length - 1] = { ...next[next.length - 1], ...update };
-        return next;
+        const last = prev.at(-1);
+        if (!last) return prev;
+        return [...prev.slice(0, -1), { ...last, ...update }];
       });
     }
 
@@ -156,7 +199,7 @@ export function ChatWidget() {
 
       const tagMatch = fullText.match(RECOMMENDATIONS_TAG);
       const visibleText = fullText.replace(RECOMMENDATIONS_TAG, "").trim();
-      const slugs = tagMatch
+      const slugs = tagMatch?.[1]
         ? tagMatch[1]
             .split(",")
             .map((s) => s.trim())
@@ -165,7 +208,7 @@ export function ChatWidget() {
         : [];
 
       updateLastMessage({ content: visibleText });
-      let finalAssistantMessage: ChatMessage = { role: "assistant", content: visibleText };
+      let finalAssistantMessage: ChatMessage = newMessage({ role: "assistant", content: visibleText });
 
       if (slugs.length > 0) {
         const settled = await Promise.allSettled(
@@ -261,10 +304,11 @@ export function ChatWidget() {
               BestCar Assistant
             </span>
             <button
+              ref={closeButtonRef}
               type="button"
               onClick={() => setOpen(false)}
               aria-label="Close chat"
-              className="flex size-8 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
+              className="flex size-11 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <X className="size-5" />
             </button>
@@ -296,7 +340,7 @@ export function ChatWidget() {
 
             {messages.map((message, index) => (
               <div
-                key={index}
+                key={message.id}
                 className={cn("flex", message.role === "user" ? "justify-end" : "justify-start")}
               >
                 <div className="flex max-w-[85%] flex-col gap-(--space-xs)">

@@ -31,9 +31,7 @@ const BUDGET_LABEL: Record<string, string> = {
 export default function AdminLeadsPage() {
   const [page, setPage] = useState(1);
 
-  const { data, isLoading, error } = useApiData<LeadsResponse>(
-    `/api/leads?page=${page}&pageSize=${PAGE_SIZE}`
-  );
+  const result = useApiData<LeadsResponse>(`/api/leads?page=${page}&pageSize=${PAGE_SIZE}`);
 
   const columns: DataTableColumn<Lead>[] = [
     {
@@ -48,7 +46,7 @@ export default function AdminLeadsPage() {
     {
       key: "intent_summary",
       header: "Summary",
-      className: "max-w-sm",
+      className: "max-w-sm whitespace-normal",
       render: (row) => <span className="text-sm text-foreground">{row.intent_summary ?? "-"}</span>,
     },
     {
@@ -72,7 +70,7 @@ export default function AdminLeadsPage() {
     {
       key: "next_action",
       header: "Next Step",
-      className: "max-w-sm",
+      className: "max-w-sm whitespace-normal",
       render: (row) => <span className="text-sm text-muted-foreground">{row.next_action ?? "-"}</span>,
     },
     {
@@ -95,15 +93,17 @@ export default function AdminLeadsPage() {
           <CardTitle as="h2">All Leads (highest score first)</CardTitle>
         </CardHeader>
         <CardContent>
-          {error && <p className="mb-2 text-sm text-destructive">{error}</p>}
+          {result.status === "error" && (
+            <p className="mb-2 text-sm text-destructive">{result.error}</p>
+          )}
           <DataTable
             columns={columns}
-            data={data?.data ?? []}
+            data={result.status === "success" ? result.data.data : []}
             getRowId={(row) => row.id}
-            isLoading={isLoading}
+            isLoading={result.status === "loading"}
             page={page}
             pageSize={PAGE_SIZE}
-            totalCount={data?.count ?? 0}
+            totalCount={result.status === "success" ? result.data.count : 0}
             onPageChange={setPage}
             emptyMessage={
               <EmptyState

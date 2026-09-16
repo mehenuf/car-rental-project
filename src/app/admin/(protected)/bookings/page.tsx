@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { ClipboardList } from "lucide-react";
 import { VehicleImage } from "@/components/site/vehicle-image";
@@ -13,6 +13,7 @@ import { LabeledSelectValue } from "@/components/labeled-select-value";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { useApiData } from "@/hooks/use-api-data";
+import { useDebouncedValue } from "@/hooks/use-debounced-value";
 import { defaultDateRange, toApiDate, type DateRange } from "@/lib/date-range";
 import { formatCurrency, formatDate } from "@/lib/format";
 import type { BookingStatus } from "@/types/database";
@@ -47,7 +48,7 @@ const STATUS_TRIGGER_STYLES: Record<BookingStatus, string> = {
 
 export default function AdminBookingsPage() {
   const [search, setSearch] = useState("");
-  const [debouncedSearch, setDebouncedSearch] = useState("");
+  const debouncedSearch = useDebouncedValue(search, 400);
   const [status, setStatus] = useState<BookingStatus | "all">("all");
   const [range, setRange] = useState<DateRange>(() => defaultDateRange());
   const [sortBy, setSortBy] = useState<SortBy>("created_at");
@@ -57,11 +58,6 @@ export default function AdminBookingsPage() {
 
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [statusError, setStatusError] = useState<string | null>(null);
-
-  useEffect(() => {
-    const timeout = setTimeout(() => setDebouncedSearch(search), 400);
-    return () => clearTimeout(timeout);
-  }, [search]);
 
   const params = new URLSearchParams({
     startDate: toApiDate(range.from),
@@ -75,9 +71,7 @@ export default function AdminBookingsPage() {
   if (status !== "all") params.set("status", status);
   if (debouncedSearch) params.set("search", debouncedSearch);
 
-  const { data, isLoading, error } = useApiData<BookingsResponse>(
-    `/api/bookings?${params.toString()}`
-  );
+  const result = useApiData<BookingsResponse>(`/api/bookings?${params.toString()}`);
 
   const defaultRange = defaultDateRange();
   const hasActiveFilters =
@@ -225,6 +219,7 @@ export default function AdminBookingsPage() {
           <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
             <Input
               placeholder="Search by customer or reference"
+              aria-label="Search bookings by customer or reference"
               value={search}
               onChange={(e) => {
                 setSearch(e.target.value);
@@ -267,20 +262,20 @@ export default function AdminBookingsPage() {
           </div>
         </CardHeader>
         <CardContent>
-          {(error || statusError) && (
-            <p className="mb-2 text-sm text-destructive">{error ?? statusError}</p>
+          {(result.error || statusError) && (
+            <p className="mb-2 text-sm text-destructive">{result.error ?? statusError}</p>
           )}
           <DataTable
             columns={columns}
-            data={data?.data ?? []}
+            data={result.status === "success" ? result.data.data : []}
             getRowId={(row) => row.id}
-            isLoading={isLoading}
+            isLoading={result.status === "loading"}
             sortBy={sortBy}
             sortOrder={sortOrder}
             onSortChange={handleSortChange}
             page={page}
             pageSize={PAGE_SIZE}
-            totalCount={data?.count ?? 0}
+            totalCount={result.status === "success" ? result.data.count : 0}
             onPageChange={setPage}
             emptyMessage={
               hasActiveFilters ? (

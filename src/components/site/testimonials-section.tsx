@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
+import { initialsFor } from "@/lib/format";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 
 interface Testimonial {
@@ -58,14 +59,6 @@ const TESTIMONIALS: Testimonial[] = [
       "Smooth booking flow from start to finish, and the SUV we got was perfect for moving house. Will be renting again.",
   },
 ];
-
-function initials(name: string): string {
-  return name
-    .split(" ")
-    .map((part) => part[0])
-    .slice(0, 2)
-    .join("");
-}
 
 export function TestimonialsSection() {
   const scrollerRef = useRef<HTMLDivElement>(null);
@@ -121,17 +114,21 @@ export function TestimonialsSection() {
             >
               <div className="flex items-center gap-3">
                 <div className="flex size-11 shrink-0 items-center justify-center rounded-full bg-accent/15 font-heading text-sm font-bold text-accent-text">
-                  {initials(testimonial.name)}
+                  {initialsFor(testimonial.name)}
                 </div>
                 <div className="flex flex-col">
                   <span className="text-sm font-semibold text-foreground">{testimonial.name}</span>
                   <span className="text-xs text-muted-foreground">{testimonial.location}</span>
                 </div>
               </div>
-              <div className="flex gap-0.5 text-accent-text">
+              <div
+                className="flex gap-0.5 text-accent-text"
+                aria-label={`Rated ${testimonial.rating} out of 5`}
+              >
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star
                     key={i}
+                    aria-hidden="true"
                     className={cn(
                       "size-4",
                       i < testimonial.rating ? "fill-current" : "fill-none text-muted-foreground/30"
@@ -161,6 +158,7 @@ export function TestimonialsSection() {
                 key={testimonial.name}
                 type="button"
                 aria-label={`Go to testimonial ${i + 1}`}
+                aria-current={i === activeIndex ? "true" : undefined}
                 onClick={() => scrollToIndex(i)}
                 className={cn(
                   "h-2 rounded-full transition-all",
@@ -180,6 +178,10 @@ export function TestimonialsSection() {
             <ChevronRight />
           </Button>
         </div>
+
+        <p className="sr-only" role="status" aria-live="polite">
+          Testimonial {activeIndex + 1} of {TESTIMONIALS.length}
+        </p>
       </div>
     </section>
   );
