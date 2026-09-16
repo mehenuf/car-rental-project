@@ -53,9 +53,7 @@ export function RecentTransactionsPanel({
   });
   if (status !== "all") params.set("status", status);
 
-  const { data, isLoading, error } = useApiData<TransactionsResponse>(
-    `/api/bookings?${params.toString()}`
-  );
+  const result = useApiData<TransactionsResponse>(`/api/bookings?${params.toString()}`);
 
   function handleSortChange(key: string) {
     if (key === sortBy) {
@@ -164,18 +162,20 @@ export function RecentTransactionsPanel({
         </CardAction>
       </CardHeader>
       <CardContent>
-        {error && <p className="mb-2 text-sm text-destructive">{error}</p>}
+        {result.status === "error" && (
+          <p className="mb-2 text-sm text-destructive">{result.error}</p>
+        )}
         <DataTable
           columns={columns}
-          data={data?.data ?? []}
+          data={result.status === "success" ? result.data.data : []}
           getRowId={(row) => row.id}
-          isLoading={isLoading}
+          isLoading={result.status === "loading"}
           sortBy={sortBy}
           sortOrder={sortOrder}
           onSortChange={handleSortChange}
           page={page}
           pageSize={PAGE_SIZE}
-          totalCount={data?.count ?? 0}
+          totalCount={result.status === "success" ? result.data.count : 0}
           onPageChange={setPage}
           emptyMessage="No transactions in this range."
           renderMobileCard={(row) => (

@@ -23,7 +23,7 @@ export function DashboardStatCards({
   refreshKey: number;
 }) {
   const url = `/api/stats?startDate=${toApiDate(range.from)}&endDate=${toApiDate(range.to)}&_r=${refreshKey}`;
-  const { data, isLoading, error } = useApiData<DashboardStats>(url);
+  const result = useApiData<DashboardStats>(url);
 
   return (
     <div className="flex flex-col gap-(--space-2xs)">
@@ -32,31 +32,35 @@ export function DashboardStatCards({
           <CardContent className="flex items-center justify-between gap-(--space-sm) px-0">
             <div className="flex flex-col gap-2">
               <span className="text-sm font-medium text-accent-text">Total Earning</span>
-              {isLoading || !data ? (
+              {result.status === "loading" ? (
                 <Skeleton className="h-8 w-32" />
+              ) : result.status === "error" ? (
+                <span className="text-2xl font-bold text-muted-foreground">—</span>
               ) : (
                 <span className="font-heading text-2xl font-bold text-foreground">
-                  {formatCurrency(data.totalRevenue)}
+                  {formatCurrency(result.data.totalRevenue)}
                 </span>
               )}
-              {isLoading || !data ? (
+              {result.status === "loading" ? (
                 <Skeleton className="h-4 w-44" />
-              ) : (
-                <ChangeIndicator value={data.revenueChangePercent} />
-              )}
+              ) : result.status === "success" ? (
+                <ChangeIndicator value={result.data.revenueChangePercent} />
+              ) : null}
             </div>
-            <PiggyBank className="size-14 shrink-0 text-accent/25" aria-hidden />
+            <PiggyBank className="size-14 shrink-0 text-accent-text/25" aria-hidden />
           </CardContent>
         </Card>
 
         <Card className="justify-center border-0 bg-accent p-(--space-sm) text-accent-foreground shadow-card">
           <CardContent className="flex items-center justify-between gap-(--space-sm) px-0">
             <div className="flex flex-col gap-2">
-              {isLoading || !data ? (
+              {result.status === "loading" ? (
                 <Skeleton className="h-8 w-24 bg-white/25" />
+              ) : result.status === "error" ? (
+                <span className="text-2xl font-bold text-accent-foreground/50">—</span>
               ) : (
                 <span className="font-heading text-2xl font-bold">
-                  {formatNumber(data.salesCount)}
+                  {formatNumber(result.data.salesCount)}
                 </span>
               )}
               <span className="text-sm text-accent-foreground/85">No of Total Sales</span>
@@ -68,11 +72,13 @@ export function DashboardStatCards({
         <Card className="justify-center border-0 bg-primary p-(--space-sm) text-primary-foreground shadow-card">
           <CardContent className="flex items-center justify-between gap-(--space-sm) px-0">
             <div className="flex flex-col gap-2">
-              {isLoading || !data ? (
+              {result.status === "loading" ? (
                 <Skeleton className="h-8 w-24 bg-white/20" />
+              ) : result.status === "error" ? (
+                <span className="text-2xl font-bold text-primary-foreground/50">—</span>
               ) : (
                 <span className="font-heading text-2xl font-bold">
-                  {formatNumber(data.purchaseCount)}
+                  {formatNumber(result.data.purchaseCount)}
                 </span>
               )}
               <span className="text-sm text-primary-foreground/75">No of Purchased Goods</span>
@@ -82,7 +88,7 @@ export function DashboardStatCards({
         </Card>
       </div>
 
-      {error && <p className="text-sm text-destructive">{error}</p>}
+      {result.status === "error" && <p className="text-sm text-destructive">{result.error}</p>}
     </div>
   );
 }

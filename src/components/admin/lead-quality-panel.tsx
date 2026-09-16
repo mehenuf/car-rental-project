@@ -29,9 +29,7 @@ interface LeadsResponse {
 }
 
 export function LeadQualityPanel({ refreshKey }: { refreshKey: number }) {
-  const { data, isLoading, error } = useApiData<LeadsResponse>(
-    `/api/leads?page=1&pageSize=5&_r=${refreshKey}`
-  );
+  const result = useApiData<LeadsResponse>(`/api/leads?page=1&pageSize=5&_r=${refreshKey}`);
 
   return (
     <Card className="shadow-card ring-0">
@@ -44,21 +42,21 @@ export function LeadQualityPanel({ refreshKey }: { refreshKey: number }) {
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col gap-(--space-sm)">
-        {error && <p className="text-sm text-destructive">{error}</p>}
-        {isLoading || !data
+        {result.status === "error" && <p className="text-sm text-destructive">{result.error}</p>}
+        {result.status === "loading"
           ? Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="flex flex-col gap-1.5">
                 <Skeleton className="h-4 w-16" />
                 <Skeleton className="h-4 w-full" />
               </div>
             ))
-          : data.data.length === 0
+          : result.status === "success" && result.data.data.length === 0
             ? (
                 <p className="py-6 text-center text-sm text-muted-foreground">
                   No scored conversations yet.
                 </p>
               )
-            : data.data.map((lead) => (
+            : result.status === "success" && result.data.data.map((lead) => (
                 <div
                   key={lead.id}
                   className="flex flex-col gap-1 border-b border-border pb-(--space-xs) last:border-0 last:pb-0"

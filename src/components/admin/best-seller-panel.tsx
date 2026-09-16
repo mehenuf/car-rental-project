@@ -27,7 +27,7 @@ export function BestSellerPanel({
   refreshKey: number;
 }) {
   const url = `/api/best-sellers?startDate=${toApiDate(range.from)}&endDate=${toApiDate(range.to)}&limit=5&_r=${refreshKey}`;
-  const { data, isLoading, error } = useApiData<BestSeller[]>(url);
+  const result = useApiData<BestSeller[]>(url);
 
   return (
     <Card className="shadow-card ring-0">
@@ -40,8 +40,8 @@ export function BestSellerPanel({
         </CardAction>
       </CardHeader>
       <CardContent className="flex flex-col gap-(--space-sm)">
-        {error && <p className="text-sm text-destructive">{error}</p>}
-        {isLoading || !data
+        {result.status === "error" && <p className="text-sm text-destructive">{result.error}</p>}
+        {result.status === "loading"
           ? Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="flex items-center gap-3">
                 <Skeleton className="size-12 shrink-0 rounded-lg" />
@@ -52,9 +52,9 @@ export function BestSellerPanel({
                 <Skeleton className="h-4 w-10" />
               </div>
             ))
-          : data.length === 0
+          : result.status === "success" && result.data.length === 0
             ? <p className="py-6 text-center text-sm text-muted-foreground">No sales yet.</p>
-            : data.map((vehicle) => (
+            : result.status === "success" && result.data.map((vehicle) => (
                 <div key={vehicle.id} className="flex items-center gap-3">
                   <div className="relative size-12 shrink-0 overflow-hidden rounded-lg bg-muted">
                     <VehicleImage

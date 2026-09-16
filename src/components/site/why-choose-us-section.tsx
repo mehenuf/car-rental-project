@@ -27,7 +27,7 @@ export function WhyChooseUsSection() {
       <div className="grid grid-cols-1 items-center gap-(--space-xl) lg:grid-cols-2">
         <ScrollReveal
           y={28}
-          className="relative aspect-[4/3] w-full overflow-hidden rounded-[2rem] shadow-card"
+          className="relative aspect-[4/3] w-full overflow-hidden rounded-3xl shadow-card"
         >
           <Image
             src="https://images.unsplash.com/photo-1608142129869-8bc08524503a?auto=format&fit=crop&w=1200&q=80"

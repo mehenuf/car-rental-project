@@ -53,7 +53,7 @@ async function main() {
   while (!match) {
     const { data, error } = await supabase.auth.admin.listUsers({ page, perPage: 200 });
     if (error) throw error;
-    match = data.users.find((u) => u.email?.toLowerCase() === email.toLowerCase());
+    match = data.users.find((u) => u.email?.toLowerCase() === email!.toLowerCase());
     if (match || data.users.length < 200) break;
     page += 1;
   }

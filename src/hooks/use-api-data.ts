@@ -6,11 +6,20 @@ interface ApiErrorBody {
   error?: { message?: string };
 }
 
-export interface UseApiDataResult<T> {
-  data: T | null;
-  isLoading: boolean;
-  error: string | null;
-}
+/**
+ * A discriminated union instead of three independently-optional fields —
+ * `{ isLoading: false, data: null, error: null }` used to be a real,
+ * silently-reachable state (a fetch failure left `data` null forever while
+ * `isLoading` had already flipped false), which read as "stuck loading" in
+ * any consumer that gated its skeleton on `isLoading || !data`. Narrowing
+ * on `status` is the only way to read `data`/`error`, so a consumer that
+ * doesn't handle the error case distinctly fails to type-check instead of
+ * silently mis-rendering it.
+ */
+export type UseApiDataResult<T> =
+  | { status: "loading"; data: null; error: null }
+  | { status: "error"; data: null; error: string }
+  | { status: "success"; data: T; error: null };
 
 /**
  * Fetches `url` and re-fetches whenever the URL string changes — so a
@@ -18,9 +27,11 @@ export interface UseApiDataResult<T> {
  * rather than this hook needing its own extra dependency list.
  */
 export function useApiData<T>(url: string | null): UseApiDataResult<T> {
-  const [data, setData] = useState<T | null>(null);
-  const [isLoading, setIsLoading] = useState(url !== null);
-  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<UseApiDataResult<T>>({
+    status: "loading",
+    data: null,
+    error: null,
+  });
 
   useEffect(() => {
     if (!url) return;
@@ -35,26 +46,22 @@ export function useApiData<T>(url: string | null): UseApiDataResult<T> {
           const message = (body as ApiErrorBody)?.error?.message ?? "Request failed";
           throw new Error(message);
         }
-        if (!cancelled) {
-          setData(body as T);
-          setError(null);
-        }
+        if (!cancelled) setResult({ status: "success", data: body as T, error: null });
       } catch (err: unknown) {
-        if (!cancelled) setError(err instanceof Error ? err.message : "Request failed");
-      } finally {
-        if (!cancelled) setIsLoading(false);
+        if (!cancelled) {
+          const message = err instanceof Error ? err.message : "Request failed";
+          setResult({ status: "error", data: null, error: message });
+        }
       }
     }
 
     // Resetting synchronously here (not inside a callback) is intentional:
-    // `url` is the fetch's request key, so loading/data must flip before
-    // `run()`'s first await — otherwise stale data for the *previous* key
-    // would stay visible (or a stale "loaded" state would flash) while the
-    // new request is still in flight. Every consumer already gates on
-    // `isLoading` before reading `data`, so clearing it here is safe.
+    // `url` is the fetch's request key, so the result must flip back to
+    // "loading" before `run()`'s first await — otherwise stale data for
+    // the *previous* key would stay visible while the new request is
+    // still in flight.
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setIsLoading(true);
-    setData(null);
+    setResult({ status: "loading", data: null, error: null });
     run();
 
     return () => {
@@ -62,5 +69,5 @@ export function useApiData<T>(url: string | null): UseApiDataResult<T> {
     };
   }, [url]);
 
-  return { data, isLoading, error };
+  return result;
 }

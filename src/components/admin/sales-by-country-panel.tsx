@@ -28,7 +28,7 @@ export function SalesByCountryPanel({
   refreshKey: number;
 }) {
   const countryUrl = `/api/sales-by-country?startDate=${toApiDate(range.from)}&endDate=${toApiDate(range.to)}&_r=${refreshKey}`;
-  const { data, isLoading, error } = useApiData<CountrySales[]>(countryUrl);
+  const { data, status, error } = useApiData<CountrySales[]>(countryUrl);
 
   const statsUrl = `/api/stats?startDate=${toApiDate(range.from)}&endDate=${toApiDate(range.to)}&_r=${refreshKey}`;
   const { data: stats } = useApiData<DashboardStats>(statsUrl);
@@ -46,7 +46,7 @@ export function SalesByCountryPanel({
       </CardHeader>
       <CardContent className="flex flex-col gap-(--space-sm)">
         {error && <p className="text-sm text-destructive">{error}</p>}
-        {isLoading || !data
+        {status === "loading"
           ? Array.from({ length: 5 }).map((_, i) => (
               <div key={i} className="flex flex-col gap-1.5">
                 <div className="flex justify-between">

@@ -1,10 +1,10 @@
-import Image from "next/image";
 import Link from "next/link";
 import { CalendarClock, Car, MapPin, TicketCheck } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
+import { VehicleImage } from "@/components/site/vehicle-image";
 import { formatCurrency, formatDate } from "@/lib/format";
 import { getBookingsForIdentity } from "@/lib/queries";
 import { readRequestIdentity } from "@/lib/guest";
@@ -59,7 +59,7 @@ export default async function DashboardPage() {
               <CardContent className="flex flex-col gap-(--space-sm) sm:flex-row sm:items-center">
                 <div className="relative size-16 shrink-0 overflow-hidden rounded-lg bg-muted">
                   {booking.vehicle?.image_url ? (
-                    <Image
+                    <VehicleImage
                       src={booking.vehicle.image_url}
                       alt=""
                       fill

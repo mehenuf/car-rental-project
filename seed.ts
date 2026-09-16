@@ -46,7 +46,7 @@ function randomInt(min: number, max: number) {
 }
 
 function pick<T>(arr: readonly T[]): T {
-  return arr[randomInt(0, arr.length - 1)];
+  return arr[randomInt(0, arr.length - 1)]!;
 }
 
 function slugify(text: string) {
@@ -266,7 +266,7 @@ function shuffleAndTake<T>(arr: T[], count: number): T[] {
   const copy = [...arr];
   for (let i = copy.length - 1; i > 0; i--) {
     const j = randomInt(0, i);
-    [copy[i], copy[j]] = [copy[j], copy[i]];
+    [copy[i], copy[j]] = [copy[j]!, copy[i]!];
   }
   return copy.slice(0, count);
 }

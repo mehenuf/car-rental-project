@@ -35,15 +35,20 @@ export default function GlobalError({
           textAlign: "center",
           fontFamily:
             "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
-          backgroundColor: "#0b0f19",
-          color: "#f4f4f5",
+          // CSS custom properties, not Tailwind utility classes — this file
+          // can't assume Tailwind's generated stylesheet loaded, but the
+          // token *values* declared in globals.css are still available
+          // this way, so the palette stays current asphalt/gold rather
+          // than the pre-redesign navy/orange these used to be hardcoded to.
+          backgroundColor: "var(--background)",
+          color: "var(--foreground)",
         }}
       >
         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
           <h1 style={{ fontSize: "1.5rem", fontWeight: 700, margin: 0 }}>
             Something went wrong
           </h1>
-          <p style={{ color: "#a1a1aa", margin: 0, maxWidth: "28rem" }}>
+          <p style={{ color: "var(--muted-foreground)", margin: 0, maxWidth: "28rem" }}>
             The app hit an unexpected error. Reloading usually fixes it.
           </p>
         </div>
@@ -54,8 +59,8 @@ export default function GlobalError({
             padding: "0.625rem 1.5rem",
             borderRadius: "0.5rem",
             border: "none",
-            backgroundColor: "#f97316",
-            color: "#0b0f19",
+            backgroundColor: "var(--accent)",
+            color: "var(--accent-foreground)",
             fontWeight: 600,
             cursor: "pointer",
           }}

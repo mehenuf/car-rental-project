@@ -68,9 +68,11 @@ export function SalesAnalyticsChart({
   }
 
   const url = `/api/monthly-sales?year=${year}&_r=${refreshKey}`;
-  const { data, isLoading, error } = useApiData<MonthlySales[]>(url);
+  const result = useApiData<MonthlySales[]>(url);
 
-  const chartData = (data ?? MONTH_LABELS.map((_, i) => ({ month: i + 1, revenue: 0 }))).map(
+  const chartData = (
+    result.status === "success" ? result.data : MONTH_LABELS.map((_, i) => ({ month: i + 1, revenue: 0 }))
+  ).map(
     (row) => ({
       monthLabel: MONTH_LABELS[row.month - 1],
       revenue: row.revenue,
@@ -97,8 +99,10 @@ export function SalesAnalyticsChart({
         </CardAction>
       </CardHeader>
       <CardContent>
-        {error && <p className="mb-2 text-sm text-destructive">{error}</p>}
-        {isLoading ? (
+        {result.status === "error" && (
+          <p className="mb-2 text-sm text-destructive">{result.error}</p>
+        )}
+        {result.status === "loading" ? (
           <Skeleton className="h-64 w-full" />
         ) : (
           <div className="h-64 w-full">
