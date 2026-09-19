@@ -95,6 +95,27 @@ Payments use a provider abstraction with Stripe test mode plus simulated local a
 
 **Trust and safety.** Two-way reviews unlock after completion. Either side can open a dispute (damage, no-show, cleanliness), which freezes the payout and deposit until a platform admin resolves it. Individual owners must make an insurance declaration and get a listing verification badge.
 
+## 5b. Accounts and portals
+
+Three portals share one identity system (Supabase Auth). One user can hold several roles, for example a customer who also lists a car. A header context switcher (Personal / provider name) selects the active context. Authorisation is decided by RLS on `provider_id` and user id. `proxy.ts` only redirects users to the portal they may use.
+
+| Portal | Users | Route |
+|---|---|---|
+| Customer account | Anyone renting | `/account` |
+| Provider portal | Company staff and individual owners | `/provider` |
+| Platform admin | Platform staff (MFA required) | `/admin` (exists, expanded) |
+
+**Customer account (sub-project 5).** Upcoming and past bookings with self-service modify and cancel, driver-licence verification, saved payment methods, favourites, invoices and receipts, reviews to write, messages with the provider, profile, and privacy tools (data export and delete).
+
+**Provider portal (sub-project 4).** One codebase, adapted to provider type and member role.
+- Company `owner` and `manager`: overview (revenue, utilisation, today's pickups and returns), fleet and branches (units, maintenance blocks, one calendar across all units), bookings (approve or decline, pickup and return check-in with photos, fuel and mileage), pricing (rate plans, extras, promos, policies), payouts and statements, reviews and disputes, team and roles, document and verification status. A branch `manager` sees the same, limited to their branch.
+- `agent`: bookings and check-ins only, with no pricing or payouts.
+- Individual owner: simplified view of My cars, availability calendar, booking requests, earnings and messages.
+
+**Platform admin (sub-project 8).** Provider verification queue, all bookings and payments, disputes, commission settings, payout runs, financial reports, audit log and user management.
+
+**Messaging.** Per-booking messaging between customer and provider (needed by individual owners) is part of the communications sub-project (6).
+
 ## 6. Cross-cutting requirements
 
 - Every API input is validated with Zod, as today. Provider-scoped access is enforced in RLS and again in route handlers.
