@@ -109,6 +109,7 @@ Create a `.env.local` file in the project root with the following variables:
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase's service-role key. This one is server-only. It bypasses row-level security, so it is used for admin writes, booking creation, and lead scoring. |
 | `GROQ_API_KEY` | API key for Groq, the primary AI provider behind the chat assistant. |
 | `GEMINI_API_KEY` | API key for Gemini, the automatic fallback if a Groq request fails. |
+| `AUTH_REQUIRE_EMAIL_VERIFICATION` | Optional. Defaults to on: new accounts must click the emailed link (needs SMTP in Supabase). Set to `false` to create pre-confirmed accounts for demos with no email provider. |
 | `QUOTE_SIGNING_SECRET` | Server-only secret (at least 32 characters) used to sign the 15 minute price quotes returned by `POST /api/quote`. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Quoting fails without it. |
 | `CRON_SECRET` | Server-only secret that protects `GET /api/cron/maintenance`. Vercel Cron sends it as `Authorization: Bearer <secret>`. Without it the endpoint answers 503. |
 | `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Optional. Stripe **test-mode** keys and the webhook signing secret. With them, card payments go through Stripe. Without them every method is simulated and the site works the same. |

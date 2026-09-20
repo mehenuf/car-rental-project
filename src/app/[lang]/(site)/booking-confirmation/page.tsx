@@ -92,7 +92,7 @@ export default async function BookingConfirmationPage({
             {t("confirmation.payNow")}
           </Link>
         )}
-        <Link href="/dashboard" className={buttonVariants({ variant: "outline", size: "lg" })}>
+        <Link href="/account" className={buttonVariants({ variant: "outline", size: "lg" })}>
           {t("confirmation.viewBookings")}
         </Link>
         <Link href="/cars" className={buttonVariants({ variant: awaitingPayment ? "outline" : "default", size: "lg" })}>

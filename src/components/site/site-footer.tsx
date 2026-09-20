@@ -20,7 +20,7 @@ export async function SiteFooter() {
       title: t("footer.support"),
       links: [
         { label: t("footer.contactUs"), href: "/contact" },
-        { label: t("footer.myBookings"), href: "/dashboard" },
+        { label: t("footer.myBookings"), href: "/account" },
       ],
     },
   ];
