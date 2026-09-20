@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { CreateBookingSchema, QuoteRequestSchema, UpdateVehicleSchema, VehiclesQuerySchema } from "@/lib/schemas";
+import {
+  ConfirmPaymentSchema,
+  CreateBookingSchema,
+  QuoteRequestSchema,
+  StartPaymentSchema,
+  UpdateVehicleSchema,
+  VehiclesQuerySchema,
+} from "@/lib/schemas";
 
 const base = {
   vehicle_id: "11111111-1111-4111-8111-111111111111",
@@ -102,5 +109,20 @@ describe("CreateBookingSchema pricing fields", () => {
     const r = CreateBookingSchema.safeParse(base);
     expect(r.success).toBe(true);
     if (r.success) expect(r.data.extras).toEqual([]);
+  });
+});
+
+describe("payment request schemas", () => {
+  it("accepts a checkout request and rejects unknown methods or short attempt ids", () => {
+    const ok = StartPaymentSchema.safeParse({ reference: "BC-ABC123", method: "mpesa", attempt: "attempt-0001", test_input: "decline" });
+    expect(ok.success).toBe(true);
+    expect(StartPaymentSchema.safeParse({ reference: "BC-ABC123", method: "cash", attempt: "attempt-0001" }).success).toBe(false);
+    expect(StartPaymentSchema.safeParse({ reference: "BC-ABC123", method: "card", attempt: "x" }).success).toBe(false);
+  });
+
+  it("accepts an optional confirmation code", () => {
+    expect(ConfirmPaymentSchema.safeParse({}).success).toBe(true);
+    expect(ConfirmPaymentSchema.safeParse({ code: "000000" }).success).toBe(true);
+    expect(ConfirmPaymentSchema.safeParse({ code: "x".repeat(40) }).success).toBe(false);
   });
 });

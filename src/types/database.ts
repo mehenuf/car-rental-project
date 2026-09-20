@@ -180,6 +180,38 @@ export type PromoCodeRow = {
   is_active: boolean;
 };
 
+export type PaymentRow = {
+  id: string;
+  booking_id: string;
+  kind: "charge" | "deposit_hold" | "refund";
+  method: "card" | "paypal" | "apple_pay" | "google_pay" | "ideal" | "upi" | "bkash" | "mpesa";
+  provider: "stripe" | "simulated";
+  provider_ref: string | null;
+  status: "requires_action" | "processing" | "succeeded" | "failed" | "cancelled" | "released" | "captured";
+  amount_minor: number;
+  currency: string;
+  idempotency_key: string;
+  failure_code: string | null;
+  provider_part_minor: number | null;
+  platform_part_minor: number | null;
+  captured_minor: number | null;
+  metadata: Json;
+  created_at: string;
+  updated_at: string;
+};
+
+export type PayoutRow = {
+  id: string;
+  provider_id: string;
+  booking_id: string;
+  amount_minor: number;
+  currency: string;
+  status: "pending" | "paid" | "frozen" | "cancelled";
+  release_after: string;
+  paid_at: string | null;
+  created_at: string;
+};
+
 export type BookingRow = {
   id: string;
   reference: string;
@@ -195,6 +227,9 @@ export type BookingRow = {
   dropoff_branch_id: number | null;
   currency: string | null;
   price_snapshot: Json | null;
+  payment_status: "unpaid" | "paid" | "refunded" | "partially_refunded";
+  hold_expires_at: string | null;
+  completed_at: string | null;
   pickup_at: string;
   dropoff_at: string;
   /** Generated column (`greatest(1, extract(day from dropoff_at - pickup_at))`), read-only. */
@@ -374,6 +409,18 @@ export interface Database {
         Update: Partial<PromoCodeRow>;
         Relationships: [];
       };
+      payments: {
+        Row: PaymentRow;
+        Insert: InsertOf<PaymentRow, "booking_id" | "kind" | "method" | "provider" | "amount_minor" | "currency" | "idempotency_key">;
+        Update: Partial<PaymentRow>;
+        Relationships: [];
+      };
+      payouts: {
+        Row: PayoutRow;
+        Insert: InsertOf<PayoutRow, "provider_id" | "booking_id" | "amount_minor" | "currency" | "release_after">;
+        Update: Partial<PayoutRow>;
+        Relationships: [];
+      };
       bookings: {
         Row: BookingRow;
         Insert: {
@@ -389,6 +436,9 @@ export interface Database {
           dropoff_branch_id?: number | null;
           currency?: string | null;
           price_snapshot?: Json | null;
+          payment_status?: "unpaid" | "paid" | "refunded" | "partially_refunded";
+          hold_expires_at?: string | null;
+          completed_at?: string | null;
           guest_id?: string | null;
           user_id?: string | null;
           pickup_at: string;
@@ -413,6 +463,9 @@ export interface Database {
           dropoff_branch_id?: number | null;
           currency?: string | null;
           price_snapshot?: Json | null;
+          payment_status?: "unpaid" | "paid" | "refunded" | "partially_refunded";
+          hold_expires_at?: string | null;
+          completed_at?: string | null;
           guest_id?: string | null;
           user_id?: string | null;
           pickup_at?: string;
@@ -552,6 +605,17 @@ export interface Database {
         };
         Returns: BookingRow;
       };
+      expire_stale_holds: {
+        Args: Record<PropertyKey, never>;
+        Returns: number;
+      };
+      record_payment_success: { Args: { p_payment_id: string }; Returns: Json };
+      record_refund_success: { Args: { p_payment_id: string }; Returns: Json };
+      record_deposit_hold: { Args: { p_payment_id: string }; Returns: Json };
+      release_deposit: { Args: { p_payment_id: string }; Returns: Json };
+      capture_deposit: { Args: { p_payment_id: string; p_amount: number }; Returns: Json };
+      create_payout_for_booking: { Args: { p_booking_id: string }; Returns: string | null };
+      run_payouts: { Args: { p_now?: string }; Returns: number };
       free_units: {
         Args: {
           p_vehicle_id: string | null;
