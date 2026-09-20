@@ -40,15 +40,6 @@
     "copyright": "© {year} BestCar. Alle Rechte vorbehalten.",
     "demo": "Zahlungen auf dieser Seite sind simuliert. Es fließt kein echtes Geld."
   },
-  "hero": {
-    "titleLine1": "Mieten Sie die Straße",
-    "titleAccent": "noch heute Abend.",
-    "body": "Wählen Sie Ihre Daten, wählen Sie Ihr Auto und fahren Sie in wenigen Minuten los. Kein Konto nötig, und der angezeigte Preis ist der Preis, den Sie zahlen.",
-    "bookNow": "Jetzt buchen",
-    "seeAll": "Alle Fahrzeuge ansehen",
-    "rating": "4,9 / 5",
-    "renters": "Über 2.400 zufriedene Kunden"
-  },
   "howItWorks": {
     "step1Title": "Wo und wann wählen",
     "step1Body": "Wählen Sie Stadt, Datum und Uhrzeit. Wir zeigen nur freie Autos.",
@@ -61,15 +52,7 @@
     "step4Body": "Führerschein zeigen, Auto mit dem Gastgeber prüfen und los. Bewerten Sie die Fahrt danach."
   },
   "whyChooseUs": {
-    "title": "Warum wir",
-    "subtitle": "Ein leistungsstarker Autovermietungsservice, der auf Komfort, Transparenz und Zuverlässigkeit setzt.",
-    "imageAlt": "Nächtliche Stadtstraße mit einem Auto, das auf die Skyline zufährt",
-    "supportTitle": "Kundenservice",
-    "supportBody": "Unser Support-Team ist rund um die Uhr erreichbar, Hilfe ist also immer nur einen Anruf entfernt.",
-    "priceTitle": "Bestpreisgarantie",
-    "priceBody": "Transparente, günstige Tagespreise ohne versteckte Gebühren bei der Abholung.",
-    "locationTitle": "Viele Standorte",
-    "locationBody": "Abholung und Rückgabe an günstig gelegenen Standorten in jeder größeren Stadt, in der wir tätig sind."
+    "imageAlt": "Nächtliche Stadtstraße mit einem Auto, das auf die Skyline zufährt"
   },
   "notFound": {
     "title": "Seite nicht gefunden",
@@ -110,7 +93,7 @@
     "errDropAfter": "Das Rückgabedatum muss nach dem Abholdatum liegen."
   },
   "cars": {
-    "title": "Unsere Flotte entdecken",
+    "title": "Autos zum Mieten",
     "showingDates": "Fahrzeuge mit Abholung am {from} und Rückgabe am {to}.",
     "found": {
       "one": "{count} Fahrzeug gefunden",
@@ -136,8 +119,8 @@
     "pagination": "Seitennavigation",
     "prevPage": "Vorherige Seite",
     "nextPage": "Nächste Seite",
-    "dealsTitle": "Die beliebtesten Mietwagen-Angebote",
-    "dealsBody": "Eine gepflegte Flotte, bereit für jede Reise, ob kurz oder lang.",
+    "dealsTitle": "Beliebte Autos",
+    "dealsBody": "Autos von lokalen Vermietern und privaten Eigentümern. Die Preise enthalten Gebühren und Steuern.",
     "tabLarge": "Großer Wagen",
     "tabSmall": "Kleiner Wagen",
     "tabExclusive": "Exklusiver Wagen",
@@ -148,7 +131,8 @@
       "one": "{count} Fahrzeug",
       "other": "{count} Fahrzeuge"
     },
-    "loadFailed": "Fahrzeuge konnten nicht geladen werden"
+    "loadFailed": "Fahrzeuge konnten nicht geladen werden",
+    "titleIn": "Autos in {place}"
   },
   "vehicle": {
     "perDay": "/Tag",
@@ -288,33 +272,35 @@
     "cancel": "Buchung stornieren"
   },
   "about": {
-    "title": "Autovermietung ohne Umwege",
-    "intro": "BestCar verbindet Mieter mit einer geprüften Fahrzeugflotte in jedem Land, in dem wir tätig sind. Wir haben die Plattform gebaut, die wir uns selbst gewünscht haben: klare Preise, eine schnelle Buchung und kein Zwang, ein Konto anzulegen, bevor man eine Gesamtsumme sieht.",
-    "v1Title": "Transparente Preise",
-    "v1Body": "Der Preis auf der Fahrzeugseite ist der Preis, den Sie zahlen. Keine versteckten Gebühren an der Kasse.",
-    "v2Title": "In Minuten gebucht",
-    "v2Body": "Daten wählen, Angaben bestätigen, fertig. Zum Start ist kein Konto nötig.",
-    "v3Title": "Geprüfte Flotte",
-    "v3Body": "Jedes angebotene Fahrzeug wird geprüft und versichert, bevor es auf der Plattform erscheint.",
-    "readyTitle": "Bereit zum Mieten?",
-    "readyBody": "Stöbern Sie in der Flotte und buchen Sie noch heute das passende Auto für Ihre Reise."
+    "title": "So funktioniert BestCar",
+    "intro": "BestCar ist ein Marktplatz. Lokale Vermieter und private Eigentümer stellen ihre Autos ein, und Mieter buchen sie hier.",
+    "rentersTitle": "Wenn Sie mieten",
+    "r1Title": "Ein Gesamtpreis",
+    "r1Body": "Er enthält Gebühren und Steuern, in der Währung der Abholfiliale.",
+    "r2Title": "Ohne Konto buchen",
+    "r2Body": "Registrieren Sie sich nur, wenn Sie Fahrten, Belege und Nachrichten an einem Ort haben möchten.",
+    "r3Title": "Bewertungen aus echten Fahrten",
+    "r3Body": "Nur wer eine Buchung abgeschlossen hat, kann ein Auto oder den Gastgeber bewerten.",
+    "hostsTitle": "Wenn Sie ein Auto anbieten",
+    "h1Title": "Erst die Dokumente",
+    "h1Body": "Unternehmen und Eigentümer senden Dokumente, und unser Team gibt jedes Auto einzeln frei.",
+    "h2Title": "Preis und Verfügbarkeit bestimmen Sie",
+    "h2Body": "Tarife, Extras, Kautionen und Kalender verwalten Sie im Partnerbereich.",
+    "h3Title": "Bezahlt nach der Fahrt",
+    "h3Body": "Auszahlungen folgen abgeschlossenen Fahrten. Streitfälle klären wir mit beiden Seiten."
   },
   "contact": {
-    "title": "Kontakt aufnehmen",
-    "intro": "Fragen zu einer Buchung, einem Fahrzeug oder Ihrem Konto? Erreichen Sie uns über einen der folgenden Kanäle.",
-    "chatTitle": "Live-Chat",
-    "chatBody": "Der schnellste Weg zu uns: Klicken Sie, um den Chat zu öffnen.",
-    "emailTitle": "E-Mail",
-    "phoneTitle": "Telefon",
-    "phoneBody": "+44 20 7946 0958 (Mo-Fr, 9-18 Uhr GMT)"
+    "title": "Kontakt",
+    "intro": "BestCar ist ein Online-Marktplatz, deshalb werden die meisten Fragen dort beantwortet, wo sie entstehen. Hier ist der Weg.",
+    "chatTitle": "Den Assistenten fragen",
+    "chatBody": "Ein KI-Assistent beantwortet Fragen zu Autos, Preisen und zur Buchung. Er ist keine Person und kann keine Buchung ändern.",
+    "bookingTitle": "Ein Problem mit einer Buchung",
+    "bookingBody": "Melden Sie sich an, öffnen Sie die Fahrt und schreiben Sie dem Gastgeber über die Nachrichten. Wenn es ungelöst bleibt, eröffnen Sie dort einen Streitfall; unser Team prüft ihn.",
+    "hostTitle": "Sie sind Gastgeber",
+    "hostBody": "Buchungen, Nachrichten, Auszahlungen und Bewertungen finden Sie im Partnerbereich.",
+    "note": "Es gibt noch keine Support-E-Mail-Adresse und keine Telefonnummer."
   },
   "testimonials": {
-    "title": "Das Vertrauen Tausender zufriedener Kunden",
-    "subtitle": "Echte Geschichten von Mietern, die ihre nächste Reise mit BestCar gebucht haben.",
-    "prev": "Vorherige Kundenstimme",
-    "next": "Nächste Kundenstimme",
-    "goTo": "Zu Kundenstimme {n}",
-    "status": "Kundenstimme {n} von {total}",
     "rated": "Bewertet mit {rating} von 5"
   },
   "auth": {

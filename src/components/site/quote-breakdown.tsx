@@ -14,7 +14,7 @@ export function QuoteBreakdown({ quote, isUpdating }: { quote: Quote; isUpdating
   const money = (minor: number) => formatMinor(minor, quote.currency, numberingLocale(locale));
 
   return (
-    <div className={cn("flex flex-col gap-2 transition-opacity", isUpdating && "opacity-60")} aria-busy={isUpdating}>
+    <div data-chat-avoid className={cn("flex flex-col gap-2 transition-opacity", isUpdating && "opacity-60")} aria-busy={isUpdating}>
       <ul className="flex flex-col gap-1.5 border-t border-border pt-(--space-sm) text-sm">
         {quote.lines.map((line, index) => (
           <li key={`${line.kind}-${line.code ?? index}`} className="flex items-start justify-between gap-3">

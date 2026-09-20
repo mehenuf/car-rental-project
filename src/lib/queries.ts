@@ -5,6 +5,7 @@ import { supabaseAdmin } from "@/lib/supabase-server";
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { toBookingApiError } from "@/lib/booking-errors";
 import { majorToMinor, minorToMajor } from "@/lib/pricing/money";
+import { choosePlace, type VehiclePlace } from "@/lib/vehicle-place";
 import { toSnapshot } from "@/lib/pricing/mappers";
 import { quoteForBooking } from "@/lib/pricing/service";
 import type {
@@ -181,10 +182,34 @@ export async function getVehicles(
  * table's edit dialog does. */
 export type VehicleCardData = Pick<
   Tables<"vehicles">,
-  "id" | "slug" | "name" | "image_url" | "price_per_day" | "available" | "stock"
->;
+  "id" | "slug" | "name" | "image_url" | "price_per_day" | "available" | "stock" | "rating" | "review_count"
+> & {
+  /** Where the car is offered and its daily rate there, in that branch's currency. Absent for cars with no rate plan. */
+  place?: VehiclePlace | null;
+};
 
-const VEHICLE_CARD_COLUMNS = "id, slug, name, image_url, price_per_day, available, stock";
+const VEHICLE_CARD_COLUMNS = "id, slug, name, image_url, price_per_day, available, stock, rating, review_count";
+
+/** Adds each card's city and local-currency rate from the rate plans of the branches that offer it. */
+async function attachPlaces(cards: VehicleCardData[], preferredBranchId?: number): Promise<VehicleCardData[]> {
+  if (cards.length === 0) return cards;
+  const ids = cards.map((c) => c.id);
+  // A rate plan alone does not make a car available somewhere: it also needs an active, approved unit at that branch.
+  const [{ data: allPlans }, { data: units }] = await Promise.all([
+    supabaseAdmin.from("rate_plans").select("vehicle_id, branch_id, currency, base_daily_minor").in("vehicle_id", ids),
+    supabaseAdmin.from("fleet_units").select("vehicle_id, branch_id").in("vehicle_id", ids).eq("status", "active").eq("listing_status", "approved"),
+  ]);
+  const offered = new Set((units ?? []).map((u) => `${u.vehicle_id}:${u.branch_id}`));
+  const plans = (allPlans ?? []).filter((p) => offered.has(`${p.vehicle_id}:${p.branch_id}`));
+  const branchIds = [...new Set(plans.map((p) => p.branch_id))];
+  const { data: branches } = branchIds.length > 0
+    ? await supabaseAdmin.from("branches").select("id, city").eq("is_active", true).in("id", branchIds)
+    : { data: [] as { id: number; city: string }[] };
+  return cards.map((card) => ({
+    ...card,
+    place: choosePlace(plans.filter((p) => p.vehicle_id === card.id), branches ?? [], preferredBranchId),
+  }));
+}
 
 export async function getVehicleCards(
   filters: VehicleFilters = {}
@@ -230,7 +255,8 @@ export async function getVehicleCards(
   const { data, error, count } = await query;
   if (error) throw new Error(`getVehicleCards: ${error.message}`);
 
-  return { data: (data ?? []) as unknown as VehicleCardData[], count: count ?? 0 };
+  const cards = await attachPlaces((data ?? []) as unknown as VehicleCardData[], filters.locationId ?? filters.availability?.pickupBranchId);
+  return { data: cards, count: count ?? 0 };
 }
 
 // ---------------------------------------------------------------

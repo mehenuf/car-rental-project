@@ -1,6 +1,5 @@
 import { pageMetadata } from "@/lib/seo/metadata";
 import { Link } from "@/lib/i18n/link";
-import { Clock, ShieldCheck, Wallet } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { getT } from "@/lib/i18n/dictionary";
@@ -10,50 +9,48 @@ export async function generateMetadata() {
   return pageMetadata("/about", { title: t("meta.about") });
 }
 
-const VALUES = [
-  { icon: Wallet, key: "v1" },
-  { icon: Clock, key: "v2" },
-  { icon: ShieldCheck, key: "v3" },
-] as const;
+const POINTS = ["1", "2", "3"] as const;
 
+/** Two audiences, side by side, each with the three things that matter to them. */
 export default async function AboutPage() {
   const t = await getT();
+  const columns = [
+    { id: "renters", title: t("about.rentersTitle"), prefix: "r", action: { href: "/cars", label: t("common.browseCars"), primary: true } },
+    { id: "hosts", title: t("about.hostsTitle"), prefix: "h", action: { href: "/register?type=individual", label: t("landing.earn.ctaOwner"), primary: false } },
+  ] as const;
+
   return (
-    <div className="mx-auto flex max-w-4xl flex-col gap-(--space-xl) px-(--space-sm) py-(--space-2xl)">
-      <ScrollReveal className="flex flex-col gap-(--space-xs) text-center">
-        <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          {t("about.title")}
-        </h1>
-        <p className="mx-auto max-w-2xl text-muted-foreground">
-          {t("about.intro")}
-        </p>
+    <div className="mx-auto flex max-w-5xl flex-col gap-(--space-xl) px-(--space-sm) py-(--space-2xl)">
+      <ScrollReveal className="flex max-w-2xl flex-col gap-(--space-xs)">
+        <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">{t("about.title")}</h1>
+        <p className="text-lg text-muted-foreground">{t("about.intro")}</p>
       </ScrollReveal>
 
-      <div className="flex flex-col divide-y divide-border border-t border-border">
-        {VALUES.map(({ icon: Icon, key }, index) => (
-          <ScrollReveal
-            key={key}
-            className="flex items-start gap-4 py-(--space-md)"
-            delay={index * 0.1}
-          >
-            <div className="flex size-10 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent-text">
-              <Icon className="size-5" aria-hidden />
-            </div>
-            <div className="flex flex-col gap-1">
-              <h2 className="font-heading text-base font-semibold text-foreground">{t(`about.${key}Title`)}</h2>
-              <p className="text-sm text-muted-foreground">{t(`about.${key}Body`)}</p>
-            </div>
+      <div className="grid grid-cols-1 gap-(--space-lg) md:grid-cols-2">
+        {columns.map((column, index) => (
+          <ScrollReveal key={column.id} delay={index * 0.08} className="flex flex-col gap-(--space-sm)">
+            <section aria-labelledby={`about-${column.id}`} className="flex flex-col gap-(--space-sm)">
+              <h2 id={`about-${column.id}`} className="border-b border-border pb-2 font-heading text-xl font-semibold text-foreground">
+                {column.title}
+              </h2>
+              <ul className="flex flex-col gap-(--space-sm)">
+                {POINTS.map((n) => (
+                  <li key={n} className="flex flex-col gap-1">
+                    <h3 className="font-heading text-base font-semibold text-foreground">{t(`about.${column.prefix}${n}Title`)}</h3>
+                    <p className="text-sm text-muted-foreground">{t(`about.${column.prefix}${n}Body`)}</p>
+                  </li>
+                ))}
+              </ul>
+              <Link
+                href={column.action.href}
+                className={buttonVariants({ size: "lg", variant: column.action.primary ? "default" : "outline", className: "w-fit" })}
+              >
+                {column.action.label}
+              </Link>
+            </section>
           </ScrollReveal>
         ))}
       </div>
-
-      <ScrollReveal className="flex flex-col items-center gap-(--space-xs) text-center">
-        <h2 className="font-heading text-xl font-semibold text-foreground">{t("about.readyTitle")}</h2>
-        <p className="max-w-md text-sm text-muted-foreground">{t("about.readyBody")}</p>
-        <Link href="/cars" className={buttonVariants({ size: "lg" })}>
-          {t("common.browseCars")}
-        </Link>
-      </ScrollReveal>
     </div>
   );
 }

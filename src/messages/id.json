@@ -40,15 +40,6 @@
     "copyright": "© {year} BestCar. Hak cipta dilindungi.",
     "demo": "Pembayaran di situs ini hanya simulasi. Tidak ada uang sungguhan yang berpindah."
   },
-  "hero": {
-    "titleLine1": "Sewa jalanan",
-    "titleAccent": "malam ini.",
-    "body": "Pilih tanggal, pilih mobil, dan berangkat dalam hitungan menit. Tanpa perlu akun, dan harga yang Anda lihat adalah harga yang Anda bayar.",
-    "bookNow": "Pesan sekarang",
-    "seeAll": "Lihat semua mobil",
-    "rating": "4,9 / 5",
-    "renters": "Lebih dari 2.400 penyewa puas"
-  },
   "howItWorks": {
     "step1Title": "Pilih di mana dan kapan",
     "step1Body": "Pilih kota, tanggal, dan jam. Kami hanya menampilkan mobil yang kosong.",
@@ -61,15 +52,7 @@
     "step4Body": "Tunjukkan SIM, periksa mobil bersama pemilik, lalu berangkat. Beri ulasan setelahnya."
   },
   "whyChooseUs": {
-    "title": "Mengapa Memilih Kami",
-    "subtitle": "Layanan sewa mobil berkinerja tinggi yang dibangun di atas kemudahan, transparansi, dan keandalan.",
-    "imageAlt": "Jalan kota pada malam hari dengan mobil melaju menuju cakrawala kota",
-    "supportTitle": "Layanan Pelanggan",
-    "supportBody": "Tim dukungan kami siaga sepanjang waktu, jadi bantuan selalu hanya sepanggilan telepon.",
-    "priceTitle": "Jaminan Harga Terbaik",
-    "priceBody": "Tarif harian yang transparan dan kompetitif tanpa biaya tersembunyi saat pengambilan.",
-    "locationTitle": "Banyak Lokasi",
-    "locationBody": "Ambil dan kembalikan mobil di lokasi yang nyaman di setiap kota besar yang kami layani."
+    "imageAlt": "Jalan kota pada malam hari dengan mobil melaju menuju cakrawala kota"
   },
   "notFound": {
     "title": "Halaman tidak ditemukan",
@@ -110,7 +93,7 @@
     "errDropAfter": "Tanggal pengembalian harus setelah tanggal pengambilan."
   },
   "cars": {
-    "title": "Jelajahi Armada Kami",
+    "title": "Mobil untuk disewa",
     "showingDates": "Menampilkan mobil untuk pengambilan pada {from} hingga pengembalian pada {to}.",
     "found": {
       "other": "{count} mobil ditemukan"
@@ -135,8 +118,8 @@
     "pagination": "Navigasi halaman",
     "prevPage": "Halaman sebelumnya",
     "nextPage": "Halaman berikutnya",
-    "dealsTitle": "Penawaran Sewa Mobil Terpopuler",
-    "dealsBody": "Armada terawat yang siap dipesan untuk perjalanan apa pun, pendek maupun panjang.",
+    "dealsTitle": "Mobil populer",
+    "dealsBody": "Mobil dari perusahaan lokal dan pemilik pribadi. Harga sudah termasuk biaya dan pajak.",
     "tabLarge": "Mobil Besar",
     "tabSmall": "Mobil Kecil",
     "tabExclusive": "Mobil Eksklusif",
@@ -146,7 +129,8 @@
     "total": {
       "other": "{count} Mobil"
     },
-    "loadFailed": "Gagal memuat kendaraan"
+    "loadFailed": "Gagal memuat kendaraan",
+    "titleIn": "Mobil di {place}"
   },
   "vehicle": {
     "perDay": "/hari",
@@ -281,33 +265,35 @@
     "cancel": "Batalkan pemesanan"
   },
   "about": {
-    "title": "Sewa mobil, tanpa berbelit-belit",
-    "intro": "BestCar menghubungkan penyewa dengan armada kendaraan terverifikasi di setiap negara yang kami layani. Kami membangun platform yang kami idamkan: harga yang jelas, proses pemesanan cepat, dan tanpa paksaan membuat akun sebelum Anda bisa melihat total.",
-    "v1Title": "Harga transparan",
-    "v1Body": "Harga yang Anda lihat di halaman mobil adalah harga yang Anda bayar. Tidak ada biaya tersembunyi saat pembayaran.",
-    "v2Title": "Pesan dalam hitungan menit",
-    "v2Body": "Pilih tanggal, konfirmasi data Anda, selesai. Tidak perlu akun untuk memulai.",
-    "v3Title": "Armada terverifikasi",
-    "v3Body": "Setiap kendaraan yang terdaftar diperiksa dan diasuransikan sebelum tampil di platform.",
-    "readyTitle": "Siap menyewa?",
-    "readyBody": "Jelajahi armada dan pesan mobil yang tepat untuk perjalanan Anda hari ini."
+    "title": "Cara kerja BestCar",
+    "intro": "BestCar adalah pasar. Perusahaan rental lokal dan pemilik pribadi mendaftarkan mobil mereka, dan penyewa memesannya di sini.",
+    "rentersTitle": "Jika Anda menyewa",
+    "r1Title": "Satu harga total",
+    "r1Body": "Sudah termasuk biaya dan pajak, dalam mata uang cabang penjemputan.",
+    "r2Title": "Pesan tanpa akun",
+    "r2Body": "Daftar hanya jika Anda ingin perjalanan, kwitansi, dan pesan di satu tempat.",
+    "r3Title": "Ulasan dari perjalanan nyata",
+    "r3Body": "Hanya orang yang menyelesaikan pemesanan yang dapat mengulas mobil atau pemiliknya.",
+    "hostsTitle": "Jika Anda menyewakan mobil",
+    "h1Title": "Dokumen dulu",
+    "h1Body": "Perusahaan dan pemilik mengirim dokumen, dan staf menyetujui setiap mobil sebelum tampil.",
+    "h2Title": "Anda menentukan harga dan ketersediaan",
+    "h2Body": "Tarif, tambahan, deposit, dan kalender dikelola di portal mitra.",
+    "h3Title": "Dibayar setelah perjalanan",
+    "h3Body": "Pencairan mengikuti perjalanan yang selesai. Sengketa ditangani bersama kedua pihak."
   },
   "contact": {
-    "title": "Hubungi kami",
-    "intro": "Ada pertanyaan tentang pemesanan, kendaraan, atau akun Anda? Hubungi kami lewat salah satu saluran di bawah ini.",
-    "chatTitle": "Obrolan langsung",
-    "chatBody": "Cara tercepat menghubungi kami: klik untuk membuka obrolan.",
-    "emailTitle": "Email",
-    "phoneTitle": "Telepon",
-    "phoneBody": "+44 20 7946 0958 (Sen-Jum, 09.00-18.00 GMT)"
+    "title": "Kontak",
+    "intro": "BestCar adalah pasar daring, jadi sebagian besar pertanyaan dijawab di tempat pertanyaan itu muncul. Ini tujuannya.",
+    "chatTitle": "Tanya asisten",
+    "chatBody": "Asisten AI menjawab pertanyaan tentang mobil, harga, dan cara memesan. Ia bukan manusia dan tidak dapat mengubah pemesanan.",
+    "bookingTitle": "Masalah dengan pemesanan",
+    "bookingBody": "Masuk, buka perjalanan, lalu tulis ke pemilik lewat pesan di sana. Jika belum selesai, ajukan sengketa di sana; tim kami meninjau sengketa.",
+    "hostTitle": "Anda pemilik",
+    "hostBody": "Pemesanan, pesan, pencairan, dan ulasan ada di portal mitra.",
+    "note": "Belum ada alamat email atau nomor telepon dukungan."
   },
   "testimonials": {
-    "title": "Dipercaya Ribuan Pelanggan yang Puas",
-    "subtitle": "Kisah nyata dari penyewa yang memesan perjalanan berikutnya bersama BestCar.",
-    "prev": "Testimoni sebelumnya",
-    "next": "Testimoni berikutnya",
-    "goTo": "Buka testimoni {n}",
-    "status": "Testimoni {n} dari {total}",
     "rated": "Diberi nilai {rating} dari 5"
   },
   "auth": {

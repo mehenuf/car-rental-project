@@ -40,15 +40,6 @@
     "copyright": "© {year} BestCar. Tous droits réservés.",
     "demo": "Les paiements de ce site sont simulés. Aucun argent réel n'est transféré."
   },
-  "hero": {
-    "titleLine1": "Prenez la route",
-    "titleAccent": "ce soir.",
-    "body": "Choisissez vos dates, choisissez votre voiture et partez en quelques minutes. Aucun compte requis, et le prix affiché est le prix payé.",
-    "bookNow": "Réserver",
-    "seeAll": "Voir toutes les voitures",
-    "rating": "4,9 / 5",
-    "renters": "Plus de 2 400 clients satisfaits"
-  },
   "howItWorks": {
     "step1Title": "Choisissez où et quand",
     "step1Body": "Choisissez une ville, vos dates et l'heure. Nous n'affichons que les voitures libres.",
@@ -61,15 +52,7 @@
     "step4Body": "Présentez votre permis, vérifiez la voiture avec l'hôte et partez. Donnez votre avis ensuite."
   },
   "whyChooseUs": {
-    "title": "Pourquoi nous choisir",
-    "subtitle": "Un service de location de voitures performant, fondé sur la simplicité, la transparence et la fiabilité.",
-    "imageAlt": "Rue de la ville la nuit avec une voiture roulant vers les gratte-ciel",
-    "supportTitle": "Service client",
-    "supportBody": "Notre équipe d'assistance est disponible jour et nuit : l'aide est toujours à un appel.",
-    "priceTitle": "Meilleur prix garanti",
-    "priceBody": "Des tarifs journaliers clairs et compétitifs, sans frais cachés au retrait.",
-    "locationTitle": "De nombreux lieux",
-    "locationBody": "Retrait et retour dans des lieux pratiques de chaque grande ville où nous sommes présents."
+    "imageAlt": "Rue de la ville la nuit avec une voiture roulant vers les gratte-ciel"
   },
   "notFound": {
     "title": "Page introuvable",
@@ -110,7 +93,7 @@
     "errDropAfter": "La date de retour doit être postérieure à la date de retrait."
   },
   "cars": {
-    "title": "Découvrez notre flotte",
+    "title": "Voitures à louer",
     "showingDates": "Voitures disponibles pour un retrait le {from} et un retour le {to}.",
     "found": {
       "one": "{count} voiture trouvée",
@@ -136,8 +119,8 @@
     "pagination": "Pagination",
     "prevPage": "Page précédente",
     "nextPage": "Page suivante",
-    "dealsTitle": "Les offres de location les plus populaires",
-    "dealsBody": "Une flotte bien entretenue, prête à réserver pour tout voyage, court ou long.",
+    "dealsTitle": "Voitures populaires",
+    "dealsBody": "Des voitures de loueurs locaux et de particuliers. Les prix incluent frais et taxes.",
     "tabLarge": "Grande voiture",
     "tabSmall": "Petite voiture",
     "tabExclusive": "Voiture exclusive",
@@ -148,7 +131,8 @@
       "one": "{count} voiture",
       "other": "{count} voitures"
     },
-    "loadFailed": "Impossible de charger les véhicules"
+    "loadFailed": "Impossible de charger les véhicules",
+    "titleIn": "Voitures à {place}"
   },
   "vehicle": {
     "perDay": "/jour",
@@ -288,33 +272,35 @@
     "cancel": "Annuler la réservation"
   },
   "about": {
-    "title": "La location de voiture, sans détour",
-    "intro": "BestCar met les locataires en relation avec une flotte de véhicules vérifiés dans chaque pays où nous sommes présents. Nous avons créé la plateforme que nous aurions aimé avoir : des prix clairs, une réservation rapide et aucune obligation de créer un compte pour voir un total.",
-    "v1Title": "Prix transparents",
-    "v1Body": "Le prix affiché sur la page d'une voiture est celui que vous payez. Aucun frais caché au paiement.",
-    "v2Title": "Réservez en quelques minutes",
-    "v2Body": "Choisissez vos dates, confirmez vos informations, et c'est fait. Aucun compte requis pour commencer.",
-    "v3Title": "Flotte vérifiée",
-    "v3Body": "Chaque véhicule proposé est inspecté et assuré avant sa mise en ligne sur la plateforme.",
-    "readyTitle": "Prêt à louer ?",
-    "readyBody": "Parcourez la flotte et réservez dès aujourd'hui la voiture idéale pour votre voyage."
+    "title": "Comment fonctionne BestCar",
+    "intro": "BestCar est une place de marché. Des loueurs locaux et des particuliers publient leurs voitures, et les locataires les réservent ici.",
+    "rentersTitle": "Si vous louez",
+    "r1Title": "Un prix total",
+    "r1Body": "Il inclut frais et taxes, dans la devise de l'agence de retrait.",
+    "r2Title": "Réserver sans compte",
+    "r2Body": "Ne vous inscrivez que si vous voulez réunir vos trajets, reçus et messages.",
+    "r3Title": "Des avis de vraies locations",
+    "r3Body": "Seules les personnes ayant terminé une réservation peuvent noter une voiture ou son hôte.",
+    "hostsTitle": "Si vous proposez une voiture",
+    "h1Title": "Les documents d'abord",
+    "h1Body": "Entreprises et particuliers envoient leurs documents, et l'équipe valide chaque voiture avant sa publication.",
+    "h2Title": "Vous fixez prix et disponibilité",
+    "h2Body": "Tarifs, options, cautions et calendriers se gèrent dans l'espace partenaire.",
+    "h3Title": "Payé après la location",
+    "h3Body": "Les versements suivent les locations terminées. Les litiges sont traités avec les deux parties."
   },
   "contact": {
-    "title": "Contactez-nous",
-    "intro": "Une question sur une réservation, un véhicule ou votre compte ? Écrivez-nous par l'un des canaux ci-dessous.",
-    "chatTitle": "Chat en direct",
-    "chatBody": "Le moyen le plus rapide de nous joindre : cliquez pour ouvrir le chat.",
-    "emailTitle": "E-mail",
-    "phoneTitle": "Téléphone",
-    "phoneBody": "+44 20 7946 0958 (lun-ven, 9h-18h GMT)"
+    "title": "Contact",
+    "intro": "BestCar est une place de marché en ligne : la plupart des questions trouvent leur réponse là où elles se posent. Voici où aller.",
+    "chatTitle": "Demander à l'assistant",
+    "chatBody": "Un assistant IA répond aux questions sur les voitures, les prix et la réservation. Ce n'est pas une personne et il ne peut pas modifier une réservation.",
+    "bookingTitle": "Un problème avec une réservation",
+    "bookingBody": "Connectez-vous, ouvrez le trajet et écrivez à l'hôte via ses messages. Sinon, ouvrez un litige ; notre équipe les examine.",
+    "hostTitle": "Vous êtes hôte",
+    "hostBody": "Réservations, messages, versements et avis sont dans l'espace partenaire.",
+    "note": "Il n'existe pas encore d'adresse e-mail ni de ligne téléphonique de support."
   },
   "testimonials": {
-    "title": "La confiance de milliers de clients satisfaits",
-    "subtitle": "De vrais témoignages de clients qui ont réservé leur prochain voyage avec BestCar.",
-    "prev": "Témoignage précédent",
-    "next": "Témoignage suivant",
-    "goTo": "Aller au témoignage {n}",
-    "status": "Témoignage {n} sur {total}",
     "rated": "Noté {rating} sur 5"
   },
   "auth": {

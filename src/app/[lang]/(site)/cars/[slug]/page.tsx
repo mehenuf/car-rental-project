@@ -7,6 +7,7 @@ import { Check, Cog, DoorOpen, Fuel as FuelIcon, Star, Users } from "lucide-reac
 import type { LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { getVehicleBySlug, getVehicleCards, getVehicleTranslation } from "@/lib/queries";
+import { isTemplateDescription } from "@/lib/vehicle-place";
 import { localizedVehicleText } from "@/lib/i18n/vehicle-text";
 import { Badge } from "@/components/ui/badge";
 import { VehicleGallery } from "@/components/site/vehicle-gallery";
@@ -104,7 +105,7 @@ export default async function VehicleDetailPage({
               <Spec icon={FuelIcon} label={t("vehicle.fuel")} value={t(`enums.fuel.${vehicle.fuel}`)} />
             </div>
 
-            {text.description && (
+            {!isTemplateDescription(text.description) && (
               <p className="text-muted-foreground">{text.description}</p>
             )}
 

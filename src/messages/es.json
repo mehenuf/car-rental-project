@@ -40,15 +40,6 @@
     "copyright": "© {year} BestCar. Todos los derechos reservados.",
     "demo": "Los pagos de este sitio son simulados. No se mueve dinero real."
   },
-  "hero": {
-    "titleLine1": "Alquila la carretera",
-    "titleAccent": "esta noche.",
-    "body": "Elige tus fechas, elige tu coche y sal en minutos. Sin necesidad de cuenta, y el precio que ves es el que pagas.",
-    "bookNow": "Reservar ahora",
-    "seeAll": "Ver todos los coches",
-    "rating": "4,9 / 5",
-    "renters": "Más de 2.400 clientes satisfechos"
-  },
   "howItWorks": {
     "step1Title": "Elige dónde y cuándo",
     "step1Body": "Elige ciudad, fechas y hora. Solo mostramos coches libres.",
@@ -61,15 +52,7 @@
     "step4Body": "Muestra tu permiso, revisa el coche con el anfitrión y a rodar. Valora el viaje después."
   },
   "whyChooseUs": {
-    "title": "Por qué elegirnos",
-    "subtitle": "Un servicio de alquiler de coches de alto rendimiento, basado en la comodidad, la transparencia y la fiabilidad.",
-    "imageAlt": "Calle de la ciudad de noche con un coche conduciendo hacia el horizonte urbano",
-    "supportTitle": "Atención al cliente",
-    "supportBody": "Nuestro equipo de ayuda está disponible las 24 horas, así que siempre tienes asistencia a una llamada.",
-    "priceTitle": "Mejor precio garantizado",
-    "priceBody": "Tarifas diarias claras y competitivas, sin cargos ocultos en la recogida.",
-    "locationTitle": "Muchas ubicaciones",
-    "locationBody": "Recoge y devuelve el coche en puntos cómodos de cada ciudad importante donde operamos."
+    "imageAlt": "Calle de la ciudad de noche con un coche conduciendo hacia el horizonte urbano"
   },
   "notFound": {
     "title": "Página no encontrada",
@@ -110,7 +93,7 @@
     "errDropAfter": "La fecha de devolución debe ser posterior a la de recogida."
   },
   "cars": {
-    "title": "Explora nuestra flota",
+    "title": "Coches para alquilar",
     "showingDates": "Mostrando coches con recogida el {from} y devolución el {to}.",
     "found": {
       "one": "{count} coche encontrado",
@@ -136,8 +119,8 @@
     "pagination": "Paginación",
     "prevPage": "Página anterior",
     "nextPage": "Página siguiente",
-    "dealsTitle": "Las ofertas de alquiler más populares",
-    "dealsBody": "Una flota bien cuidada, lista para reservar en cualquier viaje, corto o largo.",
+    "dealsTitle": "Coches populares",
+    "dealsBody": "Coches de empresas locales y propietarios particulares. Los precios incluyen tasas e impuestos.",
     "tabLarge": "Coche grande",
     "tabSmall": "Coche pequeño",
     "tabExclusive": "Coche exclusivo",
@@ -148,7 +131,8 @@
       "one": "{count} coche",
       "other": "{count} coches"
     },
-    "loadFailed": "No se pudieron cargar los vehículos"
+    "loadFailed": "No se pudieron cargar los vehículos",
+    "titleIn": "Coches en {place}"
   },
   "vehicle": {
     "perDay": "/día",
@@ -288,33 +272,35 @@
     "cancel": "Cancelar reserva"
   },
   "about": {
-    "title": "Alquiler de coches, sin rodeos",
-    "intro": "BestCar conecta a los clientes con una flota de vehículos verificada en cada país donde operamos. Creamos la plataforma que nos habría gustado tener: precios claros, una reserva rápida y sin obligarte a crear una cuenta para ver un total.",
-    "v1Title": "Precios transparentes",
-    "v1Body": "El precio que ves en la página de un coche es el que pagas. Sin cargos ocultos al pagar.",
-    "v2Title": "Reserva en minutos",
-    "v2Body": "Elige tus fechas, confirma tus datos y listo. No necesitas cuenta para empezar.",
-    "v3Title": "Flota verificada",
-    "v3Body": "Todos los vehículos anunciados se inspeccionan y se aseguran antes de publicarse en la plataforma.",
-    "readyTitle": "¿Listo para alquilar?",
-    "readyBody": "Explora la flota y reserva hoy el coche ideal para tu viaje."
+    "title": "Cómo funciona BestCar",
+    "intro": "BestCar es un mercado. Empresas de alquiler locales y propietarios particulares publican sus coches, y los clientes los reservan aquí.",
+    "rentersTitle": "Si alquilas",
+    "r1Title": "Un precio total",
+    "r1Body": "Incluye tasas e impuestos, en la moneda de la sucursal de recogida.",
+    "r2Title": "Reserva sin cuenta",
+    "r2Body": "Regístrate solo si quieres tener tus viajes, recibos y mensajes en un solo lugar.",
+    "r3Title": "Opiniones de viajes reales",
+    "r3Body": "Solo quien completó una reserva puede opinar sobre un coche o su anfitrión.",
+    "hostsTitle": "Si publicas un coche",
+    "h1Title": "Primero los documentos",
+    "h1Body": "Empresas y propietarios envían documentos y el personal aprueba cada coche antes de que aparezca.",
+    "h2Title": "Tú fijas precio y disponibilidad",
+    "h2Body": "Tarifas, extras, fianzas y calendarios se gestionan en el portal de socios.",
+    "h3Title": "Cobras tras el viaje",
+    "h3Body": "Los pagos siguen a los viajes completados. Las disputas se resuelven con ambas partes."
   },
   "contact": {
-    "title": "Ponte en contacto",
-    "intro": "¿Tienes dudas sobre una reserva, un vehículo o tu cuenta? Escríbenos por cualquiera de estos canales.",
-    "chatTitle": "Chat en vivo",
-    "chatBody": "La forma más rápida de contactarnos: haz clic para abrir el chat.",
-    "emailTitle": "Correo electrónico",
-    "phoneTitle": "Teléfono",
-    "phoneBody": "+44 20 7946 0958 (lun-vie, 9:00-18:00 GMT)"
+    "title": "Contacto",
+    "intro": "BestCar es un mercado en línea, así que la mayoría de las dudas se resuelven donde surgen. Aquí tienes adónde ir.",
+    "chatTitle": "Pregunta al asistente",
+    "chatBody": "Un asistente de IA responde preguntas sobre coches, precios y cómo reservar. No es una persona y no puede modificar una reserva.",
+    "bookingTitle": "Un problema con una reserva",
+    "bookingBody": "Inicia sesión, abre el viaje y usa sus mensajes para escribir al anfitrión. Si no se resuelve, abre una disputa allí; nuestro equipo las revisa.",
+    "hostTitle": "Eres anfitrión",
+    "hostBody": "Reservas, mensajes, pagos y opiniones están en el portal de socios.",
+    "note": "Todavía no hay correo de soporte ni línea telefónica."
   },
   "testimonials": {
-    "title": "La confianza de miles de clientes satisfechos",
-    "subtitle": "Historias reales de clientes que reservaron su próximo viaje con BestCar.",
-    "prev": "Testimonio anterior",
-    "next": "Siguiente testimonio",
-    "goTo": "Ir al testimonio {n}",
-    "status": "Testimonio {n} de {total}",
     "rated": "Valorado con {rating} de 5"
   },
   "auth": {

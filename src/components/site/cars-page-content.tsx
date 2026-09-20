@@ -101,7 +101,7 @@ export async function CarsPageContent({
     <div className="mx-auto max-w-7xl px-(--space-sm) py-(--space-lg)">
       <div className="flex flex-col gap-2">
         <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
-          {t("cars.title")}
+          {lookingIn ? t("cars.titleIn", { place: lookingIn.city }) : t("cars.title")}
         </h1>
         {lookingIn && (
           <p className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">

@@ -40,15 +40,6 @@
     "copyright": "© {year} BestCar. All rights reserved.",
     "demo": "Payments on this site are simulated. No real money moves."
   },
-  "hero": {
-    "titleLine1": "Rent the road",
-    "titleAccent": "tonight.",
-    "body": "Pick your dates, choose your car, and drive off in minutes. No account required, and the price you see is the price you pay.",
-    "bookNow": "Book now",
-    "seeAll": "See all cars",
-    "rating": "4.9 / 5",
-    "renters": "2,400+ happy renters"
-  },
   "howItWorks": {
     "step1Title": "Choose where and when",
     "step1Body": "Pick a city, your dates and the time. We only show cars that are free.",
@@ -61,15 +52,7 @@
     "step4Body": "Show your licence, check the car with the host, and go. Review the trip afterwards."
   },
   "whyChooseUs": {
-    "title": "Why Choose Us",
-    "subtitle": "A high-performing car rental service built around convenience, transparency, and reliability.",
-    "imageAlt": "City street at night with a car driving toward the skyline",
-    "supportTitle": "Customer Support",
-    "supportBody": "Our support team is on call around the clock, so help is always a phone call away.",
-    "priceTitle": "Best Price Guaranteed",
-    "priceBody": "Transparent, competitive daily rates with no hidden fees at pick-up.",
-    "locationTitle": "Many Locations",
-    "locationBody": "Pick up and drop off at convenient locations in every major city we serve."
+    "imageAlt": "City street at night with a car driving toward the skyline"
   },
   "notFound": {
     "title": "Page not found",
@@ -110,7 +93,7 @@
     "errDropAfter": "Drop-off date must be after the pick-up date."
   },
   "cars": {
-    "title": "Browse Our Fleet",
+    "title": "Cars to rent",
     "showingDates": "Showing cars for pick-up on {from} through drop-off on {to}.",
     "found": {
       "one": "{count} car found",
@@ -136,8 +119,8 @@
     "pagination": "Pagination",
     "prevPage": "Previous page",
     "nextPage": "Next page",
-    "dealsTitle": "Most Popular Car Rental Deals",
-    "dealsBody": "A well-maintained fleet ready to book for any trip, short or long.",
+    "dealsTitle": "Popular cars",
+    "dealsBody": "Cars from local companies and private owners. Prices include fees and taxes.",
     "tabLarge": "Large Car",
     "tabSmall": "Small Car",
     "tabExclusive": "Exclusive Car",
@@ -148,7 +131,8 @@
       "one": "{count} Car",
       "other": "{count} Cars"
     },
-    "loadFailed": "Failed to load vehicles"
+    "loadFailed": "Failed to load vehicles",
+    "titleIn": "Cars in {place}"
   },
   "vehicle": {
     "perDay": "/day",
@@ -288,33 +272,35 @@
     "cancel": "Cancel booking"
   },
   "about": {
-    "title": "Car rental, without the runaround",
-    "intro": "BestCar connects renters with a vetted fleet of vehicles in every country we serve. We built the platform we wished existed: clear pricing, a fast booking flow, and no pressure to create an account before you can even see a total.",
-    "v1Title": "Transparent pricing",
-    "v1Body": "The price you see on a car's page is the price you pay. No hidden fees added at checkout.",
-    "v2Title": "Book in minutes",
-    "v2Body": "Pick your dates, confirm your details, and you're done. No account required to get started.",
-    "v3Title": "Verified fleet",
-    "v3Body": "Every vehicle listed is inspected and insured before it goes live on the platform.",
-    "readyTitle": "Ready to rent?",
-    "readyBody": "Browse the fleet and book the right car for your trip today."
+    "title": "How BestCar works",
+    "intro": "BestCar is a marketplace. Local rental companies and private owners list their cars, and renters book them here.",
+    "rentersTitle": "If you rent",
+    "r1Title": "One total price",
+    "r1Body": "It includes fees and taxes, in the currency of the pick-up branch.",
+    "r2Title": "Book without an account",
+    "r2Body": "Register only if you want your trips, receipts and messages in one place.",
+    "r3Title": "Reviews from real trips",
+    "r3Body": "Only people who completed a booking can review a car or its host.",
+    "hostsTitle": "If you list a car",
+    "h1Title": "Documents first",
+    "h1Body": "Companies and owners send documents, and staff approve each car before it appears.",
+    "h2Title": "You set price and availability",
+    "h2Body": "Rates, extras, deposits and calendars are managed in the partner portal.",
+    "h3Title": "Paid after the trip",
+    "h3Body": "Payouts follow completed trips. Disputes are handled with both sides."
   },
   "contact": {
-    "title": "Get in touch",
-    "intro": "Questions about a booking, a vehicle, or your account? Reach us through any of the channels below.",
-    "chatTitle": "Live chat",
-    "chatBody": "The fastest way to reach us: click to open the chat.",
-    "emailTitle": "Email",
-    "phoneTitle": "Phone",
-    "phoneBody": "+44 20 7946 0958 (Mon-Fri, 9am-6pm GMT)"
+    "title": "Contact",
+    "intro": "BestCar is an online marketplace, so most questions are answered where they come up. Here is where to go.",
+    "chatTitle": "Ask the assistant",
+    "chatBody": "An AI assistant answers questions about cars, prices and how booking works. It is not a person and cannot change a booking.",
+    "bookingTitle": "A problem with a booking",
+    "bookingBody": "Sign in, open the trip and use its messages to write to the host. If it is not resolved, open a dispute there; our team reviews disputes.",
+    "hostTitle": "You are a host",
+    "hostBody": "Bookings, messages, payouts and reviews are in the partner portal.",
+    "note": "There is no support email address or phone line yet."
   },
   "testimonials": {
-    "title": "Trusted by Thousands of Happy Customers",
-    "subtitle": "Real stories from renters who booked their next trip with BestCar.",
-    "prev": "Previous testimonial",
-    "next": "Next testimonial",
-    "goTo": "Go to testimonial {n}",
-    "status": "Testimonial {n} of {total}",
     "rated": "Rated {rating} out of 5"
   },
   "auth": {

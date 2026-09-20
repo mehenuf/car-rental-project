@@ -34,3 +34,15 @@ Code Reviewer, Architecture Designer, Spec Miner, Test Master, Playwright Expert
 ### Verification
 - Type check: 0 errors. Lint: 0 errors, 1 warning. Unit: 574 passed. Browser: 40 passed (includes new hero, city-grid and time-zone hydration tests).
 - Responsive: see `responsive-matrix.md`. Performance: see `performance-log.md`.
+
+## 2026-09-21: P1 batch (contact, about, vehicle page, cars cards, titles, keys)
+
+### Skills actually invoked
+- **The Fool** (`fullstack-dev-skills:the-fool`): loaded and applied as a pre-mortem on the plan. Its interactive mode picker and wait-for-reply step were **skipped** because the owner asked for uninterrupted work. Changes it caused: Contact must say the chat is an AI and that no email or phone exists; hide the placeholder description instead of adding a specs line (it would repeat the spec strip); show local-currency price next to a city; verify translation keys before deleting.
+- **Code Reviewer** (`fullstack-dev-skills:code-reviewer`): loaded and applied by hand to the diff. Finding fixed: a card could name a city where only a rate plan existed, with no active approved unit. Finding recorded (S12): price filter and sort still use the legacy USD price. No N+1 queries: two batched queries per card list, three after the fix, run in parallel where independent.
+
+### Not invoked
+Impeccable polish/harden, design-taste pre-flight, high-end-visual-design, full-output-enforcement were not re-run on this batch; only lint, types and tests were.
+
+### Verification
+Types 0 errors; lint 0 errors; unit 580 passed; browser 47 passed (new: contact, about, vehicle page overlap at 2 widths, placeholder hidden, card city).

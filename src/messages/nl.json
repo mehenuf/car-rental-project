@@ -40,15 +40,6 @@
     "copyright": "© {year} BestCar. Alle rechten voorbehouden.",
     "demo": "Betalingen op deze site zijn gesimuleerd. Er gaat geen echt geld over."
   },
-  "hero": {
-    "titleLine1": "Huur de weg",
-    "titleAccent": "vanavond nog.",
-    "body": "Kies je data, kies je auto en rijd binnen enkele minuten weg. Geen account nodig, en de prijs die je ziet is de prijs die je betaalt.",
-    "bookNow": "Nu boeken",
-    "seeAll": "Alle auto's bekijken",
-    "rating": "4,9 / 5",
-    "renters": "Meer dan 2.400 tevreden huurders"
-  },
   "howItWorks": {
     "step1Title": "Kies waar en wanneer",
     "step1Body": "Kies een stad, je data en de tijd. We tonen alleen auto's die vrij zijn.",
@@ -61,15 +52,7 @@
     "step4Body": "Toon je rijbewijs, controleer de auto met de verhuurder en ga. Beoordeel de rit daarna."
   },
   "whyChooseUs": {
-    "title": "Waarom wij",
-    "subtitle": "Een hoogwaardige autoverhuurservice, gebouwd op gemak, transparantie en betrouwbaarheid.",
-    "imageAlt": "Straat in de stad 's nachts met een auto die naar de skyline rijdt",
-    "supportTitle": "Klantenservice",
-    "supportBody": "Ons supportteam is dag en nacht bereikbaar, dus hulp is altijd een telefoontje verwijderd.",
-    "priceTitle": "Laagsteprijsgarantie",
-    "priceBody": "Transparante, scherpe dagtarieven zonder verborgen kosten bij het ophalen.",
-    "locationTitle": "Veel locaties",
-    "locationBody": "Haal de auto op en breng hem terug op handige locaties in elke grote stad waar wij actief zijn."
+    "imageAlt": "Straat in de stad 's nachts met een auto die naar de skyline rijdt"
   },
   "notFound": {
     "title": "Pagina niet gevonden",
@@ -110,7 +93,7 @@
     "errDropAfter": "De inleverdatum moet na de ophaaldatum liggen."
   },
   "cars": {
-    "title": "Bekijk ons wagenpark",
+    "title": "Auto's om te huren",
     "showingDates": "Auto's met ophalen op {from} en inleveren op {to}.",
     "found": {
       "one": "{count} auto gevonden",
@@ -136,8 +119,8 @@
     "pagination": "Paginering",
     "prevPage": "Vorige pagina",
     "nextPage": "Volgende pagina",
-    "dealsTitle": "De populairste autohuuraanbiedingen",
-    "dealsBody": "Een goed onderhouden wagenpark, klaar om te boeken voor elke reis, kort of lang.",
+    "dealsTitle": "Populaire auto's",
+    "dealsBody": "Auto's van lokale verhuurders en particulieren. Prijzen zijn inclusief kosten en belasting.",
     "tabLarge": "Grote auto",
     "tabSmall": "Kleine auto",
     "tabExclusive": "Exclusieve auto",
@@ -148,7 +131,8 @@
       "one": "{count} auto",
       "other": "{count} auto's"
     },
-    "loadFailed": "Voertuigen laden mislukt"
+    "loadFailed": "Voertuigen laden mislukt",
+    "titleIn": "Auto's in {place}"
   },
   "vehicle": {
     "perDay": "/dag",
@@ -288,33 +272,35 @@
     "cancel": "Boeking annuleren"
   },
   "about": {
-    "title": "Autoverhuur zonder gedoe",
-    "intro": "BestCar brengt huurders in contact met een gecontroleerd wagenpark in elk land waar we actief zijn. We bouwden het platform dat we zelf misten: heldere prijzen, een snelle boeking en geen verplichting om een account aan te maken voordat je een totaalprijs ziet.",
-    "v1Title": "Transparante prijzen",
-    "v1Body": "De prijs op de pagina van een auto is de prijs die je betaalt. Geen verborgen kosten bij het afrekenen.",
-    "v2Title": "Binnen enkele minuten geboekt",
-    "v2Body": "Kies je data, bevestig je gegevens en klaar. Je hebt geen account nodig om te beginnen.",
-    "v3Title": "Gecontroleerd wagenpark",
-    "v3Body": "Elk aangeboden voertuig wordt gecontroleerd en verzekerd voordat het op het platform komt.",
-    "readyTitle": "Klaar om te huren?",
-    "readyBody": "Bekijk het wagenpark en boek vandaag nog de juiste auto voor je reis."
+    "title": "Zo werkt BestCar",
+    "intro": "BestCar is een marktplaats. Lokale verhuurbedrijven en particulieren bieden hun auto's aan, en huurders boeken ze hier.",
+    "rentersTitle": "Als je huurt",
+    "r1Title": "Eén totaalprijs",
+    "r1Body": "Inclusief kosten en belasting, in de valuta van de ophaalvestiging.",
+    "r2Title": "Boeken zonder account",
+    "r2Body": "Registreer alleen als je je ritten, bonnen en berichten op één plek wilt.",
+    "r3Title": "Beoordelingen van echte ritten",
+    "r3Body": "Alleen wie een boeking heeft afgerond kan een auto of verhuurder beoordelen.",
+    "hostsTitle": "Als je een auto aanbiedt",
+    "h1Title": "Eerst documenten",
+    "h1Body": "Bedrijven en eigenaren sturen documenten en medewerkers keuren elke auto goed voordat hij verschijnt.",
+    "h2Title": "Jij bepaalt prijs en beschikbaarheid",
+    "h2Body": "Tarieven, extra's, borgen en agenda's beheer je in het partnerportaal.",
+    "h3Title": "Betaald na de rit",
+    "h3Body": "Uitbetalingen volgen op afgeronde ritten. Geschillen worden met beide kanten behandeld."
   },
   "contact": {
-    "title": "Neem contact op",
-    "intro": "Vragen over een boeking, een voertuig of je account? Bereik ons via een van de onderstaande kanalen.",
-    "chatTitle": "Livechat",
-    "chatBody": "De snelste manier om ons te bereiken: klik om de chat te openen.",
-    "emailTitle": "E-mail",
-    "phoneTitle": "Telefoon",
-    "phoneBody": "+44 20 7946 0958 (ma-vr, 9.00-18.00 uur GMT)"
+    "title": "Contact",
+    "intro": "BestCar is een online marktplaats, dus de meeste vragen worden beantwoord waar ze ontstaan. Hier ga je naartoe.",
+    "chatTitle": "Vraag het de assistent",
+    "chatBody": "Een AI-assistent beantwoordt vragen over auto's, prijzen en boeken. Het is geen persoon en kan geen boeking wijzigen.",
+    "bookingTitle": "Een probleem met een boeking",
+    "bookingBody": "Log in, open de rit en schrijf de verhuurder via de berichten. Is het niet opgelost, open dan daar een geschil; ons team beoordeelt geschillen.",
+    "hostTitle": "Je bent verhuurder",
+    "hostBody": "Boekingen, berichten, uitbetalingen en beoordelingen staan in het partnerportaal.",
+    "note": "Er is nog geen e-mailadres of telefoonlijn voor support."
   },
   "testimonials": {
-    "title": "Vertrouwd door duizenden tevreden klanten",
-    "subtitle": "Echte verhalen van huurders die hun volgende reis met BestCar boekten.",
-    "prev": "Vorige ervaring",
-    "next": "Volgende ervaring",
-    "goTo": "Ga naar ervaring {n}",
-    "status": "Ervaring {n} van {total}",
     "rated": "Beoordeeld met {rating} van 5"
   },
   "auth": {
