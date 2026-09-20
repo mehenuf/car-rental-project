@@ -26,7 +26,7 @@
     "partnerPortal": "Partnerportaal"
   },
   "footer": {
-    "tagline": "Gemakkelijke, transparante autoverhuur. Boek online in enkele minuten, zonder account.",
+    "tagline": "Huur bij lokale bedrijven en eigenaren, of bied je eigen auto aan. Eén duidelijke prijs, in jouw taal.",
     "company": "Bedrijf",
     "support": "Hulp",
     "howItWorks": "Hoe het werkt",
@@ -49,13 +49,15 @@
     "renters": "Meer dan 2.400 tevreden huurders"
   },
   "howItWorks": {
-    "step1Title": "Kies een locatie",
-    "step1Body": "Kies een stad bij jou in de buurt uit tientallen ophaalpunten in het hele land.",
-    "step2Title": "Ophaaldatum",
-    "step2Body": "Vertel ons wanneer je de auto nodig hebt en voor hoe lang. Wij houden hem voor je vast.",
-    "step3Title": "Boek je auto",
-    "step3Body": "Bevestig je gegevens en je bent klaar. Je auto staat voor je klaar.",
-    "title": "Een auto huren bij ons gaat in drie eenvoudige stappen, van locatiekeuze tot wegrijden."
+    "step1Title": "Kies waar en wanneer",
+    "step1Body": "Kies een stad, je data en de tijd. We tonen alleen auto's die vrij zijn.",
+    "step2Title": "Zie de totaalprijs",
+    "step2Body": "Het totaal is inclusief kosten en belasting, in jouw valuta.",
+    "step3Title": "Betaal veilig aan BestCar",
+    "step3Body": "Je borg wordt vastgehouden, niet afgeschreven. De verhuurder wordt betaald na je rit.",
+    "title": "Van zoeken tot sleutels in vier stappen.",
+    "step4Title": "Ophalen en rijden",
+    "step4Body": "Toon je rijbewijs, controleer de auto met de verhuurder en ga. Beoordeel de rit daarna."
   },
   "whyChooseUs": {
     "title": "Waarom wij",
@@ -685,5 +687,60 @@
     "message": "Bericht",
     "send": "Bericht verzenden",
     "error": "Sorry, er ging iets mis. Probeer het zo meteen opnieuw."
+  },
+  "landing": {
+    "hero": {
+      "titleLine1": "Lokale auto's,",
+      "titleAccent": "één duidelijke prijs.",
+      "body": "Huur bij lokale bedrijven en particuliere eigenaren. Zie de totaalprijs in je eigen valuta voordat je boekt.",
+      "find": "Auto zoeken",
+      "list": "Mijn auto aanbieden",
+      "reach": "Beschikbaar in {cities}"
+    },
+    "rent": {
+      "title": "Vind de juiste auto voor je reis",
+      "body": "Vergelijk auto's van verhuurbedrijven en particulieren bij jou in de buurt.",
+      "point1": "Elke prijs is inclusief kosten en belasting.",
+      "point2": "Je borg wordt vastgehouden, niet uitgegeven.",
+      "point3": "Lees beoordelingen van mensen die de auto reden.",
+      "cta": "Auto's bekijken"
+    },
+    "earn": {
+      "title": "Een auto die stilstaat?",
+      "body": "Zet hem in een paar minuten online. Jij bepaalt prijs en data. Wij regelen betaling, controles en uitbetaling.",
+      "step1": "Registreer en beschrijf je auto",
+      "step2": "Wij controleren je documenten",
+      "step3": "Word betaald na elke rit",
+      "ctaOwner": "Mijn auto aanbieden",
+      "ctaCompany": "Mijn bedrijf aanmelden"
+    },
+    "cities": {
+      "title": "Haal hem op waar je aankomt",
+      "subtitle": "Nu beschikbare auto's, stad voor stad.",
+      "cars": {
+        "one": "{count} auto beschikbaar",
+        "other": "{count} auto's beschikbaar"
+      }
+    },
+    "trust": {
+      "title": "Wat wij controleren, zodat jij dat niet hoeft",
+      "subtitle": "BestCar staat tussen huurder en verhuurder en beschermt beide kanten.",
+      "verifiedTitle": "Gecontroleerde verhuurders",
+      "verifiedBody": "Bedrijven en eigenaren sturen documenten voordat ze aanbieden en elke auto wordt afzonderlijk goedgekeurd.",
+      "priceTitle": "Eén prijs, jouw valuta",
+      "priceBody": "Het totaal dat je ziet is inclusief kosten en belasting.",
+      "depositTitle": "Borg vastgehouden, niet uitgegeven",
+      "depositBody": "De borg wordt vastgehouden en na de rit vrijgegeven, tenzij er een geschil is.",
+      "reviewsTitle": "Beoordelingen van echte ritten",
+      "reviewsBody": "Alleen wie een boeking heeft afgerond kan beoordelen, en verhuurders kunnen reageren.",
+      "disputesTitle": "Iemand om op terug te vallen",
+      "disputesBody": "Gaat er iets mis, dan worden beide kanten gehoord en grijpt ons team zo nodig in.",
+      "languagesTitle": "Jouw taal",
+      "languagesBody": "BestCar werkt in 11 talen."
+    },
+    "reviews": {
+      "title": "Wat huurders zeggen",
+      "subtitle": "Beoordelingen komen alleen van mensen die een rit hebben afgerond."
+    }
   }
 }

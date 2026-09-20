@@ -26,7 +26,7 @@
     "partnerPortal": "Partner portal"
   },
   "footer": {
-    "tagline": "Convenient, transparent car rental. Book online in minutes, no account required.",
+    "tagline": "Rent a car from local companies and owners, or list your own. One clear price, in your language.",
     "company": "Company",
     "support": "Support",
     "howItWorks": "How it works",
@@ -49,13 +49,15 @@
     "renters": "2,400+ happy renters"
   },
   "howItWorks": {
-    "step1Title": "Choose Location",
-    "step1Body": "Pick a city near you from dozens of pick-up points across the country.",
-    "step2Title": "Pick-up Date",
-    "step2Body": "Tell us when you need the car and for how long. We'll hold it for you.",
-    "step3Title": "Book your car",
-    "step3Body": "Confirm your details and you're set. Your ride will be ready and waiting.",
-    "title": "Renting a car with us takes three simple steps, from picking a location to driving away."
+    "step1Title": "Choose where and when",
+    "step1Body": "Pick a city, your dates and the time. We only show cars that are free.",
+    "step2Title": "See the full price",
+    "step2Body": "The total includes fees and taxes, in your currency.",
+    "step3Title": "Pay BestCar securely",
+    "step3Body": "Your deposit is held, not charged. The host is paid after your trip.",
+    "title": "From search to the keys in four steps.",
+    "step4Title": "Pick up and drive",
+    "step4Body": "Show your licence, check the car with the host, and go. Review the trip afterwards."
   },
   "whyChooseUs": {
     "title": "Why Choose Us",
@@ -685,5 +687,60 @@
     "message": "Message",
     "send": "Send message",
     "error": "Sorry, something went wrong. Please try again in a moment."
+  },
+  "landing": {
+    "hero": {
+      "titleLine1": "Local cars,",
+      "titleAccent": "one clear price.",
+      "body": "Rent from local companies and private owners. See the full price, in your currency, before you book.",
+      "find": "Find a car",
+      "list": "List your car",
+      "reach": "Available in {cities}"
+    },
+    "rent": {
+      "title": "Find the right car for your trip",
+      "body": "Compare cars from rental companies and private owners near you.",
+      "point1": "Every price includes fees and taxes.",
+      "point2": "Your deposit is held, not spent.",
+      "point3": "Read reviews from people who drove the car.",
+      "cta": "Browse cars"
+    },
+    "earn": {
+      "title": "Got a car that sits idle?",
+      "body": "List it in minutes. You set the price and the dates. We handle payment, checks and payout.",
+      "step1": "Register and describe your car",
+      "step2": "We review your documents",
+      "step3": "Get paid after each trip",
+      "ctaOwner": "List my car",
+      "ctaCompany": "Register my company"
+    },
+    "cities": {
+      "title": "Pick up where you land",
+      "subtitle": "Cars available now, city by city.",
+      "cars": {
+        "one": "{count} car available",
+        "other": "{count} cars available"
+      }
+    },
+    "trust": {
+      "title": "What we check, so you don't have to",
+      "subtitle": "BestCar sits between renter and host to keep both sides safe.",
+      "verifiedTitle": "Hosts are reviewed",
+      "verifiedBody": "Companies and owners send documents before listing, and every car is approved one by one.",
+      "priceTitle": "One price, your currency",
+      "priceBody": "The total you see includes fees and taxes.",
+      "depositTitle": "Deposits held, not spent",
+      "depositBody": "The deposit is held and released after the trip unless there is a dispute.",
+      "reviewsTitle": "Reviews from real trips",
+      "reviewsBody": "Only people who completed a booking can review, and hosts can reply.",
+      "disputesTitle": "Someone to turn to",
+      "disputesBody": "If something goes wrong, both sides are heard and our team steps in when needed.",
+      "languagesTitle": "Your language",
+      "languagesBody": "BestCar works in 11 languages."
+    },
+    "reviews": {
+      "title": "What renters say",
+      "subtitle": "Reviews come only from people who completed a trip."
+    }
   }
 }

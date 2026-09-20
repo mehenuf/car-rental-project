@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { CalendarDays, Car, MapPin } from "lucide-react";
+import { CalendarDays, Car, MapPin, ShieldCheck } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -13,7 +13,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
 const STEPS = [
   { icon: MapPin, key: "step1" },
   { icon: CalendarDays, key: "step2" },
-  { icon: Car, key: "step3" },
+  { icon: ShieldCheck, key: "step3" },
+  { icon: Car, key: "step4" },
 ] as const;
 
 /**
@@ -75,7 +76,7 @@ export function HowItWorksSection() {
 
       <div
         ref={pinRef}
-        className="relative mt-(--space-xl) flex items-center py-(--space-lg) md:min-h-[46vh]"
+        className="relative mt-(--space-lg) flex items-center py-(--space-lg)"
       >
         {/* The road: a dashed lane line connecting each step like mile
             markers, drawn left-to-right in sync with the pinned scroll. */}
@@ -89,7 +90,7 @@ export function HowItWorksSection() {
           }}
         />
 
-        <div className="relative grid w-full grid-cols-1 gap-(--space-lg) md:grid-cols-3">
+        <div className="relative grid w-full grid-cols-1 gap-(--space-lg) md:grid-cols-4">
           {STEPS.map((step, i) => (
             <div
               key={step.key}

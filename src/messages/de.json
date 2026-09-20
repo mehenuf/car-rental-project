@@ -26,7 +26,7 @@
     "partnerPortal": "Partnerbereich"
   },
   "footer": {
-    "tagline": "Bequeme, transparente Autovermietung. Online in wenigen Minuten buchen, ganz ohne Konto.",
+    "tagline": "Mieten Sie bei lokalen Unternehmen und Eigentümern oder bieten Sie Ihr eigenes Auto an. Ein klarer Preis, in Ihrer Sprache.",
     "company": "Unternehmen",
     "support": "Hilfe",
     "howItWorks": "So funktioniert's",
@@ -49,13 +49,15 @@
     "renters": "Über 2.400 zufriedene Kunden"
   },
   "howItWorks": {
-    "step1Title": "Ort wählen",
-    "step1Body": "Wählen Sie eine Stadt in Ihrer Nähe aus Dutzenden Abholstationen im ganzen Land.",
-    "step2Title": "Abholdatum",
-    "step2Body": "Sagen Sie uns, wann und wie lange Sie das Auto brauchen. Wir halten es für Sie bereit.",
-    "step3Title": "Auto buchen",
-    "step3Body": "Bestätigen Sie Ihre Angaben, und schon ist alles erledigt. Ihr Auto steht bereit.",
-    "title": "Ein Auto bei uns zu mieten geht in drei einfachen Schritten, von der Ortswahl bis zur Abfahrt."
+    "step1Title": "Wo und wann wählen",
+    "step1Body": "Wählen Sie Stadt, Datum und Uhrzeit. Wir zeigen nur freie Autos.",
+    "step2Title": "Den Gesamtpreis sehen",
+    "step2Body": "Der Gesamtpreis enthält Gebühren und Steuern in Ihrer Währung.",
+    "step3Title": "Sicher bei BestCar bezahlen",
+    "step3Body": "Ihre Kaution wird reserviert, nicht abgebucht. Der Gastgeber wird nach Ihrer Fahrt bezahlt.",
+    "title": "Von der Suche zum Schlüssel in vier Schritten.",
+    "step4Title": "Abholen und losfahren",
+    "step4Body": "Führerschein zeigen, Auto mit dem Gastgeber prüfen und los. Bewerten Sie die Fahrt danach."
   },
   "whyChooseUs": {
     "title": "Warum wir",
@@ -685,5 +687,60 @@
     "message": "Nachricht",
     "send": "Nachricht senden",
     "error": "Entschuldigung, etwas ist schiefgelaufen. Bitte versuchen Sie es gleich noch einmal."
+  },
+  "landing": {
+    "hero": {
+      "titleLine1": "Lokale Autos,",
+      "titleAccent": "ein klarer Preis.",
+      "body": "Mieten Sie bei lokalen Unternehmen und privaten Eigentümern. Sehen Sie den Gesamtpreis in Ihrer Währung, bevor Sie buchen.",
+      "find": "Auto finden",
+      "list": "Auto anbieten",
+      "reach": "Verfügbar in {cities}"
+    },
+    "rent": {
+      "title": "Das passende Auto für Ihre Reise",
+      "body": "Vergleichen Sie Autos von Vermietern und Privatpersonen in Ihrer Nähe.",
+      "point1": "Jeder Preis enthält Gebühren und Steuern.",
+      "point2": "Ihre Kaution wird reserviert, nicht ausgegeben.",
+      "point3": "Lesen Sie Bewertungen von Menschen, die das Auto gefahren haben.",
+      "cta": "Autos ansehen"
+    },
+    "earn": {
+      "title": "Ein Auto, das ungenutzt steht?",
+      "body": "Inserieren Sie es in Minuten. Sie bestimmen Preis und Zeiten. Wir kümmern uns um Zahlung, Prüfungen und Auszahlung.",
+      "step1": "Registrieren und Auto beschreiben",
+      "step2": "Wir prüfen Ihre Dokumente",
+      "step3": "Nach jeder Fahrt bezahlt werden",
+      "ctaOwner": "Mein Auto anbieten",
+      "ctaCompany": "Mein Unternehmen registrieren"
+    },
+    "cities": {
+      "title": "Abholen, wo Sie landen",
+      "subtitle": "Jetzt verfügbare Autos, Stadt für Stadt.",
+      "cars": {
+        "one": "{count} Auto verfügbar",
+        "other": "{count} Autos verfügbar"
+      }
+    },
+    "trust": {
+      "title": "Was wir prüfen, damit Sie es nicht müssen",
+      "subtitle": "BestCar steht zwischen Mieter und Gastgeber und schützt beide Seiten.",
+      "verifiedTitle": "Geprüfte Gastgeber",
+      "verifiedBody": "Unternehmen und Eigentümer reichen vor dem Inserieren Dokumente ein, und jedes Auto wird einzeln freigegeben.",
+      "priceTitle": "Ein Preis, Ihre Währung",
+      "priceBody": "Der angezeigte Gesamtpreis enthält Gebühren und Steuern.",
+      "depositTitle": "Kaution reserviert, nicht ausgegeben",
+      "depositBody": "Die Kaution wird reserviert und nach der Fahrt freigegeben, sofern es keinen Streitfall gibt.",
+      "reviewsTitle": "Bewertungen aus echten Fahrten",
+      "reviewsBody": "Nur wer eine Buchung abgeschlossen hat, kann bewerten, und Gastgeber können antworten.",
+      "disputesTitle": "Ein Ansprechpartner",
+      "disputesBody": "Wenn etwas schiefgeht, werden beide Seiten gehört und unser Team greift bei Bedarf ein.",
+      "languagesTitle": "Ihre Sprache",
+      "languagesBody": "BestCar gibt es in 11 Sprachen."
+    },
+    "reviews": {
+      "title": "Was Mieter sagen",
+      "subtitle": "Bewertungen stammen nur von Menschen, die eine Fahrt abgeschlossen haben."
+    }
   }
 }

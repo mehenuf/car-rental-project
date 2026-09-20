@@ -26,7 +26,7 @@
     "partnerPortal": "Espace partenaire"
   },
   "footer": {
-    "tagline": "Location de voitures simple et transparente. Réservez en ligne en quelques minutes, sans compte.",
+    "tagline": "Louez auprès d'entreprises et de particuliers locaux, ou proposez la vôtre. Un prix clair, dans votre langue.",
     "company": "Entreprise",
     "support": "Assistance",
     "howItWorks": "Comment ça marche",
@@ -49,13 +49,15 @@
     "renters": "Plus de 2 400 clients satisfaits"
   },
   "howItWorks": {
-    "step1Title": "Choisissez le lieu",
-    "step1Body": "Sélectionnez une ville proche parmi des dizaines de points de retrait dans tout le pays.",
-    "step2Title": "Date de prise en charge",
-    "step2Body": "Dites-nous quand vous avez besoin de la voiture et pour combien de temps. Nous vous la réservons.",
-    "step3Title": "Réservez votre voiture",
-    "step3Body": "Confirmez vos informations et c'est fait. Votre voiture vous attendra.",
-    "title": "Louer une voiture chez nous se fait en trois étapes simples, du choix du lieu jusqu'au départ."
+    "step1Title": "Choisissez où et quand",
+    "step1Body": "Choisissez une ville, vos dates et l'heure. Nous n'affichons que les voitures libres.",
+    "step2Title": "Voyez le prix total",
+    "step2Body": "Le total inclut frais et taxes, dans votre devise.",
+    "step3Title": "Payez BestCar en toute sécurité",
+    "step3Body": "Votre caution est bloquée, pas prélevée. L'hôte est payé après votre location.",
+    "title": "De la recherche aux clés en quatre étapes.",
+    "step4Title": "Récupérez et roulez",
+    "step4Body": "Présentez votre permis, vérifiez la voiture avec l'hôte et partez. Donnez votre avis ensuite."
   },
   "whyChooseUs": {
     "title": "Pourquoi nous choisir",
@@ -685,5 +687,61 @@
     "message": "Message",
     "send": "Envoyer le message",
     "error": "Désolé, une erreur est survenue. Veuillez réessayer dans un instant."
+  },
+  "landing": {
+    "hero": {
+      "titleLine1": "Des voitures locales,",
+      "titleAccent": "un prix clair.",
+      "body": "Louez auprès d'entreprises locales et de particuliers. Voyez le prix total, dans votre devise, avant de réserver.",
+      "find": "Trouver une voiture",
+      "list": "Proposer ma voiture",
+      "reach": "Disponible à {cities}"
+    },
+    "rent": {
+      "title": "Trouvez la voiture idéale pour votre trajet",
+      "body": "Comparez les voitures des loueurs et des particuliers près de chez vous.",
+      "point1": "Chaque prix inclut frais et taxes.",
+      "point2": "Votre caution est bloquée, pas dépensée.",
+      "point3": "Lisez les avis de ceux qui ont conduit la voiture.",
+      "cta": "Voir les voitures"
+    },
+    "earn": {
+      "title": "Une voiture qui dort ?",
+      "body": "Publiez-la en quelques minutes. Vous fixez le prix et les dates. Nous gérons le paiement, les vérifications et le versement.",
+      "step1": "Inscrivez-vous et décrivez votre voiture",
+      "step2": "Nous vérifions vos documents",
+      "step3": "Soyez payé après chaque location",
+      "ctaOwner": "Proposer ma voiture",
+      "ctaCompany": "Inscrire mon entreprise"
+    },
+    "cities": {
+      "title": "Récupérez-la dès votre arrivée",
+      "subtitle": "Voitures disponibles maintenant, ville par ville.",
+      "cars": {
+        "one": "{count} voiture disponible",
+        "many": "{count} de voitures disponibles",
+        "other": "{count} voitures disponibles"
+      }
+    },
+    "trust": {
+      "title": "Ce que nous vérifions pour vous",
+      "subtitle": "BestCar se place entre locataire et hôte pour protéger les deux.",
+      "verifiedTitle": "Hôtes vérifiés",
+      "verifiedBody": "Entreprises et particuliers envoient leurs documents avant publication, et chaque voiture est validée une par une.",
+      "priceTitle": "Un prix, votre devise",
+      "priceBody": "Le total affiché inclut frais et taxes.",
+      "depositTitle": "Caution bloquée, pas dépensée",
+      "depositBody": "La caution est bloquée puis libérée après la location, sauf litige.",
+      "reviewsTitle": "Des avis de vraies locations",
+      "reviewsBody": "Seuls ceux qui ont terminé une réservation peuvent donner un avis, et les hôtes peuvent répondre.",
+      "disputesTitle": "Un interlocuteur",
+      "disputesBody": "En cas de problème, les deux parties sont entendues et notre équipe intervient si besoin.",
+      "languagesTitle": "Votre langue",
+      "languagesBody": "BestCar fonctionne en 11 langues."
+    },
+    "reviews": {
+      "title": "Ce que disent les locataires",
+      "subtitle": "Les avis viennent uniquement de personnes ayant terminé une location."
+    }
   }
 }

@@ -26,7 +26,7 @@
     "partnerPortal": "Portal de parceiros"
   },
   "footer": {
-    "tagline": "Aluguel de carros prático e transparente. Reserve online em minutos, sem precisar de conta.",
+    "tagline": "Alugue de empresas e proprietários locais, ou anuncie o seu. Um preço claro, no seu idioma.",
     "company": "Empresa",
     "support": "Suporte",
     "howItWorks": "Como funciona",
@@ -49,13 +49,15 @@
     "renters": "Mais de 2.400 clientes satisfeitos"
   },
   "howItWorks": {
-    "step1Title": "Escolha o local",
-    "step1Body": "Escolha uma cidade perto de você entre dezenas de pontos de retirada pelo país.",
-    "step2Title": "Data de retirada",
-    "step2Body": "Diga quando precisa do carro e por quanto tempo. Nós o reservamos para você.",
-    "step3Title": "Reserve seu carro",
-    "step3Body": "Confirme seus dados e pronto. Seu carro estará esperando.",
-    "title": "Alugar um carro conosco leva três passos simples, da escolha do local até sair dirigindo."
+    "step1Title": "Escolha onde e quando",
+    "step1Body": "Escolha cidade, datas e horário. Mostramos só carros livres.",
+    "step2Title": "Veja o preço total",
+    "step2Body": "O total inclui taxas e impostos, na sua moeda.",
+    "step3Title": "Pague à BestCar com segurança",
+    "step3Body": "Sua caução é retida, não cobrada. O anfitrião recebe após a viagem.",
+    "title": "Da busca às chaves em quatro passos.",
+    "step4Title": "Retire e dirija",
+    "step4Body": "Mostre sua habilitação, confira o carro com o anfitrião e siga viagem. Avalie depois."
   },
   "whyChooseUs": {
     "title": "Por que nos escolher",
@@ -685,5 +687,61 @@
     "message": "Mensagem",
     "send": "Enviar mensagem",
     "error": "Desculpe, algo deu errado. Tente novamente em instantes."
+  },
+  "landing": {
+    "hero": {
+      "titleLine1": "Carros locais,",
+      "titleAccent": "um preço claro.",
+      "body": "Alugue de empresas locais e proprietários particulares. Veja o preço total, na sua moeda, antes de reservar.",
+      "find": "Encontrar um carro",
+      "list": "Anunciar seu carro",
+      "reach": "Disponível em {cities}"
+    },
+    "rent": {
+      "title": "Encontre o carro certo para a sua viagem",
+      "body": "Compare carros de locadoras e proprietários perto de você.",
+      "point1": "Todo preço inclui taxas e impostos.",
+      "point2": "Sua caução é retida, não gasta.",
+      "point3": "Leia avaliações de quem dirigiu o carro.",
+      "cta": "Ver carros"
+    },
+    "earn": {
+      "title": "Tem um carro parado?",
+      "body": "Anuncie em minutos. Você define o preço e as datas. Nós cuidamos do pagamento, das verificações e do repasse.",
+      "step1": "Cadastre-se e descreva seu carro",
+      "step2": "Analisamos seus documentos",
+      "step3": "Receba após cada viagem",
+      "ctaOwner": "Anunciar meu carro",
+      "ctaCompany": "Cadastrar minha empresa"
+    },
+    "cities": {
+      "title": "Retire onde você chegar",
+      "subtitle": "Carros disponíveis agora, cidade por cidade.",
+      "cars": {
+        "one": "{count} carro disponível",
+        "many": "{count} de carros disponíveis",
+        "other": "{count} carros disponíveis"
+      }
+    },
+    "trust": {
+      "title": "O que verificamos para você não precisar",
+      "subtitle": "A BestCar fica entre locatário e anfitrião para proteger os dois lados.",
+      "verifiedTitle": "Anfitriões verificados",
+      "verifiedBody": "Empresas e proprietários enviam documentos antes de anunciar, e cada carro é aprovado um a um.",
+      "priceTitle": "Um preço, sua moeda",
+      "priceBody": "O total que você vê inclui taxas e impostos.",
+      "depositTitle": "Caução retida, não gasta",
+      "depositBody": "A caução é retida e liberada após a viagem, salvo disputa.",
+      "reviewsTitle": "Avaliações de viagens reais",
+      "reviewsBody": "Só quem concluiu uma reserva pode avaliar, e os anfitriões podem responder.",
+      "disputesTitle": "Alguém a quem recorrer",
+      "disputesBody": "Se algo der errado, os dois lados são ouvidos e nossa equipe intervém quando necessário.",
+      "languagesTitle": "Seu idioma",
+      "languagesBody": "A BestCar funciona em 11 idiomas."
+    },
+    "reviews": {
+      "title": "O que dizem os locatários",
+      "subtitle": "As avaliações vêm só de quem concluiu uma viagem."
+    }
   }
 }

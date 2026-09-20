@@ -26,7 +26,7 @@
     "partnerPortal": "合作伙伴门户"
   },
   "footer": {
-    "tagline": "便捷、透明的租车服务。无需账户，几分钟即可在线预订。",
+    "tagline": "向本地公司和车主租车，或发布您自己的车。一个清晰的价格，用您的语言。",
     "company": "公司",
     "support": "支持",
     "howItWorks": "使用流程",
@@ -49,13 +49,15 @@
     "renters": "2,400+ 位满意的租车客户"
   },
   "howItWorks": {
-    "step1Title": "选择地点",
-    "step1Body": "从全国数十个取车点中选择离您最近的城市。",
-    "step2Title": "取车日期",
-    "step2Body": "告诉我们您何时用车、用多久，我们会为您保留车辆。",
-    "step3Title": "预订车辆",
-    "step3Body": "确认您的信息即可完成。您的座驾将准备就绪。",
-    "title": "在我们这里租车只需三个简单步骤，从选择地点到驾车出发。"
+    "step1Title": "选择地点和时间",
+    "step1Body": "选择城市、日期和时间。我们只显示有空的车。",
+    "step2Title": "查看完整价格",
+    "step2Body": "总价含费用和税款，以您的货币显示。",
+    "step3Title": "安全付款给 BestCar",
+    "step3Body": "您的押金只是冻结，不会扣除。行程结束后车主才会收到款项。",
+    "title": "从搜索到拿钥匙，只需四步。",
+    "step4Title": "取车出发",
+    "step4Body": "出示驾照，与车主一起检查车辆，然后出发。事后可评价行程。"
   },
   "whyChooseUs": {
     "title": "为什么选择我们",
@@ -675,5 +677,59 @@
     "message": "消息",
     "send": "发送消息",
     "error": "抱歉，出了点问题，请稍后再试。"
+  },
+  "landing": {
+    "hero": {
+      "titleLine1": "本地好车，",
+      "titleAccent": "价格一目了然。",
+      "body": "向本地公司和个人车主租车。预订前就能看到以您的货币计价的完整价格。",
+      "find": "找车",
+      "list": "发布我的车",
+      "reach": "可租城市：{cities}"
+    },
+    "rent": {
+      "title": "为您的行程找到合适的车",
+      "body": "比较您附近租车公司和个人车主的车辆。",
+      "point1": "每个价格都含费用和税款。",
+      "point2": "押金只是冻结，不会花掉。",
+      "point3": "阅读真正开过这辆车的人的评价。",
+      "cta": "浏览车辆"
+    },
+    "earn": {
+      "title": "有车闲置着？",
+      "body": "几分钟即可发布。价格和日期由您定，付款、审核和结算由我们处理。",
+      "step1": "注册并描述您的车",
+      "step2": "我们审核您的证件",
+      "step3": "每次行程后收款",
+      "ctaOwner": "发布我的车",
+      "ctaCompany": "登记我的公司"
+    },
+    "cities": {
+      "title": "落地即取车",
+      "subtitle": "当前可租车辆，按城市查看。",
+      "cars": {
+        "other": "{count} 辆车可租"
+      }
+    },
+    "trust": {
+      "title": "我们替您把关",
+      "subtitle": "BestCar 介于租客与车主之间，保护双方。",
+      "verifiedTitle": "车主经过审核",
+      "verifiedBody": "公司和车主在上架前提交证件，每辆车都逐一审批。",
+      "priceTitle": "一个价格，您的货币",
+      "priceBody": "您看到的总价已含费用和税款。",
+      "depositTitle": "押金冻结，不会花掉",
+      "depositBody": "除非发生争议，押金会在行程结束后释放。",
+      "reviewsTitle": "来自真实行程的评价",
+      "reviewsBody": "只有完成预订的人才能评价，车主也可以回复。",
+      "disputesTitle": "有事可找",
+      "disputesBody": "出现问题时会听取双方意见，必要时由我们的团队介入。",
+      "languagesTitle": "您的语言",
+      "languagesBody": "BestCar 支持 11 种语言。"
+    },
+    "reviews": {
+      "title": "租客怎么说",
+      "subtitle": "评价只来自完成行程的人。"
+    }
   }
 }
