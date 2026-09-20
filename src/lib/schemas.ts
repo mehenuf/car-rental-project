@@ -240,6 +240,36 @@ export const BookingsQuerySchema = z.object({
 // at the DB default (`pending`) with a null lead_score.
 // ---------------------------------------------------------------
 
+const ExtraSelectionSchema = z.object({
+  code: z.string().trim().min(1).max(64),
+  quantity: z.coerce.number().int().min(1).max(20),
+});
+
+/** Fields that drive the price of a trip: shared by the quote and booking requests. */
+const pricingFields = {
+  extras: z.array(ExtraSelectionSchema).max(20).default([]),
+  promo_code: z.string().trim().min(1).max(64).nullable().optional(),
+  driver_age: z.coerce.number().int().min(16).max(99).nullable().optional(),
+};
+
+// ---------------------------------------------------------------
+// POST /api/quote — prices a trip and returns a signed 15 minute token.
+// ---------------------------------------------------------------
+
+export const QuoteRequestSchema = z
+  .object({
+    vehicle_id: z.string().uuid("vehicle_id must be a valid UUID"),
+    pickup_branch_id: z.coerce.number().int().positive().nullable().optional(),
+    dropoff_branch_id: z.coerce.number().int().positive().nullable().optional(),
+    pickup_at: z.coerce.date({ message: "pickup_at must be a valid date" }),
+    dropoff_at: z.coerce.date({ message: "dropoff_at must be a valid date" }),
+    ...pricingFields,
+  })
+  .refine((data) => data.dropoff_at.getTime() > data.pickup_at.getTime(), {
+    message: "dropoff_at must be after pickup_at",
+    path: ["dropoff_at"],
+  });
+
 export const CreateBookingSchema = z
   .object({
     vehicle_id: z.string().uuid("vehicle_id must be a valid UUID"),
@@ -252,6 +282,9 @@ export const CreateBookingSchema = z
     dropoff_at: z.coerce.date({ message: "dropoff_at must be a valid date" }),
     payment_method: PaymentMethodSchema.nullable().optional(),
     source: BookingSourceSchema.optional(),
+    ...pricingFields,
+    /** From POST /api/quote. Optional: without it the server quotes fresh. With it, a changed price returns 409. */
+    quote_token: z.string().min(1).max(2000).optional(),
   })
   .refine((data) => data.dropoff_at.getTime() > data.pickup_at.getTime(), {
     message: "dropoff_at must be after pickup_at",
