@@ -32,8 +32,8 @@ This overview holds the decisions that cut across the five specs. Each spec belo
 
 Interpreting "all the current countries plus English, Bengali, Spanish, French, Arabic, Portuguese, Mandarin and Japanese":
 
-- **Languages (8):** `en`, `bn`, `es`, `fr`, `ar`, `pt`, `zh` (Simplified Chinese) and `ja`. Arabic is right-to-left.
-- **Countries:** every country the platform already serves: US, GB, AE, CA, AU, NL, DE, FR, NG, KE, ID, BR, IN, BD, JP. Each gets a default language, currency and time zone. Countries whose everyday language is not on the list (Dutch, German, Hindi, Indonesian, Swahili) fall back to English and can gain a language later by adding one translation file.
+- **Languages (11):** `en`, `bn`, `es`, `fr`, `ar`, `pt`, `zh` (Simplified Chinese), `ja`, and, for the Netherlands, Germany and Indonesia, `nl` (Dutch), `de` (German) and `id` (Indonesian). Arabic is right-to-left; the other ten are left-to-right. Dutch, German and Indonesian use the Latin alphabet, so they need no extra fonts.
+- **Countries:** every country the platform already serves: US, GB, AE, CA, AU, NL, DE, FR, NG, KE, ID, BR, IN, BD, JP. Each gets a default language, currency and time zone. Each country's default language is now covered except India (Hindi) and Kenya (Swahili), which fall back to English and can gain a language later by adding one translation file. Nigeria, Kenya, India, the UAE, Canada, Australia, the United States and the United Kingdom all use English by default (Arabic and French are offered where relevant).
 - **Traditional Chinese, and further Arabic variants,** are not included. The default Arabic uses Western digits.
 
 ## 4. Decisions to confirm (the ones that affect several specs)
