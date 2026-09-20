@@ -481,5 +481,46 @@
   "sms": {
     "booking_confirmed": "BestCar: booking {reference} confirmed. Pick-up {pickup}. Reply STOP to opt out.",
     "pickup_reminder": "BestCar: reminder, pick-up for {reference} on {pickup}. Reply STOP to opt out."
+  },
+  "messages": {
+    "title": "Messages",
+    "empty": "No messages yet.",
+    "placeholder": "Write a message to the rental company",
+    "send": "Send",
+    "sending": "Sending...",
+    "you": "You",
+    "them": "Rental company",
+    "platform": "BestCar",
+    "loadFailed": "Something went wrong. Please try again.",
+    "hint": "You can share phone numbers and links once the booking is paid."
+  },
+  "notify": {
+    "navLabel": "Notifications",
+    "title": "Notifications",
+    "intro": "Booking confirmations, receipts and safety notices are always sent by email. Choose how you want to hear about the rest.",
+    "reminders": "Pick-up and return reminders",
+    "messagesCat": "New messages",
+    "email": "Email",
+    "sms": "Text message",
+    "push": "Browser",
+    "saved": "Saved.",
+    "phoneTitle": "Phone for text messages",
+    "phoneLabel": "Phone number (with country code)",
+    "sendCode": "Send code",
+    "code": "Code",
+    "verify": "Verify",
+    "verified": "Verified",
+    "smsOptIn": "Send me text messages for booking confirmations and pick-up reminders",
+    "smsNote": "Text messages are limited to three kinds: booking confirmed, pick-up reminder and security code. Reply STOP at any time to opt out. Nothing is sent between 21:00 and 08:00 your time.",
+    "pushTitle": "Browser notifications",
+    "pushBody": "Get short alerts in this browser. They never include addresses or amounts.",
+    "pushEnable": "Turn on for this browser",
+    "pushDisable": "Turn off for this browser",
+    "pushUnsupported": "This browser does not support notifications.",
+    "pushDenied": "Notifications are blocked in your browser settings.",
+    "pushNotConfigured": "Browser notifications are not set up on this site yet.",
+    "pushIos": "On iPhone and iPad, add this site to your Home Screen first.",
+    "timezone": "Your time zone",
+    "error": "Something went wrong. Please try again."
   }
 }

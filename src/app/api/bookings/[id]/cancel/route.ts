@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { dispatchSoon } from "@/lib/comms/service";
 import { withErrorHandling } from "@/lib/api-response";
 import { NotFoundError } from "@/lib/errors";
 import { resolveRequestIdentity } from "@/lib/guest";
@@ -24,7 +25,8 @@ export const POST = withErrorHandling(
     if (!owns) throw new NotFoundError("Booking not found.");
 
     const result = await cancelBooking(paymentsDeps(), { bookingId: id, cancelledBy: "customer" });
-    return NextResponse.json({
+    dispatchSoon();
+  return NextResponse.json({
       refund_minor: result.refundMinor,
       refund_bp: result.refundBp,
       refund_status: result.refundStatus,

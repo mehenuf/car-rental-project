@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { dispatchSoon } from "@/lib/comms/service";
 import { withErrorHandling } from "@/lib/api-response";
 import { ConflictError } from "@/lib/errors";
 import { requireProviderAccess } from "@/lib/provider/context";
@@ -22,6 +23,7 @@ export const POST = withErrorHandling(
 
     const { error } = await supabaseAdmin.rpc("transition_booking", { p_booking_id: id, p_to: "no_show" });
     if (error) throw new Error(`no-show: ${error.message}`);
+    dispatchSoon();
     return NextResponse.json({ status: "no_show" });
   }
 );

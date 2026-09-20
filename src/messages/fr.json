@@ -481,5 +481,46 @@
   "sms": {
     "booking_confirmed": "BestCar : réservation {reference} confirmée. Retrait {pickup}. Répondez STOP pour ne plus recevoir de SMS.",
     "pickup_reminder": "BestCar : rappel, retrait de {reference} le {pickup}. Répondez STOP pour ne plus recevoir de SMS."
+  },
+  "messages": {
+    "title": "Messages",
+    "empty": "Aucun message pour l'instant.",
+    "placeholder": "Écrivez un message au loueur",
+    "send": "Envoyer",
+    "sending": "Envoi...",
+    "you": "Vous",
+    "them": "Loueur",
+    "platform": "BestCar",
+    "loadFailed": "Une erreur est survenue. Veuillez réessayer.",
+    "hint": "Vous pourrez partager numéros de téléphone et liens une fois la réservation payée."
+  },
+  "notify": {
+    "navLabel": "Notifications",
+    "title": "Notifications",
+    "intro": "Les confirmations de réservation, reçus et avis de sécurité sont toujours envoyés par e-mail. Choisissez comment être informé du reste.",
+    "reminders": "Rappels de retrait et de retour",
+    "messagesCat": "Nouveaux messages",
+    "email": "E-mail",
+    "sms": "SMS",
+    "push": "Navigateur",
+    "saved": "Enregistré.",
+    "phoneTitle": "Téléphone pour les SMS",
+    "phoneLabel": "Numéro de téléphone (avec indicatif du pays)",
+    "sendCode": "Envoyer le code",
+    "code": "Code",
+    "verify": "Vérifier",
+    "verified": "Vérifié",
+    "smsOptIn": "M'envoyer des SMS pour les confirmations de réservation et les rappels de retrait",
+    "smsNote": "Les SMS se limitent à trois types : réservation confirmée, rappel de retrait et code de sécurité. Répondez STOP à tout moment pour vous désabonner. Rien n'est envoyé entre 21 h et 8 h, heure locale.",
+    "pushTitle": "Notifications du navigateur",
+    "pushBody": "Recevez de courtes alertes dans ce navigateur. Elles n'incluent jamais d'adresses ni de montants.",
+    "pushEnable": "Activer sur ce navigateur",
+    "pushDisable": "Désactiver sur ce navigateur",
+    "pushUnsupported": "Ce navigateur ne prend pas en charge les notifications.",
+    "pushDenied": "Les notifications sont bloquées dans les paramètres de votre navigateur.",
+    "pushNotConfigured": "Les notifications du navigateur ne sont pas encore configurées sur ce site.",
+    "pushIos": "Sur iPhone et iPad, ajoutez d'abord ce site à l'écran d'accueil.",
+    "timezone": "Votre fuseau horaire",
+    "error": "Une erreur est survenue. Veuillez réessayer."
   }
 }

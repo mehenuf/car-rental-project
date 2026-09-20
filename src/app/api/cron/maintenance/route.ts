@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withErrorHandling } from "@/lib/api-response";
 import { verifyCronAuth } from "@/lib/cron-auth";
+import { runDispatch } from "@/lib/comms/service";
 import { paymentsDeps } from "@/lib/payments/deps";
 import { releaseDueDeposits } from "@/lib/payments/service";
 import { supabaseAdmin } from "@/lib/supabase-server";
@@ -23,7 +24,18 @@ async function run(request: NextRequest) {
   const { data: paidOut, error: payoutError } = await supabaseAdmin.rpc("run_payouts");
   if (payoutError) throw new Error(`run_payouts: ${payoutError.message}`);
 
-  return NextResponse.json({ expired_holds: expired ?? 0, released_deposits: releasedDeposits, payouts_paid: paidOut ?? 0 });
+  // Queue due pickup reminders, then send everything waiting (also retries earlier failures).
+  const { data: reminders, error: reminderError } = await supabaseAdmin.rpc("enqueue_due_reminders");
+  if (reminderError) throw new Error(`enqueue_due_reminders: ${reminderError.message}`);
+  const dispatched = await runDispatch();
+
+  return NextResponse.json({
+    expired_holds: expired ?? 0,
+    released_deposits: releasedDeposits,
+    payouts_paid: paidOut ?? 0,
+    reminders_queued: reminders ?? 0,
+    ...dispatched,
+  });
 }
 
 export const GET = withErrorHandling(run);

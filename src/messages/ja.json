@@ -471,5 +471,46 @@
   "sms": {
     "booking_confirmed": "BestCar：予約 {reference} 確定。受け取り {pickup}。配信停止は STOP と返信してください。",
     "pickup_reminder": "BestCar：{reference} の受け取りは {pickup} です。配信停止は STOP と返信してください。"
+  },
+  "messages": {
+    "title": "メッセージ",
+    "empty": "メッセージはまだありません。",
+    "placeholder": "レンタカー会社へのメッセージを書く",
+    "send": "送信",
+    "sending": "送信中...",
+    "you": "あなた",
+    "them": "レンタカー会社",
+    "platform": "BestCar",
+    "loadFailed": "問題が発生しました。もう一度お試しください。",
+    "hint": "電話番号やリンクは、予約のお支払い後に共有できます。"
+  },
+  "notify": {
+    "navLabel": "通知",
+    "title": "通知",
+    "intro": "予約確認、領収書、安全に関するお知らせは常にメールで送信されます。それ以外の受け取り方法を選んでください。",
+    "reminders": "受け取り・返却のリマインダー",
+    "messagesCat": "新着メッセージ",
+    "email": "メール",
+    "sms": "SMS",
+    "push": "ブラウザ",
+    "saved": "保存しました。",
+    "phoneTitle": "SMS用の電話番号",
+    "phoneLabel": "電話番号（国番号付き）",
+    "sendCode": "コードを送信",
+    "code": "コード",
+    "verify": "確認",
+    "verified": "確認済み",
+    "smsOptIn": "予約確認と受け取りのリマインダーをSMSで受け取る",
+    "smsNote": "SMSは、予約確定、受け取りのリマインダー、セキュリティコードの3種類に限ります。いつでも STOP と返信すれば配信を停止できます。現地時間の21:00〜8:00は送信しません。",
+    "pushTitle": "ブラウザ通知",
+    "pushBody": "このブラウザで短い通知を受け取ります。住所や金額は含まれません。",
+    "pushEnable": "このブラウザでオンにする",
+    "pushDisable": "このブラウザでオフにする",
+    "pushUnsupported": "このブラウザは通知に対応していません。",
+    "pushDenied": "ブラウザの設定で通知がブロックされています。",
+    "pushNotConfigured": "このサイトのブラウザ通知はまだ設定されていません。",
+    "pushIos": "iPhone・iPadでは、先にこのサイトをホーム画面に追加してください。",
+    "timezone": "タイムゾーン",
+    "error": "問題が発生しました。もう一度お試しください。"
   }
 }

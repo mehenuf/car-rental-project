@@ -7,6 +7,7 @@ export default async function AccountLayout({ children }: { children: ReactNode 
   const tabs = [
     { href: "/account", label: t("account.navTrips") },
     { href: "/account/driver", label: t("account.navDriver") },
+    { href: "/account/notifications", label: t("notify.navLabel") },
     { href: "/account/security", label: t("account.navSecurity") },
   ];
   return (

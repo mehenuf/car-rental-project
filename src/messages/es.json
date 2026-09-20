@@ -481,5 +481,46 @@
   "sms": {
     "booking_confirmed": "BestCar: reserva {reference} confirmada. Recogida {pickup}. Responde STOP para no recibir más.",
     "pickup_reminder": "BestCar: recordatorio, recogida de {reference} el {pickup}. Responde STOP para no recibir más."
+  },
+  "messages": {
+    "title": "Mensajes",
+    "empty": "Aún no hay mensajes.",
+    "placeholder": "Escribe un mensaje a la empresa de alquiler",
+    "send": "Enviar",
+    "sending": "Enviando...",
+    "you": "Tú",
+    "them": "Empresa de alquiler",
+    "platform": "BestCar",
+    "loadFailed": "Algo salió mal. Inténtalo de nuevo.",
+    "hint": "Podrás compartir teléfonos y enlaces cuando la reserva esté pagada."
+  },
+  "notify": {
+    "navLabel": "Notificaciones",
+    "title": "Notificaciones",
+    "intro": "Las confirmaciones de reserva, los recibos y los avisos de seguridad se envían siempre por correo. Elige cómo quieres enterarte del resto.",
+    "reminders": "Recordatorios de recogida y devolución",
+    "messagesCat": "Mensajes nuevos",
+    "email": "Correo",
+    "sms": "SMS",
+    "push": "Navegador",
+    "saved": "Guardado.",
+    "phoneTitle": "Teléfono para SMS",
+    "phoneLabel": "Número de teléfono (con prefijo del país)",
+    "sendCode": "Enviar código",
+    "code": "Código",
+    "verify": "Verificar",
+    "verified": "Verificado",
+    "smsOptIn": "Enviarme SMS con las confirmaciones de reserva y los recordatorios de recogida",
+    "smsNote": "Los SMS se limitan a tres tipos: reserva confirmada, recordatorio de recogida y código de seguridad. Responde STOP en cualquier momento para darte de baja. No se envía nada entre las 21:00 y las 08:00 de tu hora.",
+    "pushTitle": "Notificaciones del navegador",
+    "pushBody": "Recibe avisos breves en este navegador. Nunca incluyen direcciones ni importes.",
+    "pushEnable": "Activar en este navegador",
+    "pushDisable": "Desactivar en este navegador",
+    "pushUnsupported": "Este navegador no admite notificaciones.",
+    "pushDenied": "Las notificaciones están bloqueadas en los ajustes de tu navegador.",
+    "pushNotConfigured": "Las notificaciones del navegador aún no están configuradas en este sitio.",
+    "pushIos": "En iPhone y iPad, primero añade este sitio a la pantalla de inicio.",
+    "timezone": "Tu zona horaria",
+    "error": "Algo salió mal. Inténtalo de nuevo."
   }
 }

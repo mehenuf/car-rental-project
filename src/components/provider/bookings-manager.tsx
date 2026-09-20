@@ -1,5 +1,6 @@
 "use client";
 
+import { MessageThread, type ThreadLabels } from "@/components/site/message-thread";
 import { useRef, useState, type FormEvent } from "react";
 import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
 import { Status, send, useSave } from "@/components/provider/form-utils";
@@ -138,11 +139,23 @@ function InspectionDialog({ booking, kind, onClose, onDone }: { booking: Provide
   );
 }
 
+const PROVIDER_THREAD_LABELS: ThreadLabels = {
+  empty: "No messages yet.",
+  placeholder: "Write a message to the customer",
+  send: "Send",
+  sending: "Sending...",
+  you: "You",
+  them: "Customer",
+  platform: "BestCar",
+  loadFailed: "Something went wrong.",
+};
+
 export function BookingsManager({ canOperate, canCancel }: { canOperate: boolean; canCancel: boolean }) {
   const [view, setView] = useState<(typeof VIEWS)[number]["id"]>("upcoming");
   const [refresh, setRefresh] = useState(0);
   const [inspecting, setInspecting] = useState<{ booking: ProviderBooking; kind: "pickup" | "return" } | null>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [messaging, setMessaging] = useState<ProviderBooking | null>(null);
   const result = useApiData<{ data: ProviderBooking[] }>(`/api/provider/bookings?view=${view}&_r=${refresh}`);
   const rows = result.status === "success" ? result.data.data : [];
   const changed = () => setRefresh((n) => n + 1);
@@ -191,6 +204,7 @@ export function BookingsManager({ canOperate, canCancel }: { canOperate: boolean
                   <span className="text-muted-foreground">{b.customer_name} · {b.email}{b.phone ? ` · ${b.phone}` : ""}</span>
                 </div>
                 <div className="flex flex-wrap gap-1.5">
+                  {canOperate && ["pending", "confirmed", "active"].includes(b.status) && <Button type="button" size="sm" variant="outline" onClick={() => setMessaging(b)}>Messages</Button>}
                   {canOperate && b.status === "confirmed" && <Button type="button" size="sm" onClick={() => setInspecting({ booking: b, kind: "pickup" })}>Hand over</Button>}
                   {canOperate && b.status === "active" && <Button type="button" size="sm" onClick={() => setInspecting({ booking: b, kind: "return" })}>Take back</Button>}
                   {canOperate && b.status === "confirmed" && pickupPassed && <Button type="button" size="sm" variant="outline" onClick={() => act(`/api/provider/bookings/${b.id}/no-show`)}>No-show</Button>}
@@ -201,6 +215,16 @@ export function BookingsManager({ canOperate, canCancel }: { canOperate: boolean
           })}
         </CardContent>
       </Card>
+
+      <Dialog open={messaging !== null} onOpenChange={(open) => !open && setMessaging(null)}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Messages</DialogTitle>
+            <DialogDescription>{messaging?.reference} · {messaging?.customer_name}. Phone numbers and links can be shared once the booking is paid.</DialogDescription>
+          </DialogHeader>
+          {messaging && <MessageThread bookingId={messaging.id} endpoint="/api/provider/messages" mySide="provider" labels={PROVIDER_THREAD_LABELS} />}
+        </DialogContent>
+      </Dialog>
 
       <InspectionDialog
         booking={inspecting?.booking ?? null}
