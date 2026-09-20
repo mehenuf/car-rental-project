@@ -90,3 +90,7 @@ docs/screenshots/README.md
 
 # local notes on exporting/adding the n8n workflow, not for the public repo
 automation/README.md
+
+# Playwright
+/test-results/
+/playwright-report/
