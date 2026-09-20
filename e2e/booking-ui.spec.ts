@@ -32,3 +32,20 @@ test("the location picker searches as you type and remembers the choice", async 
   await page.getByRole("link", { name: "Show all locations" }).click();
   await expect(page).toHaveURL(/all=1/);
 });
+
+// A page that renders a date on the server must not disagree with the browser about the day, or React throws away
+// the server HTML and re-renders everything (a slow, janky load). Check in time zones on both sides of the server's.
+for (const timezoneId of ["Pacific/Pago_Pago", "Pacific/Kiritimati"]) {
+  test(`the home and car pages hydrate cleanly in ${timezoneId}`, async ({ browser }) => {
+    const context = await browser.newContext({ timezoneId });
+    const page = await context.newPage();
+    const problems: string[] = [];
+    page.on("pageerror", (e) => problems.push(e.message));
+    for (const path of ["/en", "/en/cars"]) {
+      await page.goto(path);
+      await page.waitForLoadState("networkidle");
+    }
+    expect(problems).toEqual([]);
+    await context.close();
+  });
+}

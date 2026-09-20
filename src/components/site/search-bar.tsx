@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useLocaleRouter, useT } from "@/lib/i18n/provider";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,7 @@ import { PlaceCombobox } from "@/components/location/place-combobox";
 import { useLocation } from "@/components/location/location-provider";
 import type { Place } from "@/lib/location/places";
 import { TimeSelectField } from "@/components/site/time-select-field";
-import { DEFAULT_TIME, combineDateAndTime } from "@/lib/booking-time";
+import { DEFAULT_TIME, combineDateAndTime, defaultTrip } from "@/lib/booking-time";
 import { toApiDate } from "@/lib/date-range";
 
 
@@ -26,18 +26,26 @@ export function SearchBar() {
   const { places, selected, detected, select } = useLocation();
 
   const today = useMemo(() => startOfToday(), []);
-  const tomorrow = useMemo(() => {
-    const d = new Date(today);
-    d.setDate(d.getDate() + 1);
-    return d;
-  }, [today]);
 
   const [pickupPlace, setPickupPlace] = useState<Place | null>(null);
   const [dropoffPlace, setDropoffPlace] = useState<Place | null>(null);
-  const [pickupDate, setPickupDate] = useState<Date | undefined>(today);
-  const [dropoffDate, setDropoffDate] = useState<Date | undefined>(tomorrow);
+  // The first trip depends on the visitor's own clock and time zone, which the server cannot know, so it is filled in
+  // after the page loads. Rendering it on the server would show a different day than the browser does and force a
+  // full re-render of the page.
+  const [pickupDate, setPickupDate] = useState<Date | undefined>(undefined);
+  const [dropoffDate, setDropoffDate] = useState<Date | undefined>(undefined);
   const [pickupTime, setPickupTime] = useState(DEFAULT_TIME);
   const [dropoffTime, setDropoffTime] = useState(DEFAULT_TIME);
+
+  useEffect(() => {
+    const trip = defaultTrip();
+    /* eslint-disable react-hooks/set-state-in-effect -- one-time fill from the visitor's clock */
+    setPickupDate(trip.pickupDate);
+    setPickupTime(trip.pickupTime);
+    setDropoffDate(trip.dropoffDate);
+    setDropoffTime(trip.dropoffTime);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
   const [error, setError] = useState<string | null>(null);
 
   // Pick-up defaults to the place chosen in the header (or guessed for the visitor); drop-off defaults to pick-up.
