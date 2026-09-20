@@ -37,7 +37,8 @@
     "myBookings": "Mis reservas",
     "privacy": "Política de privacidad",
     "terms": "Términos y condiciones",
-    "copyright": "© {year} BestCar. Todos los derechos reservados."
+    "copyright": "© {year} BestCar. Todos los derechos reservados.",
+    "demo": "Los pagos de este sitio son simulados. No se mueve dinero real."
   },
   "hero": {
     "titleLine1": "Alquila la carretera",
@@ -53,8 +54,8 @@
     "step1Body": "Elige ciudad, fechas y hora. Solo mostramos coches libres.",
     "step2Title": "Ve el precio total",
     "step2Body": "El total incluye tasas e impuestos, en tu moneda.",
-    "step3Title": "Paga a BestCar con seguridad",
-    "step3Body": "Tu fianza se retiene, no se cobra. El anfitrión cobra tras tu viaje.",
+    "step3Title": "Paga a través de BestCar",
+    "step3Body": "La fianza se muestra de antemano. El anfitrión cobra tras tu viaje.",
     "title": "De la búsqueda a las llaves en cuatro pasos.",
     "step4Title": "Recoge y conduce",
     "step4Body": "Muestra tu permiso, revisa el coche con el anfitrión y a rodar. Valora el viaje después."
@@ -625,7 +626,7 @@
   },
   "consent": {
     "title": "Cookies y tu privacidad",
-    "body": "Usamos cookies necesarias para mantener tu sesión y recordar tu idioma. Con tu permiso, también usamos analítica para ver cómo se usa el sitio. Puedes cambiar de opinión en cualquier momento.",
+    "body": "Las cookies necesarias mantienen tu sesión. La analítica solo se activa si la permites.",
     "accept": "Aceptar analítica",
     "decline": "Solo las necesarias"
   },
@@ -701,7 +702,7 @@
       "title": "Encuentra el coche ideal para tu viaje",
       "body": "Compara coches de empresas de alquiler y propietarios cerca de ti.",
       "point1": "Cada precio incluye tasas e impuestos.",
-      "point2": "Tu fianza se retiene, no se gasta.",
+      "point2": "La fianza se muestra antes de reservar.",
       "point3": "Lee opiniones de quienes condujeron el coche.",
       "cta": "Ver coches"
     },
@@ -730,8 +731,8 @@
       "verifiedBody": "Empresas y propietarios envían documentos antes de publicar, y cada coche se aprueba uno a uno.",
       "priceTitle": "Un precio, tu moneda",
       "priceBody": "El total que ves incluye tasas e impuestos.",
-      "depositTitle": "Fianza retenida, no gastada",
-      "depositBody": "La fianza se retiene y se libera tras el viaje salvo disputa.",
+      "depositTitle": "Fianza a la vista",
+      "depositBody": "La fianza forma parte del presupuesto y se libera tras el viaje salvo disputa.",
       "reviewsTitle": "Opiniones de viajes reales",
       "reviewsBody": "Solo quien completó una reserva puede opinar, y los anfitriones pueden responder.",
       "disputesTitle": "Alguien a quien acudir",

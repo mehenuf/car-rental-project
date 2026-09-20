@@ -37,7 +37,8 @@
     "myBookings": "Pemesanan saya",
     "privacy": "Kebijakan Privasi",
     "terms": "Syarat & Ketentuan",
-    "copyright": "© {year} BestCar. Hak cipta dilindungi."
+    "copyright": "© {year} BestCar. Hak cipta dilindungi.",
+    "demo": "Pembayaran di situs ini hanya simulasi. Tidak ada uang sungguhan yang berpindah."
   },
   "hero": {
     "titleLine1": "Sewa jalanan",
@@ -53,8 +54,8 @@
     "step1Body": "Pilih kota, tanggal, dan jam. Kami hanya menampilkan mobil yang kosong.",
     "step2Title": "Lihat harga total",
     "step2Body": "Total sudah termasuk biaya dan pajak, dalam mata uang Anda.",
-    "step3Title": "Bayar ke BestCar dengan aman",
-    "step3Body": "Deposit Anda ditahan, bukan ditagih. Pemilik dibayar setelah perjalanan Anda.",
+    "step3Title": "Bayar lewat BestCar",
+    "step3Body": "Deposit ditampilkan di awal. Pemilik dibayar setelah perjalanan Anda.",
     "title": "Dari pencarian ke kunci dalam empat langkah.",
     "step4Title": "Ambil dan berangkat",
     "step4Body": "Tunjukkan SIM, periksa mobil bersama pemilik, lalu berangkat. Beri ulasan setelahnya."
@@ -615,7 +616,7 @@
   },
   "consent": {
     "title": "Cookie dan privasi Anda",
-    "body": "Kami memakai cookie yang diperlukan agar Anda tetap masuk dan bahasa Anda diingat. Dengan izin Anda, kami juga memakai analitik untuk melihat cara situs digunakan. Anda dapat mengubah pilihan kapan saja.",
+    "body": "Cookie yang diperlukan menjaga Anda tetap masuk. Analitik hanya berjalan jika Anda mengizinkan.",
     "accept": "Terima analitik",
     "decline": "Hanya yang diperlukan"
   },
@@ -691,7 +692,7 @@
       "title": "Temukan mobil yang tepat untuk perjalanan Anda",
       "body": "Bandingkan mobil dari perusahaan rental dan pemilik pribadi di dekat Anda.",
       "point1": "Setiap harga sudah termasuk biaya dan pajak.",
-      "point2": "Deposit Anda ditahan, bukan dipakai.",
+      "point2": "Deposit ditampilkan sebelum Anda memesan.",
       "point3": "Baca ulasan dari orang yang pernah mengendarai mobilnya.",
       "cta": "Lihat mobil"
     },
@@ -718,8 +719,8 @@
       "verifiedBody": "Perusahaan dan pemilik mengirim dokumen sebelum mendaftar, dan setiap mobil disetujui satu per satu.",
       "priceTitle": "Satu harga, mata uang Anda",
       "priceBody": "Total yang Anda lihat sudah termasuk biaya dan pajak.",
-      "depositTitle": "Deposit ditahan, bukan dipakai",
-      "depositBody": "Deposit ditahan dan dilepas setelah perjalanan kecuali ada sengketa.",
+      "depositTitle": "Deposit terlihat di awal",
+      "depositBody": "Deposit adalah bagian dari penawaran dan dilepas setelah perjalanan kecuali ada sengketa.",
       "reviewsTitle": "Ulasan dari perjalanan nyata",
       "reviewsBody": "Hanya orang yang menyelesaikan pemesanan yang bisa mengulas, dan pemilik bisa membalas.",
       "disputesTitle": "Ada tempat bertanya",

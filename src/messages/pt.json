@@ -37,7 +37,8 @@
     "myBookings": "Minhas reservas",
     "privacy": "Política de Privacidade",
     "terms": "Termos e Condições",
-    "copyright": "© {year} BestCar. Todos os direitos reservados."
+    "copyright": "© {year} BestCar. Todos os direitos reservados.",
+    "demo": "Os pagamentos deste site são simulados. Nenhum dinheiro real é movimentado."
   },
   "hero": {
     "titleLine1": "Alugue a estrada",
@@ -53,8 +54,8 @@
     "step1Body": "Escolha cidade, datas e horário. Mostramos só carros livres.",
     "step2Title": "Veja o preço total",
     "step2Body": "O total inclui taxas e impostos, na sua moeda.",
-    "step3Title": "Pague à BestCar com segurança",
-    "step3Body": "Sua caução é retida, não cobrada. O anfitrião recebe após a viagem.",
+    "step3Title": "Pague pela BestCar",
+    "step3Body": "A caução aparece de antemão. O anfitrião recebe após a sua viagem.",
     "title": "Da busca às chaves em quatro passos.",
     "step4Title": "Retire e dirija",
     "step4Body": "Mostre sua habilitação, confira o carro com o anfitrião e siga viagem. Avalie depois."
@@ -625,7 +626,7 @@
   },
   "consent": {
     "title": "Cookies e sua privacidade",
-    "body": "Usamos cookies necessários para manter você conectado e lembrar seu idioma. Com sua permissão, também usamos análises para entender como o site é usado. Você pode mudar de ideia a qualquer momento.",
+    "body": "Os cookies necessários mantêm você conectado. A análise só roda se você permitir.",
     "accept": "Aceitar análises",
     "decline": "Apenas os necessários"
   },
@@ -701,7 +702,7 @@
       "title": "Encontre o carro certo para a sua viagem",
       "body": "Compare carros de locadoras e proprietários perto de você.",
       "point1": "Todo preço inclui taxas e impostos.",
-      "point2": "Sua caução é retida, não gasta.",
+      "point2": "A caução aparece antes de você reservar.",
       "point3": "Leia avaliações de quem dirigiu o carro.",
       "cta": "Ver carros"
     },
@@ -730,8 +731,8 @@
       "verifiedBody": "Empresas e proprietários enviam documentos antes de anunciar, e cada carro é aprovado um a um.",
       "priceTitle": "Um preço, sua moeda",
       "priceBody": "O total que você vê inclui taxas e impostos.",
-      "depositTitle": "Caução retida, não gasta",
-      "depositBody": "A caução é retida e liberada após a viagem, salvo disputa.",
+      "depositTitle": "Caução visível de antemão",
+      "depositBody": "A caução faz parte do orçamento e é liberada após a viagem, salvo disputa.",
       "reviewsTitle": "Avaliações de viagens reais",
       "reviewsBody": "Só quem concluiu uma reserva pode avaliar, e os anfitriões podem responder.",
       "disputesTitle": "Alguém a quem recorrer",

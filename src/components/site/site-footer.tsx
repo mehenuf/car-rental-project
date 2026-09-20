@@ -57,7 +57,10 @@ export async function SiteFooter() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-(--space-xs) border-t border-border pt-(--space-sm) text-sm text-muted-foreground sm:flex-row">
-          <p>{t("footer.copyright", { year: String(new Date().getFullYear()) })}</p>
+          <div className="flex flex-col gap-1">
+            <p>{t("footer.copyright", { year: String(new Date().getFullYear()) })}</p>
+            <p className="text-xs">{t("footer.demo")}</p>
+          </div>
           <div data-chat-avoid className="flex flex-wrap items-center justify-center gap-4">
             <LanguageSwitcher />
             <Link href="/privacy" className="inline-flex min-h-8 items-center hover:text-foreground pointer-coarse:min-h-11">

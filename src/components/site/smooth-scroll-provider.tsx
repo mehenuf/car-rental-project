@@ -1,30 +1,7 @@
 "use client";
 
 import { useEffect, type ReactNode } from "react";
-import Lenis from "lenis";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
-
-/**
- * Ultra-smooth inertial scrolling (Lenis), driven by GSAP's own ticker so
- * every ScrollTrigger-based animation in the tree stays perfectly in sync
- * with the smoothed scroll position instead of the raw native one.
- *
- * Respects `prefers-reduced-motion`: Lenis never initializes for a visitor
- * who asked for reduced motion, since inertial/momentum scrolling is a
- * common vestibular trigger — native scroll behavior is the safe default,
- * not a degraded one.
- *
- * Pauses itself while any Base UI dialog/sheet/popover is open. Those
- * components lock body scroll by toggling an inline style or data
- * attribute on <html>/<body>; Lenis intercepts wheel/touch events
- * independently of the CSS scroll lock, so without this the page behind an
- * open modal would still smoothly scroll. A MutationObserver keyed to any
- * scroll-lock signal is more robust than hardcoding one library's exact
- * attribute name, and cheap since it only watches two elements' attributes.
- */
 /** Anything that scrolls by itself and should not be driven by the page's smooth scrolling. */
 const SELF_SCROLLING = [
   "[data-lenis-prevent]",
@@ -37,68 +14,57 @@ const SELF_SCROLLING = [
   "[data-slot='sheet-content']",
 ].join(",");
 
+/**
+ * Smooth, inertial wheel scrolling (Lenis) for mouse and trackpad users only. Touch screens keep the browser's own
+ * scrolling, which is already smooth and is what people expect there, and reduced-motion visitors keep it too. The
+ * library is loaded after the page is idle, so it never delays the first paint.
+ *
+ * It pauses while a dialog or sheet has locked the page's scroll.
+ */
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const wanted = window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+    if (!wanted.matches) return;
 
-    const lenis = new Lenis({
-      duration: 1.15,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      // In-page links (#search-bar, #how-it-works) glide instead of jumping.
-      anchors: { offset: -80 },
-      wheelMultiplier: 0.9,
-      // Lists that scroll on their own (language menu, time slots, selects, dialogs) must keep their wheel and touch
-      // events, otherwise the smoothing layer swallows them and the list cannot be scrolled.
-      prevent: (node) => node.closest(SELF_SCROLLING) !== null,
-    });
+    let destroy: (() => void) | undefined;
+    let cancelled = false;
 
-    lenis.on("scroll", ScrollTrigger.update);
+    const start = async () => {
+      const { default: Lenis } = await import("lenis");
+      if (cancelled) return;
+      const lenis = new Lenis({
+        autoRaf: true,
+        duration: 1.15,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        // Lists that scroll on their own must keep their wheel events or they cannot be scrolled.
+        prevent: (node) => node.closest(SELF_SCROLLING) !== null,
+        // In-page links (#search-bar, #how-it-works) glide instead of jumping.
+        anchors: { offset: -80 },
+        wheelMultiplier: 0.9,
+      });
 
-    function tick(time: number) {
-      lenis.raf(time * 1000);
-    }
-    gsap.ticker.add(tick);
-    gsap.ticker.lagSmoothing(0);
+      const locked = (el: Element) =>
+        (el as HTMLElement).style.overflow === "hidden" || el.getAttribute("data-scroll-locked") !== null;
+      const sync = () => (locked(document.documentElement) || locked(document.body) ? lenis.stop() : lenis.start());
+      const observer = new MutationObserver(sync);
+      const options = { attributes: true, attributeFilter: ["style", "data-scroll-locked"] };
+      observer.observe(document.documentElement, options);
+      observer.observe(document.body, options);
 
-    function isScrollLocked(): boolean {
-      const lockedByStyle = (el: Element) =>
-        (el as HTMLElement).style.overflow === "hidden" ||
-        el.getAttribute("data-scroll-locked") !== null;
-      return lockedByStyle(document.documentElement) || lockedByStyle(document.body);
-    }
+      destroy = () => {
+        observer.disconnect();
+        lenis.destroy();
+      };
+    };
 
-    function syncLockState() {
-      if (isScrollLocked()) lenis.stop();
-      else lenis.start();
-    }
-
-    const observer = new MutationObserver(syncLockState);
-    observer.observe(document.documentElement, { attributes: true, attributeFilter: ["style", "data-scroll-locked"] });
-    observer.observe(document.body, { attributes: true, attributeFilter: ["style", "data-scroll-locked"] });
-
-    // Every ScrollTrigger caches its trigger element's pixel position at
-    // creation time. Client-fetched content (the homepage's vehicle grid
-    // swapping its skeleton for real cards), async images, and web-font
-    // swaps all shift everything below them without firing a window
-    // "resize" event — the one thing ScrollTrigger listens for on its own
-    // — so every trigger below that point goes stale and never fires.
-    // Watching <body>'s total height and refreshing on any change catches
-    // all of those causes generically instead of chasing each one down.
-    let refreshTimer: ReturnType<typeof setTimeout>;
-    const resizeObserver = new ResizeObserver(() => {
-      clearTimeout(refreshTimer);
-      refreshTimer = setTimeout(() => ScrollTrigger.refresh(), 150);
-    });
-    resizeObserver.observe(document.body);
-    document.fonts?.ready.then(() => ScrollTrigger.refresh());
+    const idle = window.requestIdleCallback ?? ((cb: () => void) => window.setTimeout(cb, 500));
+    const handle = idle(() => void start());
 
     return () => {
-      clearTimeout(refreshTimer);
-      resizeObserver.disconnect();
-      observer.disconnect();
-      gsap.ticker.remove(tick);
-      lenis.destroy();
+      cancelled = true;
+      if (window.cancelIdleCallback && typeof handle === "number") window.cancelIdleCallback(handle);
+      destroy?.();
     };
   }, []);
 

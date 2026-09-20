@@ -37,7 +37,8 @@
     "myBookings": "Mijn boekingen",
     "privacy": "Privacybeleid",
     "terms": "Algemene voorwaarden",
-    "copyright": "© {year} BestCar. Alle rechten voorbehouden."
+    "copyright": "© {year} BestCar. Alle rechten voorbehouden.",
+    "demo": "Betalingen op deze site zijn gesimuleerd. Er gaat geen echt geld over."
   },
   "hero": {
     "titleLine1": "Huur de weg",
@@ -53,8 +54,8 @@
     "step1Body": "Kies een stad, je data en de tijd. We tonen alleen auto's die vrij zijn.",
     "step2Title": "Zie de totaalprijs",
     "step2Body": "Het totaal is inclusief kosten en belasting, in jouw valuta.",
-    "step3Title": "Betaal veilig aan BestCar",
-    "step3Body": "Je borg wordt vastgehouden, niet afgeschreven. De verhuurder wordt betaald na je rit.",
+    "step3Title": "Betaal via BestCar",
+    "step3Body": "De borg zie je vooraf. De verhuurder wordt betaald na je rit.",
     "title": "Van zoeken tot sleutels in vier stappen.",
     "step4Title": "Ophalen en rijden",
     "step4Body": "Toon je rijbewijs, controleer de auto met de verhuurder en ga. Beoordeel de rit daarna."
@@ -625,7 +626,7 @@
   },
   "consent": {
     "title": "Cookies en privacy",
-    "body": "We gebruiken noodzakelijke cookies om je ingelogd te houden en je taal te onthouden. Met jouw toestemming gebruiken we ook analyses om te zien hoe de site wordt gebruikt. Je kunt op elk moment van gedachten veranderen.",
+    "body": "Noodzakelijke cookies houden je ingelogd. Analyses draaien alleen met jouw toestemming.",
     "accept": "Analyse accepteren",
     "decline": "Alleen noodzakelijke"
   },
@@ -701,7 +702,7 @@
       "title": "Vind de juiste auto voor je reis",
       "body": "Vergelijk auto's van verhuurbedrijven en particulieren bij jou in de buurt.",
       "point1": "Elke prijs is inclusief kosten en belasting.",
-      "point2": "Je borg wordt vastgehouden, niet uitgegeven.",
+      "point2": "De borg zie je voordat je boekt.",
       "point3": "Lees beoordelingen van mensen die de auto reden.",
       "cta": "Auto's bekijken"
     },
@@ -729,8 +730,8 @@
       "verifiedBody": "Bedrijven en eigenaren sturen documenten voordat ze aanbieden en elke auto wordt afzonderlijk goedgekeurd.",
       "priceTitle": "Eén prijs, jouw valuta",
       "priceBody": "Het totaal dat je ziet is inclusief kosten en belasting.",
-      "depositTitle": "Borg vastgehouden, niet uitgegeven",
-      "depositBody": "De borg wordt vastgehouden en na de rit vrijgegeven, tenzij er een geschil is.",
+      "depositTitle": "Borg vooraf zichtbaar",
+      "depositBody": "De borg maakt deel uit van de offerte en wordt na de rit vrijgegeven, tenzij er een geschil is.",
       "reviewsTitle": "Beoordelingen van echte ritten",
       "reviewsBody": "Alleen wie een boeking heeft afgerond kan beoordelen, en verhuurders kunnen reageren.",
       "disputesTitle": "Iemand om op terug te vallen",

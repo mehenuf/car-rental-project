@@ -3,12 +3,20 @@
 import { useId, useState } from "react";
 import { CalendarDays, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import dynamic from "next/dynamic";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { numberingLocale } from "@/lib/i18n/locales";
 import { useLocale, useT } from "@/lib/i18n/provider";
 import { calendarLocale } from "@/lib/i18n/calendar-locale";
+
+// The calendar (and its per-language date data) is only needed once someone opens it, so it is loaded then, and
+// started early when the pointer or focus reaches the field.
+const loadCalendar = () => import("@/components/ui/calendar").then((mod) => mod.Calendar);
+const Calendar = dynamic(loadCalendar, {
+  ssr: false,
+  loading: () => <div className="h-[19rem] w-[17rem] animate-pulse rounded-xl bg-muted" aria-hidden="true" />,
+});
 
 /** Shared look for the date and time fields, so both read as the same kind of control. */
 export const FIELD_CLASS =
@@ -55,6 +63,8 @@ export function DatePickerField({
               type="button"
               variant="outline"
               aria-labelledby={`${labelId} ${valueId}`}
+              onPointerEnter={() => void loadCalendar()}
+              onFocus={() => void loadCalendar()}
               className={cn(
                 FIELD_CLASS,
                 "h-auto justify-start gap-2 font-normal text-foreground aria-expanded:border-accent aria-expanded:ring-3 aria-expanded:ring-accent/25",

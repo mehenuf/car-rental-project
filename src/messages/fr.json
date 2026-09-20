@@ -37,7 +37,8 @@
     "myBookings": "Mes réservations",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions générales",
-    "copyright": "© {year} BestCar. Tous droits réservés."
+    "copyright": "© {year} BestCar. Tous droits réservés.",
+    "demo": "Les paiements de ce site sont simulés. Aucun argent réel n'est transféré."
   },
   "hero": {
     "titleLine1": "Prenez la route",
@@ -53,8 +54,8 @@
     "step1Body": "Choisissez une ville, vos dates et l'heure. Nous n'affichons que les voitures libres.",
     "step2Title": "Voyez le prix total",
     "step2Body": "Le total inclut frais et taxes, dans votre devise.",
-    "step3Title": "Payez BestCar en toute sécurité",
-    "step3Body": "Votre caution est bloquée, pas prélevée. L'hôte est payé après votre location.",
+    "step3Title": "Payez via BestCar",
+    "step3Body": "La caution est indiquée d'avance. L'hôte est payé après votre location.",
     "title": "De la recherche aux clés en quatre étapes.",
     "step4Title": "Récupérez et roulez",
     "step4Body": "Présentez votre permis, vérifiez la voiture avec l'hôte et partez. Donnez votre avis ensuite."
@@ -625,7 +626,7 @@
   },
   "consent": {
     "title": "Cookies et confidentialité",
-    "body": "Nous utilisons des cookies nécessaires pour maintenir votre connexion et retenir votre langue. Avec votre accord, nous utilisons aussi des statistiques pour comprendre l'usage du site. Vous pouvez changer d'avis à tout moment.",
+    "body": "Les cookies nécessaires gardent votre session ouverte. Les statistiques ne tournent que si vous les autorisez.",
     "accept": "Accepter les statistiques",
     "decline": "Nécessaires uniquement"
   },
@@ -701,7 +702,7 @@
       "title": "Trouvez la voiture idéale pour votre trajet",
       "body": "Comparez les voitures des loueurs et des particuliers près de chez vous.",
       "point1": "Chaque prix inclut frais et taxes.",
-      "point2": "Votre caution est bloquée, pas dépensée.",
+      "point2": "La caution est affichée avant la réservation.",
       "point3": "Lisez les avis de ceux qui ont conduit la voiture.",
       "cta": "Voir les voitures"
     },
@@ -730,8 +731,8 @@
       "verifiedBody": "Entreprises et particuliers envoient leurs documents avant publication, et chaque voiture est validée une par une.",
       "priceTitle": "Un prix, votre devise",
       "priceBody": "Le total affiché inclut frais et taxes.",
-      "depositTitle": "Caution bloquée, pas dépensée",
-      "depositBody": "La caution est bloquée puis libérée après la location, sauf litige.",
+      "depositTitle": "Caution affichée d'avance",
+      "depositBody": "La caution fait partie du devis et est libérée après la location, sauf litige.",
       "reviewsTitle": "Des avis de vraies locations",
       "reviewsBody": "Seuls ceux qui ont terminé une réservation peuvent donner un avis, et les hôtes peuvent répondre.",
       "disputesTitle": "Un interlocuteur",

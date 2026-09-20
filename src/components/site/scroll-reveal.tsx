@@ -1,27 +1,12 @@
 "use client";
 
-import { useRef, type ReactNode } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { useEffect, useRef, type CSSProperties, type ReactNode } from "react";
 
 /**
- * Subtle, slow scroll-triggered fade-in. Content is visible by default in
- * the DOM and the underlying element is only ever hidden by GSAP for
- * something confirmed to be off-screen at setup time — so nothing above
- * the fold, no-JS visitors, and reduced-motion visitors ever see a flash
- * of invisible content (the exact bug the previous IntersectionObserver
- * version of this component had).
- *
- * Relies on `SmoothScrollProvider`'s global `ScrollTrigger.refresh()` (on
- * body resize / fonts ready) to stay correct once async content below the
- * fold shifts this element's real position after this component's own
- * initial setup — see the comment there.
- *
- * `useGSAP`'s scope handles teardown: unmounting kills the tween and its
- * ScrollTrigger automatically, no manual cleanup needed here.
+ * A quiet fade-and-rise as content scrolls into view. It uses one IntersectionObserver and CSS transitions, with no
+ * animation library, so it costs almost nothing. Content is visible by default: it is only hidden after the page
+ * has loaded, and only when it is below the fold, so there is never a flash of missing content and no-JS visitors
+ * and reduced-motion visitors see everything at once.
  */
 export function ScrollReveal({
   children,
@@ -33,51 +18,38 @@ export function ScrollReveal({
   children: ReactNode;
   className?: string;
   delay?: number;
-  /** Travel distance in px. Kept small by default — this is a "subtle" reveal, not a dramatic one. */
+  /** Travel distance in px. */
   y?: number;
-  /** Starting scale, animating to 1 alongside the fade/rise — a small
-   * amount of depth instead of a flat 2D slide. Set to 1 to disable. */
+  /** Starting scale, animating to 1. Set to 1 to disable. */
   scale?: number;
 }) {
   const ref = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
-      const el = ref.current;
-      if (!el) return;
-
-      const mm = gsap.matchMedia();
-      mm.add("(prefers-reduced-motion: no-preference)", () => {
-        const rect = el.getBoundingClientRect();
-        const alreadyVisible = rect.top < window.innerHeight * 0.9 && rect.bottom > 0;
-        if (alreadyVisible) return; // already on screen — reveal now for no reason to animate
-
-        gsap.fromTo(
-          el,
-          { autoAlpha: 0, y, scale },
-          {
-            autoAlpha: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.7,
-            delay,
-            ease: "expo.out",
-            scrollTrigger: {
-              trigger: el,
-              start: "top 92%",
-              toggleActions: "play none none none",
-            },
-          }
-        );
-      });
-
-      return () => mm.revert();
-    },
-    { scope: ref }
-  );
+  useEffect(() => {
+    const el = ref.current;
+    if (!el || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight * 0.92 && rect.bottom > 0) return; // already on screen
+    el.dataset.reveal = "hidden";
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          el.dataset.reveal = "shown";
+          io.disconnect();
+        }
+      },
+      { rootMargin: "0px 0px -8% 0px" }
+    );
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <div ref={ref} className={className}>
+    <div
+      ref={ref}
+      className={className}
+      style={{ "--reveal-y": `${y}px`, "--reveal-scale": scale, "--reveal-delay": `${delay}s` } as CSSProperties}
+    >
       {children}
     </div>
   );

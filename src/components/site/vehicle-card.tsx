@@ -1,10 +1,8 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Link } from "@/lib/i18n/link";
 import { Heart } from "lucide-react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
 import { buttonVariants } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { VehicleImage } from "@/components/site/vehicle-image";
@@ -15,11 +13,7 @@ import { cn } from "@/lib/utils";
 import type { VehicleCardData } from "@/lib/queries";
 import { useLocale, useT } from "@/lib/i18n/provider";
 
-gsap.registerPlugin(useGSAP);
-
-/** Maximum tilt in degrees — kept small (a premium hint of depth, not a
- * gimmick) and applied via GSAP's quickTo so continuous pointer-move
- * values never touch React state or trigger a re-render. */
+/** Maximum tilt in degrees: a hint of depth, not a gimmick. */
 const MAX_TILT_DEG = 6;
 
 export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData; searchQuery?: string }) {
@@ -31,58 +25,36 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
   const soldOut = !vehicle.available || vehicle.stock <= 0;
   const cardRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(
-    () => {
-      const card = cardRef.current;
-      if (!card || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-      // transformPerspective is self-contained on the element (unlike CSS
-      // `perspective`, which has to live on the parent) — exactly what's
-      // needed here since VehicleCard doesn't control its grid parent.
-      gsap.set(card, { transformPerspective: 800 });
-
-      const rotateX = gsap.quickTo(card, "rotateX", { duration: 0.4, ease: "power3.out" });
-      const rotateY = gsap.quickTo(card, "rotateY", { duration: 0.4, ease: "power3.out" });
-      const lift = gsap.quickTo(card, "z", { duration: 0.4, ease: "power3.out" });
-
-      // Mouse events, not pointer events: this is a hover-only effect with
-      // no sensible touch equivalent (there's no sustained "position" to
-      // tilt against on tap), so scoping to mouse-like devices is also the
-      // semantically correct choice, not just the more reliable one.
-      function handleMouseMove(e: MouseEvent) {
-        const rect = card!.getBoundingClientRect();
-        const px = (e.clientX - rect.left) / rect.width - 0.5;
-        const py = (e.clientY - rect.top) / rect.height - 0.5;
-        rotateY(px * MAX_TILT_DEG * 2);
-        rotateX(-py * MAX_TILT_DEG * 2);
-      }
-
-      function handleMouseLeave() {
-        rotateX(0);
-        rotateY(0);
-        lift(0);
-      }
-
-      function handleMouseEnter() {
-        lift(12);
-      }
-
-      card.addEventListener("mousemove", handleMouseMove);
-      card.addEventListener("mouseenter", handleMouseEnter);
-      card.addEventListener("mouseleave", handleMouseLeave);
-      return () => {
-        card.removeEventListener("mousemove", handleMouseMove);
-        card.removeEventListener("mouseenter", handleMouseEnter);
-        card.removeEventListener("mouseleave", handleMouseLeave);
-      };
-    },
-    { scope: cardRef }
-  );
+  // A slight 3D tilt that follows the mouse, driven by CSS variables so it costs no animation library. It only runs
+  // for mouse users who have not asked for reduced motion.
+  useEffect(() => {
+    const card = cardRef.current;
+    if (!card || !window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
+    const onMove = (e: MouseEvent) => {
+      const rect = card.getBoundingClientRect();
+      const px = (e.clientX - rect.left) / rect.width - 0.5;
+      const py = (e.clientY - rect.top) / rect.height - 0.5;
+      card.style.setProperty("--ry", `${px * MAX_TILT_DEG * 2}deg`);
+      card.style.setProperty("--rx", `${-py * MAX_TILT_DEG * 2}deg`);
+      card.style.setProperty("--lift", "12px");
+    };
+    const onLeave = () => {
+      card.style.setProperty("--ry", "0deg");
+      card.style.setProperty("--rx", "0deg");
+      card.style.setProperty("--lift", "0px");
+    };
+    card.addEventListener("mousemove", onMove);
+    card.addEventListener("mouseleave", onLeave);
+    return () => {
+      card.removeEventListener("mousemove", onMove);
+      card.removeEventListener("mouseleave", onLeave);
+    };
+  }, []);
 
   return (
     <Card
       ref={cardRef}
-      className="group animate-in fade-in slide-in-from-bottom-3 gap-0 overflow-hidden p-0 shadow-card ring-0 duration-500 [transform-style:preserve-3d] [will-change:transform] hover:shadow-xl"
+      className="group animate-in fade-in slide-in-from-bottom-3 gap-0 overflow-hidden p-0 shadow-card ring-0 duration-500 [transform-style:preserve-3d] [transform:perspective(800px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))_translateZ(var(--lift,0px))] transition-[transform,box-shadow] hover:shadow-xl"
     >
       <div className="flex items-center justify-between gap-2 px-(--space-sm) pt-(--space-sm)">
         <span className="truncate font-heading text-sm font-semibold text-foreground">

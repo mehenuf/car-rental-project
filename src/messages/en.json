@@ -37,7 +37,8 @@
     "myBookings": "My bookings",
     "privacy": "Privacy Policy",
     "terms": "Terms & Conditions",
-    "copyright": "© {year} BestCar. All rights reserved."
+    "copyright": "© {year} BestCar. All rights reserved.",
+    "demo": "Payments on this site are simulated. No real money moves."
   },
   "hero": {
     "titleLine1": "Rent the road",
@@ -53,8 +54,8 @@
     "step1Body": "Pick a city, your dates and the time. We only show cars that are free.",
     "step2Title": "See the full price",
     "step2Body": "The total includes fees and taxes, in your currency.",
-    "step3Title": "Pay BestCar securely",
-    "step3Body": "Your deposit is held, not charged. The host is paid after your trip.",
+    "step3Title": "Pay through BestCar",
+    "step3Body": "The deposit is shown up front. The host is paid after your trip.",
     "title": "From search to the keys in four steps.",
     "step4Title": "Pick up and drive",
     "step4Body": "Show your licence, check the car with the host, and go. Review the trip afterwards."
@@ -625,7 +626,7 @@
   },
   "consent": {
     "title": "Cookies and your privacy",
-    "body": "We use necessary cookies to keep you signed in and remember your language. With your permission we also use analytics to see how the site is used. You can change your mind at any time.",
+    "body": "Necessary cookies keep you signed in. Analytics run only if you allow them.",
     "accept": "Accept analytics",
     "decline": "Necessary only"
   },
@@ -701,7 +702,7 @@
       "title": "Find the right car for your trip",
       "body": "Compare cars from rental companies and private owners near you.",
       "point1": "Every price includes fees and taxes.",
-      "point2": "Your deposit is held, not spent.",
+      "point2": "Deposits are shown before you book.",
       "point3": "Read reviews from people who drove the car.",
       "cta": "Browse cars"
     },
@@ -729,8 +730,8 @@
       "verifiedBody": "Companies and owners send documents before listing, and every car is approved one by one.",
       "priceTitle": "One price, your currency",
       "priceBody": "The total you see includes fees and taxes.",
-      "depositTitle": "Deposits held, not spent",
-      "depositBody": "The deposit is held and released after the trip unless there is a dispute.",
+      "depositTitle": "Deposits shown up front",
+      "depositBody": "The deposit is part of the quote and is released after the trip unless there is a dispute.",
       "reviewsTitle": "Reviews from real trips",
       "reviewsBody": "Only people who completed a booking can review, and hosts can reply.",
       "disputesTitle": "Someone to turn to",

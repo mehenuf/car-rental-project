@@ -20,7 +20,7 @@ function readCookie(): string | undefined {
  */
 export function ConsentManager() {
   const t = useT();
-  const [state, setState] = useState<{ ready: boolean; banner: boolean; analytics: boolean }>({ ready: false, banner: false, analytics: false });
+  const [state, setState] = useState<{ ready: boolean; banner: boolean; analytics: boolean }>({ ready: false, banner: true, analytics: false });
 
   useEffect(() => {
     const raw = readCookie();
@@ -36,16 +36,18 @@ export function ConsentManager() {
     void fetch("/api/consent", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ analytics }) }).catch(() => undefined);
   }
 
-  if (!state.ready) return null;
   return (
     <>
       {state.analytics && <Analytics />}
-      {state.banner && (
+      {/* Rendered by the server so it is part of the first paint. A returning visitor never sees it: a tiny script in the
+          page sets `data-consent` before anything is drawn, and CSS hides the banner until this component has checked. */}
+      {(!state.ready || state.banner) && (
         <div
+          data-consent-banner
           role="dialog"
           aria-labelledby="consent-title"
           aria-describedby="consent-body"
-          className="fixed inset-x-3 bottom-3 z-[90] flex flex-col gap-3 rounded-2xl border border-border bg-card/95 p-4 shadow-xl backdrop-blur animate-in fade-in slide-in-from-bottom-4 duration-300 sm:inset-x-auto sm:bottom-4 sm:start-4 sm:max-w-sm"
+          className="fixed inset-x-3 bottom-3 z-[90] flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-xl sm:inset-x-auto sm:bottom-4 sm:start-4 sm:max-w-sm"
         >
           <div className="flex flex-col gap-1">
             <p id="consent-title" className="font-heading text-sm font-semibold text-foreground">{t("consent.title")}</p>

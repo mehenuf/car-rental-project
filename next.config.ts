@@ -21,6 +21,8 @@ const nextConfig: NextConfig = {
         source: "/((?!_next/static|_next/image|favicon.ico|sw.js).*)",
         headers: [{ key: "Content-Security-Policy", value: buildCsp({ dev, supabaseUrl }) }, ...securityHeaders({ dev })],
       },
+      // The hero photographs never change under the same name; a new picture gets a new file name.
+      { source: "/hero/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=31536000, immutable" }] },
       // The service worker must be served from the origin root, never cached long, and never framed.
       { source: "/sw.js", headers: [{ key: "Cache-Control", value: "no-cache" }, { key: "Content-Type", value: "application/javascript; charset=utf-8" }] },
     ];
