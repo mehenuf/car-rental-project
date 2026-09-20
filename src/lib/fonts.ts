@@ -10,8 +10,10 @@ import {
 import type { Locale } from "@/lib/i18n/locales";
 
 const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
-const sora = Sora({ variable: "--font-sora", subsets: ["latin"], weight: ["600", "700", "800"] });
-const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
+// One variable file covers every heading weight, instead of a file per weight.
+const sora = Sora({ variable: "--font-sora", subsets: ["latin"] });
+// Only used in the host portal, so it is fetched when needed rather than preloaded on every page.
+const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], preload: false });
 
 // Script fonts carry their own Latin glyphs, so one variable covers a whole page.
 // Only the active language's class is applied, so the others are never downloaded.

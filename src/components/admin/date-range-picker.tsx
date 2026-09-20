@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
 import type { DateRange as RdpDateRange } from "react-day-picker";
 import { CalendarIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -15,6 +15,15 @@ const PRESETS: { label: string; getValue: () => DateRange }[] = [
   { label: "This year", getValue: thisYear },
 ];
 
+/** False while the page is rendered on the server and during hydration, true afterwards. */
+function useMounted(): boolean {
+  return useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
+}
+
 export function DateRangePicker({
   value,
   onChange,
@@ -22,6 +31,7 @@ export function DateRangePicker({
   value: DateRange;
   onChange: (range: DateRange) => void;
 }) {
+  const mounted = useMounted();
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState<RdpDateRange | undefined>({
     from: value.from,
@@ -38,7 +48,8 @@ export function DateRangePicker({
     >
       <PopoverTrigger render={<Button type="button" variant="outline" className="gap-2 font-normal" />}>
         <CalendarIcon className="size-4 text-muted-foreground" />
-        {formatRangeLabel(value)}
+        {/* The range starts from today in the visitor's own time zone, which the server cannot know, so the label is only drawn in the browser. */}
+        <span className={mounted ? undefined : "invisible"}>{mounted ? formatRangeLabel(value) : "Last 30 days"}</span>
       </PopoverTrigger>
       <PopoverContent align="end" className="w-auto p-0">
         <div className="flex flex-col sm:flex-row">
