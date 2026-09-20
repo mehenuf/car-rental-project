@@ -62,7 +62,7 @@ function AccountMenu({
           </div>
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem render={<Link href={isAdmin ? "/admin" : "/dashboard"} />}>
+        <DropdownMenuItem render={<Link href={isAdmin ? "/admin" : "/account"} />}>
           <LayoutDashboard /> {isAdmin ? t("header.adminDashboard") : t("header.myBookings")}
         </DropdownMenuItem>
         <DropdownMenuItem variant="destructive" onClick={onLogout}>
@@ -123,7 +123,7 @@ export function SiteHeader() {
           {!loading && !user && (
             <>
               <Link
-                href="/dashboard"
+                href="/account"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
                 {t("header.myBookings")}
@@ -194,7 +194,7 @@ export function SiteHeader() {
             {!loading && !user && (
               <>
                 <Link
-                  href="/dashboard"
+                  href="/account"
                   onClick={() => setOpen(false)}
                   className={buttonVariants({ variant: "outline" })}
                 >
@@ -219,7 +219,7 @@ export function SiteHeader() {
                   <User className="size-4" /> {displayName}
                 </div>
                 <Link
-                  href={isAdmin ? "/admin" : "/dashboard"}
+                  href={isAdmin ? "/admin" : "/account"}
                   onClick={() => setOpen(false)}
                   className={buttonVariants({ variant: "outline" })}
                 >

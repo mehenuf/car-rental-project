@@ -50,6 +50,26 @@ Files: `src/lib/account/{age,licence,modify,receipt,password}.ts` with `*.test.t
 - `/{lang}/account` (trips), `/account/trips/[reference]`, `/account/profile`, `/account/driver`, `/account/security` (TOTP enrolment); `/dashboard` redirects; receipt print page; `/admin/licences` queue.
 - New `account.*` message keys in all 11 languages; the header account menu points to `/account`; login, register and provider-apply pages get translated here because this sub-project rebuilds them.
 
-## Deviations, rollout and limitations
+## Deviations from the spec
 
-Recorded at the end of the build in this file.
+- **Self-service booking changes (spec decision 6) are deferred.** A change moves money (supplements, partial refunds), and the ledger, refund and payout maths from sub-project 3 assume one price snapshot per booking (`record_payment_success` requires the payment to equal the snapshot total; refunds and payouts divide by it). Bolting changes on would risk the ledger's invariants, so it needs its own design. Consequently `booking_revisions`, `bookings.revision` and `modify_booking_atomic` are not in `0012`, and Phase A's `modify.ts` rules (deadline, settlement) are built and tested but not yet wired to a screen.
+- **Tests for `0012` were written after the migration**, not watched failing first (all 10 SQL files pass).
+- **The security page offers optional TOTP through Supabase; it has not been tried against a real Supabase project.**
+- **Account e-mail templates** are Supabase's defaults until sub-project 6 (Resend and localised templates) is built. `AUTH_REQUIRE_EMAIL_VERIFICATION=false` keeps the pre-confirmed sign-up for demos with no e-mail provider.
+- **`/dashboard` redirects to `/account`, which also serves guests** from their browser cookie (the spec had guests keep a separate list); signed-in customers additionally get the trip page, licence card, claiming and receipts.
+- Receipts are printable pages generated when a paid trip is first opened (`issue_receipt` is idempotent), not when payment succeeds.
+
+## Rollout runbook
+
+1. Rehearse `0012` on a copy: `select count(*) from auth.users where email_confirmed_at is null` should be 0 afterwards (the migration confirms existing accounts).
+2. Apply `0012`; confirm the private `customer-documents` bucket exists (create it by hand as a private bucket if the Storage schema was absent).
+3. Deploy. Existing pickup flows now require a verified licence or a written override reason from the provider.
+4. In Supabase Auth, set custom SMTP (Resend) and turn on "Confirm email" last. Until SMTP works, set `AUTH_REQUIRE_EMAIL_VERIFICATION=false` so sign-ups are not stuck.
+5. Smoke test: sign up and verify, claim a guest booking, upload and submit a licence, approve it at `/admin/licences`, open a paid trip (address, provider phone and receipt appear), hand the car over as the provider.
+6. Rollback: redeploy the previous build. `0012` is expand-only apart from replacing the 7-argument `record_inspection` with an 8-argument version whose last argument has a default, so the old code keeps working.
+
+## Known limitations
+
+- Licences are reviewed by hand; the demo reads no documents and calls no identity vendor.
+- The nightly step that marks licences past their expiry as `expired` is not scheduled yet (the pickup gate already checks the expiry date directly, so an out-of-date licence cannot be used).
+- Nothing here has run against a real Supabase or in a browser: SQL, pure rules and schemas are tested; routes and screens are type-checked, linted, built and smoke-tested for status codes only.
