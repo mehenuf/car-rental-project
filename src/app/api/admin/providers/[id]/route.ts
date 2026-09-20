@@ -2,13 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { withErrorHandling } from "@/lib/api-response";
 import { NotFoundError } from "@/lib/errors";
 import { IdParamSchema } from "@/lib/provider/schemas";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireStaff } from "@/lib/admin/staff";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 /** GET /api/admin/providers/[id] — one application with its documents, branches and cars. */
 export const GET = withErrorHandling(
   async (_request: NextRequest, context: { params: Promise<{ id: string }> }) => {
-    await requireAdmin();
+    await requireStaff("providers.review");
     const { id } = IdParamSchema.parse(await context.params);
 
     const { data: provider, error } = await supabaseAdmin.from("providers").select("*").eq("id", id).maybeSingle();

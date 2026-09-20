@@ -4,8 +4,7 @@ import { withErrorHandling } from "@/lib/api-response";
 import { ConflictError } from "@/lib/errors";
 import { canTransition } from "@/lib/account/licence";
 import { LicenceReviewSchema } from "@/lib/account/schemas";
-import { getSessionUser } from "@/lib/guest";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireStaff, writeAudit } from "@/lib/admin/staff";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 const ParamsSchema = z.object({ userId: z.string().uuid() });
@@ -13,10 +12,9 @@ const ParamsSchema = z.object({ userId: z.string().uuid() });
 /** POST /api/admin/licences/[userId] — approve or reject a licence that is waiting for review. */
 export const POST = withErrorHandling(
   async (request: NextRequest, context: { params: Promise<{ userId: string }> }) => {
-    await requireAdmin();
+    const ctx = await requireStaff("licences.review");
     const { userId } = ParamsSchema.parse(await context.params);
     const review = LicenceReviewSchema.parse(await request.json());
-    const reviewer = await getSessionUser(true);
 
     const to = review.decision === "approve" ? "verified" : "rejected";
     const { data: profile, error } = await supabaseAdmin
@@ -36,12 +34,13 @@ export const POST = withErrorHandling(
         status: to,
         review_note: review.note ?? null,
         reviewed_at: now,
-        reviewed_by: reviewer?.id ?? null,
+        reviewed_by: ctx.userId,
         updated_at: now,
       })
       .eq("user_id", userId)
       .eq("status", "pending");
     if (updateError) throw new Error(`licence review: ${updateError.message}`);
+    await writeAudit(ctx, { action: `licence.${to}`, entityType: "driver_profile", entityId: userId, before: { status: profile.status }, after: { status: to }, reason: review.note });
     return NextResponse.json({ status: to });
   }
 );

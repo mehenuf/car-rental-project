@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { withErrorHandling } from "@/lib/api-response";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireStaff } from "@/lib/admin/staff";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import type { ProviderStatus } from "@/types/database";
 
@@ -8,7 +8,7 @@ const STATUSES: ProviderStatus[] = ["draft", "submitted", "under_review", "appro
 
 /** GET /api/admin/providers?status= — applications and providers, with counts of what still needs review. */
 export const GET = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  await requireStaff("providers.review");
 
   const wanted = request.nextUrl.searchParams.get("status");
   let query = supabaseAdmin

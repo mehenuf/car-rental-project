@@ -5,6 +5,7 @@ import { isUnprefixedPath, negotiateLocale, stripLocale, withLocale } from "@/li
 
 const LOGIN_PATH = "/admin/login";
 const DASHBOARD_PATH = "/admin";
+const MFA_PATH = "/admin/mfa";
 
 /**
  * Gates every /admin/* route behind an admin session. Uses
@@ -55,6 +56,17 @@ async function adminGate(request: NextRequest) {
     const url = request.nextUrl.clone();
     url.pathname = LOGIN_PATH;
     return NextResponse.redirect(url);
+  }
+
+  // Staff must complete a second factor in this session before reaching any admin page.
+  // Turn off for local development with ADMIN_REQUIRE_MFA=false.
+  if (isAdmin && process.env.ADMIN_REQUIRE_MFA !== "false" && request.nextUrl.pathname !== MFA_PATH && !isLoginPage) {
+    const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
+    if (aal?.currentLevel !== "aal2") {
+      const url = request.nextUrl.clone();
+      url.pathname = MFA_PATH;
+      return NextResponse.redirect(url);
+    }
   }
 
   if (isAdmin && isLoginPage) {

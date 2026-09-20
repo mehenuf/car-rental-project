@@ -462,6 +462,58 @@ export type UserFlagRow = {
   updated_at: string;
 };
 
+export type PlatformStaffRow = {
+  user_id: string;
+  role: "super_admin" | "support" | "finance" | "reviewer";
+  created_by: string | null;
+  created_at: string;
+  disabled_at: string | null;
+};
+
+export type AuditLogRow = {
+  id: number;
+  at: string;
+  actor_user_id: string | null;
+  actor_role: string | null;
+  action: string;
+  entity_type: string;
+  entity_id: string | null;
+  before: Json | null;
+  after: Json | null;
+  reason: string | null;
+  ip: string | null;
+  user_agent: string | null;
+  request_id: string | null;
+};
+
+export type ApprovalRow = {
+  id: string;
+  kind: "refund" | "dispute_decision" | "payout_release" | "fee_change";
+  payload: Record<string, unknown>;
+  amount_minor: number | null;
+  currency: string | null;
+  requested_by: string;
+  requested_at: string;
+  status: "pending" | "approved" | "rejected" | "executed";
+  decided_by: string | null;
+  decided_at: string | null;
+  note: string | null;
+};
+
+export type FxRateRow = { date: string; base: string; quote: string; rate: number; source: string };
+
+export type ModelRequestRow = {
+  id: string;
+  provider_id: string | null;
+  brand: string;
+  name: string;
+  notes: string | null;
+  status: "pending" | "added" | "rejected";
+  created_at: string;
+};
+
+export type SettingsHistoryRow = { id: number; changed_at: string; changed_by: string | null; before: Json; after: Json; approval_id: string | null };
+
 export type GuestClaimRow = {
   id: string;
   user_id: string;
@@ -838,6 +890,42 @@ export interface Database {
         Update: Partial<UserFlagRow>;
         Relationships: [];
       };
+      platform_staff: {
+        Row: PlatformStaffRow;
+        Insert: InsertOf<PlatformStaffRow, "user_id" | "role">;
+        Update: Partial<PlatformStaffRow>;
+        Relationships: [];
+      };
+      audit_log: {
+        Row: AuditLogRow;
+        Insert: InsertOf<AuditLogRow, "action" | "entity_type">;
+        Update: Partial<AuditLogRow>;
+        Relationships: [];
+      };
+      approvals: {
+        Row: ApprovalRow;
+        Insert: InsertOf<ApprovalRow, "kind" | "requested_by">;
+        Update: Partial<ApprovalRow>;
+        Relationships: [];
+      };
+      fx_rates: {
+        Row: FxRateRow;
+        Insert: InsertOf<FxRateRow, "date" | "base" | "quote" | "rate">;
+        Update: Partial<FxRateRow>;
+        Relationships: [];
+      };
+      model_requests: {
+        Row: ModelRequestRow;
+        Insert: InsertOf<ModelRequestRow, "brand" | "name">;
+        Update: Partial<ModelRequestRow>;
+        Relationships: [];
+      };
+      settings_history: {
+        Row: SettingsHistoryRow;
+        Insert: InsertOf<SettingsHistoryRow, "before" | "after">;
+        Update: Partial<SettingsHistoryRow>;
+        Relationships: [];
+      };
       guest_claims: {
         Row: GuestClaimRow;
         Insert: InsertOf<GuestClaimRow, "user_id" | "booking_id">;
@@ -1001,6 +1089,12 @@ export interface Database {
       };
     };
     Views: {
+      v_revenue_by_month_currency: { Row: { month: string; currency: string; revenue_minor: number }; Relationships: [] };
+      v_gmv_take_rate: { Row: { month: string; currency: string; gmv_minor: number; revenue_minor: number; take_rate_bp: number }; Relationships: [] };
+      v_refunds_by_month: { Row: { month: string; currency: string; refunded_minor: number; refunds: number }; Relationships: [] };
+      v_payouts_by_provider: { Row: { provider_id: string; currency: string; status: string; amount_minor: number; payouts: number }; Relationships: [] };
+      v_tax_collected_by_country: { Row: { country_code: string; currency: string; tax_minor: number }; Relationships: [] };
+      ledger_entries_export: { Row: { entry_id: number; transaction_id: string; created_at: string; kind: string; account: string; direction: string; amount_minor: number; currency: string; booking_id: string | null }; Relationships: [] };
       v_best_sellers: {
         Row: {
           id: string;
@@ -1091,6 +1185,13 @@ export interface Database {
         Returns: DisputeRow;
       };
       evaluate_booking_risk: { Args: { p_booking_id: string }; Returns: string[] };
+      staff_role: { Args: { p_user: string }; Returns: string | null };
+      audit_write: { Args: { p_action: string; p_entity_type: string; p_entity_id: string; p_before: Json | null; p_after: Json | null; p_reason?: string | null }; Returns: undefined };
+      decide_approval: { Args: { p_id: string; p_decider: string; p_approve: boolean; p_note?: string | null }; Returns: ApprovalRow };
+      mark_approval_executed: { Args: { p_id: string }; Returns: undefined };
+      fn_trial_balance: { Args: Record<PropertyKey, never>; Returns: { currency: string; debit_minor: number; credit_minor: number; difference_minor: number }[] };
+      fn_reconcile_payments: { Args: Record<PropertyKey, never>; Returns: { currency: string; payments_net_minor: number; ledger_cash_minor: number; difference_minor: number }[] };
+      fn_reconcile_payouts: { Args: Record<PropertyKey, never>; Returns: { currency: string; payouts_paid_minor: number; ledger_paid_out_minor: number; difference_minor: number }[] };
       claim_guest_bookings: { Args: { p_user_id: string; p_email: string }; Returns: number };
       expire_stale_holds: {
         Args: Record<PropertyKey, never>;

@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Building2, IdCard, LayoutDashboard, Package, Receipt, ShieldAlert, Users } from "lucide-react";
+import { BarChart3, Building2, CheckCheck, IdCard, LayoutDashboard, Package, Receipt, ScrollText, Settings, ShieldAlert, ShieldCheck, Users } from "lucide-react";
 
 export interface AdminNavItem {
   label: string;
@@ -27,6 +27,16 @@ export const ADMIN_NAV: AdminNavGroup[] = [
       { label: "Providers", href: "/admin/providers", icon: Building2 },
       { label: "Licences", href: "/admin/licences", icon: IdCard },
       { label: "Trust and safety", href: "/admin/trust", icon: ShieldAlert },
+    ],
+  },
+  {
+    label: "Finance and control",
+    items: [
+      { label: "Reports", href: "/admin/reports", icon: BarChart3 },
+      { label: "Approvals", href: "/admin/approvals", icon: CheckCheck },
+      { label: "Audit log", href: "/admin/audit", icon: ScrollText },
+      { label: "Staff", href: "/admin/staff", icon: ShieldCheck },
+      { label: "Settings", href: "/admin/settings", icon: Settings },
     ],
   },
 ];
