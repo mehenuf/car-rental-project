@@ -26,6 +26,9 @@ import { createClient } from "@supabase/supabase-js";
 // we need to explicitly point it at ".env.local" instead.
 config({ path: ".env.local" });
 
+// Seeded by migration 0003; every seeded branch, unit and booking belongs to it.
+const DEFAULT_PROVIDER_ID = "00000000-0000-0000-0000-00000000b0c1";
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -144,7 +147,7 @@ const PAYMENT_METHODS = ["paypal", "stripe", "apple_pay", "payu", "paytm"] as co
 // this is what makes the dashboard numbers look like a real business.
 function randomStatus() {
   const roll = Math.random();
-  if (roll < 0.72) return "success";
+  if (roll < 0.72) return "completed";
   if (roll < 0.9) return "pending";
   return "cancelled";
 }
@@ -166,13 +169,24 @@ async function main() {
   await supabase.from("leads").delete().neq("id", "00000000-0000-0000-0000-000000000000");
   await supabase.from("bookings").delete().neq("id", "00000000-0000-0000-0000-000000000000");
   await supabase.from("vehicles").delete().neq("id", "00000000-0000-0000-0000-000000000000");
-  await supabase.from("locations").delete().neq("id", 0);
+  // Deleting vehicles cascades to fleet_units; bookings are already gone.
+  await supabase.from("branches").delete().eq("provider_id", DEFAULT_PROVIDER_ID);
   await supabase.from("daily_stats").delete().neq("date", "1900-01-01");
 
-  console.log("Inserting locations...");
+  console.log("Inserting branches...");
   const { data: insertedLocations, error: locError } = await supabase
-    .from("locations")
-    .insert(LOCATIONS)
+    .from("branches")
+    .insert(
+      LOCATIONS.map((l, i) => ({
+        provider_id: DEFAULT_PROVIDER_ID,
+        code: `${l.country_code}-${i + 1}`,
+        name: `${l.city} Branch`,
+        city: l.city,
+        country: l.country,
+        country_code: l.country_code,
+        currency: "USD",
+      }))
+    )
     .select();
   if (locError) throw locError;
 
@@ -195,7 +209,7 @@ async function main() {
     features: shuffleAndTake(FEATURES_POOL, randomInt(3, 6)),
     rating: (4 + Math.random()).toFixed(1),
     review_count: randomInt(8, 240),
-    stock: randomInt(1, 6),
+    stock: 0, // fleet units are created below; a trigger keeps stock in sync
     available: true,
     location_id: pick(insertedLocations!).id,
   }));
@@ -207,6 +221,18 @@ async function main() {
   if (vehError) throw vehError;
 
   console.log(`Inserted ${insertedVehicles!.length} vehicles.`);
+
+  console.log("Inserting fleet units...");
+  const unitRows = insertedVehicles!.flatMap((v) =>
+    Array.from({ length: randomInt(1, 5) }, (_, i) => ({
+      provider_id: DEFAULT_PROVIDER_ID,
+      branch_id: v.location_id as number,
+      vehicle_id: v.id as string,
+      plate: `${String(v.slug).toUpperCase()}-${i + 1}`,
+    }))
+  );
+  const { error: unitError } = await supabase.from("fleet_units").insert(unitRows);
+  if (unitError) throw unitError;
 
   console.log("Generating ~200 bookings across the last 12 months...");
   const bookingRows = Array.from({ length: 200 }).map(() => {
@@ -230,8 +256,10 @@ async function main() {
       customer_name: randomPersonName(),
       email: `customer${randomInt(1000, 9999)}@example.com`,
       phone: `+1${randomInt(200, 999)}${randomInt(1000000, 9999999)}`,
-      pickup_location_id: pickupLoc.id,
-      dropoff_location_id: dropoffLoc.id,
+      provider_id: DEFAULT_PROVIDER_ID,
+      pickup_branch_id: pickupLoc.id,
+      dropoff_branch_id: dropoffLoc.id,
+      currency: "USD",
       pickup_at: pickupAt.toISOString(),
       dropoff_at: dropoffAt.toISOString(),
       total_amount: total,
@@ -256,7 +284,7 @@ async function main() {
   if (statsError) throw statsError;
 
   console.log("\nDone. Your database now has:");
-  console.log(`  - ${insertedLocations!.length} locations`);
+  console.log(`  - ${insertedLocations!.length} branches`);
   console.log(`  - ${insertedVehicles!.length} vehicles`);
   console.log(`  - ${bookingRows.length} bookings`);
   console.log("\nOpen Supabase > Table Editor to see them.");
