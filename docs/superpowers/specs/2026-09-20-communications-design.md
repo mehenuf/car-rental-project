@@ -9,7 +9,7 @@ Providers: **Resend** for email, **Twilio** for SMS, each behind an interface wi
 
 **In:** a transactional outbox so notifications are never lost or duplicated; email and SMS delivery through provider interfaces; localised templates for every customer and provider event; per-booking messaging between customer and provider; notification preferences and consent; delivery, bounce, complaint and opt-out handling; scheduled reminders.
 
-**Out:** marketing campaigns and newsletters (no marketing sends are built; the preference model leaves room for them), WhatsApp and push notifications, in-app real-time chat (messages are asynchronous with email alerts), a support ticketing system (8 covers support tooling).
+**Out:** marketing campaigns and newsletters (no marketing sends are built; the preference model leaves room for them), WhatsApp, in-app real-time chat (messages are asynchronous with email alerts), a support ticketing system (8 covers support tooling).
 
 ## 2. Decisions to confirm
 
@@ -20,12 +20,13 @@ Providers: **Resend** for email, **Twilio** for SMS, each behind an interface wi
 5. **SMS is rare, consented and quiet-hours aware.** SMS is used only for: booking confirmed, pickup reminder, and a security code. It requires an explicit opt-in with the phone number verified (Twilio Verify), it respects quiet hours (nothing between 21:00 and 08:00 in the recipient's local time; held until morning), and STOP replies opt the number out immediately through Twilio's webhook.
 6. **Templates are code, localised by message keys.** React Email components render HTML and a plain-text alternative, taking their strings from the same message catalogue as the site (built in 9a), in all eleven languages, right-to-left for Arabic. English is the fallback.
 7. **Provider phone and email stay private until payment.** Messaging goes through the platform; each side sees the other's first name and messages, not contact details, until a booking is paid. Messages are moderated by simple rules (no links to off-platform payment, blocked terms) and can be reported.
+9. **Web Push as a free third channel.** Browsers that support it can opt in (from `/account` notification settings, never on first visit) to push notifications for booking updates, pickup and return reminders, and new messages. It uses the standard Web Push protocol with VAPID keys (`web-push` library, no vendor and no per-message cost), a service worker at `/sw.js`, and a `push_subscriptions(id, user_id, endpoint unique, p256dh, auth, locale, user_agent, created_at, last_used_at)` table with row-level security (a user sees only their own). Push is switchable per category like other non-essential messages, honours the same quiet hours as SMS, and never carries sensitive detail (no address or amounts, only a localised short text and a link). A `410 Gone` from the push service deletes the subscription. It is a `push` value on `notifications.channel`, behind a `push-provider` interface with a `log` default. Requires `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY` and `VAPID_SUBJECT`. iOS delivers push only to a site added to the home screen, which the settings screen explains.
 8. **Suppression list.** Hard bounces, spam complaints and SMS opt-outs add the address or number to `suppressions`; the dispatcher never sends to them.
 
 ## 3. Data model (`0013`)
 
 - `outbox_events(id, type, aggregate_type, aggregate_id, payload jsonb, locale, run_at, status pending|processed|failed, attempts, last_error, created_at, processed_at)`.
-- `notifications(id, event_id, channel email|sms, template, recipient_user_id null, address, locale, status queued|sent|delivered|failed|suppressed|bounced, provider, provider_ref, error, dedupe_key unique, attempts, next_attempt_at, sent_at, delivered_at)`.
+- `notifications(id, event_id, channel email|sms|push, template, recipient_user_id null, address, locale, status queued|sent|delivered|failed|suppressed|bounced, provider, provider_ref, error, dedupe_key unique, attempts, next_attempt_at, sent_at, delivered_at)`.
 - `notification_preferences(user_id, category reminders|messages, channel, enabled)` plus `contact_channels(user_id, email_verified_at, phone_e164, phone_verified_at, sms_opt_in, sms_opt_in_at, locale, timezone)`.
 - `suppressions(channel, address, reason bounce|complaint|opt_out, created_at)`.
 - `message_threads(id, booking_id unique, customer_user_id, provider_id, created_at, last_message_at)` and `messages(id, thread_id, sender_side customer|provider|platform, sender_user_id, body, flagged, created_at, read_at)`.
