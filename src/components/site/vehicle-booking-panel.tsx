@@ -1,7 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { useLocaleRouter } from "@/lib/i18n/provider";
+import { useLocale, useLocaleRouter, useT } from "@/lib/i18n/provider";
+import { numberingLocale } from "@/lib/i18n/locales";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -61,6 +62,9 @@ export function VehicleBookingPanel({
   dropoffBranchId?: number;
 }) {
   const router = useLocaleRouter();
+  const t = useT();
+  const locale = useLocale();
+  const money = (minor: number, currency: string) => formatMinor(minor, currency, numberingLocale(locale));
   const today = startOfToday();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -209,17 +213,17 @@ export function VehicleBookingPanel({
         if (res.status === 409) refresh(); // price changed, quote expired or dates taken: re-quote
         if (failure.error?.code === "PRICE_CHANGED" && failure.quote) {
           setSubmitError(
-            `The price changed to ${formatMinor(failure.quote.totalMinor, failure.quote.currency)}. Please review it and confirm again.`
+            t("booking.priceChanged", { amount: money(failure.quote.totalMinor, failure.quote.currency) })
           );
           return;
         }
-        throw new Error(failure.error?.message ?? "Failed to create booking");
+        throw new Error(failure.error?.message ?? t("booking.createFailed"));
       }
       const booking = body as BookingResponse;
       // The booking is held for 15 minutes while the customer pays.
       router.push(`/checkout/${encodeURIComponent(booking.reference)}`);
     } catch (err) {
-      setSubmitError(err instanceof Error ? err.message : "Failed to create booking");
+      setSubmitError(err instanceof Error ? err.message : t("booking.createFailed"));
     } finally {
       setIsSubmitting(false);
     }
@@ -234,22 +238,22 @@ export function VehicleBookingPanel({
     <Card className="shadow-card ring-0">
       <CardContent className="flex flex-col gap-(--space-sm)">
         <div className="flex items-baseline gap-1">
-          <span className="text-sm text-muted-foreground">From</span>
+          <span className="text-sm text-muted-foreground">{t("booking.from")}</span>
           <span className="font-heading text-2xl font-bold text-foreground">
-            {formatCurrency(vehicle.price_per_day)}
+            {formatCurrency(vehicle.price_per_day, locale)}
           </span>
-          <span className="text-sm text-muted-foreground">/day</span>
+          <span className="text-sm text-muted-foreground">{t("vehicle.perDay")}</span>
         </div>
 
         <div className="grid grid-cols-2 gap-(--space-sm)">
           <DatePickerField
-            label="Pick-up"
+            label={t("booking.pickUp")}
             value={pickupDate}
             onChange={handlePickupChange}
             minDate={today}
           />
           <DatePickerField
-            label="Drop-off"
+            label={t("booking.dropOff")}
             value={dropoffDate}
             onChange={setDropoffDate}
             minDate={pickupDate ?? today}
@@ -258,12 +262,12 @@ export function VehicleBookingPanel({
 
         {optionalExtras.length > 0 && (
           <fieldset className="flex flex-col gap-2 border-t border-border pt-(--space-sm)">
-            <legend className="sr-only">Optional extras</legend>
-            <span className="text-sm font-medium text-foreground">Extras</span>
+            <legend className="sr-only">{t("booking.optionalExtras")}</legend>
+            <span className="text-sm font-medium text-foreground">{t("booking.extras")}</span>
             {optionalExtras.map((extra) => {
               const quantity = selectedExtras[extra.code] ?? 0;
-              const unit = currency ? formatMinor(extra.unitPriceMinor, currency) : "";
-              const per = extra.pricing === "per_day" ? "/day" : "";
+              const unit = currency ? money(extra.unitPriceMinor, currency) : "";
+              const per = extra.pricing === "per_day" ? t("vehicle.perDay") : "";
               return (
                 <div key={extra.code} className="flex items-center justify-between gap-3 text-sm">
                   {extra.maxQuantity > 1 ? (
@@ -300,7 +304,7 @@ export function VehicleBookingPanel({
             })}
             {mandatoryExtras.map((extra) => (
               <p key={extra.code} className="text-xs text-muted-foreground">
-                {extra.name} is included.
+                {t("booking.included", { name: extra.name })}
               </p>
             ))}
           </fieldset>
@@ -309,13 +313,13 @@ export function VehicleBookingPanel({
         <div className="grid grid-cols-[1fr_auto] items-end gap-2">
           <div className="flex flex-col gap-1.5">
             <Label htmlFor="b-promo" className="text-xs">
-              Promo code
+              {t("booking.promoCode")}
             </Label>
             <Input
               id="b-promo"
               value={promoInput}
               onChange={(e) => setPromoInput(e.target.value)}
-              placeholder="Enter code"
+              placeholder={t("booking.enterCode")}
               className="h-9"
             />
           </div>
@@ -329,7 +333,7 @@ export function VehicleBookingPanel({
                 setPromoInput("");
               }}
             >
-              Remove
+              {t("booking.remove")}
             </Button>
           ) : (
             <Button
@@ -339,14 +343,14 @@ export function VehicleBookingPanel({
               disabled={!promoInput.trim()}
               onClick={() => setAppliedPromo(promoInput.trim())}
             >
-              Apply
+              {t("booking.apply")}
             </Button>
           )}
         </div>
 
         <div className="flex flex-col gap-1.5">
           <Label htmlFor="b-age" className="text-xs">
-            Driver&apos;s age (optional)
+            {t("booking.driverAge")}
           </Label>
           <Input
             id="b-age"
@@ -369,7 +373,7 @@ export function VehicleBookingPanel({
           <QuoteBreakdown quote={quoteData.quote} isUpdating={isPricing} />
         ) : quoteParams && quoteState.status !== "error" ? (
           <p className="border-t border-border pt-(--space-sm) text-sm text-muted-foreground" aria-live="polite">
-            Calculating your price...
+            {t("booking.calculating")}
           </p>
         ) : null}
 
@@ -380,11 +384,11 @@ export function VehicleBookingPanel({
           onClick={() => setDialogOpen(true)}
           data-chat-avoid
         >
-          {soldOut ? "Sold Out" : "Book Now"}
+          {soldOut ? t("booking.soldOut") : t("booking.bookNow")}
         </Button>
         {soldOut && (
           <p className="text-center text-sm text-muted-foreground">
-            This vehicle isn&apos;t available for booking right now.
+            {t("booking.unavailable")}
           </p>
         )}
       </CardContent>
@@ -392,20 +396,20 @@ export function VehicleBookingPanel({
       <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Complete your booking</DialogTitle>
+            <DialogTitle>{t("booking.dialogTitle")}</DialogTitle>
             <DialogDescription>
-              {vehicle.name}
               {quoteData
-                ? `, ${quoteData.quote.days} day${quoteData.quote.days === 1 ? "" : "s"} for ${formatMinor(
-                    quoteData.quote.totalMinor,
-                    quoteData.quote.currency
-                  )}`
-                : ""}
+                ? t("booking.dialogDesc", {
+                    name: vehicle.name,
+                    count: quoteData.quote.days,
+                    total: money(quoteData.quote.totalMinor, quoteData.quote.currency),
+                  })
+                : vehicle.name}
             </DialogDescription>
           </DialogHeader>
           <form className="flex flex-col gap-(--space-sm)" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="b-name">Full name</Label>
+              <Label htmlFor="b-name">{t("booking.fullName")}</Label>
               <Input
                 id="b-name"
                 value={name}
@@ -421,7 +425,7 @@ export function VehicleBookingPanel({
               )}
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="b-email">Email</Label>
+              <Label htmlFor="b-email">{t("booking.email")}</Label>
               <Input
                 id="b-email"
                 type="email"
@@ -438,7 +442,7 @@ export function VehicleBookingPanel({
               )}
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="b-phone">Phone (optional)</Label>
+              <Label htmlFor="b-phone">{t("booking.phone")}</Label>
               <Input
                 id="b-phone"
                 type="tel"
@@ -462,10 +466,10 @@ export function VehicleBookingPanel({
 
             <DialogFooter className="-mx-4 -mb-4">
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
-                Cancel
+                {t("booking.cancel")}
               </Button>
               <Button type="submit" disabled={isSubmitting || !quoteReady}>
-                {isSubmitting ? "Booking..." : "Confirm Booking"}
+                {isSubmitting ? t("booking.submitting") : t("booking.confirm")}
               </Button>
             </DialogFooter>
           </form>

@@ -73,5 +73,240 @@
   "error": {
     "title": "Algo deu errado",
     "body": "Tivemos um problema ao carregar esta página. Tente novamente ou volte à página inicial."
+  },
+  "enums": {
+    "category": {
+      "popular": "Popular",
+      "large": "Grande",
+      "small": "Pequeno",
+      "exclusive": "Exclusivo"
+    },
+    "transmission": {
+      "automatic": "Automático",
+      "manual": "Manual"
+    },
+    "fuel": {
+      "petrol": "Gasolina",
+      "diesel": "Diesel",
+      "hybrid": "Híbrido",
+      "electric": "Elétrico"
+    }
+  },
+  "search": {
+    "pickUp": "Retirada",
+    "dropOff": "Devolução",
+    "location": "Local",
+    "date": "Data",
+    "time": "Horário",
+    "selectCity": "Escolha sua cidade",
+    "selectDate": "Escolha a data",
+    "submit": "Buscar",
+    "errBothDates": "Escolha as datas de retirada e de devolução.",
+    "errDropAfter": "A data de devolução deve ser posterior à data de retirada."
+  },
+  "cars": {
+    "title": "Conheça nossa frota",
+    "showingDates": "Mostrando carros com retirada em {from} e devolução em {to}.",
+    "found": {
+      "one": "Carros encontrados: {count}",
+      "other": "Carros encontrados: {count}"
+    },
+    "emptyTitle": "Nenhum carro corresponde aos seus filtros",
+    "emptyBody": "Tente ampliar a faixa de preço ou remover alguns filtros para ver mais resultados.",
+    "clearFilters": "Limpar filtros",
+    "filters": "Filtros",
+    "clearAll": "Limpar tudo",
+    "category": "Categoria",
+    "pricePerDay": "Preço por dia",
+    "priceRange": "Faixa de preço por dia",
+    "seats": "Lugares",
+    "seatsOption": "{count}+ lugares",
+    "transmission": "Câmbio",
+    "fuel": "Combustível",
+    "any": "Qualquer",
+    "sortPriceAsc": "Preço: menor para maior",
+    "sortPriceDesc": "Preço: maior para menor",
+    "sortRating": "Mais bem avaliados",
+    "sortNewest": "Mais recentes",
+    "pagination": "Paginação",
+    "prevPage": "Página anterior",
+    "nextPage": "Próxima página",
+    "dealsTitle": "As ofertas de aluguel mais populares",
+    "dealsBody": "Uma frota bem conservada, pronta para reservar em qualquer viagem, curta ou longa.",
+    "tabLarge": "Carro grande",
+    "tabSmall": "Carro pequeno",
+    "tabExclusive": "Carro exclusivo",
+    "loading": "Carregando...",
+    "showMore": "Ver mais carros",
+    "noMore": "Não há mais carros",
+    "total": {
+      "one": "Carros: {count}",
+      "other": "Carros: {count}"
+    },
+    "loadFailed": "Não foi possível carregar os veículos"
+  },
+  "vehicle": {
+    "perDay": "/dia",
+    "soldOut": "Esgotado",
+    "rentNow": "Alugar",
+    "addFavorite": "Adicionar {name} aos favoritos",
+    "removeFavorite": "Remover {name} dos favoritos",
+    "features": "Características",
+    "similar": "Veículos semelhantes",
+    "reviews": {
+      "one": "({count} avaliação)",
+      "other": "({count} avaliações)"
+    },
+    "seats": "Lugares",
+    "doors": "Portas",
+    "transmission": "Câmbio",
+    "fuel": "Combustível",
+    "photos": "Fotos de {name}",
+    "showPhoto": "Ver foto {n} de {total}"
+  },
+  "booking": {
+    "from": "A partir de",
+    "pickUp": "Retirada",
+    "dropOff": "Devolução",
+    "extras": "Extras",
+    "optionalExtras": "Extras opcionais",
+    "included": "{name} está incluído.",
+    "promoCode": "Código promocional",
+    "enterCode": "Digite o código",
+    "apply": "Aplicar",
+    "remove": "Remover",
+    "driverAge": "Idade do condutor (opcional)",
+    "calculating": "Calculando seu preço...",
+    "bookNow": "Reservar agora",
+    "soldOut": "Esgotado",
+    "unavailable": "Este veículo não está disponível para reserva no momento.",
+    "priceChanged": "O preço mudou para {amount}. Revise e confirme novamente.",
+    "createFailed": "Não foi possível criar a reserva",
+    "dialogTitle": "Conclua sua reserva",
+    "dialogDesc": {
+      "one": "{name}, {count} dia por {total}",
+      "other": "{name}, {count} dias por {total}"
+    },
+    "fullName": "Nome completo",
+    "email": "E-mail",
+    "phone": "Telefone (opcional)",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar reserva",
+    "submitting": "Reservando..."
+  },
+  "quote": {
+    "total": "Total",
+    "allIncluded": "Todas as taxas e impostos obrigatórios estão incluídos neste total.",
+    "deposit": "Um depósito reembolsável de {amount} fica retido na retirada. Ele não faz parte do total.",
+    "base": {
+      "one": "Diária base ({count} dia)",
+      "other": "Diária base ({count} dias)"
+    },
+    "season": "Ajuste de temporada",
+    "weekend": "Tarifa de fim de semana",
+    "weekly": "Desconto semanal",
+    "monthly": "Desconto mensal",
+    "promo": "Promoção {code}",
+    "youngDriver": {
+      "one": "Taxa de condutor jovem ({count} dia)",
+      "other": "Taxa de condutor jovem ({count} dias)"
+    },
+    "oneWay": "Taxa de devolução em outro local",
+    "pickupSurcharge": "Taxa do local de retirada",
+    "serviceFee": "Taxa de serviço",
+    "taxIncluded": "{name} (incluído)",
+    "cancelTerms": "As condições de cancelamento são definidas pela locadora.",
+    "cancelNoRefundAfter": "Sem reembolso depois disso",
+    "cancelFree": "Cancelamento gratuito até {hours} antes da retirada",
+    "cancelPartial": "Reembolso de {percent}% até {hours} antes da retirada",
+    "cancelNoRefundWithin": "Sem reembolso nas {hours} anteriores à retirada",
+    "hours": {
+      "one": "{count} hora",
+      "other": "{count} horas"
+    }
+  },
+  "checkout": {
+    "title": "Conclua seu pagamento",
+    "ref": "Ref. {reference}",
+    "holdExpired": "A reserva expirou. O carro foi liberado.",
+    "holding": "Estamos segurando este carro para você por {time}.",
+    "findAnother": "Encontrar outro carro",
+    "confirmCode": "Código de confirmação",
+    "testModeHint": "Modo de teste: digite 000000 para aprovar; qualquer outro código falha.",
+    "confirming": "Confirmando...",
+    "confirmPayment": "Confirmar pagamento",
+    "paymentMethod": "Forma de pagamento",
+    "stripeNote": "Na próxima etapa você informará os dados do cartão com segurança no Stripe.",
+    "testCard": "Número do cartão de teste",
+    "testOutcome": "Resultado do teste (opcional)",
+    "simulated": "Pagamentos simulados: nenhum dinheiro real é movimentado. Nunca digite um número de cartão real.",
+    "processing": "Processando...",
+    "continueCard": "Continuar para os dados do cartão",
+    "pay": "Pagar {amount}",
+    "orderSummary": "Resumo do pedido",
+    "total": "Total",
+    "depositNote": "Um depósito reembolsável de {amount} fica retido na sua forma de pagamento. Ele não é cobrado e é liberado após o aluguel.",
+    "failed": "Algo deu errado. Tente novamente."
+  },
+  "confirmation": {
+    "receivedTitle": "Reserva recebida",
+    "receivedBody": "Recebemos sua reserva e ela aguarda confirmação. Enviaremos um e-mail assim que for confirmada.",
+    "cancelledTitle": "Reserva cancelada",
+    "cancelledRefundedBody": "Sua reserva foi cancelada e o pagamento foi reembolsado.",
+    "cancelledBody": "Sua reserva foi cancelada.",
+    "confirmedTitle": "Reserva confirmada",
+    "confirmedBody": "Recebemos seu pagamento e sua reserva está confirmada. Até a retirada.",
+    "payTitle": "Conclua seu pagamento",
+    "payBody": "Sua reserva está guardada para você. Conclua o pagamento para confirmá-la. Se você acabou de pagar, esta página será atualizada em instantes.",
+    "expiredTitle": "Reserva expirada",
+    "expiredBody": "O prazo de pagamento desta reserva terminou e o carro foi liberado. Você não foi cobrado.",
+    "reference": "Referência",
+    "vehicle": "Veículo",
+    "pickUp": "Retirada",
+    "dropOff": "Devolução",
+    "total": "Total",
+    "payNow": "Pagar agora",
+    "viewBookings": "Ver minhas reservas",
+    "browseMore": "Ver mais carros"
+  },
+  "cancelBooking": {
+    "refundFailed": "Cancelada. Não foi possível processar seu reembolso automaticamente; nossa equipe entrará em contato.",
+    "refunded": "Cancelada. {amount} serão reembolsados.",
+    "noRefund": "Cancelada. Este cancelamento está fora do prazo de reembolso, portanto não há valor a devolver.",
+    "cancelled": "Cancelada.",
+    "failed": "Não foi possível cancelar esta reserva.",
+    "yes": "Sim, cancelar reserva",
+    "busy": "Cancelando...",
+    "keep": "Manter",
+    "cancel": "Cancelar reserva"
+  },
+  "about": {
+    "title": "Aluguel de carros, sem enrolação",
+    "intro": "A BestCar conecta clientes a uma frota verificada de veículos em cada país onde atuamos. Criamos a plataforma que gostaríamos que existisse: preços claros, reserva rápida e nenhuma pressão para criar uma conta antes de ver o total.",
+    "v1Title": "Preços transparentes",
+    "v1Body": "O preço que você vê na página do carro é o que você paga. Sem taxas escondidas no pagamento.",
+    "v2Title": "Reserve em minutos",
+    "v2Body": "Escolha as datas, confirme seus dados e pronto. Não é preciso ter conta para começar.",
+    "v3Title": "Frota verificada",
+    "v3Body": "Todo veículo anunciado é inspecionado e segurado antes de entrar na plataforma.",
+    "readyTitle": "Pronto para alugar?",
+    "readyBody": "Explore a frota e reserve hoje o carro certo para a sua viagem."
+  },
+  "contact": {
+    "title": "Fale conosco",
+    "intro": "Dúvidas sobre uma reserva, um veículo ou sua conta? Fale com a gente por qualquer um dos canais abaixo.",
+    "chatTitle": "Chat ao vivo",
+    "chatBody": "A forma mais rápida de falar conosco: clique para abrir o chat.",
+    "emailTitle": "E-mail",
+    "phoneTitle": "Telefone",
+    "phoneBody": "+44 20 7946 0958 (seg-sex, 9h-18h GMT)"
+  },
+  "testimonials": {
+    "title": "A confiança de milhares de clientes satisfeitos",
+    "subtitle": "Histórias reais de clientes que reservaram a próxima viagem com a BestCar.",
+    "prev": "Depoimento anterior",
+    "next": "Próximo depoimento",
+    "goTo": "Ir para o depoimento {n}",
+    "status": "Depoimento {n} de {total}"
   }
 }

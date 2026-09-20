@@ -2,6 +2,7 @@
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useT } from "@/lib/i18n/provider";
 
 export function Pagination({
   page,
@@ -12,12 +13,13 @@ export function Pagination({
   totalPages: number;
   onPageChange: (page: number) => void;
 }) {
+  const t = useT();
   if (totalPages <= 1) return null;
 
   const pages = visiblePages(page, totalPages);
 
   return (
-    <nav className="flex items-center justify-center gap-1.5" aria-label="Pagination">
+    <nav className="flex items-center justify-center gap-1.5" aria-label={t("cars.pagination")}>
       <Button
         type="button"
         variant="outline"
@@ -25,7 +27,7 @@ export function Pagination({
         className="size-11"
         disabled={page <= 1}
         onClick={() => onPageChange(page - 1)}
-        aria-label="Previous page"
+        aria-label={t("cars.prevPage")}
       >
         <ChevronLeft className="size-4 rtl:-scale-x-100" />
       </Button>
@@ -57,7 +59,7 @@ export function Pagination({
         className="size-11"
         disabled={page >= totalPages}
         onClick={() => onPageChange(page + 1)}
-        aria-label="Next page"
+        aria-label={t("cars.nextPage")}
       >
         <ChevronRight className="size-4 rtl:-scale-x-100" />
       </Button>

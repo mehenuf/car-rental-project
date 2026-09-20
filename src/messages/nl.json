@@ -73,5 +73,240 @@
   "error": {
     "title": "Er is iets misgegaan",
     "body": "Er ging iets mis bij het laden van deze pagina. Probeer het opnieuw of ga terug naar de homepage."
+  },
+  "enums": {
+    "category": {
+      "popular": "Populair",
+      "large": "Groot",
+      "small": "Klein",
+      "exclusive": "Exclusief"
+    },
+    "transmission": {
+      "automatic": "Automaat",
+      "manual": "Handgeschakeld"
+    },
+    "fuel": {
+      "petrol": "Benzine",
+      "diesel": "Diesel",
+      "hybrid": "Hybride",
+      "electric": "Elektrisch"
+    }
+  },
+  "search": {
+    "pickUp": "Ophalen",
+    "dropOff": "Inleveren",
+    "location": "Locatie",
+    "date": "Datum",
+    "time": "Tijd",
+    "selectCity": "Kies je stad",
+    "selectDate": "Kies een datum",
+    "submit": "Zoeken",
+    "errBothDates": "Kies zowel een ophaal- als een inleverdatum.",
+    "errDropAfter": "De inleverdatum moet na de ophaaldatum liggen."
+  },
+  "cars": {
+    "title": "Bekijk ons wagenpark",
+    "showingDates": "Auto's met ophalen op {from} en inleveren op {to}.",
+    "found": {
+      "one": "{count} auto gevonden",
+      "other": "{count} auto's gevonden"
+    },
+    "emptyTitle": "Geen auto's gevonden voor je filters",
+    "emptyBody": "Vergroot je prijsbereik of haal een paar filters weg om meer resultaten te zien.",
+    "clearFilters": "Filters wissen",
+    "filters": "Filters",
+    "clearAll": "Alles wissen",
+    "category": "Categorie",
+    "pricePerDay": "Prijs per dag",
+    "priceRange": "Prijsbereik per dag",
+    "seats": "Zitplaatsen",
+    "seatsOption": "{count}+ zitplaatsen",
+    "transmission": "Transmissie",
+    "fuel": "Brandstof",
+    "any": "Alle",
+    "sortPriceAsc": "Prijs: laag naar hoog",
+    "sortPriceDesc": "Prijs: hoog naar laag",
+    "sortRating": "Best beoordeeld",
+    "sortNewest": "Nieuwste",
+    "pagination": "Paginering",
+    "prevPage": "Vorige pagina",
+    "nextPage": "Volgende pagina",
+    "dealsTitle": "De populairste autohuuraanbiedingen",
+    "dealsBody": "Een goed onderhouden wagenpark, klaar om te boeken voor elke reis, kort of lang.",
+    "tabLarge": "Grote auto",
+    "tabSmall": "Kleine auto",
+    "tabExclusive": "Exclusieve auto",
+    "loading": "Laden...",
+    "showMore": "Meer auto's tonen",
+    "noMore": "Geen auto's meer",
+    "total": {
+      "one": "{count} auto",
+      "other": "{count} auto's"
+    },
+    "loadFailed": "Voertuigen laden mislukt"
+  },
+  "vehicle": {
+    "perDay": "/dag",
+    "soldOut": "Uitverkocht",
+    "rentNow": "Nu huren",
+    "addFavorite": "{name} aan favorieten toevoegen",
+    "removeFavorite": "{name} uit favorieten verwijderen",
+    "features": "Kenmerken",
+    "similar": "Vergelijkbare voertuigen",
+    "reviews": {
+      "one": "({count} beoordeling)",
+      "other": "({count} beoordelingen)"
+    },
+    "seats": "Zitplaatsen",
+    "doors": "Deuren",
+    "transmission": "Transmissie",
+    "fuel": "Brandstof",
+    "photos": "Foto's van {name}",
+    "showPhoto": "Foto {n} van {total} tonen"
+  },
+  "booking": {
+    "from": "Vanaf",
+    "pickUp": "Ophalen",
+    "dropOff": "Inleveren",
+    "extras": "Extra's",
+    "optionalExtras": "Optionele extra's",
+    "included": "{name} is inbegrepen.",
+    "promoCode": "Actiecode",
+    "enterCode": "Voer code in",
+    "apply": "Toepassen",
+    "remove": "Verwijderen",
+    "driverAge": "Leeftijd bestuurder (optioneel)",
+    "calculating": "Je prijs wordt berekend...",
+    "bookNow": "Nu boeken",
+    "soldOut": "Uitverkocht",
+    "unavailable": "Dit voertuig is op dit moment niet te boeken.",
+    "priceChanged": "De prijs is gewijzigd naar {amount}. Controleer de prijs en bevestig opnieuw.",
+    "createFailed": "De boeking kon niet worden aangemaakt",
+    "dialogTitle": "Rond je boeking af",
+    "dialogDesc": {
+      "one": "{name}, {count} dag voor {total}",
+      "other": "{name}, {count} dagen voor {total}"
+    },
+    "fullName": "Volledige naam",
+    "email": "E-mail",
+    "phone": "Telefoon (optioneel)",
+    "cancel": "Annuleren",
+    "confirm": "Boeking bevestigen",
+    "submitting": "Bezig met boeken..."
+  },
+  "quote": {
+    "total": "Totaal",
+    "allIncluded": "Alle verplichte kosten en belastingen zijn in dit totaal inbegrepen.",
+    "deposit": "Bij het ophalen wordt een terugbetaalbare borg van {amount} vastgehouden. Deze maakt geen deel uit van het totaal.",
+    "base": {
+      "one": "Basistarief ({count} dag)",
+      "other": "Basistarief ({count} dagen)"
+    },
+    "season": "Seizoenstoeslag",
+    "weekend": "Weekendtarief",
+    "weekly": "Weekkorting",
+    "monthly": "Maandkorting",
+    "promo": "Actie {code}",
+    "youngDriver": {
+      "one": "Toeslag jonge bestuurder ({count} dag)",
+      "other": "Toeslag jonge bestuurder ({count} dagen)"
+    },
+    "oneWay": "Eenrichtingskosten",
+    "pickupSurcharge": "Toeslag ophaallocatie",
+    "serviceFee": "Servicekosten",
+    "taxIncluded": "{name} (inbegrepen)",
+    "cancelTerms": "De annuleringsvoorwaarden worden bepaald door het verhuurbedrijf.",
+    "cancelNoRefundAfter": "Daarna geen terugbetaling",
+    "cancelFree": "Gratis annuleren tot {hours} voor het ophalen",
+    "cancelPartial": "{percent}% terugbetaling tot {hours} voor het ophalen",
+    "cancelNoRefundWithin": "Geen terugbetaling binnen {hours} voor het ophalen",
+    "hours": {
+      "one": "{count} uur",
+      "other": "{count} uur"
+    }
+  },
+  "checkout": {
+    "title": "Rond je betaling af",
+    "ref": "Ref. {reference}",
+    "holdExpired": "Je reservering is verlopen. De auto is vrijgegeven.",
+    "holding": "We houden deze auto nog {time} voor je vast.",
+    "findAnother": "Andere auto zoeken",
+    "confirmCode": "Bevestigingscode",
+    "testModeHint": "Testmodus: voer 000000 in om goed te keuren, alles anders laat de betaling mislukken.",
+    "confirming": "Bevestigen...",
+    "confirmPayment": "Betaling bevestigen",
+    "paymentMethod": "Betaalmethode",
+    "stripeNote": "In de volgende stap voer je je kaartgegevens veilig in via Stripe.",
+    "testCard": "Testkaartnummer",
+    "testOutcome": "Testuitkomst (optioneel)",
+    "simulated": "Gesimuleerde betalingen: er wordt geen echt geld verplaatst. Voer nooit een echt kaartnummer in.",
+    "processing": "Verwerken...",
+    "continueCard": "Verder naar kaartgegevens",
+    "pay": "{amount} betalen",
+    "orderSummary": "Besteloverzicht",
+    "total": "Totaal",
+    "depositNote": "Op je betaalmethode wordt een terugbetaalbare borg van {amount} vastgehouden. Deze wordt niet afgeschreven en na je huurperiode vrijgegeven.",
+    "failed": "Er is iets misgegaan. Probeer het opnieuw."
+  },
+  "confirmation": {
+    "receivedTitle": "Boeking ontvangen",
+    "receivedBody": "Je boeking is ontvangen en wacht op bevestiging. We sturen je een e-mail zodra deze bevestigd is.",
+    "cancelledTitle": "Boeking geannuleerd",
+    "cancelledRefundedBody": "Je boeking is geannuleerd en je betaling is terugbetaald.",
+    "cancelledBody": "Je boeking is geannuleerd.",
+    "confirmedTitle": "Boeking bevestigd",
+    "confirmedBody": "Je betaling is ontvangen en je boeking is bevestigd. Tot bij het ophalen.",
+    "payTitle": "Rond je betaling af",
+    "payBody": "Je boeking wordt voor je vastgehouden. Rond de betaling af om te bevestigen. Heb je zojuist betaald? Dan wordt deze pagina zo bijgewerkt.",
+    "expiredTitle": "Boeking verlopen",
+    "expiredBody": "De betaaltermijn voor deze boeking is verstreken en de auto is vrijgegeven. Er is niets van je afgeschreven.",
+    "reference": "Referentie",
+    "vehicle": "Voertuig",
+    "pickUp": "Ophalen",
+    "dropOff": "Inleveren",
+    "total": "Totaal",
+    "payNow": "Nu betalen",
+    "viewBookings": "Mijn boekingen bekijken",
+    "browseMore": "Meer auto's bekijken"
+  },
+  "cancelBooking": {
+    "refundFailed": "Geannuleerd. Je terugbetaling kon niet automatisch worden verwerkt; ons team neemt contact met je op.",
+    "refunded": "Geannuleerd. {amount} wordt terugbetaald.",
+    "noRefund": "Geannuleerd. Deze annulering valt buiten de terugbetalingstermijn, dus er is geen terugbetaling.",
+    "cancelled": "Geannuleerd.",
+    "failed": "Deze boeking kon niet worden geannuleerd.",
+    "yes": "Ja, boeking annuleren",
+    "busy": "Annuleren...",
+    "keep": "Behouden",
+    "cancel": "Boeking annuleren"
+  },
+  "about": {
+    "title": "Autoverhuur zonder gedoe",
+    "intro": "BestCar brengt huurders in contact met een gecontroleerd wagenpark in elk land waar we actief zijn. We bouwden het platform dat we zelf misten: heldere prijzen, een snelle boeking en geen verplichting om een account aan te maken voordat je een totaalprijs ziet.",
+    "v1Title": "Transparante prijzen",
+    "v1Body": "De prijs op de pagina van een auto is de prijs die je betaalt. Geen verborgen kosten bij het afrekenen.",
+    "v2Title": "Binnen enkele minuten geboekt",
+    "v2Body": "Kies je data, bevestig je gegevens en klaar. Je hebt geen account nodig om te beginnen.",
+    "v3Title": "Gecontroleerd wagenpark",
+    "v3Body": "Elk aangeboden voertuig wordt gecontroleerd en verzekerd voordat het op het platform komt.",
+    "readyTitle": "Klaar om te huren?",
+    "readyBody": "Bekijk het wagenpark en boek vandaag nog de juiste auto voor je reis."
+  },
+  "contact": {
+    "title": "Neem contact op",
+    "intro": "Vragen over een boeking, een voertuig of je account? Bereik ons via een van de onderstaande kanalen.",
+    "chatTitle": "Livechat",
+    "chatBody": "De snelste manier om ons te bereiken: klik om de chat te openen.",
+    "emailTitle": "E-mail",
+    "phoneTitle": "Telefoon",
+    "phoneBody": "+44 20 7946 0958 (ma-vr, 9.00-18.00 uur GMT)"
+  },
+  "testimonials": {
+    "title": "Vertrouwd door duizenden tevreden klanten",
+    "subtitle": "Echte verhalen van huurders die hun volgende reis met BestCar boekten.",
+    "prev": "Vorige ervaring",
+    "next": "Volgende ervaring",
+    "goTo": "Ga naar ervaring {n}",
+    "status": "Ervaring {n} van {total}"
   }
 }

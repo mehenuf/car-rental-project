@@ -9,6 +9,7 @@ import { formatCurrency, formatDate } from "@/lib/format";
 import { isHoldActive } from "@/lib/payments/hold";
 import { getBookingByReference } from "@/lib/queries";
 import { readRequestIdentity } from "@/lib/guest";
+import { getLocale, getT } from "@/lib/i18n/dictionary";
 
 export const metadata: Metadata = { title: "Your Booking" };
 
@@ -22,6 +23,8 @@ export default async function BookingConfirmationPage({
 
   const booking = await getBookingByReference(ref);
   if (!booking) notFound();
+  const t = await getT();
+  const locale = await getLocale();
 
   // The reference alone (a 3-byte hex string) is brute-forceable, so it
   // can't be the only gate on viewing someone else's booking details.
@@ -37,7 +40,6 @@ export default async function BookingConfirmationPage({
     (booking.guest_id !== null && booking.guest_id === identity.guestId);
   if (hasOwner && !isOwner) notFound();
 
-  const vehicleName = booking.vehicle ? ` for the ${booking.vehicle.name}` : "";
   const paid = booking.payment_status === "paid" || booking.payment_status === "partially_refunded";
   const refunded = booking.payment_status === "refunded";
   const cancelled = booking.status === "cancelled" || booking.status === "no_show";
@@ -45,26 +47,24 @@ export default async function BookingConfirmationPage({
     booking.status === "pending" && booking.payment_status === "unpaid" && Boolean(booking.price_snapshot) && isHoldActive(booking.hold_expires_at);
 
   let icon = <Clock className="size-8" />;
-  let title = "Booking Received";
-  let message = `Your booking${vehicleName} has been received and is awaiting confirmation. We'll email you as soon as it's confirmed.`;
+  let title = t("confirmation.receivedTitle");
+  let message = t("confirmation.receivedBody");
 
   if (cancelled) {
     icon = <XCircle className="size-8" />;
-    title = "Booking Cancelled";
-    message = refunded
-      ? `Your booking${vehicleName} was cancelled and your payment has been refunded.`
-      : `Your booking${vehicleName} was cancelled.`;
+    title = t("confirmation.cancelledTitle");
+    message = refunded ? t("confirmation.cancelledRefundedBody") : t("confirmation.cancelledBody");
   } else if (paid) {
     icon = <CheckCircle2 className="size-8" />;
-    title = "Booking Confirmed";
-    message = `Your payment was received and your booking${vehicleName} is confirmed. See you at pick-up.`;
+    title = t("confirmation.confirmedTitle");
+    message = t("confirmation.confirmedBody");
   } else if (awaitingPayment) {
-    title = "Complete Your Payment";
-    message = `Your booking${vehicleName} is held for you. Finish paying to confirm it. If you have just paid, this page updates in a moment.`;
+    title = t("confirmation.payTitle");
+    message = t("confirmation.payBody");
   } else if (booking.status === "pending" && booking.payment_status === "unpaid" && booking.hold_expires_at) {
     icon = <XCircle className="size-8" />;
-    title = "Booking Expired";
-    message = "The payment window for this booking has passed and the car has been released. You have not been charged.";
+    title = t("confirmation.expiredTitle");
+    message = t("confirmation.expiredBody");
   }
 
   return (
@@ -78,25 +78,25 @@ export default async function BookingConfirmationPage({
 
       <Card className="w-full shadow-card ring-0">
         <CardContent className="flex flex-col gap-(--space-sm)">
-          <Row label="Reference" value={booking.reference} />
-          <Row label="Vehicle" value={booking.vehicle?.name ?? "-"} />
-          <Row label="Pick-up" value={formatDate(booking.pickup_at)} />
-          <Row label="Drop-off" value={formatDate(booking.dropoff_at)} />
-          <Row label="Total" value={formatCurrency(booking.total_amount)} emphasize />
+          <Row label={t("confirmation.reference")} value={booking.reference} />
+          <Row label={t("confirmation.vehicle")} value={booking.vehicle?.name ?? "-"} />
+          <Row label={t("confirmation.pickUp")} value={formatDate(booking.pickup_at, locale)} />
+          <Row label={t("confirmation.dropOff")} value={formatDate(booking.dropoff_at, locale)} />
+          <Row label={t("confirmation.total")} value={formatCurrency(booking.total_amount, locale)} emphasize />
         </CardContent>
       </Card>
 
       <div className="flex flex-col gap-(--space-xs) sm:flex-row">
         {awaitingPayment && (
           <Link href={`/checkout/${encodeURIComponent(booking.reference)}`} className={buttonVariants({ size: "lg" })}>
-            Pay now
+            {t("confirmation.payNow")}
           </Link>
         )}
         <Link href="/dashboard" className={buttonVariants({ variant: "outline", size: "lg" })}>
-          View my bookings
+          {t("confirmation.viewBookings")}
         </Link>
         <Link href="/cars" className={buttonVariants({ variant: awaitingPayment ? "outline" : "default", size: "lg" })}>
-          Browse more cars
+          {t("confirmation.browseMore")}
         </Link>
       </div>
     </div>

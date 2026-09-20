@@ -6,13 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
+import { numberingLocale } from "@/lib/i18n/locales";
+import { useLocale, useT } from "@/lib/i18n/provider";
+import { calendarLocale } from "@/lib/i18n/calendar-locale";
 
 export function DatePickerField({
   label,
   value,
   onChange,
   minDate,
-  placeholder = "Select date",
+  placeholder,
   className,
   triggerClassName,
 }: {
@@ -29,6 +32,8 @@ export function DatePickerField({
   triggerClassName?: string;
 }) {
   const [open, setOpen] = useState(false);
+  const t = useT();
+  const locale = useLocale();
   const labelId = useId();
   const valueId = useId();
 
@@ -54,13 +59,19 @@ export function DatePickerField({
           <CalendarIcon className="size-4 shrink-0 text-muted-foreground" />
           <span id={valueId} className={cn("truncate text-sm", !value && "text-muted-foreground")}>
             {value
-              ? value.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" })
-              : placeholder}
+              ? value.toLocaleDateString(locale === "en" ? "en-US" : numberingLocale(locale), {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                })
+              : (placeholder ?? t("search.selectDate"))}
           </span>
         </PopoverTrigger>
         <PopoverContent align="start" className="w-auto p-0">
           <Calendar
             mode="single"
+            locale={calendarLocale(locale)}
+            dir={locale === "ar" ? "rtl" : "ltr"}
             selected={value}
             defaultMonth={value ?? minDate}
             onSelect={(date) => {

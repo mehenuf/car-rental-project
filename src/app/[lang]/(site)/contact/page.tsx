@@ -1,38 +1,25 @@
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { LiveChatTrigger } from "@/components/site/live-chat-trigger";
+import { getT } from "@/lib/i18n/dictionary";
 
 export const metadata = { title: "Contact Us" };
 
-const CHANNELS = [
-  {
-    icon: MessageCircle,
-    title: "Live chat",
-    body: "The fastest way to reach us — click to open the chat.",
-    isLiveChat: true,
-  },
-  {
-    icon: Mail,
-    title: "Email",
-    body: "support@bestcar.example",
-  },
-  {
-    icon: Phone,
-    title: "Phone",
-    body: "+44 20 7946 0958 (Mon-Fri, 9am-6pm GMT)",
-  },
-];
-
-export default function ContactPage() {
+export default async function ContactPage() {
+  const t = await getT();
+  const CHANNELS = [
+    { icon: MessageCircle, title: t("contact.chatTitle"), body: t("contact.chatBody"), isLiveChat: true },
+    { icon: Mail, title: t("contact.emailTitle"), body: "support@bestcar.example", isLiveChat: false },
+    { icon: Phone, title: t("contact.phoneTitle"), body: t("contact.phoneBody"), isLiveChat: false },
+  ];
   return (
     <div className="mx-auto flex max-w-3xl flex-col gap-(--space-lg) px-(--space-sm) py-(--space-2xl)">
       <ScrollReveal className="flex flex-col gap-(--space-2xs) text-center">
         <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Get in touch
+          {t("contact.title")}
         </h1>
         <p className="mx-auto max-w-xl text-muted-foreground">
-          Questions about a booking, a vehicle, or your account? Reach us through any of the
-          channels below.
+          {t("contact.intro")}
         </p>
       </ScrollReveal>
 

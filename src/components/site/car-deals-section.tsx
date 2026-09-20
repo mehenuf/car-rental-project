@@ -8,13 +8,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 import type { VehicleCardData } from "@/lib/queries";
 import type { VehicleCategory } from "@/types/database";
+import { useT } from "@/lib/i18n/provider";
 
-const TABS: { label: string; value: VehicleCategory }[] = [
-  { label: "Popular", value: "popular" },
-  { label: "Large Car", value: "large" },
-  { label: "Small Car", value: "small" },
-  { label: "Exclusive Car", value: "exclusive" },
-];
+const TAB_VALUES: VehicleCategory[] = ["popular", "large", "small", "exclusive"];
+const TAB_KEYS: Record<VehicleCategory, string> = {
+  popular: "enums.category.popular",
+  large: "cars.tabLarge",
+  small: "cars.tabSmall",
+  exclusive: "cars.tabExclusive",
+};
 
 const PAGE_SIZE = 8;
 
@@ -35,6 +37,7 @@ export function CarDealsSection({
   initialVehicles: VehicleCardData[];
   initialCount: number;
 }) {
+  const t = useT();
   const [activeTab, setActiveTab] = useState<VehicleCategory>("popular");
   const [page, setPage] = useState(1);
   const [items, setItems] = useState<VehicleCardData[]>(initialVehicles);
@@ -67,7 +70,7 @@ export function CarDealsSection({
         const body = (await res.json()) as unknown;
         if (!res.ok) {
           const message =
-            (body as { error?: { message?: string } })?.error?.message ?? "Failed to load vehicles";
+            (body as { error?: { message?: string } })?.error?.message ?? t("cars.loadFailed");
           throw new Error(message);
         }
         if (cancelled) return;
@@ -76,7 +79,7 @@ export function CarDealsSection({
         setItems((prev) => (page === 1 ? result.data : [...prev, ...result.data]));
         setError(null);
       } catch (err) {
-        if (!cancelled) setError(err instanceof Error ? err.message : "Failed to load vehicles");
+        if (!cancelled) setError(err instanceof Error ? err.message : t("cars.loadFailed"));
       } finally {
         if (!cancelled) setIsLoading(false);
       }
@@ -91,7 +94,7 @@ export function CarDealsSection({
     return () => {
       cancelled = true;
     };
-  }, [activeTab, page]);
+  }, [activeTab, page, t]);
 
   function handleTabChange(tab: VehicleCategory) {
     setActiveTab(tab);
@@ -105,26 +108,26 @@ export function CarDealsSection({
     <section id="rental-deals" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
       <ScrollReveal className="flex flex-col items-center gap-2 text-center" delay={0.1}>
         <h2 className="font-heading text-3xl font-bold text-foreground">
-          Most Popular Car Rental Deals
+          {t("cars.dealsTitle")}
         </h2>
         <p className="max-w-xl text-muted-foreground">
-          A well-maintained fleet ready to book for any trip, short or long.
+          {t("cars.dealsBody")}
         </p>
       </ScrollReveal>
 
       <div className="mt-(--space-md) flex items-center justify-center gap-6 border-b border-border">
-        {TABS.map((tab) => (
+        {TAB_VALUES.map((tab) => (
           <button
-            key={tab.value}
+            key={tab}
             type="button"
-            onClick={() => handleTabChange(tab.value)}
+            onClick={() => handleTabChange(tab)}
             className={cn(
               "relative pb-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
-              activeTab === tab.value &&
+              activeTab === tab &&
                 "text-foreground after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:rounded-full after:bg-accent"
             )}
           >
-            {tab.label}
+            {t(TAB_KEYS[tab])}
           </button>
         ))}
       </div>
@@ -147,10 +150,10 @@ export function CarDealsSection({
           disabled={!hasMore || isLoading}
           onClick={() => setPage((p) => p + 1)}
         >
-          {isLoading && page > 1 ? "Loading..." : hasMore ? "Show more cars" : "No more cars"}
+          {isLoading && page > 1 ? t("cars.loading") : hasMore ? t("cars.showMore") : t("cars.noMore")}
         </Button>
         <span className="w-32 text-center text-sm text-muted-foreground sm:text-end">
-          {totalCount} {totalCount === 1 ? "Car" : "Cars"}
+          {t("cars.total", { count: totalCount })}
         </span>
       </div>
     </section>

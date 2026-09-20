@@ -73,5 +73,240 @@
   "error": {
     "title": "Etwas ist schiefgelaufen",
     "body": "Beim Laden dieser Seite ist ein Problem aufgetreten. Versuchen Sie es erneut oder gehen Sie zurück zur Startseite."
+  },
+  "enums": {
+    "category": {
+      "popular": "Beliebt",
+      "large": "Groß",
+      "small": "Klein",
+      "exclusive": "Exklusiv"
+    },
+    "transmission": {
+      "automatic": "Automatik",
+      "manual": "Schaltgetriebe"
+    },
+    "fuel": {
+      "petrol": "Benzin",
+      "diesel": "Diesel",
+      "hybrid": "Hybrid",
+      "electric": "Elektro"
+    }
+  },
+  "search": {
+    "pickUp": "Abholung",
+    "dropOff": "Rückgabe",
+    "location": "Ort",
+    "date": "Datum",
+    "time": "Uhrzeit",
+    "selectCity": "Stadt auswählen",
+    "selectDate": "Datum wählen",
+    "submit": "Suchen",
+    "errBothDates": "Bitte wählen Sie ein Abhol- und ein Rückgabedatum.",
+    "errDropAfter": "Das Rückgabedatum muss nach dem Abholdatum liegen."
+  },
+  "cars": {
+    "title": "Unsere Flotte entdecken",
+    "showingDates": "Fahrzeuge mit Abholung am {from} und Rückgabe am {to}.",
+    "found": {
+      "one": "{count} Fahrzeug gefunden",
+      "other": "{count} Fahrzeuge gefunden"
+    },
+    "emptyTitle": "Keine Fahrzeuge passen zu Ihren Filtern",
+    "emptyBody": "Erweitern Sie den Preisbereich oder entfernen Sie einige Filter, um mehr Ergebnisse zu sehen.",
+    "clearFilters": "Filter zurücksetzen",
+    "filters": "Filter",
+    "clearAll": "Alle zurücksetzen",
+    "category": "Kategorie",
+    "pricePerDay": "Preis pro Tag",
+    "priceRange": "Preisbereich pro Tag",
+    "seats": "Sitze",
+    "seatsOption": "{count}+ Sitze",
+    "transmission": "Getriebe",
+    "fuel": "Kraftstoff",
+    "any": "Beliebig",
+    "sortPriceAsc": "Preis: aufsteigend",
+    "sortPriceDesc": "Preis: absteigend",
+    "sortRating": "Am besten bewertet",
+    "sortNewest": "Neueste",
+    "pagination": "Seitennavigation",
+    "prevPage": "Vorherige Seite",
+    "nextPage": "Nächste Seite",
+    "dealsTitle": "Die beliebtesten Mietwagen-Angebote",
+    "dealsBody": "Eine gepflegte Flotte, bereit für jede Reise, ob kurz oder lang.",
+    "tabLarge": "Großer Wagen",
+    "tabSmall": "Kleiner Wagen",
+    "tabExclusive": "Exklusiver Wagen",
+    "loading": "Wird geladen...",
+    "showMore": "Mehr Fahrzeuge anzeigen",
+    "noMore": "Keine weiteren Fahrzeuge",
+    "total": {
+      "one": "{count} Fahrzeug",
+      "other": "{count} Fahrzeuge"
+    },
+    "loadFailed": "Fahrzeuge konnten nicht geladen werden"
+  },
+  "vehicle": {
+    "perDay": "/Tag",
+    "soldOut": "Ausgebucht",
+    "rentNow": "Jetzt mieten",
+    "addFavorite": "{name} zu Favoriten hinzufügen",
+    "removeFavorite": "{name} aus Favoriten entfernen",
+    "features": "Ausstattung",
+    "similar": "Ähnliche Fahrzeuge",
+    "reviews": {
+      "one": "({count} Bewertung)",
+      "other": "({count} Bewertungen)"
+    },
+    "seats": "Sitze",
+    "doors": "Türen",
+    "transmission": "Getriebe",
+    "fuel": "Kraftstoff",
+    "photos": "Fotos von {name}",
+    "showPhoto": "Foto {n} von {total} anzeigen"
+  },
+  "booking": {
+    "from": "Ab",
+    "pickUp": "Abholung",
+    "dropOff": "Rückgabe",
+    "extras": "Extras",
+    "optionalExtras": "Optionale Extras",
+    "included": "{name} ist inklusive.",
+    "promoCode": "Aktionscode",
+    "enterCode": "Code eingeben",
+    "apply": "Anwenden",
+    "remove": "Entfernen",
+    "driverAge": "Alter des Fahrers (optional)",
+    "calculating": "Preis wird berechnet...",
+    "bookNow": "Jetzt buchen",
+    "soldOut": "Ausgebucht",
+    "unavailable": "Dieses Fahrzeug ist derzeit nicht buchbar.",
+    "priceChanged": "Der Preis hat sich auf {amount} geändert. Bitte prüfen Sie ihn und bestätigen Sie erneut.",
+    "createFailed": "Die Buchung konnte nicht erstellt werden",
+    "dialogTitle": "Buchung abschließen",
+    "dialogDesc": {
+      "one": "{name}, {count} Tag für {total}",
+      "other": "{name}, {count} Tage für {total}"
+    },
+    "fullName": "Vollständiger Name",
+    "email": "E-Mail",
+    "phone": "Telefon (optional)",
+    "cancel": "Abbrechen",
+    "confirm": "Buchung bestätigen",
+    "submitting": "Wird gebucht..."
+  },
+  "quote": {
+    "total": "Gesamt",
+    "allIncluded": "Alle verpflichtenden Gebühren und Steuern sind in dieser Summe enthalten.",
+    "deposit": "Bei der Abholung wird eine erstattbare Kaution von {amount} reserviert. Sie ist nicht Teil der Gesamtsumme.",
+    "base": {
+      "one": "Grundpreis ({count} Tag)",
+      "other": "Grundpreis ({count} Tage)"
+    },
+    "season": "Saisonaufschlag",
+    "weekend": "Wochenendtarif",
+    "weekly": "Wochenrabatt",
+    "monthly": "Monatsrabatt",
+    "promo": "Aktion {code}",
+    "youngDriver": {
+      "one": "Junge-Fahrer-Gebühr ({count} Tag)",
+      "other": "Junge-Fahrer-Gebühr ({count} Tage)"
+    },
+    "oneWay": "Einweggebühr",
+    "pickupSurcharge": "Aufschlag für den Abholort",
+    "serviceFee": "Servicegebühr",
+    "taxIncluded": "{name} (inklusive)",
+    "cancelTerms": "Die Stornobedingungen legt die Autovermietung fest.",
+    "cancelNoRefundAfter": "Danach keine Erstattung",
+    "cancelFree": "Kostenlose Stornierung bis {hours} vor der Abholung",
+    "cancelPartial": "{percent} % Erstattung bis {hours} vor der Abholung",
+    "cancelNoRefundWithin": "Keine Erstattung innerhalb von {hours} vor der Abholung",
+    "hours": {
+      "one": "{count} Stunde",
+      "other": "{count} Stunden"
+    }
+  },
+  "checkout": {
+    "title": "Zahlung abschließen",
+    "ref": "Ref. {reference}",
+    "holdExpired": "Ihre Reservierung ist abgelaufen. Das Fahrzeug wurde freigegeben.",
+    "holding": "Wir halten dieses Fahrzeug noch {time} für Sie bereit.",
+    "findAnother": "Anderes Fahrzeug finden",
+    "confirmCode": "Bestätigungscode",
+    "testModeHint": "Testmodus: 000000 eingeben zum Bestätigen, alles andere lässt die Zahlung fehlschlagen.",
+    "confirming": "Wird bestätigt...",
+    "confirmPayment": "Zahlung bestätigen",
+    "paymentMethod": "Zahlungsart",
+    "stripeNote": "Im nächsten Schritt geben Sie Ihre Kartendaten sicher bei Stripe ein.",
+    "testCard": "Testkartennummer",
+    "testOutcome": "Testergebnis (optional)",
+    "simulated": "Simulierte Zahlungen: Es wird kein echtes Geld bewegt. Geben Sie niemals eine echte Kartennummer ein.",
+    "processing": "Wird verarbeitet...",
+    "continueCard": "Weiter zu den Kartendaten",
+    "pay": "{amount} bezahlen",
+    "orderSummary": "Bestellübersicht",
+    "total": "Gesamt",
+    "depositNote": "Auf Ihrer Zahlungsart wird eine erstattbare Kaution von {amount} reserviert. Sie wird nicht abgebucht und nach der Miete freigegeben.",
+    "failed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+  "confirmation": {
+    "receivedTitle": "Buchung eingegangen",
+    "receivedBody": "Ihre Buchung ist eingegangen und wartet auf die Bestätigung. Wir senden Ihnen eine E-Mail, sobald sie bestätigt ist.",
+    "cancelledTitle": "Buchung storniert",
+    "cancelledRefundedBody": "Ihre Buchung wurde storniert und Ihre Zahlung erstattet.",
+    "cancelledBody": "Ihre Buchung wurde storniert.",
+    "confirmedTitle": "Buchung bestätigt",
+    "confirmedBody": "Ihre Zahlung ist eingegangen und Ihre Buchung ist bestätigt. Bis bald bei der Abholung.",
+    "payTitle": "Zahlung abschließen",
+    "payBody": "Ihre Buchung ist für Sie reserviert. Schließen Sie die Zahlung ab, um sie zu bestätigen. Wenn Sie gerade bezahlt haben, aktualisiert sich diese Seite gleich.",
+    "expiredTitle": "Buchung abgelaufen",
+    "expiredBody": "Die Zahlungsfrist für diese Buchung ist abgelaufen und das Fahrzeug wurde freigegeben. Es wurde nichts abgebucht.",
+    "reference": "Referenz",
+    "vehicle": "Fahrzeug",
+    "pickUp": "Abholung",
+    "dropOff": "Rückgabe",
+    "total": "Gesamt",
+    "payNow": "Jetzt bezahlen",
+    "viewBookings": "Meine Buchungen ansehen",
+    "browseMore": "Weitere Fahrzeuge ansehen"
+  },
+  "cancelBooking": {
+    "refundFailed": "Storniert. Ihre Erstattung konnte nicht automatisch verarbeitet werden; unser Team meldet sich bei Ihnen.",
+    "refunded": "Storniert. {amount} werden erstattet.",
+    "noRefund": "Storniert. Diese Stornierung liegt außerhalb der Erstattungsfrist, daher erfolgt keine Erstattung.",
+    "cancelled": "Storniert.",
+    "failed": "Diese Buchung konnte nicht storniert werden.",
+    "yes": "Ja, Buchung stornieren",
+    "busy": "Wird storniert...",
+    "keep": "Behalten",
+    "cancel": "Buchung stornieren"
+  },
+  "about": {
+    "title": "Autovermietung ohne Umwege",
+    "intro": "BestCar verbindet Mieter mit einer geprüften Fahrzeugflotte in jedem Land, in dem wir tätig sind. Wir haben die Plattform gebaut, die wir uns selbst gewünscht haben: klare Preise, eine schnelle Buchung und kein Zwang, ein Konto anzulegen, bevor man eine Gesamtsumme sieht.",
+    "v1Title": "Transparente Preise",
+    "v1Body": "Der Preis auf der Fahrzeugseite ist der Preis, den Sie zahlen. Keine versteckten Gebühren an der Kasse.",
+    "v2Title": "In Minuten gebucht",
+    "v2Body": "Daten wählen, Angaben bestätigen, fertig. Zum Start ist kein Konto nötig.",
+    "v3Title": "Geprüfte Flotte",
+    "v3Body": "Jedes angebotene Fahrzeug wird geprüft und versichert, bevor es auf der Plattform erscheint.",
+    "readyTitle": "Bereit zum Mieten?",
+    "readyBody": "Stöbern Sie in der Flotte und buchen Sie noch heute das passende Auto für Ihre Reise."
+  },
+  "contact": {
+    "title": "Kontakt aufnehmen",
+    "intro": "Fragen zu einer Buchung, einem Fahrzeug oder Ihrem Konto? Erreichen Sie uns über einen der folgenden Kanäle.",
+    "chatTitle": "Live-Chat",
+    "chatBody": "Der schnellste Weg zu uns: Klicken Sie, um den Chat zu öffnen.",
+    "emailTitle": "E-Mail",
+    "phoneTitle": "Telefon",
+    "phoneBody": "+44 20 7946 0958 (Mo-Fr, 9-18 Uhr GMT)"
+  },
+  "testimonials": {
+    "title": "Das Vertrauen Tausender zufriedener Kunden",
+    "subtitle": "Echte Geschichten von Mietern, die ihre nächste Reise mit BestCar gebucht haben.",
+    "prev": "Vorherige Kundenstimme",
+    "next": "Nächste Kundenstimme",
+    "goTo": "Zu Kundenstimme {n}",
+    "status": "Kundenstimme {n} von {total}"
   }
 }

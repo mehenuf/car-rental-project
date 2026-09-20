@@ -7,6 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/u
 import { Button } from "@/components/ui/button";
 import { LabeledSelectValue } from "@/components/labeled-select-value";
 import { formatCurrency } from "@/lib/format";
+import { useLocale, useT } from "@/lib/i18n/provider";
 import type { Fuel, Transmission, VehicleCategory } from "@/types/database";
 
 export const PRICE_MIN = 0;
@@ -21,12 +22,7 @@ export interface CarsFilters {
   fuel: Fuel | null;
 }
 
-const CATEGORY_OPTIONS: { label: string; value: VehicleCategory }[] = [
-  { label: "Popular", value: "popular" },
-  { label: "Large", value: "large" },
-  { label: "Small", value: "small" },
-  { label: "Exclusive", value: "exclusive" },
-];
+const CATEGORIES: VehicleCategory[] = ["popular", "large", "small", "exclusive"];
 
 const SEATS_OPTIONS = [2, 4, 5, 7];
 
@@ -47,6 +43,9 @@ export function CarsFilterSidebar({
   onFuelChange: (fuel: Fuel | null) => void;
   onClear: () => void;
 }) {
+  const t = useT();
+  const locale = useLocale();
+  const anyLabel = t("cars.any");
   const [priceDraft, setPriceDraft] = useState<[number, number]>([
     filters.minPrice,
     filters.maxPrice,
@@ -63,31 +62,31 @@ export function CarsFilterSidebar({
   return (
     <div className="flex flex-col gap-(--space-lg)">
       <div className="flex items-center justify-between">
-        <h2 className="font-heading text-lg font-semibold text-foreground">Filters</h2>
+        <h2 className="font-heading text-lg font-semibold text-foreground">{t("cars.filters")}</h2>
         <Button type="button" variant="ghost" size="sm" onClick={onClear}>
-          Clear all
+          {t("cars.clearAll")}
         </Button>
       </div>
 
       <div className="flex flex-col gap-(--space-xs)">
-        <h3 className="text-sm font-semibold text-foreground">Category</h3>
+        <h3 className="text-sm font-semibold text-foreground">{t("cars.category")}</h3>
         <div className="flex flex-col gap-2.5">
-          {CATEGORY_OPTIONS.map((option) => (
-            <label key={option.value} className="flex items-center gap-2.5 text-sm text-foreground">
+          {CATEGORIES.map((category) => (
+            <label key={category} className="flex items-center gap-2.5 text-sm text-foreground">
               <Checkbox
-                checked={filters.categories.includes(option.value)}
-                onCheckedChange={(checked) => onCategoryToggle(option.value, checked === true)}
+                checked={filters.categories.includes(category)}
+                onCheckedChange={(checked) => onCategoryToggle(category, checked === true)}
               />
-              {option.label}
+              {t(`enums.category.${category}`)}
             </label>
           ))}
         </div>
       </div>
 
       <div className="flex flex-col gap-(--space-xs)">
-        <h3 className="text-sm font-semibold text-foreground">Price per day</h3>
+        <h3 className="text-sm font-semibold text-foreground">{t("cars.pricePerDay")}</h3>
         <Slider
-          aria-label="Price per day range"
+          aria-label={t("cars.priceRange")}
           value={priceDraft}
           min={PRICE_MIN}
           max={PRICE_MAX}
@@ -96,14 +95,14 @@ export function CarsFilterSidebar({
           onValueCommitted={(value) => onPriceCommit(value as [number, number])}
         />
         <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>{formatCurrency(priceDraft[0])}</span>
-          <span>{formatCurrency(priceDraft[1])}</span>
+          <span>{formatCurrency(priceDraft[0], locale)}</span>
+          <span>{formatCurrency(priceDraft[1], locale)}</span>
         </div>
       </div>
 
       <div className="flex flex-col gap-(--space-xs)">
         <h3 id="filter-seats-label" className="text-sm font-semibold text-foreground">
-          Seats
+          {t("cars.seats")}
         </h3>
         <Select
           value={filters.seats ? String(filters.seats) : "any"}
@@ -112,16 +111,16 @@ export function CarsFilterSidebar({
           <SelectTrigger aria-labelledby="filter-seats-label" className="w-full">
             <LabeledSelectValue
               options={[
-                { value: "any", label: "Any" },
-                ...SEATS_OPTIONS.map((n) => ({ value: String(n), label: `${n}+ seats` })),
+                { value: "any", label: anyLabel },
+                ...SEATS_OPTIONS.map((n) => ({ value: String(n), label: t("cars.seatsOption", { count: n }) })),
               ]}
             />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="any">Any</SelectItem>
+            <SelectItem value="any">{anyLabel}</SelectItem>
             {SEATS_OPTIONS.map((n) => (
               <SelectItem key={n} value={String(n)}>
-                {n}+ seats
+                {t("cars.seatsOption", { count: n })}
               </SelectItem>
             ))}
           </SelectContent>
@@ -130,7 +129,7 @@ export function CarsFilterSidebar({
 
       <div className="flex flex-col gap-(--space-xs)">
         <h3 id="filter-transmission-label" className="text-sm font-semibold text-foreground">
-          Transmission
+          {t("cars.transmission")}
         </h3>
         <Select
           value={filters.transmission ?? "any"}
@@ -141,23 +140,23 @@ export function CarsFilterSidebar({
           <SelectTrigger aria-labelledby="filter-transmission-label" className="w-full">
             <LabeledSelectValue
               options={[
-                { value: "any", label: "Any" },
-                { value: "automatic", label: "Automatic" },
-                { value: "manual", label: "Manual" },
+                { value: "any", label: anyLabel },
+                { value: "automatic", label: t("enums.transmission.automatic") },
+                { value: "manual", label: t("enums.transmission.manual") },
               ]}
             />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="any">Any</SelectItem>
-            <SelectItem value="automatic">Automatic</SelectItem>
-            <SelectItem value="manual">Manual</SelectItem>
+            <SelectItem value="any">{anyLabel}</SelectItem>
+            <SelectItem value="automatic">{t("enums.transmission.automatic")}</SelectItem>
+            <SelectItem value="manual">{t("enums.transmission.manual")}</SelectItem>
           </SelectContent>
         </Select>
       </div>
 
       <div className="flex flex-col gap-(--space-xs)">
         <h3 id="filter-fuel-label" className="text-sm font-semibold text-foreground">
-          Fuel Type
+          {t("cars.fuel")}
         </h3>
         <Select
           value={filters.fuel ?? "any"}
@@ -166,20 +165,20 @@ export function CarsFilterSidebar({
           <SelectTrigger aria-labelledby="filter-fuel-label" className="w-full">
             <LabeledSelectValue
               options={[
-                { value: "any", label: "Any" },
-                { value: "petrol", label: "Petrol" },
-                { value: "diesel", label: "Diesel" },
-                { value: "hybrid", label: "Hybrid" },
-                { value: "electric", label: "Electric" },
+                { value: "any", label: anyLabel },
+                { value: "petrol", label: t("enums.fuel.petrol") },
+                { value: "diesel", label: t("enums.fuel.diesel") },
+                { value: "hybrid", label: t("enums.fuel.hybrid") },
+                { value: "electric", label: t("enums.fuel.electric") },
               ]}
             />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="any">Any</SelectItem>
-            <SelectItem value="petrol">Petrol</SelectItem>
-            <SelectItem value="diesel">Diesel</SelectItem>
-            <SelectItem value="hybrid">Hybrid</SelectItem>
-            <SelectItem value="electric">Electric</SelectItem>
+            <SelectItem value="any">{anyLabel}</SelectItem>
+            <SelectItem value="petrol">{t("enums.fuel.petrol")}</SelectItem>
+            <SelectItem value="diesel">{t("enums.fuel.diesel")}</SelectItem>
+            <SelectItem value="hybrid">{t("enums.fuel.hybrid")}</SelectItem>
+            <SelectItem value="electric">{t("enums.fuel.electric")}</SelectItem>
           </SelectContent>
         </Select>
       </div>

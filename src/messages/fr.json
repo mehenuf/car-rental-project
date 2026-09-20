@@ -73,5 +73,240 @@
   "error": {
     "title": "Une erreur est survenue",
     "body": "Nous avons rencontré un problème au chargement de cette page. Réessayez ou retournez à l'accueil."
+  },
+  "enums": {
+    "category": {
+      "popular": "Populaire",
+      "large": "Grande",
+      "small": "Petite",
+      "exclusive": "Exclusive"
+    },
+    "transmission": {
+      "automatic": "Automatique",
+      "manual": "Manuelle"
+    },
+    "fuel": {
+      "petrol": "Essence",
+      "diesel": "Diesel",
+      "hybrid": "Hybride",
+      "electric": "Électrique"
+    }
+  },
+  "search": {
+    "pickUp": "Retrait",
+    "dropOff": "Retour",
+    "location": "Lieu",
+    "date": "Date",
+    "time": "Heure",
+    "selectCity": "Choisissez votre ville",
+    "selectDate": "Choisir la date",
+    "submit": "Rechercher",
+    "errBothDates": "Veuillez choisir une date de retrait et une date de retour.",
+    "errDropAfter": "La date de retour doit être postérieure à la date de retrait."
+  },
+  "cars": {
+    "title": "Découvrez notre flotte",
+    "showingDates": "Voitures disponibles pour un retrait le {from} et un retour le {to}.",
+    "found": {
+      "one": "{count} voiture trouvée",
+      "other": "{count} voitures trouvées"
+    },
+    "emptyTitle": "Aucune voiture ne correspond à vos filtres",
+    "emptyBody": "Élargissez votre fourchette de prix ou retirez quelques filtres pour voir plus de résultats.",
+    "clearFilters": "Effacer les filtres",
+    "filters": "Filtres",
+    "clearAll": "Tout effacer",
+    "category": "Catégorie",
+    "pricePerDay": "Prix par jour",
+    "priceRange": "Fourchette de prix par jour",
+    "seats": "Places",
+    "seatsOption": "{count}+ places",
+    "transmission": "Boîte de vitesses",
+    "fuel": "Carburant",
+    "any": "Indifférent",
+    "sortPriceAsc": "Prix : croissant",
+    "sortPriceDesc": "Prix : décroissant",
+    "sortRating": "Mieux notées",
+    "sortNewest": "Plus récentes",
+    "pagination": "Pagination",
+    "prevPage": "Page précédente",
+    "nextPage": "Page suivante",
+    "dealsTitle": "Les offres de location les plus populaires",
+    "dealsBody": "Une flotte bien entretenue, prête à réserver pour tout voyage, court ou long.",
+    "tabLarge": "Grande voiture",
+    "tabSmall": "Petite voiture",
+    "tabExclusive": "Voiture exclusive",
+    "loading": "Chargement...",
+    "showMore": "Voir plus de voitures",
+    "noMore": "Plus de voitures",
+    "total": {
+      "one": "{count} voiture",
+      "other": "{count} voitures"
+    },
+    "loadFailed": "Impossible de charger les véhicules"
+  },
+  "vehicle": {
+    "perDay": "/jour",
+    "soldOut": "Épuisé",
+    "rentNow": "Louer",
+    "addFavorite": "Ajouter {name} aux favoris",
+    "removeFavorite": "Retirer {name} des favoris",
+    "features": "Équipements",
+    "similar": "Véhicules similaires",
+    "reviews": {
+      "one": "({count} avis)",
+      "other": "({count} avis)"
+    },
+    "seats": "Places",
+    "doors": "Portes",
+    "transmission": "Boîte",
+    "fuel": "Carburant",
+    "photos": "Photos de {name}",
+    "showPhoto": "Afficher la photo {n} sur {total}"
+  },
+  "booking": {
+    "from": "À partir de",
+    "pickUp": "Retrait",
+    "dropOff": "Retour",
+    "extras": "Options",
+    "optionalExtras": "Options facultatives",
+    "included": "{name} est inclus.",
+    "promoCode": "Code promo",
+    "enterCode": "Saisir le code",
+    "apply": "Appliquer",
+    "remove": "Retirer",
+    "driverAge": "Âge du conducteur (facultatif)",
+    "calculating": "Calcul de votre prix...",
+    "bookNow": "Réserver",
+    "soldOut": "Épuisé",
+    "unavailable": "Ce véhicule n'est pas disponible à la réservation pour le moment.",
+    "priceChanged": "Le prix est passé à {amount}. Vérifiez-le puis confirmez à nouveau.",
+    "createFailed": "Impossible de créer la réservation",
+    "dialogTitle": "Finalisez votre réservation",
+    "dialogDesc": {
+      "one": "{name}, {count} jour pour {total}",
+      "other": "{name}, {count} jours pour {total}"
+    },
+    "fullName": "Nom complet",
+    "email": "E-mail",
+    "phone": "Téléphone (facultatif)",
+    "cancel": "Annuler",
+    "confirm": "Confirmer la réservation",
+    "submitting": "Réservation..."
+  },
+  "quote": {
+    "total": "Total",
+    "allIncluded": "Tous les frais et taxes obligatoires sont inclus dans ce total.",
+    "deposit": "Une caution remboursable de {amount} est bloquée lors du retrait. Elle ne fait pas partie du total.",
+    "base": {
+      "one": "Tarif de base ({count} jour)",
+      "other": "Tarif de base ({count} jours)"
+    },
+    "season": "Ajustement saisonnier",
+    "weekend": "Tarif week-end",
+    "weekly": "Remise hebdomadaire",
+    "monthly": "Remise mensuelle",
+    "promo": "Promo {code}",
+    "youngDriver": {
+      "one": "Frais jeune conducteur ({count} jour)",
+      "other": "Frais jeune conducteur ({count} jours)"
+    },
+    "oneWay": "Frais de retour dans une autre agence",
+    "pickupSurcharge": "Supplément lieu de retrait",
+    "serviceFee": "Frais de service",
+    "taxIncluded": "{name} (inclus)",
+    "cancelTerms": "Les conditions d'annulation sont fixées par le loueur.",
+    "cancelNoRefundAfter": "Aucun remboursement ensuite",
+    "cancelFree": "Annulation gratuite jusqu'à {hours} avant le retrait",
+    "cancelPartial": "Remboursement de {percent} % jusqu'à {hours} avant le retrait",
+    "cancelNoRefundWithin": "Aucun remboursement dans les {hours} précédant le retrait",
+    "hours": {
+      "one": "{count} heure",
+      "other": "{count} heures"
+    }
+  },
+  "checkout": {
+    "title": "Finalisez votre paiement",
+    "ref": "Réf. {reference}",
+    "holdExpired": "Votre réservation a expiré. La voiture a été libérée.",
+    "holding": "Nous vous gardons cette voiture pendant {time}.",
+    "findAnother": "Trouver une autre voiture",
+    "confirmCode": "Code de confirmation",
+    "testModeHint": "Mode test : saisissez 000000 pour valider, tout autre code pour échouer.",
+    "confirming": "Confirmation...",
+    "confirmPayment": "Confirmer le paiement",
+    "paymentMethod": "Moyen de paiement",
+    "stripeNote": "À l'étape suivante, vous saisirez vos coordonnées bancaires en toute sécurité avec Stripe.",
+    "testCard": "Numéro de carte de test",
+    "testOutcome": "Résultat du test (facultatif)",
+    "simulated": "Paiements simulés : aucun argent réel n'est débité. Ne saisissez jamais un vrai numéro de carte.",
+    "processing": "Traitement...",
+    "continueCard": "Continuer vers la carte",
+    "pay": "Payer {amount}",
+    "orderSummary": "Récapitulatif de la commande",
+    "total": "Total",
+    "depositNote": "Une caution remboursable de {amount} est bloquée sur votre moyen de paiement. Elle n'est pas débitée et est libérée après la location.",
+    "failed": "Une erreur est survenue. Veuillez réessayer."
+  },
+  "confirmation": {
+    "receivedTitle": "Réservation reçue",
+    "receivedBody": "Votre réservation a bien été reçue et attend sa confirmation. Nous vous enverrons un e-mail dès qu'elle sera confirmée.",
+    "cancelledTitle": "Réservation annulée",
+    "cancelledRefundedBody": "Votre réservation a été annulée et votre paiement remboursé.",
+    "cancelledBody": "Votre réservation a été annulée.",
+    "confirmedTitle": "Réservation confirmée",
+    "confirmedBody": "Votre paiement a été reçu et votre réservation est confirmée. À bientôt au retrait.",
+    "payTitle": "Finalisez votre paiement",
+    "payBody": "Votre réservation est mise de côté pour vous. Terminez le paiement pour la confirmer. Si vous venez de payer, cette page se met à jour dans un instant.",
+    "expiredTitle": "Réservation expirée",
+    "expiredBody": "Le délai de paiement de cette réservation est écoulé et la voiture a été libérée. Vous n'avez pas été débité.",
+    "reference": "Référence",
+    "vehicle": "Véhicule",
+    "pickUp": "Retrait",
+    "dropOff": "Retour",
+    "total": "Total",
+    "payNow": "Payer maintenant",
+    "viewBookings": "Voir mes réservations",
+    "browseMore": "Voir plus de voitures"
+  },
+  "cancelBooking": {
+    "refundFailed": "Annulée. Votre remboursement n'a pas pu être traité automatiquement ; notre équipe vous recontactera.",
+    "refunded": "Annulée. {amount} vous seront remboursés.",
+    "noRefund": "Annulée. Cette annulation est hors délai de remboursement : aucun remboursement n'est dû.",
+    "cancelled": "Annulée.",
+    "failed": "Impossible d'annuler cette réservation.",
+    "yes": "Oui, annuler la réservation",
+    "busy": "Annulation...",
+    "keep": "La conserver",
+    "cancel": "Annuler la réservation"
+  },
+  "about": {
+    "title": "La location de voiture, sans détour",
+    "intro": "BestCar met les locataires en relation avec une flotte de véhicules vérifiés dans chaque pays où nous sommes présents. Nous avons créé la plateforme que nous aurions aimé avoir : des prix clairs, une réservation rapide et aucune obligation de créer un compte pour voir un total.",
+    "v1Title": "Prix transparents",
+    "v1Body": "Le prix affiché sur la page d'une voiture est celui que vous payez. Aucun frais caché au paiement.",
+    "v2Title": "Réservez en quelques minutes",
+    "v2Body": "Choisissez vos dates, confirmez vos informations, et c'est fait. Aucun compte requis pour commencer.",
+    "v3Title": "Flotte vérifiée",
+    "v3Body": "Chaque véhicule proposé est inspecté et assuré avant sa mise en ligne sur la plateforme.",
+    "readyTitle": "Prêt à louer ?",
+    "readyBody": "Parcourez la flotte et réservez dès aujourd'hui la voiture idéale pour votre voyage."
+  },
+  "contact": {
+    "title": "Contactez-nous",
+    "intro": "Une question sur une réservation, un véhicule ou votre compte ? Écrivez-nous par l'un des canaux ci-dessous.",
+    "chatTitle": "Chat en direct",
+    "chatBody": "Le moyen le plus rapide de nous joindre : cliquez pour ouvrir le chat.",
+    "emailTitle": "E-mail",
+    "phoneTitle": "Téléphone",
+    "phoneBody": "+44 20 7946 0958 (lun-ven, 9h-18h GMT)"
+  },
+  "testimonials": {
+    "title": "La confiance de milliers de clients satisfaits",
+    "subtitle": "De vrais témoignages de clients qui ont réservé leur prochain voyage avec BestCar.",
+    "prev": "Témoignage précédent",
+    "next": "Témoignage suivant",
+    "goTo": "Aller au témoignage {n}",
+    "status": "Témoignage {n} sur {total}"
   }
 }

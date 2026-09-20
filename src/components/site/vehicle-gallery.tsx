@@ -3,8 +3,10 @@
 import { useState } from "react";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { cn } from "@/lib/utils";
+import { useT } from "@/lib/i18n/provider";
 
 export function VehicleGallery({ images, name }: { images: string[]; name: string }) {
+  const t = useT();
   const [active, setActive] = useState(0);
   const safeImages = images.length > 0 ? images : [];
   const activeSrc = safeImages[active] ?? safeImages[0];
@@ -25,14 +27,14 @@ export function VehicleGallery({ images, name }: { images: string[]; name: strin
         )}
       </div>
       {safeImages.length > 1 && (
-        <div role="tablist" aria-label={`${name} photos`} className="flex gap-2 overflow-x-auto">
+        <div role="tablist" aria-label={t("vehicle.photos", { name })} className="flex gap-2 overflow-x-auto">
           {safeImages.map((src, i) => (
             <button
               key={`${src}-${i}`}
               type="button"
               role="tab"
               aria-selected={i === active}
-              aria-label={`Show photo ${i + 1} of ${safeImages.length}`}
+              aria-label={t("vehicle.showPhoto", { n: i + 1, total: safeImages.length })}
               onClick={() => setActive(i)}
               className={cn(
                 "relative size-16 shrink-0 overflow-hidden rounded-lg ring-2 transition-all",

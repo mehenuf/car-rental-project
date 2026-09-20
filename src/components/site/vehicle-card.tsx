@@ -13,6 +13,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/format";
 import { cn } from "@/lib/utils";
 import type { VehicleCardData } from "@/lib/queries";
+import { useLocale, useT } from "@/lib/i18n/provider";
 
 gsap.registerPlugin(useGSAP);
 
@@ -22,6 +23,8 @@ gsap.registerPlugin(useGSAP);
 const MAX_TILT_DEG = 6;
 
 export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData; searchQuery?: string }) {
+  const t = useT();
+  const locale = useLocale();
   const href = `/cars/${vehicle.slug}${searchQuery ? `?${searchQuery}` : ""}`;
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(vehicle.id);
@@ -89,7 +92,9 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
           type="button"
           onClick={() => toggleFavorite(vehicle.id)}
           aria-label={
-            favorited ? `Remove ${vehicle.name} from favorites` : `Add ${vehicle.name} to favorites`
+            favorited
+              ? t("vehicle.removeFavorite", { name: vehicle.name })
+              : t("vehicle.addFavorite", { name: vehicle.name })
           }
           aria-pressed={favorited}
           className="flex size-11 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:text-destructive"
@@ -111,23 +116,23 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
         />
         {soldOut && (
           <Badge variant="outline" className="absolute top-2 start-2 border-0 bg-card/90 text-foreground">
-            Sold Out
+            {t("vehicle.soldOut")}
           </Badge>
         )}
       </Link>
 
       <div data-chat-avoid className="flex items-center justify-between gap-2 p-(--space-sm)">
         <span className="font-heading text-lg font-bold text-foreground">
-          {formatCurrency(vehicle.price_per_day)}
-          <span className="text-sm font-normal text-muted-foreground">/day</span>
+          {formatCurrency(vehicle.price_per_day, locale)}
+          <span className="text-sm font-normal text-muted-foreground">{t("vehicle.perDay")}</span>
         </span>
         {soldOut ? (
           <span className={buttonVariants({ size: "sm", variant: "outline", className: "pointer-events-none opacity-60" })}>
-            Sold Out
+            {t("vehicle.soldOut")}
           </span>
         ) : (
           <Link href={href} className={buttonVariants({ size: "sm" })}>
-            Rent Now
+            {t("vehicle.rentNow")}
           </Link>
         )}
       </div>

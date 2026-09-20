@@ -73,5 +73,233 @@
   "error": {
     "title": "出了点问题",
     "body": "加载此页面时遇到问题。请重试，或返回首页。"
+  },
+  "enums": {
+    "category": {
+      "popular": "热门",
+      "large": "大型",
+      "small": "小型",
+      "exclusive": "尊享"
+    },
+    "transmission": {
+      "automatic": "自动挡",
+      "manual": "手动挡"
+    },
+    "fuel": {
+      "petrol": "汽油",
+      "diesel": "柴油",
+      "hybrid": "混合动力",
+      "electric": "纯电动"
+    }
+  },
+  "search": {
+    "pickUp": "取车",
+    "dropOff": "还车",
+    "location": "地点",
+    "date": "日期",
+    "time": "时间",
+    "selectCity": "选择城市",
+    "selectDate": "选择日期",
+    "submit": "搜索",
+    "errBothDates": "请选择取车和还车日期。",
+    "errDropAfter": "还车日期必须晚于取车日期。"
+  },
+  "cars": {
+    "title": "浏览我们的车队",
+    "showingDates": "显示 {from} 取车、{to} 还车的车辆。",
+    "found": {
+      "other": "找到 {count} 辆车"
+    },
+    "emptyTitle": "没有符合筛选条件的车辆",
+    "emptyBody": "请尝试放宽价格范围或清除部分筛选条件，以查看更多结果。",
+    "clearFilters": "清除筛选",
+    "filters": "筛选",
+    "clearAll": "全部清除",
+    "category": "类别",
+    "pricePerDay": "每日价格",
+    "priceRange": "每日价格范围",
+    "seats": "座位数",
+    "seatsOption": "{count} 座及以上",
+    "transmission": "变速箱",
+    "fuel": "燃料类型",
+    "any": "不限",
+    "sortPriceAsc": "价格：从低到高",
+    "sortPriceDesc": "价格：从高到低",
+    "sortRating": "评分最高",
+    "sortNewest": "最新上架",
+    "pagination": "分页",
+    "prevPage": "上一页",
+    "nextPage": "下一页",
+    "dealsTitle": "最受欢迎的租车优惠",
+    "dealsBody": "保养良好的车队，随时可预订，无论短途还是长途。",
+    "tabLarge": "大型车",
+    "tabSmall": "小型车",
+    "tabExclusive": "尊享车型",
+    "loading": "加载中...",
+    "showMore": "显示更多车辆",
+    "noMore": "没有更多车辆了",
+    "total": {
+      "other": "{count} 辆车"
+    },
+    "loadFailed": "无法加载车辆"
+  },
+  "vehicle": {
+    "perDay": "/天",
+    "soldOut": "已订完",
+    "rentNow": "立即租车",
+    "addFavorite": "将 {name} 加入收藏",
+    "removeFavorite": "将 {name} 从收藏中移除",
+    "features": "配置特色",
+    "similar": "相似车型",
+    "reviews": {
+      "other": "（{count} 条评价）"
+    },
+    "seats": "座位",
+    "doors": "车门",
+    "transmission": "变速箱",
+    "fuel": "燃料",
+    "photos": "{name} 的照片",
+    "showPhoto": "查看第 {n} 张照片，共 {total} 张"
+  },
+  "booking": {
+    "from": "起价",
+    "pickUp": "取车",
+    "dropOff": "还车",
+    "extras": "附加项",
+    "optionalExtras": "可选附加项",
+    "included": "{name}已包含。",
+    "promoCode": "优惠码",
+    "enterCode": "输入优惠码",
+    "apply": "应用",
+    "remove": "移除",
+    "driverAge": "驾驶员年龄（选填）",
+    "calculating": "正在计算价格...",
+    "bookNow": "立即预订",
+    "soldOut": "已订完",
+    "unavailable": "该车辆目前暂不可预订。",
+    "priceChanged": "价格已变为 {amount}。请核对后重新确认。",
+    "createFailed": "无法创建预订",
+    "dialogTitle": "完成您的预订",
+    "dialogDesc": {
+      "other": "{name}，{count} 天，共 {total}"
+    },
+    "fullName": "姓名",
+    "email": "电子邮箱",
+    "phone": "电话（选填）",
+    "cancel": "取消",
+    "confirm": "确认预订",
+    "submitting": "正在预订..."
+  },
+  "quote": {
+    "total": "合计",
+    "allIncluded": "所有必付费用和税费均已包含在合计中。",
+    "deposit": "取车时将冻结 {amount} 可退还押金。该押金不计入合计。",
+    "base": {
+      "other": "基础租金（{count} 天）"
+    },
+    "season": "季节性价格调整",
+    "weekend": "周末价格",
+    "weekly": "周租折扣",
+    "monthly": "月租折扣",
+    "promo": "优惠 {code}",
+    "youngDriver": {
+      "other": "年轻驾驶员费（{count} 天）"
+    },
+    "oneWay": "异地还车费",
+    "pickupSurcharge": "取车地点附加费",
+    "serviceFee": "服务费",
+    "taxIncluded": "{name}（已含）",
+    "cancelTerms": "取消条款由租车公司制定。",
+    "cancelNoRefundAfter": "此后不予退款",
+    "cancelFree": "取车前 {hours}可免费取消",
+    "cancelPartial": "取车前 {hours}可退还 {percent}%",
+    "cancelNoRefundWithin": "取车前 {hours}内不予退款",
+    "hours": {
+      "other": "{count} 小时"
+    }
+  },
+  "checkout": {
+    "title": "完成支付",
+    "ref": "编号 {reference}",
+    "holdExpired": "您的预订保留已过期，车辆已释放。",
+    "holding": "我们为您保留此车 {time}。",
+    "findAnother": "查找其他车辆",
+    "confirmCode": "确认码",
+    "testModeHint": "测试模式：输入 000000 通过，其他任何内容将失败。",
+    "confirming": "确认中...",
+    "confirmPayment": "确认支付",
+    "paymentMethod": "支付方式",
+    "stripeNote": "下一步您将通过 Stripe 安全地输入银行卡信息。",
+    "testCard": "测试卡号",
+    "testOutcome": "测试结果（选填）",
+    "simulated": "模拟支付：不会产生真实资金流动。切勿输入真实卡号。",
+    "processing": "处理中...",
+    "continueCard": "继续填写卡信息",
+    "pay": "支付 {amount}",
+    "orderSummary": "订单摘要",
+    "total": "合计",
+    "depositNote": "您的支付方式上将冻结 {amount} 可退还押金。该款项不会扣除，租期结束后释放。",
+    "failed": "出了点问题，请重试。"
+  },
+  "confirmation": {
+    "receivedTitle": "已收到预订",
+    "receivedBody": "我们已收到您的预订，正在等待确认。确认后我们会立即发送邮件通知您。",
+    "cancelledTitle": "预订已取消",
+    "cancelledRefundedBody": "您的预订已取消，款项已退还。",
+    "cancelledBody": "您的预订已取消。",
+    "confirmedTitle": "预订已确认",
+    "confirmedBody": "我们已收到您的付款，预订已确认。取车时见。",
+    "payTitle": "完成支付",
+    "payBody": "您的预订已为您保留。请完成支付以确认。如果您刚刚付款，本页面稍后会自动更新。",
+    "expiredTitle": "预订已过期",
+    "expiredBody": "此预订的支付时限已过，车辆已释放。您未被扣款。",
+    "reference": "预订编号",
+    "vehicle": "车辆",
+    "pickUp": "取车",
+    "dropOff": "还车",
+    "total": "合计",
+    "payNow": "立即支付",
+    "viewBookings": "查看我的预订",
+    "browseMore": "浏览更多车辆"
+  },
+  "cancelBooking": {
+    "refundFailed": "已取消。退款无法自动处理，我们的团队会跟进。",
+    "refunded": "已取消。将退还 {amount}。",
+    "noRefund": "已取消。本次取消已超出退款期限，因此无需退款。",
+    "cancelled": "已取消。",
+    "failed": "无法取消此预订。",
+    "yes": "是，取消预订",
+    "busy": "取消中...",
+    "keep": "保留预订",
+    "cancel": "取消预订"
+  },
+  "about": {
+    "title": "租车，不绕弯",
+    "intro": "BestCar 在我们服务的每个国家，将租车用户与经过审核的车队连接起来。我们打造了自己一直希望存在的平台：价格清晰、预订快捷，在看到总价之前无需注册账户。",
+    "v1Title": "价格透明",
+    "v1Body": "您在车辆页面看到的价格就是您要付的价格，结账时不会增加隐藏费用。",
+    "v2Title": "几分钟完成预订",
+    "v2Body": "选择日期，确认信息，即可完成。无需账户即可开始。",
+    "v3Title": "经审核的车队",
+    "v3Body": "每辆上架车辆在上线前都经过检查并已投保。",
+    "readyTitle": "准备好租车了吗？",
+    "readyBody": "浏览车队，今天就为您的旅程预订合适的车辆。"
+  },
+  "contact": {
+    "title": "联系我们",
+    "intro": "对预订、车辆或您的账户有疑问？可通过以下任一渠道联系我们。",
+    "chatTitle": "在线聊天",
+    "chatBody": "联系我们最快的方式：点击打开聊天。",
+    "emailTitle": "电子邮件",
+    "phoneTitle": "电话",
+    "phoneBody": "+44 20 7946 0958（周一至周五，格林尼治时间 9:00-18:00）"
+  },
+  "testimonials": {
+    "title": "深受成千上万满意客户信赖",
+    "subtitle": "来自使用 BestCar 预订下一次旅程的租车用户的真实故事。",
+    "prev": "上一条评价",
+    "next": "下一条评价",
+    "goTo": "前往第 {n} 条评价",
+    "status": "第 {n} 条评价，共 {total} 条"
   }
 }

@@ -3,15 +3,16 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { LabeledSelectValue } from "@/components/labeled-select-value";
-
-const SORT_OPTIONS = [
-  { value: "price_per_day:asc", label: "Price: Low to High" },
-  { value: "price_per_day:desc", label: "Price: High to Low" },
-  { value: "rating:desc", label: "Highest Rated" },
-  { value: "created_at:desc", label: "Newest" },
-];
+import { useT } from "@/lib/i18n/provider";
 
 export function CarsSortSelect({ value }: { value: string }) {
+  const t = useT();
+  const SORT_OPTIONS = [
+    { value: "price_per_day:asc", label: t("cars.sortPriceAsc") },
+    { value: "price_per_day:desc", label: t("cars.sortPriceDesc") },
+    { value: "rating:desc", label: t("cars.sortRating") },
+    { value: "created_at:desc", label: t("cars.sortNewest") },
+  ];
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();

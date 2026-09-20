@@ -9,6 +9,7 @@ import type { CarsFilters } from "@/components/site/cars-filter-sidebar";
 import { getVehicleCards } from "@/lib/queries";
 import { VehiclesQuerySchema, searchParamsToObject } from "@/lib/schemas";
 import { formatDate } from "@/lib/format";
+import { getLocale, getT } from "@/lib/i18n/dictionary";
 
 const PAGE_SIZE = 12;
 
@@ -24,6 +25,8 @@ export async function CarsPageContent({
 }: {
   searchParams: Record<string, string | string[] | undefined>;
 }) {
+  const t = await getT();
+  const locale = await getLocale();
   const params = new URLSearchParams();
   for (const [key, value] of Object.entries(searchParams)) {
     if (typeof value === "string") params.set(key, value);
@@ -86,12 +89,11 @@ export async function CarsPageContent({
     <div className="mx-auto max-w-7xl px-(--space-sm) py-(--space-lg)">
       <div className="flex flex-col gap-2">
         <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
-          Browse Our Fleet
+          {t("cars.title")}
         </h1>
         {pickupDate && dropoffDate && (
           <p className="text-sm text-muted-foreground">
-            Showing cars for pick-up on {formatDate(pickupDate)} through drop-off on{" "}
-            {formatDate(dropoffDate)}.
+            {t("cars.showingDates", { from: formatDate(pickupDate, locale), to: formatDate(dropoffDate, locale) })}
           </p>
         )}
       </div>
@@ -106,7 +108,7 @@ export async function CarsPageContent({
             <CarsMobileFiltersSheet filters={filterValues} />
 
             <span className="hidden text-sm text-muted-foreground sm:inline">
-              {count} car{count === 1 ? "" : "s"} found
+              {t("cars.found", { count })}
             </span>
 
             <CarsSortSelect value={`${sortBy}:${sortOrder}`} />
@@ -115,13 +117,13 @@ export async function CarsPageContent({
           {data.length === 0 ? (
             <div className="flex flex-col items-center gap-3 rounded-xl border border-dashed border-border py-(--space-xl) text-center">
               <p className="font-heading text-lg font-semibold text-foreground">
-                No cars match your filters
+                {t("cars.emptyTitle")}
               </p>
               <p className="max-w-sm text-sm text-muted-foreground">
-                Try widening your price range or clearing a few filters to see more results.
+                {t("cars.emptyBody")}
               </p>
               <Link href="/cars" className={buttonVariants({ variant: "outline" })}>
-                Clear filters
+                {t("cars.clearFilters")}
               </Link>
             </div>
           ) : (
