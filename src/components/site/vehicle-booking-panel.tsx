@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useMemo, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
@@ -15,9 +16,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DatePickerField } from "@/components/site/date-picker-field";
+import { QuoteBreakdown } from "@/components/site/quote-breakdown";
+import { useQuote, type QuoteParams } from "@/hooks/use-quote";
 import { CreateBookingSchema } from "@/lib/schemas";
 import { formatCurrency } from "@/lib/format";
-import { daysBetween } from "@/lib/date-range";
+import { formatMinor } from "@/lib/pricing/money";
 import type { Tables } from "@/types/database";
 
 function startOfToday(): Date {
@@ -37,6 +40,11 @@ interface BookingResponse {
   pickup_at: string;
   dropoff_at: string;
   total_amount: number;
+}
+
+interface BookingErrorResponse {
+  error: { message: string; code?: string };
+  quote?: { totalMinor: number; currency: string };
 }
 
 export function VehicleBookingPanel({
@@ -63,6 +71,12 @@ export function VehicleBookingPanel({
   const [dropoffDate, setDropoffDate] = useState<Date | undefined>(() =>
     parseDateParam(defaultDropoffDate, tomorrow)
   );
+
+  // Trip options that change the price.
+  const [selectedExtras, setSelectedExtras] = useState<Record<string, number>>({});
+  const [promoInput, setPromoInput] = useState("");
+  const [appliedPromo, setAppliedPromo] = useState<string | null>(null);
+  const [driverAgeInput, setDriverAgeInput] = useState("");
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [name, setName] = useState("");
@@ -92,10 +106,45 @@ export function VehicleBookingPanel({
     };
   }, []);
 
-  const days = pickupDate && dropoffDate ? daysBetween(pickupDate, dropoffDate) : 1;
-  const total = vehicle.price_per_day * days;
   const datesValid = Boolean(pickupDate && dropoffDate && dropoffDate > pickupDate);
   const soldOut = !vehicle.available || vehicle.stock <= 0;
+
+  const driverAge = useMemo(() => {
+    const n = Number(driverAgeInput);
+    return driverAgeInput.trim() !== "" && Number.isInteger(n) && n >= 16 && n <= 99 ? n : null;
+  }, [driverAgeInput]);
+
+  const extrasList = useMemo(
+    () =>
+      Object.entries(selectedExtras)
+        .filter(([, quantity]) => quantity > 0)
+        .map(([code, quantity]) => ({ code, quantity })),
+    [selectedExtras]
+  );
+
+  const pickupIso = pickupDate?.toISOString();
+  const dropoffIso = dropoffDate?.toISOString();
+  const quoteParams = useMemo<QuoteParams | null>(
+    () =>
+      datesValid && pickupIso && dropoffIso && !soldOut
+        ? {
+            vehicleId: vehicle.id,
+            pickupBranchId,
+            dropoffBranchId,
+            pickupAt: pickupIso,
+            dropoffAt: dropoffIso,
+            extras: extrasList,
+            promoCode: appliedPromo,
+            driverAge,
+          }
+        : null,
+    [datesValid, pickupIso, dropoffIso, soldOut, vehicle.id, pickupBranchId, dropoffBranchId, extrasList, appliedPromo, driverAge]
+  );
+
+  const { state: quoteState, stale, refresh } = useQuote(quoteParams);
+  const quoteData = quoteState.data;
+  const quoteReady = quoteState.status === "ready" && !stale && Boolean(quoteParams);
+  const isPricing = Boolean(quoteParams) && (quoteState.status === "loading" || stale);
 
   function handlePickupChange(date: Date | undefined) {
     setPickupDate(date);
@@ -106,9 +155,13 @@ export function VehicleBookingPanel({
     }
   }
 
+  function setExtraQuantity(code: string, quantity: number) {
+    setSelectedExtras((current) => ({ ...current, [code]: quantity }));
+  }
+
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!pickupDate || !dropoffDate) return;
+    if (!pickupDate || !dropoffDate || !quoteReady || !quoteData) return;
 
     const result = CreateBookingSchema.safeParse({
       vehicle_id: vehicle.id,
@@ -119,6 +172,9 @@ export function VehicleBookingPanel({
       dropoff_branch_id: dropoffBranchId,
       pickup_at: pickupDate,
       dropoff_at: dropoffDate,
+      extras: extrasList,
+      promo_code: appliedPromo ?? undefined,
+      driver_age: driverAge ?? undefined,
       source: "web",
     });
 
@@ -143,11 +199,21 @@ export function VehicleBookingPanel({
           ...result.data,
           pickup_at: result.data.pickup_at.toISOString(),
           dropoff_at: result.data.dropoff_at.toISOString(),
+          // Proves which price the customer saw; a changed price comes back as 409.
+          quote_token: quoteData.token,
         }),
       });
-      const body = (await res.json()) as BookingResponse | { error: { message: string } };
+      const body = (await res.json()) as BookingResponse | BookingErrorResponse;
       if (!res.ok) {
-        throw new Error("error" in body ? body.error.message : "Failed to create booking");
+        const failure = body as BookingErrorResponse;
+        if (res.status === 409) refresh(); // price changed, quote expired or dates taken: re-quote
+        if (failure.error?.code === "PRICE_CHANGED" && failure.quote) {
+          setSubmitError(
+            `The price changed to ${formatMinor(failure.quote.totalMinor, failure.quote.currency)}. Please review it and confirm again.`
+          );
+          return;
+        }
+        throw new Error(failure.error?.message ?? "Failed to create booking");
       }
       const booking = body as BookingResponse;
       router.push(`/booking-confirmation?ref=${encodeURIComponent(booking.reference)}`);
@@ -158,10 +224,16 @@ export function VehicleBookingPanel({
     }
   }
 
+  const availableExtras = quoteData?.availableExtras ?? [];
+  const optionalExtras = availableExtras.filter((extra) => !extra.isMandatory);
+  const mandatoryExtras = availableExtras.filter((extra) => extra.isMandatory);
+  const currency = quoteData?.quote.currency;
+
   return (
     <Card className="shadow-card ring-0">
       <CardContent className="flex flex-col gap-(--space-sm)">
         <div className="flex items-baseline gap-1">
+          <span className="text-sm text-muted-foreground">From</span>
           <span className="font-heading text-2xl font-bold text-foreground">
             {formatCurrency(vehicle.price_per_day)}
           </span>
@@ -183,21 +255,127 @@ export function VehicleBookingPanel({
           />
         </div>
 
-        <div className="flex items-center justify-between border-t border-border pt-(--space-sm) text-sm">
-          <span className="text-muted-foreground">
-            {days} day{days === 1 ? "" : "s"} &times; {formatCurrency(vehicle.price_per_day)}
-          </span>
-          <span className="font-medium text-foreground">{formatCurrency(total)}</span>
+        {optionalExtras.length > 0 && (
+          <fieldset className="flex flex-col gap-2 border-t border-border pt-(--space-sm)">
+            <legend className="sr-only">Optional extras</legend>
+            <span className="text-sm font-medium text-foreground">Extras</span>
+            {optionalExtras.map((extra) => {
+              const quantity = selectedExtras[extra.code] ?? 0;
+              const unit = currency ? formatMinor(extra.unitPriceMinor, currency) : "";
+              const per = extra.pricing === "per_day" ? "/day" : "";
+              return (
+                <div key={extra.code} className="flex items-center justify-between gap-3 text-sm">
+                  {extra.maxQuantity > 1 ? (
+                    <Label htmlFor={`extra-${extra.code}`} className="flex-1 font-normal">
+                      {extra.name} <span className="text-muted-foreground">({unit}{per})</span>
+                    </Label>
+                  ) : (
+                    <Label htmlFor={`extra-${extra.code}`} className="flex flex-1 items-center gap-2 font-normal">
+                      <Checkbox
+                        id={`extra-${extra.code}`}
+                        checked={quantity > 0}
+                        onCheckedChange={(checked) => setExtraQuantity(extra.code, checked ? 1 : 0)}
+                      />
+                      <span>
+                        {extra.name} <span className="text-muted-foreground">({unit}{per})</span>
+                      </span>
+                    </Label>
+                  )}
+                  {extra.maxQuantity > 1 && (
+                    <Input
+                      id={`extra-${extra.code}`}
+                      type="number"
+                      min={0}
+                      max={extra.maxQuantity}
+                      value={quantity}
+                      onChange={(e) =>
+                        setExtraQuantity(extra.code, Math.min(extra.maxQuantity, Math.max(0, Number(e.target.value) || 0)))
+                      }
+                      className="h-8 w-16"
+                    />
+                  )}
+                </div>
+              );
+            })}
+            {mandatoryExtras.map((extra) => (
+              <p key={extra.code} className="text-xs text-muted-foreground">
+                {extra.name} is included.
+              </p>
+            ))}
+          </fieldset>
+        )}
+
+        <div className="grid grid-cols-[1fr_auto] items-end gap-2">
+          <div className="flex flex-col gap-1.5">
+            <Label htmlFor="b-promo" className="text-xs">
+              Promo code
+            </Label>
+            <Input
+              id="b-promo"
+              value={promoInput}
+              onChange={(e) => setPromoInput(e.target.value)}
+              placeholder="Enter code"
+              className="h-9"
+            />
+          </div>
+          {appliedPromo ? (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={() => {
+                setAppliedPromo(null);
+                setPromoInput("");
+              }}
+            >
+              Remove
+            </Button>
+          ) : (
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={!promoInput.trim()}
+              onClick={() => setAppliedPromo(promoInput.trim())}
+            >
+              Apply
+            </Button>
+          )}
         </div>
-        <div className="flex items-center justify-between border-t border-border pt-(--space-sm)">
-          <span className="font-heading text-base font-semibold text-foreground">Total</span>
-          <span className="font-heading text-xl font-bold text-accent-text">{formatCurrency(total)}</span>
+
+        <div className="flex flex-col gap-1.5">
+          <Label htmlFor="b-age" className="text-xs">
+            Driver&apos;s age (optional)
+          </Label>
+          <Input
+            id="b-age"
+            type="number"
+            min={16}
+            max={99}
+            value={driverAgeInput}
+            onChange={(e) => setDriverAgeInput(e.target.value)}
+            className="h-9"
+          />
         </div>
+
+        {quoteState.status === "error" && quoteParams && (
+          <p role="alert" className="border-t border-border pt-(--space-sm) text-sm text-destructive">
+            {quoteState.message}
+          </p>
+        )}
+
+        {quoteData && quoteState.status !== "error" ? (
+          <QuoteBreakdown quote={quoteData.quote} isUpdating={isPricing} />
+        ) : quoteParams && quoteState.status !== "error" ? (
+          <p className="border-t border-border pt-(--space-sm) text-sm text-muted-foreground" aria-live="polite">
+            Calculating your price...
+          </p>
+        ) : null}
 
         <Button
           type="button"
           size="lg"
-          disabled={soldOut || !datesValid}
+          disabled={soldOut || !datesValid || !quoteReady}
           onClick={() => setDialogOpen(true)}
           data-chat-avoid
         >
@@ -215,7 +393,13 @@ export function VehicleBookingPanel({
           <DialogHeader>
             <DialogTitle>Complete your booking</DialogTitle>
             <DialogDescription>
-              {vehicle.name}, {days} day{days === 1 ? "" : "s"} for {formatCurrency(total)}
+              {vehicle.name}
+              {quoteData
+                ? `, ${quoteData.quote.days} day${quoteData.quote.days === 1 ? "" : "s"} for ${formatMinor(
+                    quoteData.quote.totalMinor,
+                    quoteData.quote.currency
+                  )}`
+                : ""}
             </DialogDescription>
           </DialogHeader>
           <form className="flex flex-col gap-(--space-sm)" onSubmit={handleSubmit}>
@@ -279,7 +463,7 @@ export function VehicleBookingPanel({
               <Button type="button" variant="outline" onClick={() => setDialogOpen(false)}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting}>
+              <Button type="submit" disabled={isSubmitting || !quoteReady}>
                 {isSubmitting ? "Booking..." : "Confirm Booking"}
               </Button>
             </DialogFooter>
