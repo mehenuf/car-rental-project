@@ -47,6 +47,7 @@ export type BranchRow = {
   timezone: string;
   currency: string;
   turnaround_minutes: number;
+  pickup_surcharge_minor: number;
   opening_hours: Json | null;
   is_active: boolean;
   created_at: string;
@@ -91,6 +92,94 @@ export type UnitOccupancyRow = {
   created_at: string;
 }
 
+export type PlatformSettingsRow = {
+  id: boolean;
+  commission_bp: number;
+  service_fee_bp: number;
+};
+
+export type RatePlanRow = {
+  id: string;
+  provider_id: string;
+  vehicle_id: string;
+  branch_id: number;
+  currency: string;
+  base_daily_minor: number;
+  weekend_uplift_bp: number;
+  weekly_discount_bp: number;
+  monthly_discount_bp: number;
+  min_days: number;
+  max_days: number | null;
+  included_km_per_day: number | null;
+  extra_km_minor: number | null;
+  created_at: string;
+};
+
+/** `during` is a Postgres daterange in text form, e.g. `[2030-07-01,2030-08-01)`. */
+export type RateSeasonRow = {
+  id: string;
+  rate_plan_id: string;
+  provider_id: string;
+  during: string;
+  daily_minor: number;
+};
+
+export type ExtraRow = {
+  id: string;
+  provider_id: string;
+  code: string;
+  name: string;
+  kind: "extra" | "insurance";
+  pricing: "per_day" | "per_rental";
+  unit_price_minor: number;
+  currency: string;
+  max_quantity: number;
+  cap_minor: number | null;
+  is_mandatory: boolean;
+  is_active: boolean;
+};
+
+export type ProviderPolicyRow = {
+  provider_id: string;
+  deposit_type: "fixed" | "percent";
+  deposit_value: number;
+  cancellation_tiers: Json;
+  min_driver_age: number;
+  young_driver_age: number | null;
+  young_driver_fee_minor: number;
+};
+
+export type OneWayFeeRow = {
+  provider_id: string;
+  from_branch_id: number;
+  to_branch_id: number;
+  amount_minor: number;
+};
+
+export type TaxRuleRow = {
+  id: string;
+  country_code: string;
+  name: string;
+  rate_bp: number;
+  applies_to: string[];
+  inclusive: boolean;
+  is_active: boolean;
+};
+
+export type PromoCodeRow = {
+  id: string;
+  code: string;
+  issuer: "platform" | "provider";
+  provider_id: string | null;
+  discount_type: "percent" | "fixed";
+  value: number;
+  currency: string | null;
+  valid_during: string | null;
+  min_days: number;
+  vehicle_id: string | null;
+  is_active: boolean;
+};
+
 export type BookingRow = {
   id: string;
   reference: string;
@@ -105,6 +194,7 @@ export type BookingRow = {
   pickup_branch_id: number | null;
   dropoff_branch_id: number | null;
   currency: string | null;
+  price_snapshot: Json | null;
   pickup_at: string;
   dropoff_at: string;
   /** Generated column (`greatest(1, extract(day from dropoff_at - pickup_at))`), read-only. */
@@ -236,6 +326,54 @@ export interface Database {
         Update: Partial<UnitOccupancyRow>;
         Relationships: [];
       };
+      platform_settings: {
+        Row: PlatformSettingsRow;
+        Insert: Partial<PlatformSettingsRow>;
+        Update: Partial<PlatformSettingsRow>;
+        Relationships: [];
+      };
+      rate_plans: {
+        Row: RatePlanRow;
+        Insert: InsertOf<RatePlanRow, "provider_id" | "vehicle_id" | "branch_id" | "currency" | "base_daily_minor">;
+        Update: Partial<RatePlanRow>;
+        Relationships: [];
+      };
+      rate_seasons: {
+        Row: RateSeasonRow;
+        Insert: InsertOf<RateSeasonRow, "rate_plan_id" | "provider_id" | "during" | "daily_minor">;
+        Update: Partial<RateSeasonRow>;
+        Relationships: [];
+      };
+      extras: {
+        Row: ExtraRow;
+        Insert: InsertOf<ExtraRow, "provider_id" | "code" | "name" | "kind" | "pricing" | "unit_price_minor" | "currency">;
+        Update: Partial<ExtraRow>;
+        Relationships: [];
+      };
+      provider_policies: {
+        Row: ProviderPolicyRow;
+        Insert: InsertOf<ProviderPolicyRow, "provider_id">;
+        Update: Partial<ProviderPolicyRow>;
+        Relationships: [];
+      };
+      one_way_fees: {
+        Row: OneWayFeeRow;
+        Insert: OneWayFeeRow;
+        Update: Partial<OneWayFeeRow>;
+        Relationships: [];
+      };
+      tax_rules: {
+        Row: TaxRuleRow;
+        Insert: InsertOf<TaxRuleRow, "country_code" | "name" | "rate_bp" | "applies_to">;
+        Update: Partial<TaxRuleRow>;
+        Relationships: [];
+      };
+      promo_codes: {
+        Row: PromoCodeRow;
+        Insert: InsertOf<PromoCodeRow, "code" | "issuer" | "discount_type" | "value">;
+        Update: Partial<PromoCodeRow>;
+        Relationships: [];
+      };
       bookings: {
         Row: BookingRow;
         Insert: {
@@ -250,6 +388,7 @@ export interface Database {
           pickup_branch_id?: number | null;
           dropoff_branch_id?: number | null;
           currency?: string | null;
+          price_snapshot?: Json | null;
           guest_id?: string | null;
           user_id?: string | null;
           pickup_at: string;
@@ -273,6 +412,7 @@ export interface Database {
           pickup_branch_id?: number | null;
           dropoff_branch_id?: number | null;
           currency?: string | null;
+          price_snapshot?: Json | null;
           guest_id?: string | null;
           user_id?: string | null;
           pickup_at?: string;
@@ -408,8 +548,19 @@ export interface Database {
           p_source?: BookingSource;
           p_guest_id?: string | null;
           p_user_id?: string | null;
+          p_price_snapshot?: Json | null;
         };
         Returns: BookingRow;
+      };
+      free_units: {
+        Args: {
+          p_vehicle_id: string | null;
+          p_pickup_branch_id: number;
+          p_dropoff_branch_id: number;
+          p_start: string;
+          p_end: string;
+        };
+        Returns: { unit_id: string; vehicle_id: string }[];
       };
       transition_booking: {
         Args: { p_booking_id: string; p_to: BookingStatus };
