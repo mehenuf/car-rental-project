@@ -98,8 +98,6 @@ export type BookingRow = {
   customer_name: string;
   email: string;
   phone: string | null;
-  pickup_location_id: number | null;
-  dropoff_location_id: number | null;
   guest_id: string | null;
   user_id: string | null;
   provider_id: string | null;
@@ -125,30 +123,6 @@ export type Urgency = "immediate" | "this_week" | "browsing" | "unknown";
 export interface Database {
   public: {
     Tables: {
-      locations: {
-        Row: {
-          id: number;
-          city: string;
-          country: string;
-          country_code: string;
-          created_at: string | null;
-        };
-        Insert: {
-          id?: number;
-          city: string;
-          country: string;
-          country_code: string;
-          created_at?: string | null;
-        };
-        Update: {
-          id?: number;
-          city?: string;
-          country?: string;
-          country_code?: string;
-          created_at?: string | null;
-        };
-        Relationships: [];
-      };
       vehicles: {
         Row: {
           id: string;
@@ -221,7 +195,7 @@ export interface Database {
             foreignKeyName: "vehicles_location_id_fkey";
             columns: ["location_id"];
             isOneToOne: false;
-            referencedRelation: "locations";
+            referencedRelation: "branches";
             referencedColumns: ["id"];
           },
         ];
@@ -271,8 +245,6 @@ export interface Database {
           customer_name: string;
           email: string;
           phone?: string | null;
-          pickup_location_id?: number | null;
-          dropoff_location_id?: number | null;
           provider_id?: string | null;
           fleet_unit_id?: string | null;
           pickup_branch_id?: number | null;
@@ -296,8 +268,6 @@ export interface Database {
           customer_name?: string;
           email?: string;
           phone?: string | null;
-          pickup_location_id?: number | null;
-          dropoff_location_id?: number | null;
           provider_id?: string | null;
           fleet_unit_id?: string | null;
           pickup_branch_id?: number | null;
@@ -320,20 +290,6 @@ export interface Database {
             columns: ["vehicle_id"];
             isOneToOne: false;
             referencedRelation: "vehicles";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "bookings_pickup_location_id_fkey";
-            columns: ["pickup_location_id"];
-            isOneToOne: false;
-            referencedRelation: "locations";
-            referencedColumns: ["id"];
-          },
-          {
-            foreignKeyName: "bookings_dropoff_location_id_fkey";
-            columns: ["dropoff_location_id"];
-            isOneToOne: false;
-            referencedRelation: "locations";
             referencedColumns: ["id"];
           },
         ];
@@ -467,14 +423,6 @@ export interface Database {
           p_end: string;
         };
         Returns: string[];
-      };
-      decrement_vehicle_stock: {
-        Args: { p_vehicle_id: string };
-        Returns: { id: string; stock: number; available: boolean }[];
-      };
-      increment_vehicle_stock: {
-        Args: { p_vehicle_id: string };
-        Returns: { id: string; stock: number; available: boolean }[];
       };
     };
     Enums: Record<string, never>;

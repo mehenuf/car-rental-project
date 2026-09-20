@@ -111,7 +111,7 @@ Create a `.env.local` file in the project root with the following variables:
 | `GEMINI_API_KEY` | API key for Gemini, the automatic fallback if a Groq request fails. |
 | `N8N_WEBHOOK_URL` | The n8n webhook URL that receives lead and booking events (only the lead-scoring one currently has a workflow acting on it; see section 9). This one is optional. If it is missing, the app just skips sending the webhook instead of failing. |
 
-Once the database exists (see the Supabase project's `schema.sql` for table definitions), seed it with sample vehicles and bookings:
+Build a fresh database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0007`), in the Supabase SQL editor. Never run `schema.sql` against a database that holds real data: it drops tables. Then seed it with sample branches, vehicles, fleet units and bookings:
 
 ```bash
 npx tsx seed.ts
@@ -139,7 +139,7 @@ All routes live under `/api`. Routes marked **Admin only** require a logged-in s
 
 Public. Lists vehicles with optional filtering, sorting, and pagination.
 
-**Query parameters:** `category` (one value or a comma-separated list, e.g. `popular,large`), `minPrice`, `maxPrice`, `seats`, `transmission` (`automatic`/`manual`), `fuel` (`petrol`/`diesel`/`hybrid`/`electric`), `available` (`true`/`false`), `locationId`, `sortBy` (`price_per_day`/`rating`/`created_at`/`name`), `sortOrder` (`asc`/`desc`), `page`, `pageSize`, `search` (matches name, brand, or slug).
+**Query parameters:** `category` (one value or a comma-separated list, e.g. `popular,large`), `minPrice`, `maxPrice`, `seats`, `transmission` (`automatic`/`manual`), `fuel` (`petrol`/`diesel`/`hybrid`/`electric`), `available` (`true`/`false`), `locationId` (only vehicles with an active unit at that branch), `pickupLocationId` + `pickupDate` + `dropoffDate` (`YYYY-MM-DD`) with optional `dropoffLocationId` (availability search: only vehicles with a free unit for that trip), `sortBy` (`price_per_day`/`rating`/`created_at`/`name`), `sortOrder` (`asc`/`desc`), `page`, `pageSize`, `search` (matches name, brand, or slug).
 
 **Sample response:**
 
@@ -177,7 +177,7 @@ Public. Lists vehicles with optional filtering, sorting, and pagination.
 
 Admin only. Creates a vehicle.
 
-**Body:** `slug`, `name`, `brand`, `category`, `price_per_day`, `transmission`, `fuel`, and `image_url` are required. `seats`, `doors`, `gallery`, `description`, `features`, `rating`, `review_count`, `stock`, `available`, and `location_id` are optional and fall back to database defaults.
+**Body:** `slug`, `name`, `brand`, `category`, `price_per_day`, `transmission`, `fuel`, and `image_url` are required. `seats`, `doors`, `gallery`, `description`, `features`, `rating`, `review_count`, `stock`, `available`, and `location_id` are optional and fall back to database defaults. On create, `stock` is the number of fleet units to add at the vehicle's branch (`location_id`, or the first active branch); it cannot be changed with `PATCH`, since fleet size comes from the units.
 
 **Sample response** (`201`): the created vehicle row, in the same shape as one item in `GET /api/vehicles`'s `data` array.
 
@@ -211,7 +211,7 @@ Public. Fetches a single vehicle by its slug.
 
 Admin only. Lists bookings with the vehicle's name and image joined in.
 
-**Query parameters:** `status` (`success`/`pending`/`cancelled`), `sortBy` (`created_at`/`total_amount`/`pickup_at`), `sortOrder`, `page`, `pageSize`, `startDate`, `endDate` (both `YYYY-MM-DD`, filtered on `created_at`), `search` (matches customer name or booking reference).
+**Query parameters:** `status` (`pending`/`confirmed`/`active`/`completed`/`cancelled`/`no_show`), `sortBy` (`created_at`/`total_amount`/`pickup_at`), `sortOrder`, `page`, `pageSize`, `startDate`, `endDate` (both `YYYY-MM-DD`, filtered on `created_at`), `search` (matches customer name or booking reference).
 
 **Sample response:**
 
@@ -225,8 +225,8 @@ Admin only. Lists bookings with the vehicle's name and image joined in.
       "customer_name": "Haffaz Aladeen",
       "email": "aladeen@example.com",
       "phone": "665332167",
-      "pickup_location_id": null,
-      "dropoff_location_id": null,
+      "pickup_branch_id": null,
+      "dropoff_branch_id": null,
       "pickup_at": "2026-08-29T18:00:00+00:00",
       "dropoff_at": "2026-08-30T18:00:00+00:00",
       "days": 1,
@@ -247,7 +247,7 @@ Admin only. Lists bookings with the vehicle's name and image joined in.
 
 Public. This is what the customer-facing booking form calls. `status` and `lead_score` are deliberately not accepted here. Every new booking starts as `pending` with no score, no matter what the request contains.
 
-**Body:** `vehicle_id`, `customer_name`, `email`, `pickup_at`, `dropoff_at` are required. `phone`, `pickup_location_id`, `dropoff_location_id`, `payment_method`, `source` (`web`/`chat`/`phone`) are optional.
+**Body:** `vehicle_id`, `customer_name`, `email`, `pickup_at`, `dropoff_at` are required. `phone`, `pickup_branch_id`, `dropoff_branch_id` (both default to the vehicle's home branch; drop-off defaults to pick-up), `payment_method`, `source` (`web`/`chat`/`phone`) are optional.
 
 **Sample response** (`201`):
 
@@ -271,13 +271,15 @@ Public. This is what the customer-facing booking form calls. `status` and `lead_
 }
 ```
 
-`total_amount` is calculated on the server from the vehicle's `price_per_day` and the number of days. It is never trusted from the client. On success, the booking's details are also sent to the n8n webhook URL in the background, but no automation currently acts on that particular event. See section 9 for details.
+`total_amount` is calculated on the server from the vehicle's `price_per_day` and the number of days. It is never trusted from the client. If no unit of the vehicle is free for the dates, the response is `409`. On success, the booking's details are also sent to the n8n webhook URL in the background, but no automation currently acts on that particular event. See section 9 for details.
 
 ### `PATCH /api/bookings/[id]`
 
 Admin only. Changes a booking's status. This is the one place status can be set directly.
 
-**Body:** `{ "status": "success" | "pending" | "cancelled" }`
+**Body:** `{ "status": "pending" | "confirmed" | "active" | "completed" | "cancelled" | "no_show" }`
+
+Allowed moves: `pending` to `confirmed` or `cancelled`; `confirmed` to `active`, `cancelled` or `no_show`; `active` to `completed`. Anything else returns `409`. Cancelling or marking no-show frees the car for those dates; completing a one-way rental moves the car to the drop-off branch.
 
 **Sample response:** the updated booking row, in the same shape as one item in `GET /api/bookings`'s `data` array (without the joined `vehicle` field).
 
@@ -453,17 +455,17 @@ Only one automation is actually built and working right now: the one described b
 
 **The two Google Sheets views do not reflect the admin dashboard's date filter, unless that has since been fixed.** The dashboard's date range picker only affects what the Next.js API routes query from Supabase directly. The Google Sheets are just an append-only log of whatever webhook events n8n has received over time. They have no concept of the dashboard's currently selected date range, so "this week" on the dashboard and "this week" in the sheet are not guaranteed to line up. Fixing this properly would mean either having n8n write into a database it can filter on, or building a separate date-range control inside the sheet itself.
 
-**Booking status is set only by the server, never by the customer.** `POST /api/bookings` does not accept a `status` or `lead_score` field at all. Every new booking starts as `pending` with a null score, no matter what the client sends. Only `PATCH /api/bookings/[id]`, which requires an admin session, can change the status afterward. This was a deliberate choice. Letting a customer mark their own booking "success" or influence its lead score would mean trusting client input for something that should only ever be an internal decision.
+**Booking status is set only by the server, never by the customer.** `POST /api/bookings` does not accept a `status` or `lead_score` field at all. Every new booking starts as `pending` with a null score, no matter what the client sends. Only `PATCH /api/bookings/[id]`, which requires an admin session, can change the status afterward. This was a deliberate choice. Letting a customer mark their own booking "confirmed" or influence its lead score would mean trusting client input for something that should only ever be an internal decision.
 
 **Admin and customer accounts share one auth system, split by a role claim.** There is a single Supabase Auth user table for everyone. What makes an account an admin is a `role: "admin"` value in that user's `app_metadata`, which can only be set with the service-role key, so it is never something a customer can grant themselves by self-registering. The alternative would have been a separate admin-only user table, which would have meant maintaining two parallel login systems for no real benefit here.
 
 **n8n is currently on a free trial.** The automation runs on n8n's free tier, which is fine for a demo but has a time limit and lower execution limits than a production setup would need. The migration path once the trial ends is either a paid n8n Cloud plan, or self-hosting n8n, since it runs as a single Docker container, and pointing `N8N_WEBHOOK_URL` at that self-hosted instance instead. The app itself needs no code changes either way, since it only ever knows about a webhook URL.
 
-**There is no per-date availability calendar.** Vehicles have a static `available` flag and a `stock` count, not a real booking-conflict engine. A customer can pick pickup and drop-off dates, but nothing currently checks whether a specific car is actually free for that exact date range. Two customers could request the same car for overlapping dates and both would go through to `pending`, to be resolved manually by an admin.
+**Availability is enforced by the database.** Each physical car is a `fleet_units` row, and every reservation is a `unit_occupancy` time range. A Postgres exclusion constraint makes two overlapping ranges on one car impossible, and `create_booking_atomic` picks a free unit and retries the next one if a concurrent booking takes it. A per-branch turnaround buffer is added after each rental, and one-way rentals move the car to the drop-off branch. `vehicles` is the model catalogue and `vehicles.stock` is simply the number of active units. Branches belong to providers (a seeded default provider today), which is the foundation for the multi-provider marketplace described in `docs/superpowers/specs/`. What is still simple: prices are `price_per_day` times days, and bookings still start as `pending` for staff to confirm.
 
 ## 11. What I'd build next
 
-1. **A real per-date availability check.** Query existing bookings for a vehicle before confirming a request, so a car with active bookings across a date range shows as unavailable instead of relying on a manually maintained `stock` number.
+1. **A pricing engine.** Seasonal and weekend rates, extras, taxes, deposits and multiple currencies (sub-project 2 in `docs/superpowers/specs/`).
 2. **Payment processing.** Right now a booking is a request, not a transaction. No payment gateway is integrated, and everything lands as `pending` for an admin to follow up on manually. Adding Stripe, or something similar, at the booking step would make this a real checkout flow.
 3. **A durable rate limiter and webhook retry queue.** The chat endpoint's rate limiting and the n8n webhook calls both currently live in memory on a single server process: a rate-limit counter that resets on every deploy, and a webhook call that is simply dropped and logged if n8n is briefly unreachable. Moving both onto something persistent, such as Redis for rate limiting and a small retry queue for webhooks, would let both survive a restart and a transient n8n outage.
 4. **A second n8n workflow for the booking webhook.** The app already sends a webhook on every new booking, but nothing in n8n currently reacts to it. Building that workflow, for example to notify staff or log the booking to its own sheet, would put that existing hook to use instead of leaving it silently ignored.
