@@ -1,4 +1,5 @@
-import { ApiError } from "@/lib/errors";
+import { ApiError, ConflictError } from "@/lib/errors";
+import type { Quote } from "@/lib/pricing/types";
 
 export type QuoteErrorCode =
   | "UNSUPPORTED_CURRENCY"
@@ -20,5 +21,16 @@ export class QuoteError extends ApiError {
     super(400, message);
     this.name = "QuoteError";
     this.code = code;
+  }
+}
+
+/** Thrown when a booking's quote token no longer matches the live price. Carries the fresh quote so the client can show it. */
+export class PriceChangedError extends ConflictError {
+  readonly quote: Quote;
+
+  constructor(quote: Quote) {
+    super("The price has changed. Please review the new total.");
+    this.name = "PriceChangedError";
+    this.quote = quote;
   }
 }
