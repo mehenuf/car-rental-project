@@ -6,6 +6,8 @@ import { EmptyState } from "@/components/ui/empty-state";
 import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { formatCurrency, formatDate } from "@/lib/format";
+import { CancelBookingButton } from "@/components/site/cancel-booking-button";
+import { isHoldActive } from "@/lib/payments/hold";
 import { getBookingsForIdentity } from "@/lib/queries";
 import { readRequestIdentity } from "@/lib/guest";
 
@@ -92,13 +94,36 @@ export default async function DashboardPage() {
                   </div>
                 </div>
 
-                <div className="text-left sm:text-right">
-                  <p className="font-heading text-lg font-bold text-foreground">
-                    {formatCurrency(booking.total_amount)}
-                  </p>
-                  <p className="text-xs text-muted-foreground">
-                    {booking.days} day{booking.days === 1 ? "" : "s"}
-                  </p>
+                <div className="flex flex-col gap-2 text-left sm:items-end sm:text-right">
+                  <div>
+                    <p className="font-heading text-lg font-bold text-foreground">
+                      {formatCurrency(booking.total_amount)}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      {booking.days} day{booking.days === 1 ? "" : "s"}
+                      {booking.payment_status === "paid" ? " · Paid" : ""}
+                      {booking.payment_status === "refunded" ? " · Refunded" : ""}
+                      {booking.payment_status === "partially_refunded" ? " · Partly refunded" : ""}
+                    </p>
+                  </div>
+                  {booking.status === "pending" &&
+                    booking.payment_status === "unpaid" &&
+                    booking.price_snapshot &&
+                    isHoldActive(booking.hold_expires_at) && (
+                      <Link
+                        href={`/checkout/${encodeURIComponent(booking.reference)}`}
+                        className={buttonVariants({ size: "sm" })}
+                      >
+                        Pay now
+                      </Link>
+                    )}
+                  {(booking.status === "pending" || booking.status === "confirmed") && (
+                    <CancelBookingButton
+                      bookingId={booking.id}
+                      currency={booking.currency}
+                      paid={booking.payment_status === "paid"}
+                    />
+                  )}
                 </div>
               </CardContent>
             </Card>

@@ -216,7 +216,8 @@ export function VehicleBookingPanel({
         throw new Error(failure.error?.message ?? "Failed to create booking");
       }
       const booking = body as BookingResponse;
-      router.push(`/booking-confirmation?ref=${encodeURIComponent(booking.reference)}`);
+      // The booking is held for 15 minutes while the customer pays.
+      router.push(`/checkout/${encodeURIComponent(booking.reference)}`);
     } catch (err) {
       setSubmitError(err instanceof Error ? err.message : "Failed to create booking");
     } finally {
