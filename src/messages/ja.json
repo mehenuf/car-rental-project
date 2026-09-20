@@ -130,7 +130,8 @@
       "other": "{count}台"
     },
     "loadFailed": "車両を読み込めませんでした",
-    "titleIn": "{place}の車"
+    "titleIn": "{place}の車",
+    "priceNeedsPlace": "価格で絞り込むには場所を選んでください。"
   },
   "vehicle": {
     "perDay": "/日",

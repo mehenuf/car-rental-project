@@ -15,7 +15,6 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SITE_NAV_LINKS } from "@/lib/site-nav";
-import { supabase } from "@/lib/supabase";
 import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { initialsFor } from "@/lib/format";
@@ -87,6 +86,7 @@ export function SiteHeader() {
   const { user, isAdmin, loading } = useSupabaseUser();
 
   async function handleLogout() {
+    const { supabase } = await import("@/lib/supabase");
     await supabase.auth.signOut();
     setOpen(false);
     router.push("/");

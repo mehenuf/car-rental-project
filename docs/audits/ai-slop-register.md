@@ -15,5 +15,5 @@ Severity: P0 blocks use, P1 damages trust or clarity, P2 polish. Status as of 20
 | S9 | P2 | Content | "Browse Our Fleet", "Most Popular Car Rental Deals" and their subtitles are generic | Content | **Fixed:** "Cars to rent" / "Cars in {place}", "Popular cars", new subtitle |
 | S10 | P2 | Code | About 30 unused translation keys from removed sections | Code review | **Fixed:** 21 unused keys removed from all 11 languages (testimonials, why-choose-us, old hero) |
 | S11 | P2 | Tokens | `detect.mjs`: 8 type-ramp, radius and colour drift findings (11px text, 0.8rem text, Roboto in email HTML) | Impeccable | Open |
-| S12 | P1 | Product | Price filter, price sort and the sidebar slider still use the legacy USD price while cards show the branch currency | Product | Open |
+| S12 | P1 | Product | Price filter, price sort and the sidebar slider still use the legacy USD price while cards show the branch currency | Product | **Fixed:** price filter, slider and price sort work only for a chosen place, in that branch currency; the page says so otherwise |
 | S13 | P2 | Product | Vehicle descriptions are absent for every sample car; hosts have no field for one in the portal | Product | Open |

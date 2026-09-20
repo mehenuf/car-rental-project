@@ -8,7 +8,6 @@ import { Textarea } from "@/components/ui/textarea";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { formatCurrency } from "@/lib/format";
 import { useT } from "@/lib/i18n/provider";
-import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
 interface RecommendedVehicle {
@@ -49,7 +48,7 @@ interface SessionCustomerInfo {
 async function getSessionCustomerInfo(): Promise<SessionCustomerInfo> {
   const {
     data: { session },
-  } = await supabase.auth.getSession();
+  } = await (await import("@/lib/supabase")).supabase.auth.getSession();
   const user = session?.user;
   if (!user) return {};
 

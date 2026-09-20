@@ -132,7 +132,8 @@
       "other": "{count} Cars"
     },
     "loadFailed": "Failed to load vehicles",
-    "titleIn": "Cars in {place}"
+    "titleIn": "Cars in {place}",
+    "priceNeedsPlace": "Choose a location to filter by price."
   },
   "vehicle": {
     "perDay": "/day",

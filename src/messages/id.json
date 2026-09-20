@@ -130,7 +130,8 @@
       "other": "{count} Mobil"
     },
     "loadFailed": "Gagal memuat kendaraan",
-    "titleIn": "Mobil di {place}"
+    "titleIn": "Mobil di {place}",
+    "priceNeedsPlace": "Pilih lokasi untuk memfilter berdasarkan harga."
   },
   "vehicle": {
     "perDay": "/hari",

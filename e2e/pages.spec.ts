@@ -80,3 +80,20 @@ test("car cards say where the car is offered", async ({ page, request, baseURL }
   const firstCard = page.locator("main div.group").first();
   await expect(firstCard).toContainText(new RegExp(cities.join("|")));
 });
+
+test.describe("price filter", () => {
+  test("is offered only for a chosen place, in that place's currency", async ({ page, request, baseURL }) => {
+    const res = await request.get("/api/locations");
+    test.skip(!res.ok() || (await res.json()).length === 0, "needs a database with locations");
+    const places = (await res.json()) as { id: number }[];
+    await acceptCookies(page, baseURL);
+
+    await page.goto("/en/cars?all=1");
+    await expect(page.getByText("Choose a location to filter by price.").first()).toBeVisible();
+    await expect(page.getByRole("slider")).toHaveCount(0);
+
+    await page.goto(`/en/cars?locationId=${places[0]!.id}`);
+    await expect(page.getByRole("slider").first()).toBeVisible();
+    await expect(page.getByText("Choose a location to filter by price.")).toHaveCount(0);
+  });
+});

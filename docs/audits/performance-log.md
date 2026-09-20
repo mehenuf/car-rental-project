@@ -12,4 +12,6 @@ Lighthouse 12 (default mobile emulation with simulated throttling; desktop prese
 
 Scroll frames (`scripts/perf/scroll-frames.cjs`, 30 wheel steps plus pointer moves, Chromium): home before 38 slow of 293 frames (95th percentile 50ms); home after 0 of 264; cars 0 of 262; vehicle 1 of 256.
 
+| 09-21 | Local | Home | 71–73 | not run | 6.3–7.2s / 0.6–0.7s | 220–250ms | Auth library (64KB gz) moved out of the first script set; no measurable Lighthouse change, first-load script set is smaller |
+
 **Not met:** Lighthouse mobile performance is 65–73, below the 95 target. The gap is mostly simulated-throttling estimates (observed LCP is under 1s locally and 1.0–2.8s on Vercel). Measured cost that remains: about 380–470KB of JavaScript on first load and three render-blocking CSS files. Vercel needs re-measuring after this batch is deployed.

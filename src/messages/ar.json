@@ -140,7 +140,8 @@
       "other": "{count} سيارة"
     },
     "loadFailed": "تعذّر تحميل المركبات",
-    "titleIn": "سيارات في {place}"
+    "titleIn": "سيارات في {place}",
+    "priceNeedsPlace": "اختر موقعًا للتصفية حسب السعر."
   },
   "vehicle": {
     "perDay": "/يوم",

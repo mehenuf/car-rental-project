@@ -132,7 +132,8 @@
       "other": "{count}টি গাড়ি"
     },
     "loadFailed": "গাড়ি লোড করা যায়নি",
-    "titleIn": "{place}-এর গাড়ি"
+    "titleIn": "{place}-এর গাড়ি",
+    "priceNeedsPlace": "দাম অনুযায়ী ফিল্টার করতে একটি অবস্থান বেছে নিন।"
   },
   "vehicle": {
     "perDay": "/দিন",

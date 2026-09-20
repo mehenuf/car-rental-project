@@ -132,7 +132,8 @@
       "other": "{count} voitures"
     },
     "loadFailed": "Impossible de charger les véhicules",
-    "titleIn": "Voitures à {place}"
+    "titleIn": "Voitures à {place}",
+    "priceNeedsPlace": "Choisissez un lieu pour filtrer par prix."
   },
   "vehicle": {
     "perDay": "/jour",

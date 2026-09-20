@@ -130,7 +130,8 @@
       "other": "{count} 辆车"
     },
     "loadFailed": "无法加载车辆",
-    "titleIn": "{place}的车辆"
+    "titleIn": "{place}的车辆",
+    "priceNeedsPlace": "选择一个地点后才能按价格筛选。"
   },
   "vehicle": {
     "perDay": "/天",

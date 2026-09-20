@@ -3,7 +3,6 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import {
   CarsFilterSidebar,
-  PRICE_MAX,
   PRICE_MIN,
   type CarsFilters,
 } from "@/components/site/cars-filter-sidebar";
@@ -40,7 +39,7 @@ export function CarsFilterControls({ filters }: { filters: CarsFilters }) {
   function handlePriceCommit([min, max]: [number, number]) {
     updateParams({
       minPrice: min > PRICE_MIN ? String(min) : null,
-      maxPrice: max < PRICE_MAX ? String(max) : null,
+      maxPrice: max < (filters.priceScope?.max ?? Infinity) ? String(max) : null,
     });
   }
 

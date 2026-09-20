@@ -4,8 +4,9 @@ import { cache } from "react";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { toBookingApiError } from "@/lib/booking-errors";
-import { majorToMinor, minorToMajor } from "@/lib/pricing/money";
+import { currencyExponent, majorToMinor, minorToMajor } from "@/lib/pricing/money";
 import { choosePlace, type VehiclePlace } from "@/lib/vehicle-place";
+import { buildPriceScope, type PriceScope } from "@/lib/price-scope";
 import { toSnapshot } from "@/lib/pricing/mappers";
 import { quoteForBooking } from "@/lib/pricing/service";
 import type {
@@ -214,18 +215,30 @@ async function attachPlaces(cards: VehicleCardData[], preferredBranchId?: number
 export async function getVehicleCards(
   filters: VehicleFilters = {}
 ): Promise<PaginatedResult<VehicleCardData>> {
-  const {
-    category,
-    minPrice,
-    maxPrice,
-    seats,
-    transmission,
-    fuel,
-    available,
-    sortBy = "created_at",
-    sortOrder = "desc",
-    search,
-  } = filters;
+  const { category, minPrice, maxPrice, seats, transmission, fuel, available, sortOrder = "desc", search } = filters;
+  const branchId = filters.locationId ?? filters.availability?.pickupBranchId;
+
+  // Prices are per branch and in that branch's currency, so a price filter or price sort only means something for one
+  // place. Without a place they are ignored (the page does not offer them).
+  const priceSort = filters.sortBy === "price_per_day" && branchId !== undefined;
+  const sortBy = filters.sortBy === "price_per_day" && !priceSort ? "created_at" : (filters.sortBy ?? "created_at");
+  let branchPrices: Map<string, number> | null = null;
+  let allowedByPrice: string[] | null = null;
+  if (branchId !== undefined && (minPrice !== undefined || maxPrice !== undefined || priceSort)) {
+    const { data: plans } = await supabaseAdmin
+      .from("rate_plans")
+      .select("vehicle_id, currency, base_daily_minor")
+      .eq("branch_id", branchId);
+    branchPrices = new Map((plans ?? []).map((p) => [p.vehicle_id, p.base_daily_minor]));
+    const currency = plans?.[0]?.currency ?? "USD";
+    const lowest = minPrice !== undefined ? majorToMinor(minPrice, currency) : undefined;
+    const highest = maxPrice !== undefined ? majorToMinor(maxPrice, currency) : undefined;
+    if (lowest !== undefined || highest !== undefined) {
+      allowedByPrice = [...branchPrices]
+        .filter(([, minor]) => (lowest === undefined || minor >= lowest) && (highest === undefined || minor <= highest))
+        .map(([id]) => id);
+    }
+  }
 
   const [from, to] = toRange(filters);
 
@@ -234,13 +247,15 @@ export async function getVehicleCards(
     .select(VEHICLE_CARD_COLUMNS, { count: "exact" });
 
   if (category && category.length > 0) query = query.in("category", category);
-  if (minPrice !== undefined) query = query.gte("price_per_day", minPrice);
-  if (maxPrice !== undefined) query = query.lte("price_per_day", maxPrice);
   if (seats !== undefined) query = query.gte("seats", seats);
   if (transmission) query = query.eq("transmission", transmission);
   if (fuel) query = query.eq("fuel", fuel);
   if (available !== undefined) query = query.eq("available", available);
-  const idFilter = await resolveVehicleIdFilter(filters);
+  let idFilter = await resolveVehicleIdFilter(filters);
+  if (allowedByPrice) {
+    const priced = new Set(allowedByPrice);
+    idFilter = idFilter ? idFilter.filter((id) => priced.has(id)) : allowedByPrice;
+  }
   if (idFilter) {
     if (idFilter.length === 0) return { data: [], count: 0 };
     query = query.in("id", idFilter);
@@ -250,12 +265,25 @@ export async function getVehicleCards(
     query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
   }
 
+  if (priceSort && branchPrices) {
+    // Ordering by a price held in another table: fetch every match (the catalogue is small), order by the branch's
+    // daily rate, then take the requested page.
+    const { data, error } = await query;
+    if (error) throw new Error(`getVehicleCards: ${error.message}`);
+    const prices = branchPrices;
+    const direction = sortOrder === "asc" ? 1 : -1;
+    const ordered = ((data ?? []) as unknown as VehicleCardData[]).sort(
+      (a, b) => direction * ((prices.get(a.id) ?? Number.MAX_SAFE_INTEGER) - (prices.get(b.id) ?? Number.MAX_SAFE_INTEGER))
+    );
+    return { data: await attachPlaces(ordered.slice(from, to + 1), branchId), count: ordered.length };
+  }
+
   query = query.order(sortBy, { ascending: sortOrder === "asc" }).range(from, to);
 
   const { data, error, count } = await query;
   if (error) throw new Error(`getVehicleCards: ${error.message}`);
 
-  const cards = await attachPlaces((data ?? []) as unknown as VehicleCardData[], filters.locationId ?? filters.availability?.pickupBranchId);
+  const cards = await attachPlaces((data ?? []) as unknown as VehicleCardData[], branchId);
   return { data: cards, count: count ?? 0 };
 }
 
@@ -754,6 +782,7 @@ export async function updateBookingStatus(
 // ---------------------------------------------------------------
 
 export type BranchOption = Pick<Tables<"branches">, "id" | "name" | "city" | "country" | "country_code">;
+export type BranchWithCurrency = BranchOption & { currency: string };
 
 /** Pick-up/drop-off options: active branches of approved providers. Same
  * ids as the legacy `locations` rows, so existing URLs keep working. */
@@ -789,12 +818,25 @@ export async function getVehicleTranslation(vehicleId: string, lang: string) {
 }
 
 /** One active branch as a place (used to say where a list of cars is being shown). */
-export async function getBranchPlace(id: number): Promise<BranchOption | null> {
+export async function getBranchPlace(id: number): Promise<BranchWithCurrency | null> {
   const { data } = await supabaseAdmin
     .from("branches")
-    .select("id, name, city, country, country_code")
+    .select("id, name, city, country, country_code, currency")
     .eq("id", id)
     .eq("is_active", true)
     .maybeSingle();
   return data ?? null;
+}
+
+/** The price range a branch offers, for the filter slider: its currency and the dearest daily rate, rounded up. */
+export async function getBranchPriceScope(branchId: number, currency: string): Promise<PriceScope | null> {
+  const { data } = await supabaseAdmin
+    .from("rate_plans")
+    .select("base_daily_minor")
+    .eq("branch_id", branchId)
+    .order("base_daily_minor", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  if (!data) return null;
+  return buildPriceScope(currency, data.base_daily_minor, currencyExponent(currency));
 }

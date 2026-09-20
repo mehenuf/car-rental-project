@@ -5,11 +5,16 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/u
 import { LabeledSelectValue } from "@/components/labeled-select-value";
 import { useT } from "@/lib/i18n/provider";
 
-export function CarsSortSelect({ value }: { value: string }) {
+/** `priceSort` is false when no place is chosen: prices are per place, so there is no single order to offer. */
+export function CarsSortSelect({ value, priceSort }: { value: string; priceSort: boolean }) {
   const t = useT();
   const SORT_OPTIONS = [
-    { value: "price_per_day:asc", label: t("cars.sortPriceAsc") },
-    { value: "price_per_day:desc", label: t("cars.sortPriceDesc") },
+    ...(priceSort
+      ? [
+          { value: "price_per_day:asc", label: t("cars.sortPriceAsc") },
+          { value: "price_per_day:desc", label: t("cars.sortPriceDesc") },
+        ]
+      : []),
     { value: "rating:desc", label: t("cars.sortRating") },
     { value: "created_at:desc", label: t("cars.sortNewest") },
   ];

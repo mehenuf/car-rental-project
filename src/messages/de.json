@@ -132,7 +132,8 @@
       "other": "{count} Fahrzeuge"
     },
     "loadFailed": "Fahrzeuge konnten nicht geladen werden",
-    "titleIn": "Autos in {place}"
+    "titleIn": "Autos in {place}",
+    "priceNeedsPlace": "Wählen Sie einen Standort, um nach Preis zu filtern."
   },
   "vehicle": {
     "perDay": "/Tag",

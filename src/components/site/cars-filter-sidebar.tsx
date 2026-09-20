@@ -6,17 +6,19 @@ import { Slider } from "@/components/ui/slider";
 import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { LabeledSelectValue } from "@/components/labeled-select-value";
-import { formatCurrency } from "@/lib/format";
+import { numberingLocale } from "@/lib/i18n/locales";
+import type { PriceScope } from "@/lib/price-scope";
 import { useLocale, useT } from "@/lib/i18n/provider";
 import type { Fuel, Transmission, VehicleCategory } from "@/types/database";
 
 export const PRICE_MIN = 0;
-export const PRICE_MAX = 300;
 
 export interface CarsFilters {
   categories: VehicleCategory[];
   minPrice: number;
   maxPrice: number;
+  /** The price range at the place being viewed, in that place's currency. Null when no place is chosen: prices differ per place, so there is nothing to filter on. */
+  priceScope: PriceScope | null;
   seats: number | null;
   transmission: Transmission | null;
   fuel: Fuel | null;
@@ -46,6 +48,11 @@ export function CarsFilterSidebar({
   const t = useT();
   const locale = useLocale();
   const anyLabel = t("cars.any");
+  const money = new Intl.NumberFormat(locale === "en" ? "en-US" : numberingLocale(locale), {
+    style: "currency",
+    currency: filters.priceScope?.currency ?? "USD",
+    maximumFractionDigits: 0,
+  });
   const [priceDraft, setPriceDraft] = useState<[number, number]>([
     filters.minPrice,
     filters.maxPrice,
@@ -83,22 +90,26 @@ export function CarsFilterSidebar({
         </div>
       </div>
 
-      <div className="flex flex-col gap-(--space-xs)">
-        <h3 className="text-sm font-semibold text-foreground">{t("cars.pricePerDay")}</h3>
-        <Slider
-          aria-label={t("cars.priceRange")}
-          value={priceDraft}
-          min={PRICE_MIN}
-          max={PRICE_MAX}
-          step={10}
-          onValueChange={(value) => setPriceDraft(value as [number, number])}
-          onValueCommitted={(value) => onPriceCommit(value as [number, number])}
-        />
-        <div className="flex items-center justify-between text-xs text-muted-foreground">
-          <span>{formatCurrency(priceDraft[0], locale)}</span>
-          <span>{formatCurrency(priceDraft[1], locale)}</span>
+      {filters.priceScope ? (
+        <div className="flex flex-col gap-(--space-xs)">
+          <h3 className="text-sm font-semibold text-foreground">{t("cars.pricePerDay")}</h3>
+          <Slider
+            aria-label={t("cars.priceRange")}
+            value={priceDraft}
+            min={PRICE_MIN}
+            max={filters.priceScope.max}
+            step={filters.priceScope.step}
+            onValueChange={(value) => setPriceDraft(value as [number, number])}
+            onValueCommitted={(value) => onPriceCommit(value as [number, number])}
+          />
+          <div className="flex items-center justify-between text-xs text-muted-foreground">
+            <span>{money.format(priceDraft[0])}</span>
+            <span>{money.format(priceDraft[1])}</span>
+          </div>
         </div>
-      </div>
+      ) : (
+        <p className="text-xs text-muted-foreground">{t("cars.priceNeedsPlace")}</p>
+      )}
 
       <div className="flex flex-col gap-(--space-xs)">
         <h3 id="filter-seats-label" className="text-sm font-semibold text-foreground">

@@ -10,7 +10,7 @@ import { getVehicleCards } from "@/lib/queries";
 import { VehiclesQuerySchema, searchParamsToObject } from "@/lib/schemas";
 import { formatDate } from "@/lib/format";
 import { getLocale, getT } from "@/lib/i18n/dictionary";
-import { getBranchPlace } from "@/lib/queries";
+import { getBranchPlace, getBranchPriceScope } from "@/lib/queries";
 import { placeLabel } from "@/lib/location/places";
 import { cookies } from "next/headers";
 
@@ -68,6 +68,7 @@ export async function CarsPageContent({
   const explicitPlaceId = filters.locationId ?? (availability ? undefined : filters.pickupLocationId);
   const locationId = explicitPlaceId ?? cookiePlaceId;
   const lookingIn = locationId ? await getBranchPlace(locationId) : null;
+  const priceScope = lookingIn ? await getBranchPriceScope(lookingIn.id, lookingIn.currency) : null;
 
   const { data, count } = await getVehicleCards({
     category: filters.category,
@@ -91,7 +92,8 @@ export async function CarsPageContent({
   const filterValues: CarsFilters = {
     categories: filters.category ?? [],
     minPrice: filters.minPrice ?? 0,
-    maxPrice: filters.maxPrice ?? 300,
+    maxPrice: filters.maxPrice ?? priceScope?.max ?? 0,
+    priceScope,
     seats: filters.seats ?? null,
     transmission: filters.transmission ?? null,
     fuel: filters.fuel ?? null,
@@ -131,7 +133,7 @@ export async function CarsPageContent({
               {t("cars.found", { count })}
             </span>
 
-            <CarsSortSelect value={`${sortBy}:${sortOrder}`} />
+            <CarsSortSelect value={priceScope || sortBy !== "price_per_day" ? `${sortBy}:${sortOrder}` : "created_at:desc"} priceSort={Boolean(lookingIn)} />
           </div>
 
           {data.length === 0 ? (

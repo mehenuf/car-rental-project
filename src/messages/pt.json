@@ -132,7 +132,8 @@
       "other": "Carros: {count}"
     },
     "loadFailed": "Não foi possível carregar os veículos",
-    "titleIn": "Carros em {place}"
+    "titleIn": "Carros em {place}",
+    "priceNeedsPlace": "Escolha um local para filtrar por preço."
   },
   "vehicle": {
     "perDay": "/dia",

@@ -132,7 +132,8 @@
       "other": "{count} auto's"
     },
     "loadFailed": "Voertuigen laden mislukt",
-    "titleIn": "Auto's in {place}"
+    "titleIn": "Auto's in {place}",
+    "priceNeedsPlace": "Kies een locatie om op prijs te filteren."
   },
   "vehicle": {
     "perDay": "/dag",
