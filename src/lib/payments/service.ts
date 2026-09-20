@@ -16,7 +16,14 @@ export interface BookingForPayment {
   hold_expires_at: string | null;
   email: string;
   currency: string | null;
-  price_snapshot: (RefundSnapshot & { quote: RefundSnapshot["quote"] & { depositMinor?: number } }) | null;
+  price_snapshot:
+    | (RefundSnapshot & {
+        quote: RefundSnapshot["quote"] & {
+          depositMinor?: number;
+          lines?: { label: string; amountMinor: number; included?: boolean }[];
+        };
+      })
+    | null;
   user_id: string | null;
   guest_id: string | null;
   /** Country of the pickup branch; decides which local payment methods are offered. */
