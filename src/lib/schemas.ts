@@ -393,5 +393,5 @@ export const SalesByCountryQuerySchema = z.object({
 export const SignupSchema = z.object({
   fullName: z.string().trim().min(1, "Full name is required").max(200),
   email: z.string().trim().toLowerCase().email("Enter a valid email address"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(10, "Password must be at least 10 characters"),
 });

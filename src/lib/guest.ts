@@ -49,6 +49,11 @@ async function getSupabaseSessionUser(writable: boolean): Promise<User | null> {
   return user;
 }
 
+/** The signed-in user for this request, or null. Pass `writable: true` from Route Handlers so a refreshed token is saved. */
+export async function getSessionUser(writable = false): Promise<User | null> {
+  return getSupabaseSessionUser(writable);
+}
+
 /**
  * Resolves who is making this request. If signed in, `userId` is used and
  * no guest cookie is issued. Otherwise reads the existing `bc_guest` cookie,
