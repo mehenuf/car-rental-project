@@ -608,5 +608,28 @@
       "escalate": "Geëscaleerd",
       "decision": "Beslissing"
     }
+  },
+  "consent": {
+    "title": "Cookies en privacy",
+    "body": "We gebruiken noodzakelijke cookies om je ingelogd te houden en je taal te onthouden. Met jouw toestemming gebruiken we ook analyses om te zien hoe de site wordt gebruikt. Je kunt op elk moment van gedachten veranderen.",
+    "accept": "Analyse accepteren",
+    "decline": "Alleen noodzakelijke"
+  },
+  "privacy": {
+    "navLabel": "Privacy",
+    "title": "Jouw privacy",
+    "intro": "Bekijk wat we over je bewaren, download een kopie, wijzig je cookiekeuze of verwijder je account.",
+    "downloadTitle": "Mijn gegevens downloaden",
+    "downloadBody": "Een bestand met je account, boekingen, rijbewijsgegevens, berichten, beoordelingen en voorkeuren.",
+    "download": "Downloaden (JSON)",
+    "cookiesTitle": "Cookies",
+    "cookiesBody": "Noodzakelijke cookies staan altijd aan. Analyses draaien alleen als je ze toestaat.",
+    "saved": "Opgeslagen.",
+    "acceptedTitle": "Beleid dat je hebt geaccepteerd",
+    "deleteTitle": "Mijn account verwijderen",
+    "deleteBody": "Je persoonsgegevens worden verwijderd en je boekingen geanonimiseerd. Betaal- en boekingsgegevens die we wettelijk moeten bewaren blijven, zonder je naam, e-mail of telefoon. Verwijderen kan niet zolang een boeking openstaat of een geschil niet is opgelost. Dit kan niet ongedaan worden gemaakt.",
+    "deleteConfirm": "Typ {email} om te bevestigen",
+    "delete": "Mijn account verwijderen",
+    "error": "Er is iets misgegaan. Probeer het opnieuw."
   }
 }

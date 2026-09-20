@@ -598,5 +598,28 @@
       "escalate": "已升级",
       "decision": "裁决"
     }
+  },
+  "consent": {
+    "title": "Cookie 与您的隐私",
+    "body": "我们使用必要的 Cookie 来保持您的登录状态并记住您的语言。经您许可，我们还会使用分析工具了解网站的使用情况。您可以随时更改选择。",
+    "accept": "接受分析",
+    "decline": "仅必要项"
+  },
+  "privacy": {
+    "navLabel": "隐私",
+    "title": "您的隐私",
+    "intro": "查看我们保存的关于您的信息，下载副本，更改 Cookie 选择，或删除账户。",
+    "downloadTitle": "下载我的数据",
+    "downloadBody": "包含您的账户、预订、驾驶证信息、消息、评价和偏好设置的文件。",
+    "download": "下载（JSON）",
+    "cookiesTitle": "Cookie",
+    "cookiesBody": "必要的 Cookie 始终开启。仅在您允许时才会运行分析。",
+    "saved": "已保存。",
+    "acceptedTitle": "您已接受的政策",
+    "deleteTitle": "删除我的账户",
+    "deleteBody": "这将删除您的个人数据并使您的预订匿名化。依法必须保留的付款和预订记录会保留，但不含您的姓名、邮箱或电话。有未完成的预订或未解决的争议时无法删除。此操作无法撤销。",
+    "deleteConfirm": "输入 {email} 以确认",
+    "delete": "删除我的账户",
+    "error": "出了点问题，请重试。"
   }
 }

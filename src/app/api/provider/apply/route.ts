@@ -7,7 +7,7 @@ import { ApplySchema } from "@/lib/provider/schemas";
 import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-const isRateLimited = createRateLimiter({ limit: 3, windowMs: 60_000 });
+const isRateLimited = createRateLimiter({ name: "provider/apply", limit: 3, windowMs: 60_000 });
 const MAX_OWNED_PROVIDERS = 3;
 
 /**
@@ -16,7 +16,7 @@ const MAX_OWNED_PROVIDERS = 3;
  * caller its owner, and creates its first branch with the address kept private.
  */
 export const POST = withErrorHandling(async (request: NextRequest) => {
-  if (isRateLimited(getVisitorId(request))) throw new RateLimitError();
+  if (await isRateLimited(getVisitorId(request))) throw new RateLimitError();
 
   const user = await currentUser();
   if (!user) throw new ApiError(401, "Please sign in to apply.");

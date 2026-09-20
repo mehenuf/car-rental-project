@@ -1,5 +1,4 @@
 import type { ReactNode } from "react";
-import { Analytics } from "@vercel/analytics/next";
 import { ThemeProvider } from "@/components/theme-provider";
 import { fontClassesFor } from "@/lib/fonts";
 import { directionOf, type Locale } from "@/lib/i18n/locales";
@@ -30,7 +29,6 @@ export function RootShell({
           {skipLabel}
         </a>
         <ThemeProvider>{children}</ThemeProvider>
-        <Analytics />
       </body>
     </html>
   );

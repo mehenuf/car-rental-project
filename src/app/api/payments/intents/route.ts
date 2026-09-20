@@ -9,7 +9,7 @@ import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
 import { StartPaymentSchema } from "@/lib/schemas";
 
 // Public and state-changing (it charges), so rate-limited like bookings.
-const isRateLimited = createRateLimiter({ limit: 10, windowMs: 60_000 });
+const isRateLimited = createRateLimiter({ name: "payments/intents", limit: 10, windowMs: 60_000 });
 
 /**
  * POST /api/payments/intents — pays for the caller's pending booking.
@@ -17,7 +17,7 @@ const isRateLimited = createRateLimiter({ limit: 10, windowMs: 60_000 });
  * created it). Repeating the same `attempt` replays the stored result.
  */
 export const POST = withErrorHandling(async (request: NextRequest) => {
-  if (isRateLimited(getVisitorId(request))) throw new RateLimitError();
+  if (await isRateLimited(getVisitorId(request))) throw new RateLimitError();
 
   const input = StartPaymentSchema.parse(await request.json());
   const identity = await resolveRequestIdentity();

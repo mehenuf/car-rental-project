@@ -8,7 +8,7 @@ import { QuoteRequestSchema } from "@/lib/schemas";
 // Public and unauthenticated, and each call reads several tables, so it is
 // rate-limited (more generously than bookings, since the booking panel
 // re-quotes when the customer changes dates or options).
-const isRateLimited = createRateLimiter({ limit: 30, windowMs: 60_000 });
+const isRateLimited = createRateLimiter({ name: "quote", limit: 30, windowMs: 60_000 });
 
 /**
  * POST /api/quote — prices a trip (all-inclusive total, itemised lines,
@@ -16,7 +16,7 @@ const isRateLimited = createRateLimiter({ limit: 30, windowMs: 60_000 });
  * if no unit is free for the dates, so an unbookable trip is never quoted.
  */
 export const POST = withErrorHandling(async (request: NextRequest) => {
-  if (isRateLimited(getVisitorId(request))) throw new RateLimitError();
+  if (await isRateLimited(getVisitorId(request))) throw new RateLimitError();
 
   const input = QuoteRequestSchema.parse(await request.json());
   const signed = await getSignedQuote({

@@ -11,7 +11,7 @@ import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
 // (the widget fires it at most once per real conversation) — this only
 // exists to stop a script from hitting it directly and repeatedly with a
 // fabricated transcript to burn paid AI calls and spam the leads table.
-const isRateLimited = createRateLimiter({ limit: 10, windowMs: 60_000 });
+const isRateLimited = createRateLimiter({ name: "chat/score", limit: 10, windowMs: 60_000 });
 
 /**
  * The AI's analyst reply, validated before anything gets saved. Field names
@@ -58,7 +58,7 @@ const NO_CONTENT = new Response(null, { status: 204 });
  */
 export async function POST(request: NextRequest) {
   try {
-    if (isRateLimited(getVisitorId(request))) return NO_CONTENT;
+    if (await isRateLimited(getVisitorId(request))) return NO_CONTENT;
 
     const body = await request.json();
     const parsed = ChatRequestSchema.safeParse(body);

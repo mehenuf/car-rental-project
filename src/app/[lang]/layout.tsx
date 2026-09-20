@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { RootShell } from "@/components/root-shell";
+import { ConsentManager } from "@/components/site/consent";
 import { I18nProvider } from "@/lib/i18n/provider";
 import { getMessages } from "@/lib/i18n/dictionary";
 import { LOCALES, hasLocale } from "@/lib/i18n/locales";
@@ -28,6 +29,7 @@ export default async function LangLayout({ children, params }: LayoutProps<"/[la
     <RootShell locale={lang} skipLabel={createT(lang, messages)("common.skipToContent")}>
       <I18nProvider locale={lang} messages={messages}>
         {children}
+        <ConsentManager />
       </I18nProvider>
     </RootShell>
   );

@@ -11,7 +11,7 @@ import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
 
 // A public, unauthenticated endpoint that creates a real Supabase Auth user on every success;
 // without a throttle a script could mass-create accounts.
-const isRateLimited = createRateLimiter({ limit: 5, windowMs: 60_000 });
+const isRateLimited = createRateLimiter({ name: "auth/signup", limit: 5, windowMs: 60_000 });
 
 /**
  * POST /api/auth/signup
@@ -25,7 +25,7 @@ const isRateLimited = createRateLimiter({ limit: 5, windowMs: 60_000 });
  * provider yet: the account is created pre-confirmed so the customer can sign in immediately.
  */
 export const POST = withErrorHandling(async (request: NextRequest) => {
-  if (isRateLimited(getVisitorId(request))) throw new RateLimitError();
+  if (await isRateLimited(getVisitorId(request))) throw new RateLimitError();
 
   const body = await request.json();
   const { fullName, email, password } = SignupSchema.parse(body);

@@ -12,7 +12,7 @@ function textResponse(body: string, status = 200): Response {
   return new Response(body, { status, headers: PLAIN_TEXT_HEADERS });
 }
 
-const isRateLimited = createRateLimiter({ limit: 10, windowMs: 60_000 });
+const isRateLimited = createRateLimiter({ name: "chat", limit: 10, windowMs: 60_000 });
 
 // ---------------------------------------------------------------
 // Fallback — used only when Groq fails to even start responding. Skips
@@ -131,7 +131,7 @@ async function streamGroqReply(
 export async function POST(request: NextRequest) {
   const visitorId = getVisitorId(request);
 
-  if (isRateLimited(visitorId)) {
+  if (await isRateLimited(visitorId)) {
     return textResponse(
       "You're sending messages a little quickly. Give it a few seconds and try again!",
       429

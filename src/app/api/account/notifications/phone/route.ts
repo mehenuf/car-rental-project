@@ -8,12 +8,12 @@ import { createRateLimiter } from "@/lib/rate-limit";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 // Each code costs an SMS, so starting a verification is tightly limited per account.
-const isStartLimited = createRateLimiter({ limit: 3, windowMs: 10 * 60_000 });
+const isStartLimited = createRateLimiter({ name: "account/notifications/phone", limit: 3, windowMs: 10 * 60_000 });
 
 /** POST /api/account/notifications/phone — starts verification of a phone number (sends a code). */
 export const POST = withErrorHandling(async (request: NextRequest) => {
   const user = await requireUser();
-  if (isStartLimited(user.id)) throw new RateLimitError();
+  if (await isStartLimited(user.id)) throw new RateLimitError();
   const { phone } = PhoneStartSchema.parse(await request.json());
 
   const result = await verifierFromEnv().start(phone);

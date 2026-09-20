@@ -7,7 +7,7 @@ import { createRateLimiter } from "@/lib/rate-limit";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { toTrustError } from "@/lib/trust-errors";
 
-const isLimited = createRateLimiter({ limit: 10, windowMs: 60 * 60_000 });
+const isLimited = createRateLimiter({ name: "reports", limit: 10, windowMs: 60 * 60_000 });
 
 const ReportSchema = z.object({
   kind: z.enum(["listing", "user", "message", "review"]),
@@ -18,7 +18,7 @@ const ReportSchema = z.object({
 /** POST /api/reports — anyone signed in can report a listing, a user, a message or a review for a moderator to look at. */
 export const POST = withErrorHandling(async (request: NextRequest) => {
   const user = await requireUser();
-  if (isLimited(user.id)) throw new RateLimitError();
+  if (await isLimited(user.id)) throw new RateLimitError();
   const input = ReportSchema.parse(await request.json());
 
   if (input.kind === "review") {
