@@ -3,6 +3,7 @@ import { isPaymentMethodCode, methodsFor, type PaymentMethodCode } from "@/lib/p
 import type { PaymentProvider, ProviderResult } from "@/lib/payments/provider";
 import { computeRefund, type RefundSnapshot } from "@/lib/payments/refunds";
 import type { StripeWebhookResult } from "@/lib/payments/stripe-webhook";
+import type { QuoteLine } from "@/lib/pricing/types";
 
 // ---------------------------------------------------------------
 // Ports: what the service needs from the database and the clock
@@ -20,7 +21,8 @@ export interface BookingForPayment {
     | (RefundSnapshot & {
         quote: RefundSnapshot["quote"] & {
           depositMinor?: number;
-          lines?: { label: string; amountMinor: number; included?: boolean }[];
+          lines?: QuoteLine[];
+          days?: number;
         };
       })
     | null;

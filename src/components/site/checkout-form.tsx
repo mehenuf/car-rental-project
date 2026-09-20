@@ -2,7 +2,10 @@
 
 import { useEffect, useState, type FormEvent } from "react";
 import { Link } from "@/lib/i18n/link";
-import { useLocalePath, useLocaleRouter } from "@/lib/i18n/provider";
+import { useLocale, useLocalePath, useLocaleRouter, useT } from "@/lib/i18n/provider";
+import { numberingLocale } from "@/lib/i18n/locales";
+import { quoteLineLabel } from "@/lib/pricing/localize";
+import type { QuoteLine } from "@/lib/pricing/types";
 import { Clock, FlaskConical, ShieldCheck } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -17,12 +20,6 @@ interface CheckoutMethod {
   code: string;
   label: string;
   testHint: string;
-}
-
-interface CheckoutLine {
-  label: string;
-  amountMinor: number;
-  included?: boolean;
 }
 
 interface PaymentResponse {
@@ -44,6 +41,7 @@ export function CheckoutForm({
   totalMinor,
   depositMinor,
   lines,
+  days,
   holdExpiresAt,
   methods,
   stripe,
@@ -53,12 +51,15 @@ export function CheckoutForm({
   currency: string;
   totalMinor: number;
   depositMinor: number;
-  lines: CheckoutLine[];
+  lines: QuoteLine[];
+  days: number;
   holdExpiresAt: string | null;
   methods: CheckoutMethod[];
   stripe: { enabled: boolean; publishableKey: string | null };
 }) {
   const router = useLocaleRouter();
+  const t = useT();
+  const locale = useLocale();
   const [method, setMethod] = useState(methods[0]?.code ?? "card");
   const [testInput, setTestInput] = useState("");
   const [attempt, setAttempt] = useState(() => crypto.randomUUID());
@@ -79,8 +80,8 @@ export function CheckoutForm({
   const expired = remainingMs !== null && remainingMs <= 0;
   const selected = methods.find((m) => m.code === method);
   const usesStripe = stripe.enabled && stripe.publishableKey !== null && method === "card";
-  const money = (minor: number) => formatMinor(minor, currency);
-  const payLabel = `Pay ${money(totalMinor)}`;
+  const money = (minor: number) => formatMinor(minor, currency, numberingLocale(locale));
+  const payLabel = t("checkout.pay", { amount: money(totalMinor) });
   const localePath = useLocalePath();
   const confirmationPath = `/booking-confirmation?ref=${encodeURIComponent(reference)}`;
   const confirmationUrl = localePath(confirmationPath);
@@ -116,10 +117,10 @@ export function CheckoutForm({
         body: JSON.stringify(payload),
       });
       const body = await res.json();
-      if (!res.ok) throw new Error(body?.error?.message ?? "Something went wrong. Please try again.");
+      if (!res.ok) throw new Error(body?.error?.message ?? t("checkout.failed"));
       handleResult(body as PaymentResponse);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
+      setError(err instanceof Error ? err.message : t("checkout.failed"));
     } finally {
       setBusy(false);
     }
@@ -144,9 +145,9 @@ export function CheckoutForm({
     <div className="mx-auto grid max-w-5xl gap-(--space-lg) px-(--space-sm) py-(--space-xl) lg:grid-cols-[1.2fr_1fr]">
       <div className="flex flex-col gap-(--space-md)">
         <div className="flex flex-col gap-1">
-          <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">Complete your payment</h1>
+          <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">{t("checkout.title")}</h1>
           <p className="text-muted-foreground">
-            {vehicleName} &middot; Ref {reference}
+            {vehicleName} &middot; {t("checkout.ref", { reference })}
           </p>
         </div>
 
@@ -160,14 +161,14 @@ export function CheckoutForm({
           >
             <Clock className="size-4" aria-hidden />
             {expired
-              ? "Your booking hold has expired. The car has been released."
-              : `We are holding this car for you for ${formatCountdown(remainingMs)}.`}
+              ? t("checkout.holdExpired")
+              : t("checkout.holding", { time: formatCountdown(remainingMs) })}
           </div>
         )}
 
         {expired ? (
           <Link href="/cars" className={buttonVariants({ size: "lg" })}>
-            Find another car
+            {t("checkout.findAnother")}
           </Link>
         ) : phase === "stripe" && clientSecret && stripe.publishableKey ? (
           <StripeCardForm
@@ -181,18 +182,18 @@ export function CheckoutForm({
         ) : phase === "code" ? (
           <form onSubmit={confirmCode} className="flex flex-col gap-(--space-sm)">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="pay-code">Confirmation code</Label>
+              <Label htmlFor="pay-code">{t("checkout.confirmCode")}</Label>
               <Input id="pay-code" value={code} onChange={(e) => setCode(e.target.value)} inputMode="numeric" maxLength={6} autoFocus />
-              <p className="text-xs text-muted-foreground">Test mode: enter 000000 to approve, anything else to fail.</p>
+              <p className="text-xs text-muted-foreground">{t("checkout.testModeHint")}</p>
             </div>
             <Button type="submit" size="lg" disabled={busy}>
-              {busy ? "Confirming..." : "Confirm payment"}
+              {busy ? t("checkout.confirming") : t("checkout.confirmPayment")}
             </Button>
           </form>
         ) : (
           <form onSubmit={pay} className="flex flex-col gap-(--space-sm)">
             <fieldset className="flex flex-col gap-2">
-              <legend className="mb-1 text-sm font-medium text-foreground">Payment method</legend>
+              <legend className="mb-1 text-sm font-medium text-foreground">{t("checkout.paymentMethod")}</legend>
               {methods.map((m) => (
                 <button
                   key={m.code}
@@ -215,10 +216,10 @@ export function CheckoutForm({
             </fieldset>
 
             {usesStripe ? (
-              <p className="text-sm text-muted-foreground">You will enter your card details securely with Stripe on the next step.</p>
+              <p className="text-sm text-muted-foreground">{t("checkout.stripeNote")}</p>
             ) : (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="pay-test">{method === "card" ? "Test card number" : "Test outcome (optional)"}</Label>
+                <Label htmlFor="pay-test">{method === "card" ? t("checkout.testCard") : t("checkout.testOutcome")}</Label>
                 <Input
                   id="pay-test"
                   value={testInput}
@@ -228,7 +229,7 @@ export function CheckoutForm({
                 />
                 {selected && <p className="text-xs text-muted-foreground">{selected.testHint}</p>}
                 <p className="flex items-center gap-1 text-xs text-muted-foreground">
-                  <FlaskConical className="size-3.5" aria-hidden /> Simulated payments: no real money moves. Never enter a real card number.
+                  <FlaskConical className="size-3.5" aria-hidden /> {t("checkout.simulated")}
                 </p>
               </div>
             )}
@@ -240,7 +241,7 @@ export function CheckoutForm({
             )}
 
             <Button type="submit" size="lg" disabled={busy}>
-              {busy ? "Processing..." : usesStripe ? "Continue to card details" : payLabel}
+              {busy ? t("checkout.processing") : usesStripe ? t("checkout.continueCard") : payLabel}
             </Button>
           </form>
         )}
@@ -254,23 +255,23 @@ export function CheckoutForm({
 
       <Card className="h-fit shadow-card ring-0">
         <CardContent className="flex flex-col gap-(--space-sm)">
-          <h2 className="font-heading text-lg font-semibold text-foreground">Order summary</h2>
+          <h2 className="font-heading text-lg font-semibold text-foreground">{t("checkout.orderSummary")}</h2>
           <ul className="flex flex-col gap-1.5 text-sm">
             {lines.map((line, i) => (
-              <li key={`${line.label}-${i}`} className="flex justify-between gap-3">
-                <span className={cn("text-muted-foreground", line.included && "italic")}>{line.label}</span>
+              <li key={`${line.kind}-${i}`} className="flex justify-between gap-3">
+                <span className={cn("text-muted-foreground", line.included && "italic")}>{quoteLineLabel(line, days, t)}</span>
                 <span className={cn("font-medium text-foreground", line.included && "text-muted-foreground")}>{money(line.amountMinor)}</span>
               </li>
             ))}
           </ul>
           <div className="flex items-center justify-between border-t border-border pt-(--space-sm)">
-            <span className="font-heading font-semibold text-foreground">Total</span>
+            <span className="font-heading font-semibold text-foreground">{t("checkout.total")}</span>
             <span className="font-heading text-xl font-bold text-accent-text">{money(totalMinor)}</span>
           </div>
           {depositMinor > 0 && (
             <p className="flex gap-2 text-xs text-muted-foreground">
               <ShieldCheck className="mt-0.5 size-4 shrink-0" aria-hidden />
-              A refundable deposit of {money(depositMinor)} is held on your payment method. It is not charged and is released after your rental.
+              {t("checkout.depositNote", { amount: money(depositMinor) })}
             </p>
           )}
         </CardContent>

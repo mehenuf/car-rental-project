@@ -7,6 +7,7 @@ import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { initialsFor } from "@/lib/format";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { useT } from "@/lib/i18n/provider";
 
 interface Testimonial {
   name: string;
@@ -61,6 +62,7 @@ const TESTIMONIALS: Testimonial[] = [
 ];
 
 export function TestimonialsSection() {
+  const t = useT();
   const scrollerRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
 
@@ -94,10 +96,10 @@ export function TestimonialsSection() {
     <section id="testimonials" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
       <ScrollReveal className="flex flex-col items-center gap-2 text-center" delay={0.1}>
         <h2 className="font-heading text-3xl font-bold text-foreground">
-          Trusted by Thousands of Happy Customers
+          {t("testimonials.title")}
         </h2>
         <p className="max-w-xl text-muted-foreground">
-          Real stories from renters who booked their next trip with BestCar.
+          {t("testimonials.subtitle")}
         </p>
       </ScrollReveal>
 
@@ -148,7 +150,7 @@ export function TestimonialsSection() {
             size="icon"
             onClick={() => scrollToIndex(activeIndex - 1)}
             disabled={activeIndex === 0}
-            aria-label="Previous testimonial"
+            aria-label={t("testimonials.prev")}
           >
             <ChevronLeft />
           </Button>
@@ -157,7 +159,7 @@ export function TestimonialsSection() {
               <button
                 key={testimonial.name}
                 type="button"
-                aria-label={`Go to testimonial ${i + 1}`}
+                aria-label={t("testimonials.goTo", { n: i + 1 })}
                 aria-current={i === activeIndex ? "true" : undefined}
                 onClick={() => scrollToIndex(i)}
                 className={cn(
@@ -173,14 +175,14 @@ export function TestimonialsSection() {
             size="icon"
             onClick={() => scrollToIndex(activeIndex + 1)}
             disabled={activeIndex === TESTIMONIALS.length - 1}
-            aria-label="Next testimonial"
+            aria-label={t("testimonials.next")}
           >
             <ChevronRight />
           </Button>
         </div>
 
         <p className="sr-only" role="status" aria-live="polite">
-          Testimonial {activeIndex + 1} of {TESTIMONIALS.length}
+          {t("testimonials.status", { n: activeIndex + 1, total: TESTIMONIALS.length })}
         </p>
       </div>
     </section>

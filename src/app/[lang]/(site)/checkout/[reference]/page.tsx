@@ -46,6 +46,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ refer
       totalMinor={snapshot.quote.totalMinor}
       depositMinor={snapshot.quote.depositMinor ?? 0}
       lines={snapshot.quote.lines ?? []}
+      days={snapshot.quote.days ?? 1}
       holdExpiresAt={booking.hold_expires_at}
       methods={methods}
       stripe={{

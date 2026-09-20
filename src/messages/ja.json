@@ -73,5 +73,233 @@
   "error": {
     "title": "問題が発生しました",
     "body": "このページの読み込み中に問題が発生しました。もう一度お試しいただくか、ホームに戻ってください。"
+  },
+  "enums": {
+    "category": {
+      "popular": "人気",
+      "large": "大型",
+      "small": "小型",
+      "exclusive": "特別仕様"
+    },
+    "transmission": {
+      "automatic": "オートマチック",
+      "manual": "マニュアル"
+    },
+    "fuel": {
+      "petrol": "ガソリン",
+      "diesel": "ディーゼル",
+      "hybrid": "ハイブリッド",
+      "electric": "電気"
+    }
+  },
+  "search": {
+    "pickUp": "受け取り",
+    "dropOff": "返却",
+    "location": "場所",
+    "date": "日付",
+    "time": "時間",
+    "selectCity": "都市を選択",
+    "selectDate": "日付を選択",
+    "submit": "検索",
+    "errBothDates": "受け取り日と返却日の両方を選択してください。",
+    "errDropAfter": "返却日は受け取り日より後にしてください。"
+  },
+  "cars": {
+    "title": "車両ラインナップ",
+    "showingDates": "{from} 受け取り、{to} 返却の車両を表示しています。",
+    "found": {
+      "other": "{count}台が見つかりました"
+    },
+    "emptyTitle": "条件に合う車がありません",
+    "emptyBody": "価格帯を広げるか、絞り込み条件をいくつか外して、より多くの結果をご覧ください。",
+    "clearFilters": "絞り込みを解除",
+    "filters": "絞り込み",
+    "clearAll": "すべて解除",
+    "category": "カテゴリー",
+    "pricePerDay": "1日あたりの料金",
+    "priceRange": "1日あたりの料金範囲",
+    "seats": "座席数",
+    "seatsOption": "{count}席以上",
+    "transmission": "トランスミッション",
+    "fuel": "燃料の種類",
+    "any": "指定なし",
+    "sortPriceAsc": "料金：安い順",
+    "sortPriceDesc": "料金：高い順",
+    "sortRating": "評価の高い順",
+    "sortNewest": "新着順",
+    "pagination": "ページ送り",
+    "prevPage": "前のページ",
+    "nextPage": "次のページ",
+    "dealsTitle": "人気のレンタカーお得情報",
+    "dealsBody": "整備の行き届いた車両を、短い旅行にも長い旅行にもご予約いただけます。",
+    "tabLarge": "大型車",
+    "tabSmall": "小型車",
+    "tabExclusive": "特別仕様車",
+    "loading": "読み込み中...",
+    "showMore": "さらに表示",
+    "noMore": "これ以上ありません",
+    "total": {
+      "other": "{count}台"
+    },
+    "loadFailed": "車両を読み込めませんでした"
+  },
+  "vehicle": {
+    "perDay": "/日",
+    "soldOut": "満車",
+    "rentNow": "今すぐ借りる",
+    "addFavorite": "{name}をお気に入りに追加",
+    "removeFavorite": "{name}をお気に入りから削除",
+    "features": "装備・特徴",
+    "similar": "似た車両",
+    "reviews": {
+      "other": "（{count}件のレビュー）"
+    },
+    "seats": "座席",
+    "doors": "ドア",
+    "transmission": "トランスミッション",
+    "fuel": "燃料",
+    "photos": "{name}の写真",
+    "showPhoto": "写真 {n}/{total} を表示"
+  },
+  "booking": {
+    "from": "最安",
+    "pickUp": "受け取り",
+    "dropOff": "返却",
+    "extras": "オプション",
+    "optionalExtras": "追加オプション",
+    "included": "{name}は含まれています。",
+    "promoCode": "プロモーションコード",
+    "enterCode": "コードを入力",
+    "apply": "適用",
+    "remove": "削除",
+    "driverAge": "運転者の年齢（任意）",
+    "calculating": "料金を計算しています...",
+    "bookNow": "今すぐ予約",
+    "soldOut": "満車",
+    "unavailable": "この車両は現在ご予約いただけません。",
+    "priceChanged": "料金が {amount} に変更されました。ご確認のうえ、もう一度お進みください。",
+    "createFailed": "予約を作成できませんでした",
+    "dialogTitle": "予約を完了する",
+    "dialogDesc": {
+      "other": "{name}、{count}日間、{total}"
+    },
+    "fullName": "氏名",
+    "email": "メールアドレス",
+    "phone": "電話番号（任意）",
+    "cancel": "キャンセル",
+    "confirm": "予約を確定",
+    "submitting": "予約中..."
+  },
+  "quote": {
+    "total": "合計",
+    "allIncluded": "必須の手数料と税金はすべてこの合計に含まれています。",
+    "deposit": "受け取り時に {amount} の返金可能なデポジットをお預かりします。合計には含まれません。",
+    "base": {
+      "other": "基本料金（{count}日間）"
+    },
+    "season": "シーズン料金調整",
+    "weekend": "週末料金",
+    "weekly": "週割引",
+    "monthly": "月割引",
+    "promo": "プロモーション {code}",
+    "youngDriver": {
+      "other": "若年運転者料金（{count}日間）"
+    },
+    "oneWay": "乗り捨て料金",
+    "pickupSurcharge": "受け取り場所の追加料金",
+    "serviceFee": "サービス料",
+    "taxIncluded": "{name}（込み）",
+    "cancelTerms": "キャンセル条件はレンタカー会社が定めます。",
+    "cancelNoRefundAfter": "それ以降は返金なし",
+    "cancelFree": "受け取りの{hours}前まで無料でキャンセル可能",
+    "cancelPartial": "受け取りの{hours}前まで{percent}%返金",
+    "cancelNoRefundWithin": "受け取り前{hours}以内は返金なし",
+    "hours": {
+      "other": "{count}時間"
+    }
+  },
+  "checkout": {
+    "title": "お支払いを完了する",
+    "ref": "参照番号 {reference}",
+    "holdExpired": "予約の保持期限が切れました。車両は解放されました。",
+    "holding": "この車両を{time}お取り置きしています。",
+    "findAnother": "他の車を探す",
+    "confirmCode": "確認コード",
+    "testModeHint": "テストモード：承認するには 000000 を入力してください。それ以外は失敗します。",
+    "confirming": "確認中...",
+    "confirmPayment": "支払いを確認",
+    "paymentMethod": "お支払い方法",
+    "stripeNote": "次のステップで、Stripe を通じて安全にカード情報を入力します。",
+    "testCard": "テストカード番号",
+    "testOutcome": "テスト結果（任意）",
+    "simulated": "模擬決済：実際のお金は動きません。本物のカード番号は絶対に入力しないでください。",
+    "processing": "処理中...",
+    "continueCard": "カード情報の入力へ進む",
+    "pay": "{amount}を支払う",
+    "orderSummary": "ご注文内容",
+    "total": "合計",
+    "depositNote": "お支払い方法に {amount} の返金可能なデポジットをお預かりします。請求はされず、ご利用後に解放されます。",
+    "failed": "問題が発生しました。もう一度お試しください。"
+  },
+  "confirmation": {
+    "receivedTitle": "予約を受け付けました",
+    "receivedBody": "ご予約を受け付け、確認をお待ちしています。確定次第、メールでお知らせします。",
+    "cancelledTitle": "予約はキャンセルされました",
+    "cancelledRefundedBody": "ご予約はキャンセルされ、お支払いは返金されました。",
+    "cancelledBody": "ご予約はキャンセルされました。",
+    "confirmedTitle": "予約が確定しました",
+    "confirmedBody": "お支払いを確認し、ご予約が確定しました。受け取り時にお会いしましょう。",
+    "payTitle": "お支払いを完了してください",
+    "payBody": "ご予約はお取り置き中です。お支払いを完了して確定してください。お支払い直後の場合は、このページがまもなく更新されます。",
+    "expiredTitle": "予約の期限が切れました",
+    "expiredBody": "この予約のお支払い期限が過ぎ、車両は解放されました。料金は請求されていません。",
+    "reference": "予約番号",
+    "vehicle": "車両",
+    "pickUp": "受け取り",
+    "dropOff": "返却",
+    "total": "合計",
+    "payNow": "今すぐ支払う",
+    "viewBookings": "予約一覧を見る",
+    "browseMore": "他の車を見る"
+  },
+  "cancelBooking": {
+    "refundFailed": "キャンセルしました。返金を自動処理できませんでした。担当者から追ってご連絡します。",
+    "refunded": "キャンセルしました。{amount}が返金されます。",
+    "noRefund": "キャンセルしました。返金期限を過ぎているため、返金はありません。",
+    "cancelled": "キャンセルしました。",
+    "failed": "この予約をキャンセルできませんでした。",
+    "yes": "はい、予約をキャンセルする",
+    "busy": "キャンセル中...",
+    "keep": "予約を残す",
+    "cancel": "予約をキャンセル"
+  },
+  "about": {
+    "title": "遠回りのないレンタカー",
+    "intro": "BestCar は、私たちがサービスを提供するすべての国で、審査済みの車両とお客様をつなぎます。明確な料金、素早い予約、合計金額を見る前にアカウント作成を求めない。私たち自身が欲しかったプラットフォームです。",
+    "v1Title": "明朗な料金",
+    "v1Body": "車両ページに表示される料金がそのままお支払い額です。会計時に隠れた費用は加わりません。",
+    "v2Title": "数分で予約",
+    "v2Body": "日程を選び、情報を確認すれば完了。始めるのにアカウントは不要です。",
+    "v3Title": "審査済みの車両",
+    "v3Body": "掲載されるすべての車両は、公開前に点検を受け、保険に加入しています。",
+    "readyTitle": "借りる準備はできましたか？",
+    "readyBody": "車両を見て、今日のご旅行にぴったりの一台を予約しましょう。"
+  },
+  "contact": {
+    "title": "お問い合わせ",
+    "intro": "ご予約、車両、アカウントについてのご質問は、以下のいずれかの方法でご連絡ください。",
+    "chatTitle": "ライブチャット",
+    "chatBody": "最も早くご連絡いただける方法です。クリックしてチャットを開きます。",
+    "emailTitle": "メール",
+    "phoneTitle": "電話",
+    "phoneBody": "+44 20 7946 0958（月〜金、GMT 9:00〜18:00）"
+  },
+  "testimonials": {
+    "title": "何千人ものお客様に信頼されています",
+    "subtitle": "BestCar で次の旅を予約したお客様の声をご紹介します。",
+    "prev": "前のお客様の声",
+    "next": "次のお客様の声",
+    "goTo": "お客様の声 {n} へ移動",
+    "status": "お客様の声 {n}/{total}"
   }
 }

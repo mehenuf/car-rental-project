@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useLocaleRouter } from "@/lib/i18n/provider";
+import { useLocaleRouter, useT } from "@/lib/i18n/provider";
 import { MapPin, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -40,6 +40,7 @@ function startOfToday(): Date {
 
 export function SearchBar() {
   const router = useLocaleRouter();
+  const t = useT();
   const { data: locations } = useApiData<Location[]>("/api/locations");
 
   const today = useMemo(() => startOfToday(), []);
@@ -72,11 +73,11 @@ export function SearchBar() {
 
   function handleSearch() {
     if (!pickupDate || !dropoffDate) {
-      setError("Please choose both a pick-up and drop-off date.");
+      setError(t("search.errBothDates"));
       return;
     }
     if (dropoffDate <= pickupDate) {
-      setError("Drop-off date must be after the pick-up date.");
+      setError(t("search.errDropAfter"));
       return;
     }
     setError(null);
@@ -96,7 +97,8 @@ export function SearchBar() {
       <Card className="shadow-card ring-0">
         <div className="flex flex-col divide-y divide-border lg:flex-row lg:divide-x lg:divide-y-0">
           <RentalLeg
-            heading="Pick-Up"
+            id="pickup"
+            heading={t("search.pickUp")}
             locations={locations ?? []}
             locationId={effectivePickup}
             onLocationChange={setPickupLocationId}
@@ -107,7 +109,8 @@ export function SearchBar() {
             onTimeChange={setPickupTime}
           />
           <RentalLeg
-            heading="Drop-Off"
+            id="dropoff"
+            heading={t("search.dropOff")}
             locations={locations ?? []}
             locationId={effectiveDropoff}
             onLocationChange={setDropoffLocationId}
@@ -126,7 +129,7 @@ export function SearchBar() {
           <div className="flex items-end justify-center p-(--space-sm) lg:ps-(--space-md)">
             <Button type="button" size="lg" className="w-full gap-2 lg:w-auto" onClick={handleSearch}>
               <Search className="size-4" />
-              Search
+              {t("search.submit")}
             </Button>
           </div>
         </div>
@@ -137,6 +140,7 @@ export function SearchBar() {
 }
 
 function RentalLeg({
+  id,
   heading,
   locations,
   locationId,
@@ -147,6 +151,7 @@ function RentalLeg({
   time,
   onTimeChange,
 }: {
+  id: string;
   heading: string;
   locations: Location[];
   locationId: string;
@@ -157,17 +162,18 @@ function RentalLeg({
   time: string;
   onTimeChange: (time: string) => void;
 }) {
+  const t = useT();
   return (
     <div className="flex flex-1 flex-col gap-(--space-sm) p-(--space-sm)">
       <span className="text-sm font-semibold text-accent-text">{heading}</span>
       <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-3">
         <div className="flex flex-col gap-1.5">
-          <span id={`${heading}-location-label`} className="text-xs font-medium text-muted-foreground">
-            Location
+          <span id={`${id}-location-label`} className="text-xs font-medium text-muted-foreground">
+            {t("search.location")}
           </span>
           <Select value={locationId} onValueChange={(value) => onLocationChange(value ?? "")}>
             <SelectTrigger
-              aria-labelledby={`${heading}-location-label`}
+              aria-labelledby={`${id}-location-label`}
               className="h-auto min-h-11 w-full gap-2 rounded-lg border border-border bg-background/60 px-3 py-2.5 shadow-none hover:bg-background"
             >
               <MapPin className="size-4 shrink-0 text-muted-foreground" />
@@ -175,12 +181,12 @@ function RentalLeg({
                   room — the closed trigger uses the 2-letter country code
                   so a long name (e.g. "United Arab Emirates") never
                   truncates mid-word against the chevron. */}
-              <SelectValue placeholder="Select your city">
+              <SelectValue placeholder={t("search.selectCity")}>
                 {(value: string | null) => {
                   const selected = locations.find((loc) => String(loc.id) === value);
                   return selected
                     ? `${selected.city}, ${selected.country_code.toUpperCase()}`
-                    : "Select your city";
+                    : t("search.selectCity");
                 }}
               </SelectValue>
             </SelectTrigger>
@@ -195,7 +201,7 @@ function RentalLeg({
         </div>
 
         <DatePickerField
-          label="Date"
+          label={t("search.date")}
           value={date}
           onChange={onDateChange}
           minDate={minDate}
@@ -204,12 +210,12 @@ function RentalLeg({
         />
 
         <div className="flex flex-col gap-1.5">
-          <span id={`${heading}-time-label`} className="text-xs font-medium text-muted-foreground">
-            Time
+          <span id={`${id}-time-label`} className="text-xs font-medium text-muted-foreground">
+            {t("search.time")}
           </span>
           <Select value={time} onValueChange={(value) => onTimeChange(value ?? time)}>
             <SelectTrigger
-              aria-labelledby={`${heading}-time-label`}
+              aria-labelledby={`${id}-time-label`}
               className="h-auto min-h-11 w-full gap-2 rounded-lg border border-border bg-background/60 px-3 py-2.5 shadow-none hover:bg-background"
             >
               <SelectValue />

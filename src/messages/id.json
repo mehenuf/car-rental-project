@@ -73,5 +73,233 @@
   "error": {
     "title": "Terjadi kesalahan",
     "body": "Kami mengalami kendala saat memuat halaman ini. Coba lagi, atau kembali ke beranda."
+  },
+  "enums": {
+    "category": {
+      "popular": "Populer",
+      "large": "Besar",
+      "small": "Kecil",
+      "exclusive": "Eksklusif"
+    },
+    "transmission": {
+      "automatic": "Otomatis",
+      "manual": "Manual"
+    },
+    "fuel": {
+      "petrol": "Bensin",
+      "diesel": "Diesel",
+      "hybrid": "Hibrida",
+      "electric": "Listrik"
+    }
+  },
+  "search": {
+    "pickUp": "Pengambilan",
+    "dropOff": "Pengembalian",
+    "location": "Lokasi",
+    "date": "Tanggal",
+    "time": "Waktu",
+    "selectCity": "Pilih kota Anda",
+    "selectDate": "Pilih tanggal",
+    "submit": "Cari",
+    "errBothDates": "Pilih tanggal pengambilan dan tanggal pengembalian.",
+    "errDropAfter": "Tanggal pengembalian harus setelah tanggal pengambilan."
+  },
+  "cars": {
+    "title": "Jelajahi Armada Kami",
+    "showingDates": "Menampilkan mobil untuk pengambilan pada {from} hingga pengembalian pada {to}.",
+    "found": {
+      "other": "{count} mobil ditemukan"
+    },
+    "emptyTitle": "Tidak ada mobil yang cocok dengan filter Anda",
+    "emptyBody": "Coba perluas rentang harga atau hapus beberapa filter untuk melihat lebih banyak hasil.",
+    "clearFilters": "Hapus filter",
+    "filters": "Filter",
+    "clearAll": "Hapus semua",
+    "category": "Kategori",
+    "pricePerDay": "Harga per hari",
+    "priceRange": "Rentang harga per hari",
+    "seats": "Kursi",
+    "seatsOption": "{count}+ kursi",
+    "transmission": "Transmisi",
+    "fuel": "Jenis Bahan Bakar",
+    "any": "Semua",
+    "sortPriceAsc": "Harga: Rendah ke Tinggi",
+    "sortPriceDesc": "Harga: Tinggi ke Rendah",
+    "sortRating": "Rating Tertinggi",
+    "sortNewest": "Terbaru",
+    "pagination": "Navigasi halaman",
+    "prevPage": "Halaman sebelumnya",
+    "nextPage": "Halaman berikutnya",
+    "dealsTitle": "Penawaran Sewa Mobil Terpopuler",
+    "dealsBody": "Armada terawat yang siap dipesan untuk perjalanan apa pun, pendek maupun panjang.",
+    "tabLarge": "Mobil Besar",
+    "tabSmall": "Mobil Kecil",
+    "tabExclusive": "Mobil Eksklusif",
+    "loading": "Memuat...",
+    "showMore": "Tampilkan lebih banyak mobil",
+    "noMore": "Tidak ada mobil lagi",
+    "total": {
+      "other": "{count} Mobil"
+    },
+    "loadFailed": "Gagal memuat kendaraan"
+  },
+  "vehicle": {
+    "perDay": "/hari",
+    "soldOut": "Habis",
+    "rentNow": "Sewa Sekarang",
+    "addFavorite": "Tambahkan {name} ke favorit",
+    "removeFavorite": "Hapus {name} dari favorit",
+    "features": "Fitur",
+    "similar": "Kendaraan Serupa",
+    "reviews": {
+      "other": "({count} ulasan)"
+    },
+    "seats": "Kursi",
+    "doors": "Pintu",
+    "transmission": "Transmisi",
+    "fuel": "Bahan Bakar",
+    "photos": "Foto {name}",
+    "showPhoto": "Tampilkan foto {n} dari {total}"
+  },
+  "booking": {
+    "from": "Mulai dari",
+    "pickUp": "Pengambilan",
+    "dropOff": "Pengembalian",
+    "extras": "Tambahan",
+    "optionalExtras": "Tambahan opsional",
+    "included": "{name} sudah termasuk.",
+    "promoCode": "Kode promo",
+    "enterCode": "Masukkan kode",
+    "apply": "Terapkan",
+    "remove": "Hapus",
+    "driverAge": "Usia pengemudi (opsional)",
+    "calculating": "Menghitung harga Anda...",
+    "bookNow": "Pesan Sekarang",
+    "soldOut": "Habis",
+    "unavailable": "Kendaraan ini sedang tidak tersedia untuk dipesan.",
+    "priceChanged": "Harga berubah menjadi {amount}. Silakan periksa dan konfirmasi lagi.",
+    "createFailed": "Gagal membuat pemesanan",
+    "dialogTitle": "Selesaikan pemesanan Anda",
+    "dialogDesc": {
+      "other": "{name}, {count} hari seharga {total}"
+    },
+    "fullName": "Nama lengkap",
+    "email": "Email",
+    "phone": "Telepon (opsional)",
+    "cancel": "Batal",
+    "confirm": "Konfirmasi Pemesanan",
+    "submitting": "Memesan..."
+  },
+  "quote": {
+    "total": "Total",
+    "allIncluded": "Semua biaya dan pajak wajib sudah termasuk dalam total ini.",
+    "deposit": "Deposit yang dapat dikembalikan sebesar {amount} ditahan saat pengambilan. Deposit ini bukan bagian dari total.",
+    "base": {
+      "other": "Tarif dasar ({count} hari)"
+    },
+    "season": "Penyesuaian tarif musiman",
+    "weekend": "Tarif akhir pekan",
+    "weekly": "Diskon mingguan",
+    "monthly": "Diskon bulanan",
+    "promo": "Promo {code}",
+    "youngDriver": {
+      "other": "Biaya pengemudi muda ({count} hari)"
+    },
+    "oneWay": "Biaya sekali jalan",
+    "pickupSurcharge": "Biaya tambahan lokasi pengambilan",
+    "serviceFee": "Biaya layanan",
+    "taxIncluded": "{name} (sudah termasuk)",
+    "cancelTerms": "Ketentuan pembatalan ditetapkan oleh perusahaan rental.",
+    "cancelNoRefundAfter": "Setelah itu tidak ada pengembalian dana",
+    "cancelFree": "Pembatalan gratis hingga {hours} sebelum pengambilan",
+    "cancelPartial": "Pengembalian dana {percent}% hingga {hours} sebelum pengambilan",
+    "cancelNoRefundWithin": "Tidak ada pengembalian dana dalam {hours} sebelum pengambilan",
+    "hours": {
+      "other": "{count} jam"
+    }
+  },
+  "checkout": {
+    "title": "Selesaikan pembayaran Anda",
+    "ref": "Ref {reference}",
+    "holdExpired": "Penahanan pemesanan Anda telah berakhir. Mobil telah dilepas.",
+    "holding": "Kami menahan mobil ini untuk Anda selama {time}.",
+    "findAnother": "Cari mobil lain",
+    "confirmCode": "Kode konfirmasi",
+    "testModeHint": "Mode uji: masukkan 000000 untuk menyetujui, selain itu akan gagal.",
+    "confirming": "Mengonfirmasi...",
+    "confirmPayment": "Konfirmasi pembayaran",
+    "paymentMethod": "Metode pembayaran",
+    "stripeNote": "Pada langkah berikutnya Anda akan memasukkan data kartu dengan aman melalui Stripe.",
+    "testCard": "Nomor kartu uji",
+    "testOutcome": "Hasil uji (opsional)",
+    "simulated": "Pembayaran simulasi: tidak ada uang sungguhan yang berpindah. Jangan pernah memasukkan nomor kartu asli.",
+    "processing": "Memproses...",
+    "continueCard": "Lanjut ke data kartu",
+    "pay": "Bayar {amount}",
+    "orderSummary": "Ringkasan pesanan",
+    "total": "Total",
+    "depositNote": "Deposit yang dapat dikembalikan sebesar {amount} ditahan pada metode pembayaran Anda. Deposit tidak ditagihkan dan dilepas setelah masa sewa selesai.",
+    "failed": "Terjadi kesalahan. Silakan coba lagi."
+  },
+  "confirmation": {
+    "receivedTitle": "Pemesanan Diterima",
+    "receivedBody": "Pemesanan Anda telah diterima dan menunggu konfirmasi. Kami akan mengirim email begitu dikonfirmasi.",
+    "cancelledTitle": "Pemesanan Dibatalkan",
+    "cancelledRefundedBody": "Pemesanan Anda dibatalkan dan pembayaran Anda telah dikembalikan.",
+    "cancelledBody": "Pemesanan Anda dibatalkan.",
+    "confirmedTitle": "Pemesanan Dikonfirmasi",
+    "confirmedBody": "Pembayaran Anda telah diterima dan pemesanan Anda dikonfirmasi. Sampai jumpa saat pengambilan.",
+    "payTitle": "Selesaikan Pembayaran Anda",
+    "payBody": "Pemesanan Anda ditahan untuk Anda. Selesaikan pembayaran untuk mengonfirmasinya. Jika Anda baru saja membayar, halaman ini akan diperbarui sebentar lagi.",
+    "expiredTitle": "Pemesanan Kedaluwarsa",
+    "expiredBody": "Batas waktu pembayaran untuk pemesanan ini telah berlalu dan mobil telah dilepas. Anda tidak dikenai biaya.",
+    "reference": "Referensi",
+    "vehicle": "Kendaraan",
+    "pickUp": "Pengambilan",
+    "dropOff": "Pengembalian",
+    "total": "Total",
+    "payNow": "Bayar sekarang",
+    "viewBookings": "Lihat pemesanan saya",
+    "browseMore": "Lihat mobil lainnya"
+  },
+  "cancelBooking": {
+    "refundFailed": "Dibatalkan. Pengembalian dana Anda tidak dapat diproses otomatis; tim kami akan menindaklanjuti.",
+    "refunded": "Dibatalkan. {amount} akan dikembalikan.",
+    "noRefund": "Dibatalkan. Pembatalan ini di luar batas waktu pengembalian dana, sehingga tidak ada dana yang dikembalikan.",
+    "cancelled": "Dibatalkan.",
+    "failed": "Pemesanan ini tidak dapat dibatalkan.",
+    "yes": "Ya, batalkan pemesanan",
+    "busy": "Membatalkan...",
+    "keep": "Pertahankan",
+    "cancel": "Batalkan pemesanan"
+  },
+  "about": {
+    "title": "Sewa mobil, tanpa berbelit-belit",
+    "intro": "BestCar menghubungkan penyewa dengan armada kendaraan terverifikasi di setiap negara yang kami layani. Kami membangun platform yang kami idamkan: harga yang jelas, proses pemesanan cepat, dan tanpa paksaan membuat akun sebelum Anda bisa melihat total.",
+    "v1Title": "Harga transparan",
+    "v1Body": "Harga yang Anda lihat di halaman mobil adalah harga yang Anda bayar. Tidak ada biaya tersembunyi saat pembayaran.",
+    "v2Title": "Pesan dalam hitungan menit",
+    "v2Body": "Pilih tanggal, konfirmasi data Anda, selesai. Tidak perlu akun untuk memulai.",
+    "v3Title": "Armada terverifikasi",
+    "v3Body": "Setiap kendaraan yang terdaftar diperiksa dan diasuransikan sebelum tampil di platform.",
+    "readyTitle": "Siap menyewa?",
+    "readyBody": "Jelajahi armada dan pesan mobil yang tepat untuk perjalanan Anda hari ini."
+  },
+  "contact": {
+    "title": "Hubungi kami",
+    "intro": "Ada pertanyaan tentang pemesanan, kendaraan, atau akun Anda? Hubungi kami lewat salah satu saluran di bawah ini.",
+    "chatTitle": "Obrolan langsung",
+    "chatBody": "Cara tercepat menghubungi kami: klik untuk membuka obrolan.",
+    "emailTitle": "Email",
+    "phoneTitle": "Telepon",
+    "phoneBody": "+44 20 7946 0958 (Sen-Jum, 09.00-18.00 GMT)"
+  },
+  "testimonials": {
+    "title": "Dipercaya Ribuan Pelanggan yang Puas",
+    "subtitle": "Kisah nyata dari penyewa yang memesan perjalanan berikutnya bersama BestCar.",
+    "prev": "Testimoni sebelumnya",
+    "next": "Testimoni berikutnya",
+    "goTo": "Buka testimoni {n}",
+    "status": "Testimoni {n} dari {total}"
   }
 }

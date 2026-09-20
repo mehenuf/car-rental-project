@@ -9,8 +9,16 @@ function load(locale: string): Messages {
   return JSON.parse(readFileSync(join(process.cwd(), "src/messages", `${locale}.json`), "utf8")) as Messages;
 }
 
+const PLURAL_KEYS = ["zero", "one", "two", "few", "many", "other"];
+
+/** Plural nodes (only CLDR category keys, with "other") count as one entry, represented by "other": languages differ in how many forms they need. */
 function flatten(node: Messages, prefix = ""): Record<string, string> {
   const out: Record<string, string> = {};
+  const keys = Object.keys(node);
+  if (prefix && "other" in node && keys.every((k) => PLURAL_KEYS.includes(k))) {
+    out[prefix] = node.other as string;
+    return out;
+  }
   for (const [k, v] of Object.entries(node)) {
     const key = prefix ? `${prefix}.${k}` : k;
     if (typeof v === "string") out[key] = v;
@@ -38,6 +46,21 @@ describe("message catalogues", () => {
         for (const [key, value] of Object.entries(messages)) {
           expect(placeholders(value), key).toEqual(placeholders(en[key] ?? ""));
         }
+      });
+
+      it("covers every plural form the language needs", () => {
+        const needed = new Intl.PluralRules(locale).resolvedOptions().pluralCategories.filter(
+          // es, fr and pt only use "many" for very large round numbers; "other" is the fallback.
+          (c) => c !== "many" || locale === "ar"
+        );
+        const walk = (node: Messages, path: string): string[] => {
+          const keys = Object.keys(node);
+          if (path && "other" in node && keys.every((k) => PLURAL_KEYS.includes(k))) {
+            return needed.filter((c) => !(c in node)).map((c) => `${path}.${c}`);
+          }
+          return Object.entries(node).flatMap(([k, v]) => (typeof v === "object" ? walk(v, path ? `${path}.${k}` : k) : []));
+        };
+        expect(walk(load(locale), "")).toEqual([]);
       });
 
       it("has no empty strings", () => {

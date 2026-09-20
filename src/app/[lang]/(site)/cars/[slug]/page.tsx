@@ -8,6 +8,7 @@ import { VehicleGallery } from "@/components/site/vehicle-gallery";
 import { VehicleBookingPanel } from "@/components/site/vehicle-booking-panel";
 import { VehicleCard } from "@/components/site/vehicle-card";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { getT } from "@/lib/i18n/dictionary";
 
 export async function generateMetadata({
   params,
@@ -43,6 +44,7 @@ export default async function VehicleDetailPage({
 }) {
   const { slug } = await params;
   const { pickupDate, dropoffDate, pickupLocationId, dropoffLocationId } = await searchParams;
+  const t = await getT();
 
   const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) notFound();
@@ -65,7 +67,7 @@ export default async function VehicleDetailPage({
             <div className="flex flex-wrap items-start justify-between gap-3">
               <div className="flex flex-col gap-1">
                 <Badge variant="outline" className="w-fit capitalize">
-                  {vehicle.category}
+                  {t(`enums.category.${vehicle.category}`)}
                 </Badge>
                 <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
                   {vehicle.name}
@@ -76,7 +78,7 @@ export default async function VehicleDetailPage({
                 <Star className="size-5 fill-current" />
                 <span className="font-semibold text-foreground">{vehicle.rating.toFixed(1)}</span>
                 <span className="text-sm text-muted-foreground">
-                  ({vehicle.review_count} reviews)
+                  {t("vehicle.reviews", { count: vehicle.review_count })}
                 </span>
               </div>
             </div>
@@ -85,10 +87,10 @@ export default async function VehicleDetailPage({
               data-chat-avoid
               className="grid grid-cols-2 gap-(--space-sm) rounded-xl border border-border p-(--space-sm) sm:grid-cols-4"
             >
-              <Spec icon={Users} label="Seats" value={String(vehicle.seats)} />
-              <Spec icon={DoorOpen} label="Doors" value={String(vehicle.doors)} />
-              <Spec icon={Cog} label="Transmission" value={vehicle.transmission} />
-              <Spec icon={FuelIcon} label="Fuel" value={vehicle.fuel} />
+              <Spec icon={Users} label={t("vehicle.seats")} value={String(vehicle.seats)} />
+              <Spec icon={DoorOpen} label={t("vehicle.doors")} value={String(vehicle.doors)} />
+              <Spec icon={Cog} label={t("vehicle.transmission")} value={t(`enums.transmission.${vehicle.transmission}`)} />
+              <Spec icon={FuelIcon} label={t("vehicle.fuel")} value={t(`enums.fuel.${vehicle.fuel}`)} />
             </div>
 
             {vehicle.description && (
@@ -97,7 +99,7 @@ export default async function VehicleDetailPage({
 
             {vehicle.features.length > 0 && (
               <ScrollReveal className="flex flex-col gap-2" delay={0.12}>
-                <h2 className="font-heading text-lg font-semibold text-foreground">Features</h2>
+                <h2 className="font-heading text-lg font-semibold text-foreground">{t("vehicle.features")}</h2>
                 <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {vehicle.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
@@ -124,7 +126,7 @@ export default async function VehicleDetailPage({
 
       {similar.length > 0 && (
         <ScrollReveal className="mt-(--space-xl) flex flex-col gap-(--space-md)" delay={0.2}>
-          <h2 className="font-heading text-2xl font-bold text-foreground">Similar Vehicles</h2>
+          <h2 className="font-heading text-2xl font-bold text-foreground">{t("vehicle.similar")}</h2>
           <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-2 lg:grid-cols-3">
             {similar.map((v) => (
               <VehicleCard key={v.id} vehicle={v} />

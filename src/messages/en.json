@@ -73,5 +73,240 @@
   "error": {
     "title": "Something went wrong",
     "body": "We hit a snag loading this page. Give it another try, or head back home."
+  },
+  "enums": {
+    "category": {
+      "popular": "Popular",
+      "large": "Large",
+      "small": "Small",
+      "exclusive": "Exclusive"
+    },
+    "transmission": {
+      "automatic": "Automatic",
+      "manual": "Manual"
+    },
+    "fuel": {
+      "petrol": "Petrol",
+      "diesel": "Diesel",
+      "hybrid": "Hybrid",
+      "electric": "Electric"
+    }
+  },
+  "search": {
+    "pickUp": "Pick-Up",
+    "dropOff": "Drop-Off",
+    "location": "Location",
+    "date": "Date",
+    "time": "Time",
+    "selectCity": "Select your city",
+    "selectDate": "Select date",
+    "submit": "Search",
+    "errBothDates": "Please choose both a pick-up and drop-off date.",
+    "errDropAfter": "Drop-off date must be after the pick-up date."
+  },
+  "cars": {
+    "title": "Browse Our Fleet",
+    "showingDates": "Showing cars for pick-up on {from} through drop-off on {to}.",
+    "found": {
+      "one": "{count} car found",
+      "other": "{count} cars found"
+    },
+    "emptyTitle": "No cars match your filters",
+    "emptyBody": "Try widening your price range or clearing a few filters to see more results.",
+    "clearFilters": "Clear filters",
+    "filters": "Filters",
+    "clearAll": "Clear all",
+    "category": "Category",
+    "pricePerDay": "Price per day",
+    "priceRange": "Price per day range",
+    "seats": "Seats",
+    "seatsOption": "{count}+ seats",
+    "transmission": "Transmission",
+    "fuel": "Fuel Type",
+    "any": "Any",
+    "sortPriceAsc": "Price: Low to High",
+    "sortPriceDesc": "Price: High to Low",
+    "sortRating": "Highest Rated",
+    "sortNewest": "Newest",
+    "pagination": "Pagination",
+    "prevPage": "Previous page",
+    "nextPage": "Next page",
+    "dealsTitle": "Most Popular Car Rental Deals",
+    "dealsBody": "A well-maintained fleet ready to book for any trip, short or long.",
+    "tabLarge": "Large Car",
+    "tabSmall": "Small Car",
+    "tabExclusive": "Exclusive Car",
+    "loading": "Loading...",
+    "showMore": "Show more cars",
+    "noMore": "No more cars",
+    "total": {
+      "one": "{count} Car",
+      "other": "{count} Cars"
+    },
+    "loadFailed": "Failed to load vehicles"
+  },
+  "vehicle": {
+    "perDay": "/day",
+    "soldOut": "Sold Out",
+    "rentNow": "Rent Now",
+    "addFavorite": "Add {name} to favorites",
+    "removeFavorite": "Remove {name} from favorites",
+    "features": "Features",
+    "similar": "Similar Vehicles",
+    "reviews": {
+      "one": "({count} review)",
+      "other": "({count} reviews)"
+    },
+    "seats": "Seats",
+    "doors": "Doors",
+    "transmission": "Transmission",
+    "fuel": "Fuel",
+    "photos": "{name} photos",
+    "showPhoto": "Show photo {n} of {total}"
+  },
+  "booking": {
+    "from": "From",
+    "pickUp": "Pick-up",
+    "dropOff": "Drop-off",
+    "extras": "Extras",
+    "optionalExtras": "Optional extras",
+    "included": "{name} is included.",
+    "promoCode": "Promo code",
+    "enterCode": "Enter code",
+    "apply": "Apply",
+    "remove": "Remove",
+    "driverAge": "Driver's age (optional)",
+    "calculating": "Calculating your price...",
+    "bookNow": "Book Now",
+    "soldOut": "Sold Out",
+    "unavailable": "This vehicle isn't available for booking right now.",
+    "priceChanged": "The price changed to {amount}. Please review it and confirm again.",
+    "createFailed": "Failed to create booking",
+    "dialogTitle": "Complete your booking",
+    "dialogDesc": {
+      "one": "{name}, {count} day for {total}",
+      "other": "{name}, {count} days for {total}"
+    },
+    "fullName": "Full name",
+    "email": "Email",
+    "phone": "Phone (optional)",
+    "cancel": "Cancel",
+    "confirm": "Confirm Booking",
+    "submitting": "Booking..."
+  },
+  "quote": {
+    "total": "Total",
+    "allIncluded": "All mandatory fees and taxes are included in this total.",
+    "deposit": "A refundable deposit of {amount} is held at pick-up. It is not part of the total.",
+    "base": {
+      "one": "Base rate ({count} day)",
+      "other": "Base rate ({count} days)"
+    },
+    "season": "Seasonal rate adjustment",
+    "weekend": "Weekend rate",
+    "weekly": "Weekly discount",
+    "monthly": "Monthly discount",
+    "promo": "Promo {code}",
+    "youngDriver": {
+      "one": "Young driver fee ({count} day)",
+      "other": "Young driver fee ({count} days)"
+    },
+    "oneWay": "One-way fee",
+    "pickupSurcharge": "Pick-up location surcharge",
+    "serviceFee": "Service fee",
+    "taxIncluded": "{name} (included)",
+    "cancelTerms": "Cancellation terms are set by the rental company.",
+    "cancelNoRefundAfter": "No refund after that",
+    "cancelFree": "Free cancellation up to {hours} before pick-up",
+    "cancelPartial": "{percent}% refund up to {hours} before pick-up",
+    "cancelNoRefundWithin": "No refund within {hours} of pick-up",
+    "hours": {
+      "one": "{count} hour",
+      "other": "{count} hours"
+    }
+  },
+  "checkout": {
+    "title": "Complete your payment",
+    "ref": "Ref {reference}",
+    "holdExpired": "Your booking hold has expired. The car has been released.",
+    "holding": "We are holding this car for you for {time}.",
+    "findAnother": "Find another car",
+    "confirmCode": "Confirmation code",
+    "testModeHint": "Test mode: enter 000000 to approve, anything else to fail.",
+    "confirming": "Confirming...",
+    "confirmPayment": "Confirm payment",
+    "paymentMethod": "Payment method",
+    "stripeNote": "You will enter your card details securely with Stripe on the next step.",
+    "testCard": "Test card number",
+    "testOutcome": "Test outcome (optional)",
+    "simulated": "Simulated payments: no real money moves. Never enter a real card number.",
+    "processing": "Processing...",
+    "continueCard": "Continue to card details",
+    "pay": "Pay {amount}",
+    "orderSummary": "Order summary",
+    "total": "Total",
+    "depositNote": "A refundable deposit of {amount} is held on your payment method. It is not charged and is released after your rental.",
+    "failed": "Something went wrong. Please try again."
+  },
+  "confirmation": {
+    "receivedTitle": "Booking Received",
+    "receivedBody": "Your booking has been received and is awaiting confirmation. We'll email you as soon as it's confirmed.",
+    "cancelledTitle": "Booking Cancelled",
+    "cancelledRefundedBody": "Your booking was cancelled and your payment has been refunded.",
+    "cancelledBody": "Your booking was cancelled.",
+    "confirmedTitle": "Booking Confirmed",
+    "confirmedBody": "Your payment was received and your booking is confirmed. See you at pick-up.",
+    "payTitle": "Complete Your Payment",
+    "payBody": "Your booking is held for you. Finish paying to confirm it. If you have just paid, this page updates in a moment.",
+    "expiredTitle": "Booking Expired",
+    "expiredBody": "The payment window for this booking has passed and the car has been released. You have not been charged.",
+    "reference": "Reference",
+    "vehicle": "Vehicle",
+    "pickUp": "Pick-up",
+    "dropOff": "Drop-off",
+    "total": "Total",
+    "payNow": "Pay now",
+    "viewBookings": "View my bookings",
+    "browseMore": "Browse more cars"
+  },
+  "cancelBooking": {
+    "refundFailed": "Cancelled. Your refund could not be processed automatically; our team will follow up.",
+    "refunded": "Cancelled. {amount} will be refunded.",
+    "noRefund": "Cancelled. This cancellation is outside the refund window, so no refund is due.",
+    "cancelled": "Cancelled.",
+    "failed": "Could not cancel this booking.",
+    "yes": "Yes, cancel booking",
+    "busy": "Cancelling...",
+    "keep": "Keep it",
+    "cancel": "Cancel booking"
+  },
+  "about": {
+    "title": "Car rental, without the runaround",
+    "intro": "BestCar connects renters with a vetted fleet of vehicles in every country we serve. We built the platform we wished existed: clear pricing, a fast booking flow, and no pressure to create an account before you can even see a total.",
+    "v1Title": "Transparent pricing",
+    "v1Body": "The price you see on a car's page is the price you pay. No hidden fees added at checkout.",
+    "v2Title": "Book in minutes",
+    "v2Body": "Pick your dates, confirm your details, and you're done. No account required to get started.",
+    "v3Title": "Verified fleet",
+    "v3Body": "Every vehicle listed is inspected and insured before it goes live on the platform.",
+    "readyTitle": "Ready to rent?",
+    "readyBody": "Browse the fleet and book the right car for your trip today."
+  },
+  "contact": {
+    "title": "Get in touch",
+    "intro": "Questions about a booking, a vehicle, or your account? Reach us through any of the channels below.",
+    "chatTitle": "Live chat",
+    "chatBody": "The fastest way to reach us: click to open the chat.",
+    "emailTitle": "Email",
+    "phoneTitle": "Phone",
+    "phoneBody": "+44 20 7946 0958 (Mon-Fri, 9am-6pm GMT)"
+  },
+  "testimonials": {
+    "title": "Trusted by Thousands of Happy Customers",
+    "subtitle": "Real stories from renters who booked their next trip with BestCar.",
+    "prev": "Previous testimonial",
+    "next": "Next testimonial",
+    "goTo": "Go to testimonial {n}",
+    "status": "Testimonial {n} of {total}"
   }
 }
