@@ -211,7 +211,7 @@
   --accent-text: var(--gold);
   --success-text: var(--success);
   --warning-text: var(--warning);
-  --info-text: var(--info);
+  --info-text: oklch(0.74 0.14 255);
   --destructive: oklch(0.7 0.19 22);
   --border: oklch(1 0 0 / 10%);
   --input: oklch(1 0 0 / 15%);

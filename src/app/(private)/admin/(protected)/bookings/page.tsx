@@ -190,7 +190,7 @@ export default function AdminBookingsPage() {
             onValueChange={(value) => handleStatusChange(row.id, value as BookingStatus)}
             disabled={updatingId === row.id || next.length === 0}
           >
-            <SelectTrigger size="sm" className={`w-36 ${STATUS_TRIGGER_STYLES[row.status]}`}>
+            <SelectTrigger size="sm" aria-label="Booking status" className={`w-36 ${STATUS_TRIGGER_STYLES[row.status]}`}>
               <LabeledSelectValue
                 options={choices.map((value) => ({ value, label: BOOKING_STATUS_LABELS[value] }))}
               />
@@ -242,7 +242,7 @@ export default function AdminBookingsPage() {
                 setPage(1);
               }}
             >
-              <SelectTrigger className="sm:w-36">
+              <SelectTrigger aria-label="Filter by status" className="sm:w-36">
                 <LabeledSelectValue
                   placeholder="Status"
                   options={[{ value: "all", label: "All statuses" }, ...BOOKING_STATUS_OPTIONS]}

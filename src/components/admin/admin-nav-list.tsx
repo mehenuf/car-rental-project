@@ -32,7 +32,7 @@ export function AdminNavList({
         <div key={group.label} className="flex flex-col gap-1">
           <span
             className={cn(
-              "px-(--space-xs) text-[11px] font-semibold tracking-wider text-sidebar-foreground/45 uppercase",
+              "px-(--space-xs) text-[11px] font-semibold tracking-wider text-sidebar-foreground/75 uppercase",
               collapsibleLabels && "hidden lg:block"
             )}
           >

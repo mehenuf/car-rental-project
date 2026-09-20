@@ -142,7 +142,7 @@ export function RecentTransactionsPanel({
               setPage(1);
             }}
           >
-            <SelectTrigger size="sm" className="w-36">
+            <SelectTrigger size="sm" aria-label="Filter by status" className="w-36">
               <LabeledSelectValue
                 placeholder="Status"
                 options={[{ value: "all", label: "All statuses" }, ...BOOKING_STATUS_OPTIONS]}

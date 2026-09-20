@@ -252,7 +252,7 @@ export default function AdminVehiclesPage() {
                 setPage(1);
               }}
             >
-              <SelectTrigger className="sm:w-40">
+              <SelectTrigger aria-label="Filter by category" className="sm:w-40">
                 <LabeledSelectValue
                   placeholder="Category"
                   options={[
