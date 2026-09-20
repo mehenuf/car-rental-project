@@ -440,5 +440,46 @@
     "note": "This is a payment receipt. The rental company issues the tax invoice for the rental.",
     "item": "Item",
     "amount": "Amount"
+  },
+  "email": {
+    "greeting": "Hello {name},",
+    "footer": "You are receiving this because of your BestCar booking.",
+    "view": "View details",
+    "booking_confirmed": {
+      "subject": "Booking confirmed: {reference}",
+      "body": "Your payment was received and your booking {reference} is confirmed. Pick-up: {pickup}. Sign in to see the pick-up address and contact details."
+    },
+    "booking_cancelled": {
+      "subject": "Booking cancelled: {reference}",
+      "body": "Your booking {reference} was cancelled. If you were refunded, you will receive a separate message."
+    },
+    "refund_issued": {
+      "subject": "Refund issued for {reference}",
+      "body": "A refund for booking {reference} has been issued. It can take a few days to appear with your bank."
+    },
+    "pickup_reminder": {
+      "subject": "Pick-up reminder: {reference}",
+      "body": "Your pick-up for booking {reference} is on {pickup}. Please bring your driver's licence."
+    },
+    "new_message": {
+      "subject": "New message about booking {reference}",
+      "body": "You have a new message about booking {reference}. Sign in to read and reply."
+    },
+    "new_booking": {
+      "subject": "New booking {reference}",
+      "body": "A new booking {reference} was paid. Pick-up: {pickup}."
+    },
+    "booking_cancelled_provider": {
+      "subject": "Booking {reference} cancelled",
+      "body": "Booking {reference} was cancelled."
+    },
+    "payout_paid": {
+      "subject": "Payout sent",
+      "body": "A payout of {amount} was sent to your bank account."
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar: booking {reference} confirmed. Pick-up {pickup}. Reply STOP to opt out.",
+    "pickup_reminder": "BestCar: reminder, pick-up for {reference} on {pickup}. Reply STOP to opt out."
   }
 }

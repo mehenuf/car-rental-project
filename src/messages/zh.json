@@ -430,5 +430,46 @@
     "note": "这是一份付款收据。租赁的税务发票由租车公司开具。",
     "item": "项目",
     "amount": "金额"
+  },
+  "email": {
+    "greeting": "{name}，您好：",
+    "footer": "您收到此邮件是因为您在 BestCar 的预订。",
+    "view": "查看详情",
+    "booking_confirmed": {
+      "subject": "预订已确认：{reference}",
+      "body": "我们已收到您的付款，预订 {reference} 已确认。取车时间：{pickup}。登录后可查看取车地址和联系方式。"
+    },
+    "booking_cancelled": {
+      "subject": "预订已取消：{reference}",
+      "body": "您的预订 {reference} 已取消。如有退款，您将收到另一条通知。"
+    },
+    "refund_issued": {
+      "subject": "预订 {reference} 已退款",
+      "body": "预订 {reference} 的退款已发出，银行可能需要几天才能到账。"
+    },
+    "pickup_reminder": {
+      "subject": "取车提醒：{reference}",
+      "body": "您的预订 {reference} 将于 {pickup} 取车。请携带驾驶证。"
+    },
+    "new_message": {
+      "subject": "关于预订 {reference} 的新消息",
+      "body": "您有一条关于预订 {reference} 的新消息。请登录查看并回复。"
+    },
+    "new_booking": {
+      "subject": "新预订 {reference}",
+      "body": "新预订 {reference} 已付款。取车时间：{pickup}。"
+    },
+    "booking_cancelled_provider": {
+      "subject": "预订 {reference} 已取消",
+      "body": "预订 {reference} 已被取消。"
+    },
+    "payout_paid": {
+      "subject": "结算款已发出",
+      "body": "{amount} 的结算款已发送至您的银行账户。"
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar：预订 {reference} 已确认，取车时间 {pickup}。回复 STOP 退订。",
+    "pickup_reminder": "BestCar：提醒，{reference} 将于 {pickup} 取车。回复 STOP 退订。"
   }
 }

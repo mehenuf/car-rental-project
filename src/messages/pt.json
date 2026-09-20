@@ -440,5 +440,46 @@
     "note": "Este é um recibo de pagamento. A nota fiscal do aluguel é emitida pela locadora.",
     "item": "Item",
     "amount": "Valor"
+  },
+  "email": {
+    "greeting": "Olá, {name},",
+    "footer": "Você recebe esta mensagem por causa da sua reserva na BestCar.",
+    "view": "Ver detalhes",
+    "booking_confirmed": {
+      "subject": "Reserva confirmada: {reference}",
+      "body": "Recebemos seu pagamento e sua reserva {reference} está confirmada. Retirada: {pickup}. Entre na sua conta para ver o endereço de retirada e os contatos."
+    },
+    "booking_cancelled": {
+      "subject": "Reserva cancelada: {reference}",
+      "body": "Sua reserva {reference} foi cancelada. Se houver reembolso, você receberá uma mensagem separada."
+    },
+    "refund_issued": {
+      "subject": "Reembolso emitido para {reference}",
+      "body": "Um reembolso da reserva {reference} foi emitido. Pode levar alguns dias para aparecer no seu banco."
+    },
+    "pickup_reminder": {
+      "subject": "Lembrete de retirada: {reference}",
+      "body": "A retirada da sua reserva {reference} é em {pickup}. Leve sua habilitação."
+    },
+    "new_message": {
+      "subject": "Nova mensagem sobre a reserva {reference}",
+      "body": "Você tem uma nova mensagem sobre a reserva {reference}. Entre para ler e responder."
+    },
+    "new_booking": {
+      "subject": "Nova reserva {reference}",
+      "body": "Uma nova reserva {reference} foi paga. Retirada: {pickup}."
+    },
+    "booking_cancelled_provider": {
+      "subject": "Reserva {reference} cancelada",
+      "body": "A reserva {reference} foi cancelada."
+    },
+    "payout_paid": {
+      "subject": "Repasse enviado",
+      "body": "Um repasse de {amount} foi enviado para a sua conta bancária."
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar: reserva {reference} confirmada. Retirada {pickup}. Responda STOP para cancelar o recebimento.",
+    "pickup_reminder": "BestCar: lembrete, retirada de {reference} em {pickup}. Responda STOP para cancelar o recebimento."
   }
 }

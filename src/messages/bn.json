@@ -440,5 +440,46 @@
     "note": "এটি একটি পেমেন্টের রসিদ। ভাড়ার কর চালান ভাড়াদাতা প্রতিষ্ঠান ইস্যু করে।",
     "item": "বিবরণ",
     "amount": "পরিমাণ"
+  },
+  "email": {
+    "greeting": "হ্যালো {name},",
+    "footer": "আপনার BestCar বুকিংয়ের কারণে আপনি এই বার্তা পাচ্ছেন।",
+    "view": "বিস্তারিত দেখুন",
+    "booking_confirmed": {
+      "subject": "বুকিং নিশ্চিত: {reference}",
+      "body": "আপনার পেমেন্ট পাওয়া গেছে এবং বুকিং {reference} নিশ্চিত হয়েছে। পিক-আপ: {pickup}। পিক-আপের ঠিকানা ও যোগাযোগের তথ্য দেখতে লগ ইন করুন।"
+    },
+    "booking_cancelled": {
+      "subject": "বুকিং বাতিল: {reference}",
+      "body": "আপনার বুকিং {reference} বাতিল হয়েছে। রিফান্ড প্রযোজ্য হলে আলাদা বার্তা পাবেন।"
+    },
+    "refund_issued": {
+      "subject": "{reference}-এর রিফান্ড",
+      "body": "বুকিং {reference}-এর রিফান্ড দেওয়া হয়েছে। আপনার ব্যাংকে আসতে কয়েক দিন লাগতে পারে।"
+    },
+    "pickup_reminder": {
+      "subject": "পিক-আপের অনুস্মারক: {reference}",
+      "body": "আপনার বুকিং {reference}-এর পিক-আপ {pickup} তারিখে। অনুগ্রহ করে ড্রাইভিং লাইসেন্স সঙ্গে আনুন।"
+    },
+    "new_message": {
+      "subject": "বুকিং {reference} নিয়ে নতুন বার্তা",
+      "body": "বুকিং {reference} নিয়ে আপনার একটি নতুন বার্তা আছে। পড়তে ও উত্তর দিতে লগ ইন করুন।"
+    },
+    "new_booking": {
+      "subject": "নতুন বুকিং {reference}",
+      "body": "নতুন বুকিং {reference} পরিশোধ হয়েছে। পিক-আপ: {pickup}।"
+    },
+    "booking_cancelled_provider": {
+      "subject": "বুকিং {reference} বাতিল",
+      "body": "বুকিং {reference} বাতিল হয়েছে।"
+    },
+    "payout_paid": {
+      "subject": "পেআউট পাঠানো হয়েছে",
+      "body": "{amount} পেআউট আপনার ব্যাংক অ্যাকাউন্টে পাঠানো হয়েছে।"
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar: বুকিং {reference} নিশ্চিত। পিক-আপ {pickup}। বন্ধ করতে STOP লিখে উত্তর দিন।",
+    "pickup_reminder": "BestCar: অনুস্মারক, {reference}-এর পিক-আপ {pickup} তারিখে। বন্ধ করতে STOP লিখে উত্তর দিন।"
   }
 }
