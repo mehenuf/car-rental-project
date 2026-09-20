@@ -14,3 +14,21 @@ describe("seo urls", () => {
     expect(a.languages["x-default"]).toBe("https://x.test/en/about");
   });
 });
+
+import { afterEach, vi } from "vitest";
+import { siteUrl } from "./urls";
+
+describe("siteUrl", () => {
+  afterEach(() => vi.unstubAllEnvs());
+  it("prefers the public site url and trims slashes", () => {
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "https://x.test//");
+    expect(siteUrl()).toBe("https://x.test");
+  });
+  it("falls back to the Vercel production host, then localhost", () => {
+    vi.stubEnv("NEXT_PUBLIC_SITE_URL", "");
+    vi.stubEnv("VERCEL_PROJECT_PRODUCTION_URL", "bestcar.example");
+    expect(siteUrl()).toBe("https://bestcar.example");
+    vi.stubEnv("VERCEL_PROJECT_PRODUCTION_URL", "");
+    expect(siteUrl()).toBe("http://localhost:3000");
+  });
+});

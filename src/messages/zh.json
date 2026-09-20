@@ -300,7 +300,8 @@
     "prev": "上一条评价",
     "next": "下一条评价",
     "goTo": "前往第 {n} 条评价",
-    "status": "第 {n} 条评价，共 {total} 条"
+    "status": "第 {n} 条评价，共 {total} 条",
+    "rated": "评分 {rating}（满分 5 分）"
   },
   "auth": {
     "loginTitle": "登录",
@@ -621,5 +622,21 @@
     "deleteConfirm": "输入 {email} 以确认",
     "delete": "删除我的账户",
     "error": "出了点问题，请重试。"
+  },
+  "policy": {
+    "title": "我们的条款或隐私政策已更新",
+    "body": "请阅读更新后的文件并接受，以继续使用您的账户。",
+    "terms": "条款",
+    "privacy": "隐私政策",
+    "accept": "接受",
+    "error": "出了点问题，请重试。"
+  },
+  "legal": {
+    "englishOnly": "本文件为英文版，以英文版为准。"
+  },
+  "cityPage": {
+    "title": "{city}租车",
+    "intro": "在{city}租车：比较可用车辆，预订前查看价格，并在当地门店取车。",
+    "empty": "{city}目前没有可用车辆，请稍后再来看看。"
   }
 }

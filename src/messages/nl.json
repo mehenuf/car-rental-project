@@ -307,7 +307,8 @@
     "prev": "Vorige ervaring",
     "next": "Volgende ervaring",
     "goTo": "Ga naar ervaring {n}",
-    "status": "Ervaring {n} van {total}"
+    "status": "Ervaring {n} van {total}",
+    "rated": "Beoordeeld met {rating} van 5"
   },
   "auth": {
     "loginTitle": "Inloggen",
@@ -631,5 +632,21 @@
     "deleteConfirm": "Typ {email} om te bevestigen",
     "delete": "Mijn account verwijderen",
     "error": "Er is iets misgegaan. Probeer het opnieuw."
+  },
+  "policy": {
+    "title": "Onze voorwaarden of het privacybeleid zijn gewijzigd",
+    "body": "Lees de bijgewerkte documenten en accepteer ze om je account te blijven gebruiken.",
+    "terms": "Voorwaarden",
+    "privacy": "Privacybeleid",
+    "accept": "Accepteren",
+    "error": "Er is iets misgegaan. Probeer het opnieuw."
+  },
+  "legal": {
+    "englishOnly": "Dit document is in het Engels. Dit is de versie die geldt."
+  },
+  "cityPage": {
+    "title": "Autoverhuur in {city}",
+    "intro": "Huur een auto in {city}: vergelijk beschikbare auto's, zie de prijs vóór je boekt en haal hem op bij een lokale vestiging.",
+    "empty": "Er zijn momenteel geen auto's beschikbaar in {city}. Kijk binnenkort opnieuw."
   }
 }

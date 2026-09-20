@@ -307,7 +307,8 @@
     "prev": "Previous testimonial",
     "next": "Next testimonial",
     "goTo": "Go to testimonial {n}",
-    "status": "Testimonial {n} of {total}"
+    "status": "Testimonial {n} of {total}",
+    "rated": "Rated {rating} out of 5"
   },
   "auth": {
     "loginTitle": "Log in",
@@ -631,5 +632,21 @@
     "deleteConfirm": "Type {email} to confirm",
     "delete": "Delete my account",
     "error": "Something went wrong. Please try again."
+  },
+  "policy": {
+    "title": "Our terms or privacy policy have changed",
+    "body": "Please read the updated documents and accept them to keep using your account.",
+    "terms": "Terms",
+    "privacy": "Privacy policy",
+    "accept": "Accept",
+    "error": "Something went wrong. Please try again."
+  },
+  "legal": {
+    "englishOnly": "This document is in English. It is the version that applies."
+  },
+  "cityPage": {
+    "title": "Car rental in {city}",
+    "intro": "Rent a car in {city}: compare available cars, see the price before you book, and pick up at a local branch.",
+    "empty": "No cars are available in {city} right now. Please check again soon."
   }
 }

@@ -307,7 +307,8 @@
     "prev": "Depoimento anterior",
     "next": "Próximo depoimento",
     "goTo": "Ir para o depoimento {n}",
-    "status": "Depoimento {n} de {total}"
+    "status": "Depoimento {n} de {total}",
+    "rated": "Avaliado com {rating} de 5"
   },
   "auth": {
     "loginTitle": "Entrar",
@@ -631,5 +632,21 @@
     "deleteConfirm": "Digite {email} para confirmar",
     "delete": "Excluir minha conta",
     "error": "Algo deu errado. Tente novamente."
+  },
+  "policy": {
+    "title": "Nossos termos ou a política de privacidade mudaram",
+    "body": "Leia os documentos atualizados e aceite-os para continuar usando sua conta.",
+    "terms": "Termos",
+    "privacy": "Política de privacidade",
+    "accept": "Aceitar",
+    "error": "Algo deu errado. Tente novamente."
+  },
+  "legal": {
+    "englishOnly": "Este documento está em inglês. É a versão que vale."
+  },
+  "cityPage": {
+    "title": "Aluguel de carros em {city}",
+    "intro": "Alugue um carro em {city}: compare os carros disponíveis, veja o preço antes de reservar e retire em uma filial local.",
+    "empty": "Não há carros disponíveis em {city} agora. Volte a verificar em breve."
   }
 }

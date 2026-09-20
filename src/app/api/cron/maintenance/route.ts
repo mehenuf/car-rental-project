@@ -40,6 +40,14 @@ async function run(request: NextRequest) {
   if (reminderError) throw new Error(`enqueue_due_reminders: ${reminderError.message}`);
   const dispatched = await runDispatch();
 
+  // Licence photos past their keep period: remove the files first, then the rows (apply_retention).
+  const { data: staleDocs, error: staleError } = await supabaseAdmin.rpc("expired_driver_documents");
+  if (staleError) throw new Error(`expired_driver_documents: ${staleError.message}`);
+  if (staleDocs && staleDocs.length > 0) {
+    const { error: removeError } = await supabaseAdmin.storage.from("customer-documents").remove(staleDocs.map((d) => d.storage_path));
+    if (removeError) throw new Error(`remove documents: ${removeError.message}`);
+  }
+
   // Purge or anonymise data past its retention period (see docs/compliance/record-of-processing.md).
   const { data: retention, error: retentionError } = await supabaseAdmin.rpc("apply_retention");
   if (retentionError) throw new Error(`apply_retention: ${retentionError.message}`);

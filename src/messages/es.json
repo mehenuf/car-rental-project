@@ -307,7 +307,8 @@
     "prev": "Testimonio anterior",
     "next": "Siguiente testimonio",
     "goTo": "Ir al testimonio {n}",
-    "status": "Testimonio {n} de {total}"
+    "status": "Testimonio {n} de {total}",
+    "rated": "Valorado con {rating} de 5"
   },
   "auth": {
     "loginTitle": "Iniciar sesión",
@@ -631,5 +632,21 @@
     "deleteConfirm": "Escribe {email} para confirmar",
     "delete": "Eliminar mi cuenta",
     "error": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "policy": {
+    "title": "Nuestros términos o la política de privacidad han cambiado",
+    "body": "Lee los documentos actualizados y acéptalos para seguir usando tu cuenta.",
+    "terms": "Términos",
+    "privacy": "Política de privacidad",
+    "accept": "Aceptar",
+    "error": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "legal": {
+    "englishOnly": "Este documento está en inglés. Es la versión que se aplica."
+  },
+  "cityPage": {
+    "title": "Alquiler de coches en {city}",
+    "intro": "Alquila un coche en {city}: compara los coches disponibles, consulta el precio antes de reservar y recógelo en una sucursal local.",
+    "empty": "No hay coches disponibles en {city} ahora mismo. Vuelve a comprobarlo pronto."
   }
 }

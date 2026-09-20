@@ -19,13 +19,17 @@
 - Sentry via a small HTTP sender instead of `@sentry/nextjs` (no source maps, no performance data).
 - Product JSON-LD has no `Offer`: prices are per branch currency and the legacy vehicle price has no currency.
 
-## Not done (known gaps)
-- Per-city landing pages; use of `vehicle_translations` in the UI.
-- Policy-version re-acceptance prompt (data model exists).
-- Legal pages remain English only. Time-based purge of licence documents and messages.
-- Coverage floor and axe/Lighthouse checks in CI. Caching and query-plan review.
-- CI workflow has never run on GitHub; the health-check-free Playwright start assumes placeholder Supabase values.
-- Nothing has run against real Supabase, Stripe, Resend, Twilio or Sentry.
+## Follow-up pass (gaps closed after the first 9b commit)
+- Migration `0017`, SQL test 15: retention for licence photos (730 days, skipped while a booking is open; files removed from storage by the cron before rows are deleted) and messages (1095 days, finished bookings only, never with an open dispute); policy re-acceptance (`policies_to_accept`, `accept_policies`). Retention days are starting values to confirm with counsel.
+- Account area shows a notice when terms or privacy changed; `/api/account/policies`.
+- Legal pages show a notice in every non-English language that the English text applies.
+- Per-city pages `/{lang}/cars/in/{city}` (in the sitemap); translated vehicle description and features with English fallback per field.
+- Vitest coverage gate (85% lines/functions/statements, 80% branches) on the pure-logic libraries; currently about 98%. axe accessibility tests in Playwright; they found and I fixed two real issues (unlabelled rating role, keyboard access to the testimonial scroller) and a hard-coded English label.
+
+## Still not done
+- Nothing has run against real Supabase, Stripe, Resend, Twilio or Sentry; the CI workflow has never run on GitHub.
+- Human-written legal text and native-speaker review of translations; there is no admin screen to edit vehicle translations or publish new policy versions (versions are added by migration or SQL).
+- Vehicle structured data has no price (per-branch currency). Caching and query-plan review. Lighthouse budgets.
 
 ## Rollout
 Apply migrations 0012–0016, set env vars (README), especially `CONSENT_SALT`, `CRON_SECRET`, `NEXT_PUBLIC_SITE_URL`; walk through `docs/compliance/go-live-checklist.md`.

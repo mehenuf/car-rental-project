@@ -307,7 +307,8 @@
     "prev": "Vorherige Kundenstimme",
     "next": "Nächste Kundenstimme",
     "goTo": "Zu Kundenstimme {n}",
-    "status": "Kundenstimme {n} von {total}"
+    "status": "Kundenstimme {n} von {total}",
+    "rated": "Bewertet mit {rating} von 5"
   },
   "auth": {
     "loginTitle": "Anmelden",
@@ -631,5 +632,21 @@
     "deleteConfirm": "Geben Sie {email} zur Bestätigung ein",
     "delete": "Mein Konto löschen",
     "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+  "policy": {
+    "title": "Unsere Bedingungen oder die Datenschutzerklärung haben sich geändert",
+    "body": "Bitte lesen Sie die aktualisierten Dokumente und akzeptieren Sie sie, um Ihr Konto weiter zu nutzen.",
+    "terms": "Bedingungen",
+    "privacy": "Datenschutzerklärung",
+    "accept": "Akzeptieren",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+  "legal": {
+    "englishOnly": "Dieses Dokument ist auf Englisch. Es ist die maßgebliche Fassung."
+  },
+  "cityPage": {
+    "title": "Mietwagen in {city}",
+    "intro": "Mieten Sie ein Auto in {city}: Vergleichen Sie verfügbare Fahrzeuge, sehen Sie den Preis vor der Buchung und holen Sie es in einer Filiale vor Ort ab.",
+    "empty": "Derzeit sind in {city} keine Autos verfügbar. Bitte schauen Sie bald wieder vorbei."
   }
 }

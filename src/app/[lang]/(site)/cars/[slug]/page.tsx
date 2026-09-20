@@ -6,7 +6,8 @@ import { notFound } from "next/navigation";
 import { Check, Cog, DoorOpen, Fuel as FuelIcon, Star, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { getVehicleBySlug, getVehicleCards } from "@/lib/queries";
+import { getVehicleBySlug, getVehicleCards, getVehicleTranslation } from "@/lib/queries";
+import { localizedVehicleText } from "@/lib/i18n/vehicle-text";
 import { Badge } from "@/components/ui/badge";
 import { VehicleGallery } from "@/components/site/vehicle-gallery";
 import { VehicleBookingPanel } from "@/components/site/vehicle-booking-panel";
@@ -61,6 +62,7 @@ export default async function VehicleDetailPage({
   });
   const similar = sameCategory.filter((v) => v.id !== vehicle.id).slice(0, 3);
 
+  const text = localizedVehicleText(vehicle, await getVehicleTranslation(vehicle.id, locale));
   const images = [vehicle.image_url, ...vehicle.gallery.filter((url) => url !== vehicle.image_url)];
 
   return (
@@ -100,15 +102,15 @@ export default async function VehicleDetailPage({
               <Spec icon={FuelIcon} label={t("vehicle.fuel")} value={t(`enums.fuel.${vehicle.fuel}`)} />
             </div>
 
-            {vehicle.description && (
-              <p className="text-muted-foreground">{vehicle.description}</p>
+            {text.description && (
+              <p className="text-muted-foreground">{text.description}</p>
             )}
 
-            {vehicle.features.length > 0 && (
+            {text.features.length > 0 && (
               <ScrollReveal className="flex flex-col gap-2" delay={0.12}>
                 <h2 className="font-heading text-lg font-semibold text-foreground">{t("vehicle.features")}</h2>
                 <ul className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                  {vehicle.features.map((feature) => (
+                  {text.features.map((feature) => (
                     <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
                       <Check className="size-4 shrink-0 text-accent-text" />
                       {feature}
