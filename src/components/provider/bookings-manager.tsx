@@ -52,6 +52,7 @@ function InspectionDialog({ booking, kind, onClose, onDone }: { booking: Provide
   const [odometer, setOdometer] = useState("");
   const [fuel, setFuel] = useState("full");
   const [notes, setNotes] = useState("");
+  const [override, setOverride] = useState("");
   const [files, setFiles] = useState<File[]>([]);
   const fileInput = useRef<HTMLInputElement | null>(null);
   const save = useSave();
@@ -80,7 +81,9 @@ function InspectionDialog({ booking, kind, onClose, onDone }: { booking: Provide
         fuel_level: fuel,
         notes: notes.trim() || null,
         photo_paths: paths,
+        licence_override_reason: kind === "pickup" && override.trim() ? override.trim() : null,
       });
+      setOverride("");
       setOdometer("");
       setNotes("");
       setFiles([]);
@@ -112,6 +115,13 @@ function InspectionDialog({ booking, kind, onClose, onDone }: { booking: Provide
             <Label htmlFor="in-notes">Condition notes</Label>
             <Textarea id="in-notes" value={notes} onChange={(e) => setNotes(e.target.value)} rows={3} placeholder="Scratches, dents, cleanliness..." />
           </div>
+          {kind === "pickup" && (
+            <div className="flex flex-col gap-1.5">
+              <Label htmlFor="in-override">Licence override reason (optional)</Label>
+              <Input id="in-override" value={override} onChange={(e) => setOverride(e.target.value)} placeholder="Only if the renter has no verified licence on file" />
+              <p className="text-xs text-muted-foreground">Renters must have a verified driver&apos;s licence. If you checked the physical licence yourself, say so here; it is recorded.</p>
+            </div>
+          )}
           <div className="flex flex-col gap-1.5">
             <input ref={fileInput} type="file" accept="image/jpeg,image/png" multiple className="sr-only" aria-label="Add photos" onChange={(e) => setFiles([...files, ...Array.from(e.target.files ?? [])].slice(0, 10))} />
             <Button type="button" variant="outline" size="sm" className="self-start" onClick={() => fileInput.current?.click()}>Add photos</Button>
