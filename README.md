@@ -109,9 +109,10 @@ Create a `.env.local` file in the project root with the following variables:
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase's service-role key. This one is server-only. It bypasses row-level security, so it is used for admin writes, booking creation, and lead scoring. |
 | `GROQ_API_KEY` | API key for Groq, the primary AI provider behind the chat assistant. |
 | `GEMINI_API_KEY` | API key for Gemini, the automatic fallback if a Groq request fails. |
+| `QUOTE_SIGNING_SECRET` | Server-only secret (at least 32 characters) used to sign the 15 minute price quotes returned by `POST /api/quote`. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Quoting fails without it. |
 | `N8N_WEBHOOK_URL` | The n8n webhook URL that receives lead and booking events (only the lead-scoring one currently has a workflow acting on it; see section 9). This one is optional. If it is missing, the app just skips sending the webhook instead of failing. |
 
-Build a fresh database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0007`), in the Supabase SQL editor. Never run `schema.sql` against a database that holds real data: it drops tables. Then seed it with sample branches, vehicles, fleet units and bookings:
+Build a fresh database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0008`), in the Supabase SQL editor. Never run `schema.sql` against a database that holds real data: it drops tables. Then seed it with sample branches, vehicles, fleet units and bookings:
 
 ```bash
 npx tsx seed.ts
@@ -243,11 +244,46 @@ Admin only. Lists bookings with the vehicle's name and image joined in.
 }
 ```
 
+### `POST /api/quote`
+
+Public, rate-limited to 30 requests per minute per visitor. Prices a trip and returns a signed token valid for 15 minutes. Answers `409` if no car is free for the dates, so an unbookable trip is never quoted.
+
+**Body:** `vehicle_id`, `pickup_at`, `dropoff_at` are required. `pickup_branch_id`, `dropoff_branch_id` (default to the vehicle's home branch), `extras` (`[{ "code": "seat", "quantity": 1 }]`), `promo_code`, `driver_age` are optional.
+
+**Sample response:**
+
+```json
+{
+  "quote": {
+    "currency": "USD",
+    "days": 3,
+    "lines": [
+      { "kind": "base", "label": "Base rate (3 days)", "quantity": 3, "amountMinor": 14400 },
+      { "kind": "weekend", "label": "Weekend rate", "amountMinor": 960 },
+      { "kind": "extra", "code": "cdw", "label": "Collision damage waiver", "quantity": 1, "amountMinor": 3600 }
+    ],
+    "subtotalMinor": 18960,
+    "taxMinor": 0,
+    "serviceFeeMinor": 0,
+    "totalMinor": 18960,
+    "depositMinor": 20000,
+    "providerPayoutMinor": 16116,
+    "platformRevenueMinor": 2844,
+    "cancellationTiers": [{ "hoursBefore": 48, "refundBp": 10000 }, { "hoursBefore": 0, "refundBp": 0 }]
+  },
+  "token": "eyJ...",
+  "expires_at": "2030-03-01T10:15:00.000Z",
+  "available_extras": [{ "code": "seat", "name": "Child seat", "pricing": "per_day", "unitPriceMinor": 800, "maxQuantity": 2, "isMandatory": false }]
+}
+```
+
+All amounts are integer minor units (cents) of `quote.currency`. The total already contains every mandatory fee and tax; the deposit is a separate refundable hold. Billable days are whole 24 hour periods rounded up after a 59 minute grace.
+
 ### `POST /api/bookings`
 
 Public. This is what the customer-facing booking form calls. `status` and `lead_score` are deliberately not accepted here. Every new booking starts as `pending` with no score, no matter what the request contains.
 
-**Body:** `vehicle_id`, `customer_name`, `email`, `pickup_at`, `dropoff_at` are required. `phone`, `pickup_branch_id`, `dropoff_branch_id` (both default to the vehicle's home branch; drop-off defaults to pick-up), `payment_method`, `source` (`web`/`chat`/`phone`) are optional.
+**Body:** `vehicle_id`, `customer_name`, `email`, `pickup_at`, `dropoff_at` are required. `phone`, `pickup_branch_id`, `dropoff_branch_id` (both default to the vehicle's home branch; drop-off defaults to pick-up), `payment_method`, `source` (`web`/`chat`/`phone`), `extras`, `promo_code`, `driver_age` and `quote_token` (from `POST /api/quote`) are optional.
 
 **Sample response** (`201`):
 
@@ -271,7 +307,7 @@ Public. This is what the customer-facing booking form calls. `status` and `lead_
 }
 ```
 
-`total_amount` is calculated on the server from the vehicle's `price_per_day` and the number of days. It is never trusted from the client. If no unit of the vehicle is free for the dates, the response is `409`. On success, the booking's details are also sent to the n8n webhook URL in the background, but no automation currently acts on that particular event. See section 9 for details.
+`total_amount` (major units) is calculated on the server by the quote engine from the vehicle's rate plan, extras, fees and taxes for that branch. It is never trusted from the client. If no unit of the vehicle is free for the dates, the response is `409`. With a `quote_token`, the server re-prices the trip and, if the total changed, answers `409` with `{ error: { code: "PRICE_CHANGED" }, quote }` instead of booking at a different price. Every booking stores the accepted quote as an immutable `price_snapshot`. On success, the booking's details are also sent to the n8n webhook URL in the background, but no automation currently acts on that particular event. See section 9 for details.
 
 ### `PATCH /api/bookings/[id]`
 
@@ -461,11 +497,11 @@ Only one automation is actually built and working right now: the one described b
 
 **n8n is currently on a free trial.** The automation runs on n8n's free tier, which is fine for a demo but has a time limit and lower execution limits than a production setup would need. The migration path once the trial ends is either a paid n8n Cloud plan, or self-hosting n8n, since it runs as a single Docker container, and pointing `N8N_WEBHOOK_URL` at that self-hosted instance instead. The app itself needs no code changes either way, since it only ever knows about a webhook URL.
 
-**Availability is enforced by the database.** Each physical car is a `fleet_units` row, and every reservation is a `unit_occupancy` time range. A Postgres exclusion constraint makes two overlapping ranges on one car impossible, and `create_booking_atomic` picks a free unit and retries the next one if a concurrent booking takes it. A per-branch turnaround buffer is added after each rental, and one-way rentals move the car to the drop-off branch. `vehicles` is the model catalogue and `vehicles.stock` is simply the number of active units. Branches belong to providers (a seeded default provider today), which is the foundation for the multi-provider marketplace described in `docs/superpowers/specs/`. What is still simple: prices are `price_per_day` times days, and bookings still start as `pending` for staff to confirm.
+**Availability is enforced by the database.** Each physical car is a `fleet_units` row, and every reservation is a `unit_occupancy` time range. A Postgres exclusion constraint makes two overlapping ranges on one car impossible, and `create_booking_atomic` picks a free unit and retries the next one if a concurrent booking takes it. A per-branch turnaround buffer is added after each rental, and one-way rentals move the car to the drop-off branch. `vehicles` is the model catalogue and `vehicles.stock` is simply the number of active units. Branches belong to providers (a seeded default provider today), which is the foundation for the multi-provider marketplace described in `docs/superpowers/specs/`. Prices come from provider-owned rate plans through a pure quote engine (`src/lib/pricing/`). Bookings still start as `pending` for staff to confirm, and no payment is taken yet.
 
 ## 11. What I'd build next
 
-1. **A pricing engine.** Seasonal and weekend rates, extras, taxes, deposits and multiple currencies (sub-project 2 in `docs/superpowers/specs/`).
+1. **Provider pricing screens.** Rate plans, seasons, extras, policies and promo codes are stored and used by the quote engine but edited by SQL and the seed for now; provider portal screens are sub-project 4.
 2. **Payment processing.** Right now a booking is a request, not a transaction. No payment gateway is integrated, and everything lands as `pending` for an admin to follow up on manually. Adding Stripe, or something similar, at the booking step would make this a real checkout flow.
 3. **A durable rate limiter and webhook retry queue.** The chat endpoint's rate limiting and the n8n webhook calls both currently live in memory on a single server process: a rate-limit counter that resets on every deploy, and a webhook call that is simply dropped and logged if n8n is briefly unreachable. Moving both onto something persistent, such as Redis for rate limiting and a small retry queue for webhooks, would let both survive a restart and a transient n8n outage.
 4. **A second n8n workflow for the booking webhook.** The app already sends a webhook on every new booking, but nothing in n8n currently reacts to it. Building that workflow, for example to notify staff or log the booking to its own sheet, would put that existing hook to use instead of leaving it silently ignored.

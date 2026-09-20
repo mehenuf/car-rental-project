@@ -169,7 +169,12 @@ async function main() {
   await supabase.from("leads").delete().neq("id", "00000000-0000-0000-0000-000000000000");
   await supabase.from("bookings").delete().neq("id", "00000000-0000-0000-0000-000000000000");
   await supabase.from("vehicles").delete().neq("id", "00000000-0000-0000-0000-000000000000");
-  // Deleting vehicles cascades to fleet_units; bookings are already gone.
+  // Pricing config that does not cascade from vehicles or branches.
+  await supabase.from("extras").delete().eq("provider_id", DEFAULT_PROVIDER_ID);
+  await supabase.from("provider_policies").delete().eq("provider_id", DEFAULT_PROVIDER_ID);
+  await supabase.from("tax_rules").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  await supabase.from("promo_codes").delete().neq("id", "00000000-0000-0000-0000-000000000000");
+  // Deleting vehicles cascades to fleet_units and rate_plans; bookings are already gone.
   await supabase.from("branches").delete().eq("provider_id", DEFAULT_PROVIDER_ID);
   await supabase.from("daily_stats").delete().neq("date", "1900-01-01");
 
@@ -233,6 +238,86 @@ async function main() {
   );
   const { error: unitError } = await supabase.from("fleet_units").insert(unitRows);
   if (unitError) throw unitError;
+
+  console.log("Inserting pricing config...");
+  const { data: planRows, error: planError } = await supabase
+    .from("rate_plans")
+    .insert(
+      insertedVehicles!.map((v) => ({
+        provider_id: DEFAULT_PROVIDER_ID,
+        vehicle_id: v.id as string,
+        branch_id: v.location_id as number,
+        currency: "USD",
+        base_daily_minor: Math.round(Number(v.price_per_day) * 100),
+        weekend_uplift_bp: 1000, // +10% on Saturdays and Sundays
+        weekly_discount_bp: 1000, // 10% off from 7 days
+        monthly_discount_bp: 2000, // 20% off from 28 days
+      }))
+    )
+    .select("id, base_daily_minor");
+  if (planError) throw planError;
+
+  // A summer season (+25%) on every third vehicle, next year so it never overlaps today's data.
+  const seasonYear = new Date().getFullYear() + 1;
+  const seasonRows = planRows!
+    .filter((_, i) => i % 3 === 0)
+    .map((p) => ({
+      rate_plan_id: p.id as string,
+      provider_id: DEFAULT_PROVIDER_ID,
+      during: `[${seasonYear}-06-15,${seasonYear}-09-01)`,
+      daily_minor: Math.round(Number(p.base_daily_minor) * 1.25),
+    }));
+  const { error: seasonError } = await supabase.from("rate_seasons").insert(seasonRows);
+  if (seasonError) throw seasonError;
+
+  const { error: extrasError } = await supabase.from("extras").insert([
+    { provider_id: DEFAULT_PROVIDER_ID, code: "seat", name: "Child seat", kind: "extra", pricing: "per_day", unit_price_minor: 800, currency: "USD", max_quantity: 2, cap_minor: 5600 },
+    { provider_id: DEFAULT_PROVIDER_ID, code: "gps", name: "GPS navigation", kind: "extra", pricing: "per_day", unit_price_minor: 1000, currency: "USD", max_quantity: 1, cap_minor: 7000 },
+    { provider_id: DEFAULT_PROVIDER_ID, code: "driver", name: "Additional driver", kind: "extra", pricing: "per_rental", unit_price_minor: 1500, currency: "USD", max_quantity: 2 },
+    { provider_id: DEFAULT_PROVIDER_ID, code: "cdw", name: "Collision damage waiver", kind: "insurance", pricing: "per_day", unit_price_minor: 1200, currency: "USD", max_quantity: 1, is_mandatory: true },
+  ]);
+  if (extrasError) throw extrasError;
+
+  const { error: policyError } = await supabase.from("provider_policies").insert({
+    provider_id: DEFAULT_PROVIDER_ID,
+    deposit_type: "fixed",
+    deposit_value: 20000, // $200 refundable hold
+    cancellation_tiers: [
+      { hours_before: 48, refund_bp: 10000 },
+      { hours_before: 24, refund_bp: 5000 },
+      { hours_before: 0, refund_bp: 0 },
+    ],
+    min_driver_age: 21,
+    young_driver_age: 25,
+    young_driver_fee_minor: 1500,
+  });
+  if (policyError) throw policyError;
+
+  // One-way fee between any two branches.
+  const oneWayRows = insertedLocations!.flatMap((from) =>
+    insertedLocations!
+      .filter((to) => to.id !== from.id)
+      .map((to) => ({ provider_id: DEFAULT_PROVIDER_ID, from_branch_id: from.id as number, to_branch_id: to.id as number, amount_minor: 3500 }))
+  );
+  const { error: oneWayError } = await supabase.from("one_way_fees").insert(oneWayRows);
+  if (oneWayError) throw oneWayError;
+
+  // Demo tax rules (illustrative rates, not tax advice).
+  const { error: taxError } = await supabase.from("tax_rules").insert([
+    { country_code: "GB", name: "VAT", rate_bp: 2000, applies_to: ["rental", "extras", "fees"], inclusive: true },
+    { country_code: "NG", name: "VAT", rate_bp: 750, applies_to: ["rental", "extras", "fees"], inclusive: false },
+    { country_code: "KE", name: "VAT", rate_bp: 1600, applies_to: ["rental", "extras", "fees"], inclusive: false },
+    { country_code: "AE", name: "VAT", rate_bp: 500, applies_to: ["rental", "extras", "fees"], inclusive: false },
+    { country_code: "ID", name: "PPN", rate_bp: 1100, applies_to: ["rental", "extras", "fees"], inclusive: false },
+    { country_code: "CA", name: "GST", rate_bp: 500, applies_to: ["rental", "extras", "fees"], inclusive: false },
+  ]);
+  if (taxError) throw taxError;
+
+  const { error: promoError } = await supabase.from("promo_codes").insert([
+    { code: "WELCOME10", issuer: "platform", discount_type: "percent", value: 1000 },
+    { code: "WEEKEND25", issuer: "platform", discount_type: "fixed", value: 2500, currency: "USD", min_days: 3 },
+  ]);
+  if (promoError) throw promoError;
 
   console.log("Generating ~200 bookings across the last 12 months...");
   const bookingRows = Array.from({ length: 200 }).map(() => {
