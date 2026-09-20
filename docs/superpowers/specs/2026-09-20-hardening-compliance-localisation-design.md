@@ -12,11 +12,11 @@ Migration: none for part A; `0016` for part B.
 
 ## A1. Scope
 
-**In:** locale-prefixed public routes, locale negotiation, a message layer with plurals and interpolation, locale-aware formatting, right-to-left support for Arabic, per-language fonts, a language switcher, translated catalogue content storage, and a translation workflow with parity checks. English is the complete source; the other seven languages get machine-drafted files flagged unreviewed until a native speaker signs them off.
+**In:** locale-prefixed public routes, locale negotiation, a message layer with plurals and interpolation, locale-aware formatting, right-to-left support for Arabic, per-language fonts, a language switcher, translated catalogue content storage, and a translation workflow with parity checks. English is the complete source; the other ten languages get machine-drafted files flagged unreviewed until a native speaker signs them off.
 
-**Out:** translating provider-entered free text (names, descriptions a provider types stay in the language they were written in); Traditional Chinese; languages beyond the eight (nl, de, hi, id, sw and others fall back to English and can be added later by adding one file); translating the platform admin (English only).
+**Out:** translating provider-entered free text (names, descriptions a provider types stay in the language they were written in); Traditional Chinese; languages beyond the eleven (hi, sw and others fall back to English and can be added later by adding one file); translating the platform admin (English only).
 
-**Languages:** `en`, `bn`, `es`, `fr`, `ar` (right-to-left), `pt`, `zh` (Simplified), `ja`. **Countries:** every country already served (US, GB, AE, CA, AU, NL, DE, FR, NG, KE, ID, BR, IN, BD, JP), each with a default language, currency and time zone in `src/lib/provider/countries.ts`.
+**Languages (11):** `en`, `bn`, `es`, `fr`, `ar` (right-to-left), `pt`, `zh` (Simplified), `ja`, `nl`, `de`, `id`. **Countries:** every country already served (US, GB, AE, CA, AU, NL, DE, FR, NG, KE, ID, BR, IN, BD, JP), each with a default language, currency and time zone in `src/lib/provider/countries.ts`.
 
 ## A2. Decisions to confirm
 
@@ -24,7 +24,7 @@ Migration: none for part A; `0016` for part B.
 2. **A small in-house message layer**, following the pattern in the Next.js docs (JSON dictionaries loaded per request on the server, a `t(key, params)` helper, plural rules from `Intl.PluralRules`, keys typed from `en.json`), rather than adding a library whose Next.js 16 compatibility I cannot verify. If a mature library proves compatible during build, swapping is contained to one module.
 3. **Private areas use a cookie, not a URL prefix.** `/account`, `/provider` and `/checkout` are not indexed, so their language comes from the saved preference cookie. The platform admin stays English.
 4. **Logical CSS everywhere.** Physical utilities (`ml-`, `pl-`, `text-left`, `left-`) are replaced by logical ones (`ms-`, `ps-`, `text-start`, `start-`) so Arabic mirrors correctly. A check script fails the build on new physical utilities in translated areas. Directional icons are mirrored explicitly.
-5. **Fonts per script**, loaded only for the active language with `next/font` subsets: Noto Sans for Latin, plus Noto Sans Arabic, Bengali, SC and JP.
+5. **Fonts per script**, loaded only for the active language with `next/font` subsets: Noto Sans for Latin (English, Spanish, French, Portuguese, Dutch, German, Indonesian), plus Noto Sans Arabic, Bengali, SC and JP.
 6. **Western digits for Arabic** by default (`ar-u-nu-latn`), configurable later.
 7. **Catalogue text is translated in the database** (`vehicle_translations`, part B migration), with fallback to English. Provider free text is not translated.
 
@@ -34,7 +34,7 @@ Migration: none for part A; `0016` for part B.
 - `src/app/[lang]/(site)/...` replaces `src/app/(site)/...`; a `[lang]/layout.tsx` sets `lang` and `dir`, loads the font, and provides messages to client components for the namespaces they use.
 - Existing helpers `formatCurrency`, `formatDate` and `formatMinor` gain a locale parameter (default `en`) so callers migrate gradually.
 - Language switcher in the header and footer; choosing a language sets the cookie and navigates to the same page in that language.
-- Pseudo-locale `en-XA` (accented, 40% longer strings) enabled in development to expose layout problems before translators do.
+- Pseudo-locale `en-XA` (accented, 40% longer strings) enabled in development to expose layout problems before translators do. German and Dutch compound words are the real-world test of that: buttons and table headers must wrap or truncate cleanly.
 
 ## A4. Testing
 
