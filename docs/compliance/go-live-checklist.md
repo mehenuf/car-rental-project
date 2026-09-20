@@ -8,6 +8,6 @@
 - [ ] Turn on real Stripe with webhooks; verify refunds, deposits and payouts end to end with test cards
 - [ ] Insurance and licence-check policy confirmed by counsel and insurer
 - [ ] Regulator registrations (see country-matrix.md); name DPO / privacy officer
-- [ ] Staff accounts created with second factor enforced (`ADMIN_REQUIRE_MFA` not `false`)
+- [ ] Staff accounts created with second factor enforced (set `ADMIN_REQUIRE_MFA=true` once staff have enrolled)
 - [ ] Backups and restore test; uptime monitor on `/api/health`
 - [ ] Penetration test or security review by a third party

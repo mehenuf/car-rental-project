@@ -5,6 +5,7 @@ import { PriceChangedError } from "@/lib/pricing/errors";
 import { loadQuoteConfig } from "@/lib/pricing/load-config";
 import { hashQuoteInput, signQuoteToken, verifyQuoteToken } from "@/lib/pricing/token";
 import type { ExtraConfig, Quote, QuoteConfig, QuoteInput } from "@/lib/pricing/types";
+import { quoteSigningSecret } from "@/lib/secrets";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 export interface QuoteRequest {
@@ -25,9 +26,7 @@ export interface BuiltQuote {
 }
 
 function quoteSecret(): string {
-  const secret = process.env.QUOTE_SIGNING_SECRET;
-  if (!secret) throw new Error("QUOTE_SIGNING_SECRET is not set.");
-  return secret;
+  return quoteSigningSecret();
 }
 
 /** Explicit branch, else the vehicle's home branch, else the branch of its first active unit. */

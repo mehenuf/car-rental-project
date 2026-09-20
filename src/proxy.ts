@@ -59,8 +59,8 @@ async function adminGate(request: NextRequest) {
   }
 
   // Staff must complete a second factor in this session before reaching any admin page.
-  // Turn off for local development with ADMIN_REQUIRE_MFA=false.
-  if (isAdmin && process.env.ADMIN_REQUIRE_MFA !== "false" && request.nextUrl.pathname !== MFA_PATH && !isLoginPage) {
+  // Off by default; turn on with ADMIN_REQUIRE_MFA=true.
+  if (isAdmin && process.env.ADMIN_REQUIRE_MFA === "true" && request.nextUrl.pathname !== MFA_PATH && !isLoginPage) {
     const { data: aal } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
     if (aal?.currentLevel !== "aal2") {
       const url = request.nextUrl.clone();

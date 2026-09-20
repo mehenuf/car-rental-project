@@ -47,6 +47,11 @@ export default async function HomePage() {
     pageSize: DEALS_PAGE_SIZE,
     sortBy: "created_at",
     sortOrder: "desc",
+  }).catch((error) => {
+    // With no reachable database at build time (CI), build the page without deals; it fills in on the first revalidation.
+    // At runtime the error still surfaces, so Next keeps serving the last good page.
+    if (process.env.NEXT_PHASE === "phase-production-build") return { data: [], count: 0 };
+    throw error;
   });
 
   return (

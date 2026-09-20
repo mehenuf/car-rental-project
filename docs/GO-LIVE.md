@@ -138,7 +138,7 @@ already have (Supabase keys, `GROQ_API_KEY`, `GEMINI_API_KEY`, `N8N_WEBHOOK_URL`
 
 | Name | Value |
 |---|---|
-| `QUOTE_SIGNING_SECRET` | 64 random characters. Generate: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` (if it already exists, leave it) |
+| `QUOTE_SIGNING_SECRET` | Recommended (booking works without it, using a key derived from the Supabase service key). 64 random characters. Generate: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"` (if it already exists, leave it) |
 | `CRON_SECRET` | Another long random value (same command). Vercel sends it to the daily job automatically. |
 | `CONSENT_SALT` | Another long random value. Used to hash IP addresses in cookie-consent records. **Never change it later** unless you accept that old hashes stop matching. |
 | `NEXT_PUBLIC_SITE_URL` | `https://car-rental-project-mehenuf.vercel.app` (no trailing slash; use your own domain if you have one) |
@@ -148,7 +148,7 @@ already have (Supabase keys, `GROQ_API_KEY`, `GEMINI_API_KEY`, `N8N_WEBHOOK_URL`
 | Name | Purpose |
 |---|---|
 | `AUTH_REQUIRE_EMAIL_VERIFICATION` | `false` only if you have no email sender and want instant accounts |
-| `ADMIN_REQUIRE_MFA` | Leave unset (staff must use a second factor). `false` is an emergency escape hatch only. |
+| `ADMIN_REQUIRE_MFA` | Off by default (no QR code at admin sign-in). Set to `true` to require an authenticator app for staff. |
 | `RESEND_API_KEY`, `RESEND_FROM`, `RESEND_WEBHOOK_SECRET` | Real email (see step 8) |
 | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_MESSAGING_SERVICE_SID`, `TWILIO_VERIFY_SERVICE_SID` | Real SMS and phone verification |
 | `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | Web push. Generate keys with `npx web-push generate-vapid-keys`; subject looks like `mailto:you@example.com` |
@@ -183,10 +183,8 @@ Replace `SITE` with your live address.
 1. **Health:** open `SITE/api/health`. Expect `{"status":"ok","database":"up",...}`.
 2. **Pages in several languages:** `SITE/en`, `SITE/de`, `SITE/ar` (right-to-left), `SITE/robots.txt`, `SITE/sitemap.xml`.
    A car page in another language should load (for example `SITE/de/cars/<a-real-slug>`).
-3. **Admin and second factor:** sign in with your existing admin account and open `SITE/admin`. You will be sent to
-   `/admin/mfa` to scan a QR code with an authenticator app (Google Authenticator, 1Password, Authy…). Finish it, then
-   confirm the console opens. **Keep a backup of the authenticator secret or use an app that syncs.**
-   If you lock yourself out: set `ADMIN_REQUIRE_MFA=false` in Vercel, redeploy, sign in, re-enrol, then remove the variable.
+3. **Admin:** sign in with your existing admin account and open `SITE/admin`. It opens straight away; no authenticator
+   app is needed unless you set `ADMIN_REQUIRE_MFA=true`.
 4. **Daily job, by hand** (proves the database and secrets work together):
 
    ```bash

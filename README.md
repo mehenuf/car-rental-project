@@ -114,10 +114,10 @@ Create a `.env.local` file in the project root with the following variables:
 | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_MESSAGING_SERVICE_SID`, `TWILIO_VERIFY_SERVICE_SID` | Optional. Text messages and phone verification through Twilio. Without the Verify service the demo accepts code 000000. |
 | `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | Optional. Web Push (free): generate with `npx web-push generate-vapid-keys`. |
 | `NEXT_PUBLIC_SITE_URL` | The public origin, used for links inside emails and to verify Twilio webhooks. |
-| `ADMIN_REQUIRE_MFA` | Optional. Staff must complete a second factor (authenticator app) to use the admin console. Defaults to on; set to `false` only for local development. |
+| `ADMIN_REQUIRE_MFA` | Optional. Set to `true` to require staff to use an authenticator app (second factor) for the admin console. Off by default. |
 | `CONSENT_SALT` | Secret salt used to hash IPs stored with cookie-consent records. Set a long random value in production. |
 | `SENTRY_DSN` | Optional. When set, server errors are sent to Sentry (personal data scrubbed) as well as logged as JSON. |
-| `QUOTE_SIGNING_SECRET` | Server-only secret (at least 32 characters) used to sign the 15 minute price quotes returned by `POST /api/quote`. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Quoting fails without it. |
+| `QUOTE_SIGNING_SECRET` | Server-only secret (at least 32 characters) used to sign the 15 minute price quotes returned by `POST /api/quote`. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. If it is missing or shorter than 32 characters, a key is derived from `SUPABASE_SERVICE_ROLE_KEY` instead; set it in production so it can be rotated independently. |
 | `CRON_SECRET` | Server-only secret that protects `GET /api/cron/maintenance`. Vercel Cron sends it as `Authorization: Bearer <secret>`. Without it the endpoint answers 503. |
 | `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Optional. Stripe **test-mode** keys and the webhook signing secret. With them, card payments go through Stripe. Without them every method is simulated and the site works the same. |
 | `N8N_WEBHOOK_URL` | The n8n webhook URL that receives lead and booking events (only the lead-scoring one currently has a workflow acting on it; see section 9). This one is optional. If it is missing, the app just skips sending the webhook instead of failing. |

@@ -12,9 +12,9 @@ export interface StaffContext {
   role: StaffRole;
 }
 
-/** Two-factor sign-in is required for all staff unless explicitly switched off (local development). */
+/** Two-factor sign-in for staff is opt-in: set ADMIN_REQUIRE_MFA=true once staff have enrolled an authenticator. */
 export function mfaRequired(): boolean {
-  return process.env.ADMIN_REQUIRE_MFA !== "false";
+  return process.env.ADMIN_REQUIRE_MFA === "true";
 }
 
 async function sessionClient() {
