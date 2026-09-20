@@ -44,12 +44,14 @@ export default async function VehicleDetailPage({
   searchParams: Promise<{
     pickupDate?: string;
     dropoffDate?: string;
+    pickupTime?: string;
+    dropoffTime?: string;
     pickupLocationId?: string;
     dropoffLocationId?: string;
   }>;
 }) {
   const { slug } = await params;
-  const { pickupDate, dropoffDate, pickupLocationId, dropoffLocationId } = await searchParams;
+  const { pickupDate, dropoffDate, pickupTime, dropoffTime, pickupLocationId, dropoffLocationId } = await searchParams;
   const t = await getT();
   const locale = await getLocale();
 
@@ -126,6 +128,8 @@ export default async function VehicleDetailPage({
           <VehicleBookingPanel
             vehicle={vehicle}
             defaultPickupDate={pickupDate}
+            defaultPickupTime={pickupTime}
+            defaultDropoffTime={dropoffTime}
             defaultDropoffDate={dropoffDate}
             pickupBranchId={toBranchId(pickupLocationId)}
             dropoffBranchId={toBranchId(dropoffLocationId)}

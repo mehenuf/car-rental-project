@@ -22,7 +22,8 @@
     "logIn": "Entrar",
     "logOut": "Sair",
     "adminDashboard": "Painel do administrador",
-    "myAccount": "Minha conta"
+    "myAccount": "Minha conta",
+    "partnerPortal": "Portal de parceiros"
   },
   "footer": {
     "tagline": "Aluguel de carros prático e transparente. Reserve online em minutos, sem precisar de conta.",
@@ -192,7 +193,9 @@
     "phone": "Telefone (opcional)",
     "cancel": "Cancelar",
     "confirm": "Confirmar reserva",
-    "submitting": "Reservando..."
+    "submitting": "Reservando...",
+    "tripHint": "Escolha quando precisa do carro. Toque em uma data ou horário para alterar; o preço é atualizado na hora.",
+    "dropAfterPickup": "A devolução deve ser depois da retirada."
   },
   "quote": {
     "total": "Total",
@@ -340,7 +343,14 @@
     "newPassword": "Nova senha",
     "savePassword": "Salvar senha",
     "resetDone": "Sua senha foi atualizada.",
-    "resetInvalid": "Este link é inválido ou expirou. Solicite um novo."
+    "resetInvalid": "Este link é inválido ou expirou. Solicite um novo.",
+    "accountType": "Eu quero",
+    "typeRenter": "Alugar um carro",
+    "typeRenterBody": "Reserve carros de empresas e proprietários locais.",
+    "typeOwner": "Anunciar meu carro",
+    "typeOwnerBody": "Ganhe dinheiro com seu carro como proprietário particular.",
+    "typeCompany": "Cadastrar minha locadora",
+    "typeCompanyBody": "Gerencie frota e filiais no BestCar."
   },
   "account": {
     "title": "Minha conta",

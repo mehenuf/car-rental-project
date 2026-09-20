@@ -22,7 +22,8 @@
     "logIn": "Iniciar sesión",
     "logOut": "Cerrar sesión",
     "adminDashboard": "Panel de administración",
-    "myAccount": "Mi cuenta"
+    "myAccount": "Mi cuenta",
+    "partnerPortal": "Portal de socios"
   },
   "footer": {
     "tagline": "Alquiler de coches cómodo y transparente. Reserva en línea en minutos, sin necesidad de cuenta.",
@@ -192,7 +193,9 @@
     "phone": "Teléfono (opcional)",
     "cancel": "Cancelar",
     "confirm": "Confirmar reserva",
-    "submitting": "Reservando..."
+    "submitting": "Reservando...",
+    "tripHint": "Elige cuándo necesitas el coche. Toca una fecha o una hora para cambiarla; el precio se actualiza al instante.",
+    "dropAfterPickup": "La devolución debe ser después de la recogida."
   },
   "quote": {
     "total": "Total",
@@ -340,7 +343,14 @@
     "newPassword": "Nueva contraseña",
     "savePassword": "Guardar contraseña",
     "resetDone": "Tu contraseña se ha actualizado.",
-    "resetInvalid": "Este enlace no es válido o ha caducado. Solicita uno nuevo."
+    "resetInvalid": "Este enlace no es válido o ha caducado. Solicita uno nuevo.",
+    "accountType": "Quiero",
+    "typeRenter": "Alquilar un coche",
+    "typeRenterBody": "Reserva coches de empresas y propietarios locales.",
+    "typeOwner": "Publicar mi coche",
+    "typeOwnerBody": "Gana dinero con tu coche como propietario particular.",
+    "typeCompany": "Publicar mi empresa de alquiler",
+    "typeCompanyBody": "Gestiona una flota y sucursales en BestCar."
   },
   "account": {
     "title": "Mi cuenta",

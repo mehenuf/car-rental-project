@@ -12,7 +12,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { DatePickerField } from "@/components/site/date-picker-field";
+import { DatePickerField, FIELD_CLASS } from "@/components/site/date-picker-field";
+import { TimeSelectField } from "@/components/site/time-select-field";
+import { DEFAULT_TIME, combineDateAndTime } from "@/lib/booking-time";
 import { useApiData } from "@/hooks/use-api-data";
 import { toApiDate } from "@/lib/date-range";
 
@@ -23,14 +25,6 @@ interface Location {
   country_code: string;
 }
 
-const TIME_OPTIONS = Array.from({ length: 29 }, (_, i) => {
-  const totalMinutes = 6 * 60 + i * 30; // 06:00 -> 20:00
-  const h = Math.floor(totalMinutes / 60);
-  const m = totalMinutes % 60;
-  const period = h >= 12 ? "PM" : "AM";
-  const h12 = h % 12 === 0 ? 12 : h % 12;
-  return `${String(h12).padStart(2, "0")}:${String(m).padStart(2, "0")} ${period}`;
-});
 
 function startOfToday(): Date {
   const d = new Date();
@@ -54,8 +48,8 @@ export function SearchBar() {
   const [dropoffLocationId, setDropoffLocationId] = useState("");
   const [pickupDate, setPickupDate] = useState<Date | undefined>(today);
   const [dropoffDate, setDropoffDate] = useState<Date | undefined>(tomorrow);
-  const [pickupTime, setPickupTime] = useState("10:00 AM");
-  const [dropoffTime, setDropoffTime] = useState("10:00 AM");
+  const [pickupTime, setPickupTime] = useState(DEFAULT_TIME);
+  const [dropoffTime, setDropoffTime] = useState(DEFAULT_TIME);
   const [error, setError] = useState<string | null>(null);
 
   const firstLocationId = locations?.[0] ? String(locations[0].id) : "";
@@ -76,7 +70,7 @@ export function SearchBar() {
       setError(t("search.errBothDates"));
       return;
     }
-    if (dropoffDate <= pickupDate) {
+    if (combineDateAndTime(dropoffDate, dropoffTime) <= combineDateAndTime(pickupDate, pickupTime)) {
       setError(t("search.errDropAfter"));
       return;
     }
@@ -174,9 +168,9 @@ function RentalLeg({
           <Select value={locationId} onValueChange={(value) => onLocationChange(value ?? "")}>
             <SelectTrigger
               aria-labelledby={`${id}-location-label`}
-              className="h-auto min-h-11 w-full gap-2 rounded-lg border border-border bg-background/60 px-3 py-2.5 shadow-none hover:bg-background"
+              className={`${FIELD_CLASS} h-auto gap-2`}
             >
-              <MapPin className="size-4 shrink-0 text-muted-foreground" />
+              <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent-text"><MapPin className="size-4" aria-hidden="true" /></span>
               {/* Full "City, Country" only in the open list, where there's
                   room — the closed trigger uses the 2-letter country code
                   so a long name (e.g. "United Arab Emirates") never
@@ -205,30 +199,9 @@ function RentalLeg({
           value={date}
           onChange={onDateChange}
           minDate={minDate}
-          className="gap-1.5"
-          triggerClassName="w-full rounded-lg border border-border bg-background/60 px-3 py-2.5 hover:bg-background hover:text-foreground"
         />
 
-        <div className="flex flex-col gap-1.5">
-          <span id={`${id}-time-label`} className="text-xs font-medium text-muted-foreground">
-            {t("search.time")}
-          </span>
-          <Select value={time} onValueChange={(value) => onTimeChange(value ?? time)}>
-            <SelectTrigger
-              aria-labelledby={`${id}-time-label`}
-              className="h-auto min-h-11 w-full gap-2 rounded-lg border border-border bg-background/60 px-3 py-2.5 shadow-none hover:bg-background"
-            >
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {TIME_OPTIONS.map((t) => (
-                <SelectItem key={t} value={t}>
-                  {t}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+<TimeSelectField label={t("search.time")} value={time} onChange={onTimeChange} />
       </div>
     </div>
   );

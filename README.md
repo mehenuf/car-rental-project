@@ -109,7 +109,7 @@ Create a `.env.local` file in the project root with the following variables:
 | `SUPABASE_SERVICE_ROLE_KEY` | Supabase's service-role key. This one is server-only. It bypasses row-level security, so it is used for admin writes, booking creation, and lead scoring. |
 | `GROQ_API_KEY` | API key for Groq, the primary AI provider behind the chat assistant. |
 | `GEMINI_API_KEY` | API key for Gemini, the automatic fallback if a Groq request fails. |
-| `AUTH_REQUIRE_EMAIL_VERIFICATION` | Optional. Defaults to on: new accounts must click the emailed link (needs SMTP in Supabase). Set to `false` to create pre-confirmed accounts for demos with no email provider. |
+| `AUTH_REQUIRE_EMAIL_VERIFICATION` | Optional. Off by default: new accounts can sign in immediately. Set to `true` to require the emailed confirmation link (needs SMTP configured in Supabase). |
 | `RESEND_API_KEY`, `RESEND_FROM`, `RESEND_WEBHOOK_SECRET` | Optional. Send email through Resend (without them, messages are written to the console and the `notifications` table). The webhook secret verifies delivery, bounce and complaint callbacks. |
 | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_MESSAGING_SERVICE_SID`, `TWILIO_VERIFY_SERVICE_SID` | Optional. Text messages and phone verification through Twilio. Without the Verify service the demo accepts code 000000. |
 | `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | Optional. Web Push (free): generate with `npx web-push generate-vapid-keys`. |

@@ -17,9 +17,9 @@ const TYPES: { value: ProviderType; label: string; description: string; icon: ty
 ];
 
 /** Step one of becoming a provider: who you are and where your first pick-up location is. */
-export function ApplyForm({ defaultName }: { defaultName: string }) {
+export function ApplyForm({ defaultName, defaultType = "company" }: { defaultName: string; defaultType?: ProviderType }) {
   const router = useRouter();
-  const [type, setType] = useState<ProviderType>("company");
+  const [type, setType] = useState<ProviderType>(defaultType);
   const [legalName, setLegalName] = useState(defaultName);
   const [displayName, setDisplayName] = useState(defaultName);
   const [country, setCountry] = useState(COUNTRIES[0]!.code);

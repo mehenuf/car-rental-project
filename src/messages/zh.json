@@ -22,7 +22,8 @@
     "logIn": "登录",
     "logOut": "退出登录",
     "adminDashboard": "管理后台",
-    "myAccount": "我的账户"
+    "myAccount": "我的账户",
+    "partnerPortal": "合作伙伴门户"
   },
   "footer": {
     "tagline": "便捷、透明的租车服务。无需账户，几分钟即可在线预订。",
@@ -188,7 +189,9 @@
     "phone": "电话（选填）",
     "cancel": "取消",
     "confirm": "确认预订",
-    "submitting": "正在预订..."
+    "submitting": "正在预订...",
+    "tripHint": "选择您用车的时间。点击日期或时间即可修改，价格会随之更新。",
+    "dropAfterPickup": "还车时间必须晚于取车时间。"
   },
   "quote": {
     "total": "合计",
@@ -333,7 +336,14 @@
     "newPassword": "新密码",
     "savePassword": "保存密码",
     "resetDone": "您的密码已更新。",
-    "resetInvalid": "此重置链接无效或已过期，请重新申请。"
+    "resetInvalid": "此重置链接无效或已过期，请重新申请。",
+    "accountType": "我想",
+    "typeRenter": "租车",
+    "typeRenterBody": "预订本地公司和车主的车辆。",
+    "typeOwner": "发布我的车辆",
+    "typeOwnerBody": "作为个人车主，用爱车赚取收入。",
+    "typeCompany": "登记我的租车公司",
+    "typeCompanyBody": "在 BestCar 上管理车队和门店。"
   },
   "account": {
     "title": "我的账户",

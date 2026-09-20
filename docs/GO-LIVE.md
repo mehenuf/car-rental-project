@@ -114,6 +114,23 @@ If one is missing, click **New bucket**, use the exact name, and leave "Public b
 
 ---
 
+## 3b. Add demo data (optional, recommended for a showcase)
+
+The database has cars and bookings, but no reviews, disputes, messages, extra providers, promo codes or exchange rates,
+so those features look empty. `scripts/demo-data.sql` adds them without deleting or changing anything, and it is safe to
+run again.
+
+1. Open `scripts/demo-data.sql` and replace `YOUR_EMAIL_HERE` (near the top) with the email of the account you sign in
+   with. That account becomes the owner of two demo providers, so you can open the provider portal.
+2. Copy the whole file into Supabase → SQL Editor and run it. It ends with a notice such as `Demo data added. New reviews: 60`.
+3. You now have: Northgate Car Hire (a company with London and Manchester branches) and Rafi's Corolla (a private owner in
+   Dhaka), about 60 published reviews with some replies, three disputes in different states, four message threads,
+   the promo code `WELCOME10`, and child seat, GPS and insurance extras. No emails or texts are sent for this data.
+
+To see the two account types, register once as a renter and once as a car owner or rental company at `SITE/register`.
+
+---
+
 ## 4. Supabase Auth settings
 
 Supabase → Authentication:
@@ -123,9 +140,9 @@ Supabase → Authentication:
    email-confirmation links depend on this.
 2. **Multi-factor:** turn on **TOTP** (Authentication → Sign In / Providers → Multi-Factor → TOTP enabled).
    Staff must use an authenticator app to enter the admin console; without this setting they cannot enrol.
-3. **Email confirmation:** the new site asks new customers to confirm their email. That needs an email sender.
-   Either configure custom SMTP (Authentication → SMTP Settings; Resend works) or set the environment variable
-   `AUTH_REQUIRE_EMAIL_VERIFICATION=false` (step 5) for a demo without email.
+3. **Email confirmation:** by default new accounts can sign in straight away, so registration works without an email
+   sender. To require people to confirm their email, configure custom SMTP (Authentication → SMTP Settings; Resend
+   works) and set `AUTH_REQUIRE_EMAIL_VERIFICATION=true` (step 5).
 
 ---
 
@@ -147,7 +164,7 @@ already have (Supabase keys, `GROQ_API_KEY`, `GEMINI_API_KEY`, `N8N_WEBHOOK_URL`
 
 | Name | Purpose |
 |---|---|
-| `AUTH_REQUIRE_EMAIL_VERIFICATION` | `false` only if you have no email sender and want instant accounts |
+| `AUTH_REQUIRE_EMAIL_VERIFICATION` | Leave unset: new accounts can sign in straight away. Set to `true` only after you have set up an email sender in Supabase, so people must click an emailed link first |
 | `ADMIN_REQUIRE_MFA` | Off by default (no QR code at admin sign-in). Set to `true` to require an authenticator app for staff. |
 | `RESEND_API_KEY`, `RESEND_FROM`, `RESEND_WEBHOOK_SECRET` | Real email (see step 8) |
 | `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_MESSAGING_SERVICE_SID`, `TWILIO_VERIFY_SERVICE_SID` | Real SMS and phone verification |

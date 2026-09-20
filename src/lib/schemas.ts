@@ -394,4 +394,6 @@ export const SignupSchema = z.object({
   fullName: z.string().trim().min(1, "Full name is required").max(200),
   email: z.string().trim().toLowerCase().email("Enter a valid email address"),
   password: z.string().min(10, "Password must be at least 10 characters"),
+  /** What the person signed up to do. Renters are the default; the other two go on to apply as a provider. */
+  accountType: z.enum(["renter", "individual", "company"]).default("renter"),
 });

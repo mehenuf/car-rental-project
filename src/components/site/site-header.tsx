@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Link } from "@/lib/i18n/link";
 import { useLocaleRouter } from "@/lib/i18n/provider";
-import { Car, LayoutDashboard, Menu, User } from "lucide-react";
+import { Building2, Car, LayoutDashboard, Menu, User } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -65,6 +65,11 @@ function AccountMenu({
         <DropdownMenuItem render={<Link href={isAdmin ? "/admin" : "/account"} />}>
           <LayoutDashboard /> {isAdmin ? t("header.adminDashboard") : t("header.myBookings")}
         </DropdownMenuItem>
+        {!isAdmin && (
+          <DropdownMenuItem render={<Link href="/provider" />}>
+            <Building2 /> {t("header.partnerPortal")}
+          </DropdownMenuItem>
+        )}
         <DropdownMenuItem variant="destructive" onClick={onLogout}>
           {t("header.logOut")}
         </DropdownMenuItem>

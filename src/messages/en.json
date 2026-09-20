@@ -22,7 +22,8 @@
     "logIn": "Log In",
     "logOut": "Log out",
     "adminDashboard": "Admin Dashboard",
-    "myAccount": "My Account"
+    "myAccount": "My Account",
+    "partnerPortal": "Partner portal"
   },
   "footer": {
     "tagline": "Convenient, transparent car rental. Book online in minutes, no account required.",
@@ -192,7 +193,9 @@
     "phone": "Phone (optional)",
     "cancel": "Cancel",
     "confirm": "Confirm Booking",
-    "submitting": "Booking..."
+    "submitting": "Booking...",
+    "tripHint": "Choose when you need the car. Tap a date or a time to change it; the price updates as you go.",
+    "dropAfterPickup": "Drop-off must be after pick-up."
   },
   "quote": {
     "total": "Total",
@@ -340,7 +343,14 @@
     "newPassword": "New password",
     "savePassword": "Save password",
     "resetDone": "Your password was updated.",
-    "resetInvalid": "This reset link is invalid or has expired. Request a new one."
+    "resetInvalid": "This reset link is invalid or has expired. Request a new one.",
+    "accountType": "I want to",
+    "typeRenter": "Rent a car",
+    "typeRenterBody": "Book cars from local companies and owners.",
+    "typeOwner": "List my own car",
+    "typeOwnerBody": "Earn from your car as a private owner.",
+    "typeCompany": "List my rental company",
+    "typeCompanyBody": "Manage a fleet and branches on BestCar."
   },
   "account": {
     "title": "My account",

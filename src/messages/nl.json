@@ -22,7 +22,8 @@
     "logIn": "Inloggen",
     "logOut": "Uitloggen",
     "adminDashboard": "Beheerdersdashboard",
-    "myAccount": "Mijn account"
+    "myAccount": "Mijn account",
+    "partnerPortal": "Partnerportaal"
   },
   "footer": {
     "tagline": "Gemakkelijke, transparante autoverhuur. Boek online in enkele minuten, zonder account.",
@@ -192,7 +193,9 @@
     "phone": "Telefoon (optioneel)",
     "cancel": "Annuleren",
     "confirm": "Boeking bevestigen",
-    "submitting": "Bezig met boeken..."
+    "submitting": "Bezig met boeken...",
+    "tripHint": "Kies wanneer je de auto nodig hebt. Tik op een datum of tijd om die te wijzigen; de prijs wordt direct bijgewerkt.",
+    "dropAfterPickup": "Inleveren moet na het ophalen zijn."
   },
   "quote": {
     "total": "Totaal",
@@ -340,7 +343,14 @@
     "newPassword": "Nieuw wachtwoord",
     "savePassword": "Wachtwoord opslaan",
     "resetDone": "Je wachtwoord is bijgewerkt.",
-    "resetInvalid": "Deze link is ongeldig of verlopen. Vraag een nieuwe aan."
+    "resetInvalid": "Deze link is ongeldig of verlopen. Vraag een nieuwe aan.",
+    "accountType": "Ik wil",
+    "typeRenter": "Een auto huren",
+    "typeRenterBody": "Boek auto's van lokale bedrijven en eigenaren.",
+    "typeOwner": "Mijn auto aanbieden",
+    "typeOwnerBody": "Verdien met je auto als particuliere eigenaar.",
+    "typeCompany": "Mijn verhuurbedrijf aanmelden",
+    "typeCompanyBody": "Beheer een wagenpark en vestigingen op BestCar."
   },
   "account": {
     "title": "Mijn account",

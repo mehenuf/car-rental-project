@@ -51,7 +51,7 @@ export async function CarsPageContent({
 
   // Carry the trip through to the vehicle page so the booking uses the same branches and dates.
   const carried = new URLSearchParams();
-  for (const key of ["pickupLocationId", "dropoffLocationId", "pickupDate", "dropoffDate"]) {
+  for (const key of ["pickupLocationId", "dropoffLocationId", "pickupDate", "dropoffDate", "pickupTime", "dropoffTime"]) {
     const value = params.get(key);
     if (value) carried.set(key, value);
   }

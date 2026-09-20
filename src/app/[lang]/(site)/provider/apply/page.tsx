@@ -9,7 +9,9 @@ import { supabaseAdmin } from "@/lib/supabase-server";
 
 export const metadata: Metadata = { title: "Become a provider" };
 
-export default async function ProviderApplyPage() {
+export default async function ProviderApplyPage({ searchParams }: { searchParams: Promise<{ type?: string }> }) {
+  const { type } = await searchParams;
+  const defaultType = type === "individual" ? "individual" : "company";
   const context = await getProviderContext();
 
   if (!context) {
@@ -34,7 +36,7 @@ export default async function ProviderApplyPage() {
 
   let content;
   if (!active) {
-    content = <ApplyForm defaultName="" />;
+    content = <ApplyForm defaultName="" defaultType={defaultType} />;
   } else {
     const [{ data: documents }, { data: provider }] = await Promise.all([
       supabaseAdmin

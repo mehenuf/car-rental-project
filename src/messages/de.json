@@ -22,7 +22,8 @@
     "logIn": "Anmelden",
     "logOut": "Abmelden",
     "adminDashboard": "Admin-Dashboard",
-    "myAccount": "Mein Konto"
+    "myAccount": "Mein Konto",
+    "partnerPortal": "Partnerbereich"
   },
   "footer": {
     "tagline": "Bequeme, transparente Autovermietung. Online in wenigen Minuten buchen, ganz ohne Konto.",
@@ -192,7 +193,9 @@
     "phone": "Telefon (optional)",
     "cancel": "Abbrechen",
     "confirm": "Buchung bestätigen",
-    "submitting": "Wird gebucht..."
+    "submitting": "Wird gebucht...",
+    "tripHint": "Wählen Sie, wann Sie das Auto brauchen. Tippen Sie auf ein Datum oder eine Uhrzeit, um sie zu ändern; der Preis aktualisiert sich sofort.",
+    "dropAfterPickup": "Die Rückgabe muss nach der Abholung liegen."
   },
   "quote": {
     "total": "Gesamt",
@@ -340,7 +343,14 @@
     "newPassword": "Neues Passwort",
     "savePassword": "Passwort speichern",
     "resetDone": "Ihr Passwort wurde aktualisiert.",
-    "resetInvalid": "Dieser Link ist ungültig oder abgelaufen. Fordern Sie einen neuen an."
+    "resetInvalid": "Dieser Link ist ungültig oder abgelaufen. Fordern Sie einen neuen an.",
+    "accountType": "Ich möchte",
+    "typeRenter": "Ein Auto mieten",
+    "typeRenterBody": "Autos von lokalen Unternehmen und Eigentümern buchen.",
+    "typeOwner": "Mein Auto anbieten",
+    "typeOwnerBody": "Verdienen Sie mit Ihrem Auto als privater Eigentümer.",
+    "typeCompany": "Meine Autovermietung anbieten",
+    "typeCompanyBody": "Verwalten Sie Flotte und Filialen auf BestCar."
   },
   "account": {
     "title": "Mein Konto",

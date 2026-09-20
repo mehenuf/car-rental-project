@@ -62,5 +62,5 @@ export const LicenceReviewSchema = z
  * see the rollout notes). "preconfirm": the old behaviour, for demos with no email provider yet.
  */
 export function signupMode(env: Record<string, string | undefined>): "verify" | "preconfirm" {
-  return env.AUTH_REQUIRE_EMAIL_VERIFICATION === "false" ? "preconfirm" : "verify";
+  return env.AUTH_REQUIRE_EMAIL_VERIFICATION === "true" ? "verify" : "preconfirm";
 }

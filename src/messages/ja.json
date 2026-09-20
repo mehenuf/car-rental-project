@@ -22,7 +22,8 @@
     "logIn": "ログイン",
     "logOut": "ログアウト",
     "adminDashboard": "管理ダッシュボード",
-    "myAccount": "マイアカウント"
+    "myAccount": "マイアカウント",
+    "partnerPortal": "パートナーポータル"
   },
   "footer": {
     "tagline": "手軽で明朗なレンタカー。アカウント不要、オンラインで数分で予約できます。",
@@ -188,7 +189,9 @@
     "phone": "電話番号（任意）",
     "cancel": "キャンセル",
     "confirm": "予約を確定",
-    "submitting": "予約中..."
+    "submitting": "予約中...",
+    "tripHint": "車が必要な日時を選んでください。日付や時刻をタップすると変更でき、料金はすぐに更新されます。",
+    "dropAfterPickup": "返却は受け取りより後にしてください。"
   },
   "quote": {
     "total": "合計",
@@ -333,7 +336,14 @@
     "newPassword": "新しいパスワード",
     "savePassword": "パスワードを保存",
     "resetDone": "パスワードを更新しました。",
-    "resetInvalid": "このリンクは無効か、期限が切れています。新しいリンクをリクエストしてください。"
+    "resetInvalid": "このリンクは無効か、期限が切れています。新しいリンクをリクエストしてください。",
+    "accountType": "目的",
+    "typeRenter": "車を借りる",
+    "typeRenterBody": "地域の会社やオーナーの車を予約できます。",
+    "typeOwner": "自分の車を貸し出す",
+    "typeOwnerBody": "個人オーナーとして愛車で収入を得られます。",
+    "typeCompany": "レンタカー会社を登録する",
+    "typeCompanyBody": "BestCar で車両と店舗を管理できます。"
   },
   "account": {
     "title": "マイアカウント",

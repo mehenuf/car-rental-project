@@ -22,7 +22,8 @@
     "logIn": "Se connecter",
     "logOut": "Se déconnecter",
     "adminDashboard": "Tableau de bord admin",
-    "myAccount": "Mon compte"
+    "myAccount": "Mon compte",
+    "partnerPortal": "Espace partenaire"
   },
   "footer": {
     "tagline": "Location de voitures simple et transparente. Réservez en ligne en quelques minutes, sans compte.",
@@ -192,7 +193,9 @@
     "phone": "Téléphone (facultatif)",
     "cancel": "Annuler",
     "confirm": "Confirmer la réservation",
-    "submitting": "Réservation..."
+    "submitting": "Réservation...",
+    "tripHint": "Choisissez quand vous avez besoin de la voiture. Touchez une date ou une heure pour la modifier ; le prix se met à jour aussitôt.",
+    "dropAfterPickup": "Le retour doit avoir lieu après la prise en charge."
   },
   "quote": {
     "total": "Total",
@@ -340,7 +343,14 @@
     "newPassword": "Nouveau mot de passe",
     "savePassword": "Enregistrer le mot de passe",
     "resetDone": "Votre mot de passe a été mis à jour.",
-    "resetInvalid": "Ce lien est invalide ou a expiré. Demandez-en un nouveau."
+    "resetInvalid": "Ce lien est invalide ou a expiré. Demandez-en un nouveau.",
+    "accountType": "Je veux",
+    "typeRenter": "Louer une voiture",
+    "typeRenterBody": "Réservez des voitures auprès d'entreprises et de propriétaires locaux.",
+    "typeOwner": "Proposer ma voiture",
+    "typeOwnerBody": "Gagnez de l'argent avec votre voiture en tant que particulier.",
+    "typeCompany": "Inscrire mon entreprise de location",
+    "typeCompanyBody": "Gérez une flotte et des agences sur BestCar."
   },
   "account": {
     "title": "Mon compte",

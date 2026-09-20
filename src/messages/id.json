@@ -22,7 +22,8 @@
     "logIn": "Masuk",
     "logOut": "Keluar",
     "adminDashboard": "Dasbor Admin",
-    "myAccount": "Akun Saya"
+    "myAccount": "Akun Saya",
+    "partnerPortal": "Portal mitra"
   },
   "footer": {
     "tagline": "Sewa mobil yang mudah dan transparan. Pesan online dalam hitungan menit, tanpa perlu akun.",
@@ -188,7 +189,9 @@
     "phone": "Telepon (opsional)",
     "cancel": "Batal",
     "confirm": "Konfirmasi Pemesanan",
-    "submitting": "Memesan..."
+    "submitting": "Memesan...",
+    "tripHint": "Pilih kapan Anda membutuhkan mobil. Ketuk tanggal atau jam untuk mengubahnya; harga langsung diperbarui.",
+    "dropAfterPickup": "Pengembalian harus setelah pengambilan."
   },
   "quote": {
     "total": "Total",
@@ -333,7 +336,14 @@
     "newPassword": "Kata sandi baru",
     "savePassword": "Simpan kata sandi",
     "resetDone": "Kata sandi Anda telah diperbarui.",
-    "resetInvalid": "Tautan ini tidak valid atau sudah kedaluwarsa. Minta tautan baru."
+    "resetInvalid": "Tautan ini tidak valid atau sudah kedaluwarsa. Minta tautan baru.",
+    "accountType": "Saya ingin",
+    "typeRenter": "Menyewa mobil",
+    "typeRenterBody": "Pesan mobil dari perusahaan dan pemilik lokal.",
+    "typeOwner": "Menyewakan mobil saya",
+    "typeOwnerBody": "Dapatkan penghasilan dari mobil Anda sebagai pemilik pribadi.",
+    "typeCompany": "Mendaftarkan perusahaan rental saya",
+    "typeCompanyBody": "Kelola armada dan cabang di BestCar."
   },
   "account": {
     "title": "Akun saya",

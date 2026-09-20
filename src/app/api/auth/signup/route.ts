@@ -28,7 +28,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   if (await isRateLimited(getVisitorId(request))) throw new RateLimitError();
 
   const body = await request.json();
-  const { fullName, email, password } = SignupSchema.parse(body);
+  const { fullName, email, password, accountType } = SignupSchema.parse(body);
 
   const { breached } = await checkBreached(password);
   if (breached) {
@@ -40,7 +40,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
       email,
       password,
       email_confirm: true,
-      user_metadata: { full_name: fullName },
+      user_metadata: { full_name: fullName, account_type: accountType },
     });
     if (error) {
       if (error.code === "email_exists" || error.status === 422) {
@@ -61,8 +61,8 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
     email,
     password,
     options: {
-      data: { full_name: fullName },
-      emailRedirectTo: `${origin}/${hasLocale(lang) ? lang : "en"}/account`,
+      data: { full_name: fullName, account_type: accountType },
+      emailRedirectTo: `${origin}/${hasLocale(lang) ? lang : "en"}${accountType === "renter" ? "/account" : `/provider/apply?type=${accountType}`}`,
     },
   });
   if (error) {

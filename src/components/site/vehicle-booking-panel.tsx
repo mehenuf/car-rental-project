@@ -17,6 +17,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { DatePickerField } from "@/components/site/date-picker-field";
+import { TimeSelectField } from "@/components/site/time-select-field";
+import { DEFAULT_TIME, combineDateAndTime, defaultTrip, parseTime } from "@/lib/booking-time";
 import { QuoteBreakdown } from "@/components/site/quote-breakdown";
 import { useQuote, type QuoteParams } from "@/hooks/use-quote";
 import { CreateBookingSchema } from "@/lib/schemas";
@@ -32,7 +34,9 @@ function startOfToday(): Date {
 
 function parseDateParam(value: string | undefined, fallback: Date): Date {
   if (!value) return fallback;
-  const parsed = new Date(value);
+  // "2027-03-10" means that calendar day for the visitor, not midnight UTC.
+  const day = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  const parsed = day ? new Date(Number(day[1]), Number(day[2]) - 1, Number(day[3])) : new Date(value);
   return Number.isNaN(parsed.getTime()) ? fallback : parsed;
 }
 
@@ -52,12 +56,16 @@ export function VehicleBookingPanel({
   vehicle,
   defaultPickupDate,
   defaultDropoffDate,
+  defaultPickupTime,
+  defaultDropoffTime,
   pickupBranchId,
   dropoffBranchId,
 }: {
   vehicle: Tables<"vehicles">;
   defaultPickupDate?: string;
   defaultDropoffDate?: string;
+  defaultPickupTime?: string;
+  defaultDropoffTime?: string;
   pickupBranchId?: number;
   dropoffBranchId?: number;
 }) {
@@ -69,12 +77,36 @@ export function VehicleBookingPanel({
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);
 
+  // Dates from the search are used as given. Without them the first trip is filled in after the page loads, because
+  // "the next free slot today" depends on the visitor's own clock and time zone, which the server cannot know.
   const [pickupDate, setPickupDate] = useState<Date | undefined>(() =>
-    parseDateParam(defaultPickupDate, today)
+    defaultPickupDate ? parseDateParam(defaultPickupDate, today) : undefined
   );
   const [dropoffDate, setDropoffDate] = useState<Date | undefined>(() =>
-    parseDateParam(defaultDropoffDate, tomorrow)
+    defaultDropoffDate ? parseDateParam(defaultDropoffDate, tomorrow) : undefined
   );
+
+  const [pickupTime, setPickupTime] = useState(() => parseTime(defaultPickupTime) ?? DEFAULT_TIME);
+  const [dropoffTime, setDropoffTime] = useState(
+    () => parseTime(defaultDropoffTime) ?? parseTime(defaultPickupTime) ?? DEFAULT_TIME
+  );
+
+  useEffect(() => {
+    if (defaultPickupDate && defaultDropoffDate) return;
+    const trip = defaultTrip();
+    /* eslint-disable react-hooks/set-state-in-effect -- one-time fill from the visitor's clock (see above) */
+    if (!defaultPickupDate) {
+      setPickupDate(trip.pickupDate);
+      if (!parseTime(defaultPickupTime)) setPickupTime(trip.pickupTime);
+    }
+    if (!defaultDropoffDate) {
+      setDropoffDate(trip.dropoffDate);
+      if (!parseTime(defaultDropoffTime)) setDropoffTime(trip.dropoffTime);
+    }
+    /* eslint-enable react-hooks/set-state-in-effect */
+    // Runs once on mount only.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Trip options that change the price.
   const [selectedExtras, setSelectedExtras] = useState<Record<string, number>>({});
@@ -110,7 +142,9 @@ export function VehicleBookingPanel({
     };
   }, []);
 
-  const datesValid = Boolean(pickupDate && dropoffDate && dropoffDate > pickupDate);
+  const pickupAt = pickupDate ? combineDateAndTime(pickupDate, pickupTime) : undefined;
+  const dropoffAt = dropoffDate ? combineDateAndTime(dropoffDate, dropoffTime) : undefined;
+  const datesValid = Boolean(pickupAt && dropoffAt && dropoffAt > pickupAt && pickupAt > new Date());
   const soldOut = !vehicle.available || vehicle.stock <= 0;
 
   const driverAge = useMemo(() => {
@@ -126,8 +160,8 @@ export function VehicleBookingPanel({
     [selectedExtras]
   );
 
-  const pickupIso = pickupDate?.toISOString();
-  const dropoffIso = dropoffDate?.toISOString();
+  const pickupIso = pickupAt?.toISOString();
+  const dropoffIso = dropoffAt?.toISOString();
   const quoteParams = useMemo<QuoteParams | null>(
     () =>
       datesValid && pickupIso && dropoffIso && !soldOut
@@ -152,7 +186,7 @@ export function VehicleBookingPanel({
 
   function handlePickupChange(date: Date | undefined) {
     setPickupDate(date);
-    if (date && dropoffDate && dropoffDate <= date) {
+    if (date && dropoffDate && dropoffDate < date) {
       const next = new Date(date);
       next.setDate(next.getDate() + 1);
       setDropoffDate(next);
@@ -165,7 +199,7 @@ export function VehicleBookingPanel({
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!pickupDate || !dropoffDate || !quoteReady || !quoteData) return;
+    if (!pickupAt || !dropoffAt || !quoteReady || !quoteData) return;
 
     const result = CreateBookingSchema.safeParse({
       vehicle_id: vehicle.id,
@@ -174,8 +208,8 @@ export function VehicleBookingPanel({
       phone: phone.trim() ? phone : undefined,
       pickup_branch_id: pickupBranchId,
       dropoff_branch_id: dropoffBranchId,
-      pickup_at: pickupDate,
-      dropoff_at: dropoffDate,
+      pickup_at: pickupAt,
+      dropoff_at: dropoffAt,
       extras: extrasList,
       promo_code: appliedPromo ?? undefined,
       driver_age: driverAge ?? undefined,
@@ -245,19 +279,17 @@ export function VehicleBookingPanel({
           <span className="text-sm text-muted-foreground">{t("vehicle.perDay")}</span>
         </div>
 
-        <div className="grid grid-cols-2 gap-(--space-sm)">
-          <DatePickerField
-            label={t("booking.pickUp")}
-            value={pickupDate}
-            onChange={handlePickupChange}
-            minDate={today}
-          />
-          <DatePickerField
-            label={t("booking.dropOff")}
-            value={dropoffDate}
-            onChange={setDropoffDate}
-            minDate={pickupDate ?? today}
-          />
+        <div className="flex flex-col gap-(--space-sm)">
+          <p className="text-sm text-muted-foreground">{t("booking.tripHint")}</p>
+          <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-(--space-xs)">
+            <DatePickerField label={t("booking.pickUp")} value={pickupDate} onChange={handlePickupChange} minDate={today} />
+            <TimeSelectField label={t("search.time")} value={pickupTime} onChange={setPickupTime} />
+            <DatePickerField label={t("booking.dropOff")} value={dropoffDate} onChange={setDropoffDate} minDate={pickupDate ?? today} />
+            <TimeSelectField label={t("search.time")} value={dropoffTime} onChange={setDropoffTime} />
+          </div>
+          {pickupAt && dropoffAt && dropoffAt <= pickupAt && (
+            <p role="alert" className="text-sm text-destructive">{t("booking.dropAfterPickup")}</p>
+          )}
         </div>
 
         {optionalExtras.length > 0 && (

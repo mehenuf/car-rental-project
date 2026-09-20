@@ -53,8 +53,8 @@ describe("LicenceReviewSchema", () => {
 });
 
 describe("signupMode", () => {
-  it("verifies email by default", () => {
-    expect(signupMode({})).toBe("verify");
+  it("verifies email only when asked to", () => {
+    expect(signupMode({})).toBe("preconfirm");
     expect(signupMode({ AUTH_REQUIRE_EMAIL_VERIFICATION: "true" })).toBe("verify");
   });
   it("can be switched off for demos without an email provider", () => {
