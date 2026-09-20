@@ -29,7 +29,7 @@ A car rental marketplace. Local rental companies and private owners list cars, r
 - Next.js 16 (App Router), React 19, TypeScript (strict), Tailwind CSS v4, shadcn/ui on Base UI
 - Supabase: Postgres with row-level security, Auth, Storage
 - Zod v4 for validation, Stripe (test mode) for cards, Resend and Twilio behind interfaces (log-only by default), Web Push
-- GSAP and Lenis for motion, loaded only on devices that can afford them
+- Native scrolling and CSS transitions only (no animation library)
 - Vitest, Playwright with axe, a SQL test runner on PostgreSQL 16
 - Deployed on Vercel with a daily cron job
 
@@ -117,6 +117,7 @@ Vercel builds from `main`. The database migrations must be applied first: follow
 | [docs/PROVIDER-PORTAL.md](docs/PROVIDER-PORTAL.md) | Host portal and roles |
 | [docs/AI-AND-AUTOMATION.md](docs/AI-AND-AUTOMATION.md) | Chat assistant and the n8n lead workflow |
 | [docs/compliance/](docs/compliance/) | Privacy matrix, processing record, sub-processors, breach runbook, go-live legal checklist |
+| [docs/audits/](docs/audits/) | Frontend baseline, performance log, motion inventory, responsive matrix, AI-slop register, skill log |
 | [docs/superpowers/](docs/superpowers/) | Design specs and implementation plans per sub-project |
 
 ## Known limits

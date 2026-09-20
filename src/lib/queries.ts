@@ -1,5 +1,6 @@
 import "server-only";
 import { randomBytes } from "crypto";
+import { cache } from "react";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { toBookingApiError } from "@/lib/booking-errors";
@@ -236,7 +237,7 @@ export async function getVehicleCards(
 // getVehicleBySlug
 // ---------------------------------------------------------------
 
-export async function getVehicleBySlug(
+export const getVehicleBySlug = cache(async function getVehicleBySlug(
   slug: string
 ): Promise<Tables<"vehicles"> | null> {
   const { data, error } = await supabaseAdmin
@@ -247,7 +248,7 @@ export async function getVehicleBySlug(
 
   if (error) throw new Error(`getVehicleBySlug: ${error.message}`);
   return data ?? null;
-}
+});
 
 // ---------------------------------------------------------------
 // getDashboardStats

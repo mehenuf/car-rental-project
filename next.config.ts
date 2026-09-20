@@ -15,6 +15,10 @@ const nextConfig: NextConfig = {
   },
   // Subresource Integrity keeps pages statically generated while allowing a strict script policy.
   experimental: { sri: { algorithm: "sha256" } },
+  // Put the title and description in the <head> for every visitor. By default Next streams them after the page body for
+  // ordinary browsers, which search crawlers do not see and Lighthouse reports as a missing description.
+  htmlLimitedBots: /.*/,
+
   async headers() {
     return [
       {
