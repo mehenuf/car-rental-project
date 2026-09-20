@@ -29,6 +29,14 @@ config({ path: ".env.local" });
 // Seeded by migration 0003; every seeded branch, unit and booking belongs to it.
 const DEFAULT_PROVIDER_ID = "00000000-0000-0000-0000-00000000b0c1";
 
+// Small local-currency providers so the local payment methods (iDEAL, UPI, bKash, M-Pesa)
+// appear in the demo. Prices, extras and deposits are the USD demo values times `fx`.
+const DEMO_PROVIDERS = [
+  { id: "00000000-0000-0000-0000-00000000d001", name: "BestCar Amsterdam", country: "Netherlands", code: "NL", city: "Amsterdam", currency: "EUR", fx: 0.92 },
+  { id: "00000000-0000-0000-0000-00000000d002", name: "BestCar Mumbai", country: "India", code: "IN", city: "Mumbai", currency: "INR", fx: 83 },
+  { id: "00000000-0000-0000-0000-00000000d003", name: "BestCar Dhaka", country: "Bangladesh", code: "BD", city: "Dhaka", currency: "BDT", fx: 110 },
+];
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
@@ -176,6 +184,8 @@ async function main() {
   await supabase.from("promo_codes").delete().neq("id", "00000000-0000-0000-0000-000000000000");
   // Deleting vehicles cascades to fleet_units and rate_plans; bookings are already gone.
   await supabase.from("branches").delete().eq("provider_id", DEFAULT_PROVIDER_ID);
+  // Demo providers cascade to their branches, rate plans, extras and policies.
+  await supabase.from("providers").delete().in("id", DEMO_PROVIDERS.map((p) => p.id));
   await supabase.from("daily_stats").delete().neq("date", "1900-01-01");
 
   console.log("Inserting branches...");
@@ -310,6 +320,9 @@ async function main() {
     { country_code: "AE", name: "VAT", rate_bp: 500, applies_to: ["rental", "extras", "fees"], inclusive: false },
     { country_code: "ID", name: "PPN", rate_bp: 1100, applies_to: ["rental", "extras", "fees"], inclusive: false },
     { country_code: "CA", name: "GST", rate_bp: 500, applies_to: ["rental", "extras", "fees"], inclusive: false },
+    { country_code: "NL", name: "BTW", rate_bp: 2100, applies_to: ["rental", "extras", "fees"], inclusive: true },
+    { country_code: "IN", name: "GST", rate_bp: 1800, applies_to: ["rental", "extras", "fees"], inclusive: false },
+    { country_code: "BD", name: "VAT", rate_bp: 1500, applies_to: ["rental", "extras", "fees"], inclusive: false },
   ]);
   if (taxError) throw taxError;
 
@@ -318,6 +331,78 @@ async function main() {
     { code: "WEEKEND25", issuer: "platform", discount_type: "fixed", value: 2500, currency: "USD", min_days: 3 },
   ]);
   if (promoError) throw promoError;
+
+  // Local-currency demo providers: one branch each, the first six vehicles, their own policy and extras.
+  for (const demo of DEMO_PROVIDERS) {
+    const { error: providerError } = await supabase.from("providers").insert({
+      id: demo.id,
+      type: "company",
+      legal_name: `${demo.name} Ltd`,
+      display_name: demo.name,
+      country_code: demo.code,
+      default_currency: demo.currency,
+      status: "approved",
+    });
+    if (providerError) throw providerError;
+
+    const { data: demoBranch, error: demoBranchError } = await supabase
+      .from("branches")
+      .insert({
+        provider_id: demo.id,
+        code: `${demo.code}-1`,
+        name: `${demo.city} Branch`,
+        city: demo.city,
+        country: demo.country,
+        country_code: demo.code,
+        currency: demo.currency,
+      })
+      .select()
+      .single();
+    if (demoBranchError) throw demoBranchError;
+
+    const demoVehicles = insertedVehicles!.slice(0, 6);
+    const { error: demoUnitError } = await supabase.from("fleet_units").insert(
+      demoVehicles.map((v) => ({
+        provider_id: demo.id,
+        branch_id: demoBranch.id as number,
+        vehicle_id: v.id as string,
+        plate: `${String(v.slug).toUpperCase()}-${demo.code}-1`,
+      }))
+    );
+    if (demoUnitError) throw demoUnitError;
+
+    const { error: demoPlanError } = await supabase.from("rate_plans").insert(
+      demoVehicles.map((v) => ({
+        provider_id: demo.id,
+        vehicle_id: v.id as string,
+        branch_id: demoBranch.id as number,
+        currency: demo.currency,
+        base_daily_minor: Math.round(Number(v.price_per_day) * demo.fx * 100),
+        weekend_uplift_bp: 1000,
+        weekly_discount_bp: 1000,
+      }))
+    );
+    if (demoPlanError) throw demoPlanError;
+
+    const scale = (usdMinor: number) => Math.round(usdMinor * demo.fx);
+    const { error: demoExtrasError } = await supabase.from("extras").insert([
+      { provider_id: demo.id, code: "seat", name: "Child seat", kind: "extra", pricing: "per_day", unit_price_minor: scale(800), currency: demo.currency, max_quantity: 2 },
+      { provider_id: demo.id, code: "cdw", name: "Collision damage waiver", kind: "insurance", pricing: "per_day", unit_price_minor: scale(1200), currency: demo.currency, max_quantity: 1, is_mandatory: true },
+    ]);
+    if (demoExtrasError) throw demoExtrasError;
+
+    const { error: demoPolicyError } = await supabase.from("provider_policies").insert({
+      provider_id: demo.id,
+      deposit_type: "fixed",
+      deposit_value: scale(20000),
+      cancellation_tiers: [
+        { hours_before: 48, refund_bp: 10000 },
+        { hours_before: 0, refund_bp: 0 },
+      ],
+      min_driver_age: 21,
+    });
+    if (demoPolicyError) throw demoPolicyError;
+  }
 
   console.log("Generating ~200 bookings across the last 12 months...");
   const bookingRows = Array.from({ length: 200 }).map(() => {
