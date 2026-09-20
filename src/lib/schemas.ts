@@ -292,6 +292,29 @@ export const CreateBookingSchema = z
   });
 
 // ---------------------------------------------------------------
+// Payments
+// ---------------------------------------------------------------
+
+const paymentMethodCodes = ["card", "paypal", "apple_pay", "google_pay", "ideal", "upi", "bkash", "mpesa"] as const;
+
+export const StartPaymentSchema = z.object({
+  reference: z.string().trim().min(1).max(40),
+  method: z.enum(paymentMethodCodes),
+  /** Simulated provider only: a test card number or keyword. Never a real card number. */
+  test_input: z.string().max(64).nullable().optional(),
+  /** One id per submit of the payment form, so a repeated request replays instead of double-charging. */
+  attempt: z.string().trim().min(8).max(80),
+});
+
+export const ConfirmPaymentSchema = z.object({
+  code: z.string().trim().max(16).nullable().optional(),
+});
+
+export const PaymentIdParamSchema = z.object({
+  id: z.uuid("id must be a valid UUID"),
+});
+
+// ---------------------------------------------------------------
 // GET /api/stats
 // ---------------------------------------------------------------
 

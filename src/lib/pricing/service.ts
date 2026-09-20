@@ -82,6 +82,10 @@ export async function buildQuote(
   });
 
   if (opts.requireAvailability) {
+    // Unpaid bookings past their hold no longer block a car: free them before searching.
+    const { error: sweepError } = await supabaseAdmin.rpc("expire_stale_holds");
+    if (sweepError) throw new Error(`buildQuote: ${sweepError.message}`);
+
     const { data, error } = await supabaseAdmin.rpc("free_units", {
       p_vehicle_id: input.vehicleId,
       p_pickup_branch_id: pickupBranchId,
