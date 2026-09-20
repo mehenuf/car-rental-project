@@ -35,6 +35,7 @@ const DEMO_PROVIDERS = [
   { id: "00000000-0000-0000-0000-00000000d001", name: "BestCar Amsterdam", country: "Netherlands", code: "NL", city: "Amsterdam", currency: "EUR", fx: 0.92 },
   { id: "00000000-0000-0000-0000-00000000d002", name: "BestCar Mumbai", country: "India", code: "IN", city: "Mumbai", currency: "INR", fx: 83 },
   { id: "00000000-0000-0000-0000-00000000d003", name: "BestCar Dhaka", country: "Bangladesh", code: "BD", city: "Dhaka", currency: "BDT", fx: 110 },
+  { id: "00000000-0000-0000-0000-00000000d004", name: "BestCar Nairobi", country: "Kenya", code: "KE", city: "Nairobi", currency: "KES", fx: 130 },
 ];
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;

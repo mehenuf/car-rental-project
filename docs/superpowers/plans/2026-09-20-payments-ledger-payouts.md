@@ -24,7 +24,7 @@
 - One scheduled endpoint, `GET /api/cron/maintenance`, replaces the two separate cron endpoints. It runs the hold sweep, deposit release and payouts together, and Vercel Hobby allows only daily crons anyway.
 - Stripe handles charges and refunds only. Security-deposit holds are always simulated, even with Stripe configured (a real hold needs a saved payment method and Connect flows).
 - Ledger postings are in SQL, and a deposit is an authorization, not cash (see the refinements at the top).
-- Seed adds three small local-currency demo providers (Amsterdam EUR, Mumbai INR, Dhaka BDT) so iDEAL, UPI and bKash appear; M-Pesa appears on the seeded Nairobi branch only if that branch is in KES (it is seeded in USD, so it does not).
+- Seed adds four small local-currency demo providers (Amsterdam EUR, Mumbai INR, Dhaka BDT, Nairobi KES) so iDEAL, UPI, bKash and M-Pesa appear in the checkout.
 
 ## Rollout runbook (production Supabase and Vercel)
 
