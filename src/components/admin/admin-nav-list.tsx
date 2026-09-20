@@ -2,18 +2,24 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ADMIN_NAV } from "@/lib/admin-nav";
+import { ADMIN_NAV, type AdminNavGroup } from "@/lib/admin-nav";
 import { cn } from "@/lib/utils";
 
-function isActive(pathname: string, href: string): boolean {
-  if (href === "/admin") return pathname === "/admin";
+function isActive(pathname: string, href: string, rootHref: string): boolean {
+  if (href === rootHref) return pathname === rootHref;
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
 export function AdminNavList({
   collapsibleLabels = false,
   onNavigate,
+  nav = ADMIN_NAV,
+  rootHref = "/admin",
 }: {
+  /** Navigation groups to show; defaults to the platform admin menu. */
+  nav?: AdminNavGroup[];
+  /** The dashboard route of this menu, matched exactly so it is not "active" on every sub-page. */
+  rootHref?: string;
   /** Hide labels/group headers below the `lg` breakpoint (icon-only tablet strip). */
   collapsibleLabels?: boolean;
   onNavigate?: () => void;
@@ -22,7 +28,7 @@ export function AdminNavList({
 
   return (
     <nav className="flex flex-col gap-(--space-md) overflow-y-auto px-(--space-2xs) py-(--space-sm)">
-      {ADMIN_NAV.map((group) => (
+      {nav.map((group) => (
         <div key={group.label} className="flex flex-col gap-1">
           <span
             className={cn(
@@ -34,7 +40,7 @@ export function AdminNavList({
           </span>
           <ul className="flex flex-col gap-0.5">
             {group.items.map((item) => {
-              const active = isActive(pathname, item.href);
+              const active = isActive(pathname, item.href, rootHref);
               const Icon = item.icon;
               return (
                 <li key={item.href}>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
+import type { ReactNode } from "react";
 import { Menu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
@@ -16,13 +17,23 @@ import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { initialsFor } from "@/lib/format";
 import { ThemeToggle } from "@/components/theme-toggle";
 
-export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
+export function AdminTopbar({
+  onMenuClick,
+  loginPath = "/admin/login",
+  extra,
+}: {
+  onMenuClick: () => void;
+  /** Where to send the user after signing out. */
+  loginPath?: string;
+  /** Extra controls shown before the theme toggle (for example a provider switcher). */
+  extra?: ReactNode;
+}) {
   const router = useRouter();
   const { user } = useSupabaseUser();
 
   async function handleLogout() {
     await supabase.auth.signOut();
-    router.push("/admin/login");
+    router.push(loginPath);
     router.refresh();
   }
 
@@ -44,6 +55,7 @@ export function AdminTopbar({ onMenuClick }: { onMenuClick: () => void }) {
       </Button>
 
       <div className="ml-auto flex items-center gap-(--space-2xs)">
+        {extra}
         <ThemeToggle className="size-11 sm:size-8" />
 
         <DropdownMenu>

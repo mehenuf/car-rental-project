@@ -4,13 +4,18 @@ import Link from "next/link";
 import { Car } from "lucide-react";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { AdminNavList } from "@/components/admin/admin-nav-list";
+import type { AdminNavGroup } from "@/lib/admin-nav";
 
 export function AdminMobileSidebar({
   open,
   onOpenChange,
+  nav,
+  rootHref,
 }: {
   open: boolean;
   onOpenChange: (open: boolean) => void;
+  nav?: AdminNavGroup[];
+  rootHref?: string;
 }) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -34,7 +39,7 @@ export function AdminMobileSidebar({
           </SheetTitle>
         </SheetHeader>
         <div className="flex-1 overflow-y-auto">
-          <AdminNavList onNavigate={() => onOpenChange(false)} />
+          <AdminNavList onNavigate={() => onOpenChange(false)} nav={nav} rootHref={rootHref} />
         </div>
       </SheetContent>
     </Sheet>
