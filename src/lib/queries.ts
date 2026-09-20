@@ -3,9 +3,12 @@ import { randomBytes } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { ConflictError, NotFoundError } from "@/lib/errors";
 import { toBookingApiError } from "@/lib/booking-errors";
-import { daysBetween } from "@/lib/date-range";
+import { majorToMinor, minorToMajor } from "@/lib/pricing/money";
+import { toSnapshot } from "@/lib/pricing/mappers";
+import { quoteForBooking } from "@/lib/pricing/service";
 import type {
   BookingSource,
+  Json,
   BookingStatus,
   Fuel,
   PaymentMethod,
@@ -456,67 +459,53 @@ export interface CreateBookingInput {
   dropoff_at: string;
   payment_method: PaymentMethod | null;
   source?: BookingSource;
+  extras: { code: string; quantity: number }[];
+  promo_code: string | null;
+  driver_age: number | null;
+  /** From POST /api/quote. When present, the live price must still match it. */
+  quote_token: string | null;
 }
 
 function generateBookingReference(): string {
   return `BC-${randomBytes(3).toString("hex").toUpperCase()}`;
 }
 
-/** Explicit branch, else the vehicle's home branch, else the branch of its first active unit. */
-async function resolvePickupBranchId(
-  vehicleId: string,
-  requested: number | null,
-  homeBranchId: number | null
-): Promise<number> {
-  if (requested) return requested;
-  if (homeBranchId) return homeBranchId;
-  const { data, error } = await supabaseAdmin
-    .from("fleet_units")
-    .select("branch_id")
-    .eq("vehicle_id", vehicleId)
-    .eq("status", "active")
-    .limit(1)
-    .maybeSingle();
-  if (error) throw new Error(`createBooking: ${error.message}`);
-  if (!data) throw new ConflictError("This vehicle is no longer available for booking.");
-  return data.branch_id;
-}
-
+/**
+ * Prices the trip on the server (never from the client), then claims a unit
+ * and stores the booking together with its immutable price snapshot.
+ * Throws PriceChangedError (409 + fresh quote) if a presented token is stale.
+ */
 export async function createBooking(data: CreateBookingInput): Promise<Tables<"bookings">> {
-  const { data: vehicle, error: vehicleError } = await supabaseAdmin
-    .from("vehicles")
-    .select("price_per_day, location_id")
-    .eq("id", data.vehicle_id)
-    .maybeSingle();
-  if (vehicleError) throw new Error(`createBooking: ${vehicleError.message}`);
-  if (!vehicle) throw new NotFoundError(`Vehicle ${data.vehicle_id} not found`);
-
-  const pickupBranchId = await resolvePickupBranchId(
-    data.vehicle_id,
-    data.pickup_branch_id,
-    vehicle.location_id
+  const { quote, input } = await quoteForBooking(
+    {
+      vehicleId: data.vehicle_id,
+      pickupBranchId: data.pickup_branch_id,
+      dropoffBranchId: data.dropoff_branch_id,
+      pickupAt: new Date(data.pickup_at),
+      dropoffAt: new Date(data.dropoff_at),
+      extras: data.extras,
+      promoCode: data.promo_code,
+      driverAge: data.driver_age,
+    },
+    data.quote_token
   );
-  const dropoffBranchId = data.dropoff_branch_id ?? pickupBranchId;
-
-  // Pricing engine arrives in sub-project 2; until then: price_per_day x whole days.
-  const days = daysBetween(data.pickup_at, data.dropoff_at);
-  const totalAmount = Math.round(vehicle.price_per_day * days * 100) / 100;
 
   const { data: booking, error } = await supabaseAdmin.rpc("create_booking_atomic", {
     p_vehicle_id: data.vehicle_id,
-    p_pickup_branch_id: pickupBranchId,
-    p_dropoff_branch_id: dropoffBranchId,
+    p_pickup_branch_id: input.pickupBranchId,
+    p_dropoff_branch_id: input.dropoffBranchId,
     p_pickup_at: data.pickup_at,
     p_dropoff_at: data.dropoff_at,
     p_customer_name: data.customer_name,
     p_email: data.email,
-    p_total_amount: totalAmount,
+    p_total_amount: minorToMajor(quote.totalMinor, quote.currency),
     p_reference: generateBookingReference(),
     p_phone: data.phone,
     p_payment_method: data.payment_method,
     p_source: data.source ?? "web",
     p_guest_id: data.guest_id,
     p_user_id: data.user_id,
+    p_price_snapshot: toSnapshot(quote, input) as unknown as Json,
   });
 
   if (error) throw toBookingApiError(error, "createBooking");
@@ -604,8 +593,13 @@ export async function createLead(data: TablesInsert<"leads">): Promise<Tables<"l
 // Vehicle admin writes (createVehicle, updateVehicle, deleteVehicle)
 // ---------------------------------------------------------------
 
+/** Until providers manage their own prices (sub-project 4), the catalogue
+ * `price_per_day` also drives the rate plans of the seeded default provider. */
+const DEFAULT_PROVIDER_ID = "00000000-0000-0000-0000-00000000b0c1";
+
 /** `stock` on create means "initial number of units": that many fleet units
- * are created at the vehicle's home branch (or the first active branch). */
+ * are created at the vehicle's home branch (or the first active branch),
+ * together with a rate plan priced from `price_per_day`. */
 export async function createVehicle(
   data: TablesInsert<"vehicles">
 ): Promise<Tables<"vehicles">> {
@@ -619,7 +613,10 @@ export async function createVehicle(
   if (error) throw new Error(`createVehicle: ${error.message}`);
 
   if (initialUnits > 0) {
-    const branchQuery = supabaseAdmin.from("branches").select("id, provider_id").eq("is_active", true);
+    const branchQuery = supabaseAdmin
+      .from("branches")
+      .select("id, provider_id, currency")
+      .eq("is_active", true);
     const { data: branch, error: branchError } = fields.location_id
       ? await branchQuery.eq("id", fields.location_id).maybeSingle()
       : await branchQuery.order("id", { ascending: true }).limit(1).maybeSingle();
@@ -636,6 +633,15 @@ export async function createVehicle(
     }));
     const { error: unitsError } = await supabaseAdmin.from("fleet_units").insert(units);
     if (unitsError) throw new Error(`createVehicle: ${unitsError.message}`);
+
+    const { error: planError } = await supabaseAdmin.from("rate_plans").insert({
+      provider_id: branch.provider_id,
+      vehicle_id: vehicle.id,
+      branch_id: branch.id,
+      currency: branch.currency,
+      base_daily_minor: majorToMinor(vehicle.price_per_day, branch.currency),
+    });
+    if (planError) throw new Error(`createVehicle: ${planError.message}`);
   }
 
   const { data: refreshed, error: refreshError } = await supabaseAdmin
@@ -660,6 +666,22 @@ export async function updateVehicle(
 
   if (error) throw new Error(`updateVehicle: ${error.message}`);
   if (!vehicle) throw new NotFoundError(`Vehicle ${id} not found`);
+
+  if (data.price_per_day !== undefined) {
+    const { data: plans, error: plansError } = await supabaseAdmin
+      .from("rate_plans")
+      .select("id, currency")
+      .eq("vehicle_id", id)
+      .eq("provider_id", DEFAULT_PROVIDER_ID);
+    if (plansError) throw new Error(`updateVehicle: ${plansError.message}`);
+    for (const plan of plans ?? []) {
+      const { error: planError } = await supabaseAdmin
+        .from("rate_plans")
+        .update({ base_daily_minor: majorToMinor(vehicle.price_per_day, plan.currency) })
+        .eq("id", plan.id);
+      if (planError) throw new Error(`updateVehicle: ${planError.message}`);
+    }
+  }
   return vehicle;
 }
 

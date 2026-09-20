@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { CreateBookingSchema, UpdateVehicleSchema, VehiclesQuerySchema } from "@/lib/schemas";
+import { CreateBookingSchema, QuoteRequestSchema, UpdateVehicleSchema, VehiclesQuerySchema } from "@/lib/schemas";
 
 const base = {
   vehicle_id: "11111111-1111-4111-8111-111111111111",
@@ -47,5 +47,60 @@ describe("UpdateVehicleSchema", () => {
     const r = UpdateVehicleSchema.safeParse({ id: "11111111-1111-4111-8111-111111111111", stock: 5 });
     expect(r.success).toBe(true);
     if (r.success) expect("stock" in r.data).toBe(false);
+  });
+});
+
+describe("QuoteRequestSchema", () => {
+  it("accepts a minimal request and defaults extras to an empty list", () => {
+    const r = QuoteRequestSchema.safeParse(base);
+    expect(r.success).toBe(true);
+    if (r.success) expect(r.data.extras).toEqual([]);
+  });
+
+  it("accepts extras, a promo code, branches and a driver age", () => {
+    const r = QuoteRequestSchema.safeParse({
+      ...base,
+      pickup_branch_id: "1",
+      dropoff_branch_id: 2,
+      extras: [{ code: "seat", quantity: "2" }],
+      promo_code: " SAVE10 ",
+      driver_age: "27",
+    });
+    expect(r.success).toBe(true);
+    if (r.success) {
+      expect(r.data.extras).toEqual([{ code: "seat", quantity: 2 }]);
+      expect(r.data.promo_code).toBe("SAVE10");
+      expect(r.data.driver_age).toBe(27);
+    }
+  });
+
+  it("rejects a drop-off before pick-up, bad extras and an absurd driver age", () => {
+    expect(QuoteRequestSchema.safeParse({ ...base, dropoff_at: "2030-02-01T10:00:00Z" }).success).toBe(false);
+    expect(QuoteRequestSchema.safeParse({ ...base, extras: [{ code: "", quantity: 1 }] }).success).toBe(false);
+    expect(QuoteRequestSchema.safeParse({ ...base, extras: [{ code: "seat", quantity: 0 }] }).success).toBe(false);
+    expect(QuoteRequestSchema.safeParse({ ...base, driver_age: 5 }).success).toBe(false);
+  });
+});
+
+describe("CreateBookingSchema pricing fields", () => {
+  it("accepts extras, promo code, driver age and a quote token", () => {
+    const r = CreateBookingSchema.safeParse({
+      ...base,
+      extras: [{ code: "gps", quantity: 1 }],
+      promo_code: "SAVE10",
+      driver_age: 30,
+      quote_token: "abc.def",
+    });
+    expect(r.success).toBe(true);
+    if (r.success) {
+      expect(r.data.quote_token).toBe("abc.def");
+      expect(r.data.extras).toEqual([{ code: "gps", quantity: 1 }]);
+    }
+  });
+
+  it("still works without any pricing fields", () => {
+    const r = CreateBookingSchema.safeParse(base);
+    expect(r.success).toBe(true);
+    if (r.success) expect(r.data.extras).toEqual([]);
   });
 });
