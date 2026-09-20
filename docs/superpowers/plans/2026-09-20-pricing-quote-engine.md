@@ -32,3 +32,23 @@
 - Deposit fixed 20000 or 5000 bp of subtotal (7500), never part of the total.
 - `mulBp(5, 1000) = 1` (half-up), `mulBp(-5, 1000) = -1`, `mulBp(101, 1500) = 15`.
 - Pickup 2030-03-01T20:00Z in Pacific/Auckland is Saturday, so the weekend uplift applies for a 1-day rental (6000 instead of 5000).
+
+## Rollout runbook (production Supabase and Vercel)
+
+Prerequisite: sub-project 1's migrations `0003` to `0006` are already applied and its code is deployed (see the runbook in `2026-09-19-marketplace-core-booking-engine.md`). `0008` does not depend on `0007`, so it can be applied before or after it.
+
+1. Back up production and confirm the backup exists.
+2. Rehearse on a copy or a Supabase branch: apply `0008`, then check `select count(*) from rate_plans` (one per vehicle and branch that has units), `select base_daily_minor from rate_plans limit 5` (equals `price_per_day * 100`), and that an existing booking's `days` did not change unexpectedly (`select count(*) from bookings where days <> greatest(1, floor(extract(epoch from dropoff_at - pickup_at) / 86400))` shows only rentals that cross the new 59 minute grace rule).
+3. Generate a signing secret (`node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`) and add it to Vercel as `QUOTE_SIGNING_SECRET` for Production (and Preview). Redeploying is required for it to take effect.
+4. Apply `0008` to production, then deploy the new code. There is no hard cutover: the new `p_price_snapshot` parameter of `create_booking_atomic` has a default, so the previous release keeps booking correctly against the migrated database (its bookings simply have no snapshot). The only immediate effect on the old release is the new billable-days rule.
+5. Smoke test: open a vehicle page and confirm the itemised total appears, book it, and confirm `price_snapshot` is populated on the booking row. Book with a promo code and an extra.
+6. Optional demo data: `npx tsx seed.ts` **wipes** vehicles, branches and bookings. Never run it against production data.
+7. Rollback: redeploy the previous Vercel build; it keeps working against the migrated database for the reason in step 4. Bookings made by the new release keep their `price_snapshot`. Restoring the backup is only needed if `0008` itself must be undone.
+
+## Known limitations
+
+- Only 0 and 2 decimal currencies are supported until `bookings.total_amount` is widened.
+- Tax rules are per country, chosen by the pickup branch; the platform service fee is not taxed.
+- Promo redemption limits, after-hours fees and provider screens for editing prices are deferred (sub-projects 3 and 4).
+- Listing cards still show the catalogue `price_per_day`; only the booking panel uses the engine.
+- Provider policy amounts are assumed to be in the provider's default currency.
