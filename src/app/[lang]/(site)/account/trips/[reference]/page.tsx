@@ -2,6 +2,7 @@ import { notFound, redirect } from "next/navigation";
 import { Link } from "@/lib/i18n/link";
 import { Lock } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
+import { MessageThread } from "@/components/site/message-thread";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
 import { getTrip } from "@/lib/account/trips";
@@ -55,6 +56,31 @@ export default async function TripPage({ params }: { params: Promise<{ reference
           <Lock className="mt-0.5 size-4 shrink-0" aria-hidden />
           {t("trip.locked")}
         </p>
+      )}
+
+      {booking.provider_id && !["cancelled", "no_show", "completed"].includes(booking.status) && (
+        <Card className="shadow-card ring-0">
+          <CardContent className="flex flex-col gap-(--space-xs)">
+            <h2 className="font-heading text-base font-semibold text-foreground">{t("messages.title")}</h2>
+            <p className="text-xs text-muted-foreground">{t("messages.hint")}</p>
+            <MessageThread
+              bookingId={booking.id}
+              endpoint="/api/account/messages"
+              mySide="customer"
+              locale={locale}
+              labels={{
+                empty: t("messages.empty"),
+                placeholder: t("messages.placeholder"),
+                send: t("messages.send"),
+                sending: t("messages.sending"),
+                you: t("messages.you"),
+                them: t("messages.them"),
+                platform: t("messages.platform"),
+                loadFailed: t("messages.loadFailed"),
+              }}
+            />
+          </CardContent>
+        </Card>
       )}
 
       {receipt && (

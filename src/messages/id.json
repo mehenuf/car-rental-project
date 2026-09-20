@@ -471,5 +471,46 @@
   "sms": {
     "booking_confirmed": "BestCar: pemesanan {reference} dikonfirmasi. Pengambilan {pickup}. Balas STOP untuk berhenti.",
     "pickup_reminder": "BestCar: pengingat, pengambilan {reference} pada {pickup}. Balas STOP untuk berhenti."
+  },
+  "messages": {
+    "title": "Pesan",
+    "empty": "Belum ada pesan.",
+    "placeholder": "Tulis pesan kepada perusahaan rental",
+    "send": "Kirim",
+    "sending": "Mengirim...",
+    "you": "Anda",
+    "them": "Perusahaan rental",
+    "platform": "BestCar",
+    "loadFailed": "Terjadi kesalahan. Silakan coba lagi.",
+    "hint": "Anda dapat berbagi nomor telepon dan tautan setelah pemesanan dibayar."
+  },
+  "notify": {
+    "navLabel": "Notifikasi",
+    "title": "Notifikasi",
+    "intro": "Konfirmasi pemesanan, tanda terima, dan pemberitahuan keamanan selalu dikirim lewat email. Pilih cara Anda ingin menerima hal lainnya.",
+    "reminders": "Pengingat pengambilan dan pengembalian",
+    "messagesCat": "Pesan baru",
+    "email": "Email",
+    "sms": "SMS",
+    "push": "Browser",
+    "saved": "Tersimpan.",
+    "phoneTitle": "Telepon untuk SMS",
+    "phoneLabel": "Nomor telepon (dengan kode negara)",
+    "sendCode": "Kirim kode",
+    "code": "Kode",
+    "verify": "Verifikasi",
+    "verified": "Terverifikasi",
+    "smsOptIn": "Kirim SMS untuk konfirmasi pemesanan dan pengingat pengambilan",
+    "smsNote": "SMS dibatasi pada tiga jenis: pemesanan dikonfirmasi, pengingat pengambilan, dan kode keamanan. Balas STOP kapan saja untuk berhenti. Tidak ada yang dikirim antara pukul 21.00 dan 08.00 waktu Anda.",
+    "pushTitle": "Notifikasi browser",
+    "pushBody": "Terima peringatan singkat di browser ini. Tidak pernah memuat alamat atau jumlah uang.",
+    "pushEnable": "Aktifkan untuk browser ini",
+    "pushDisable": "Matikan untuk browser ini",
+    "pushUnsupported": "Browser ini tidak mendukung notifikasi.",
+    "pushDenied": "Notifikasi diblokir di pengaturan browser Anda.",
+    "pushNotConfigured": "Notifikasi browser belum disiapkan di situs ini.",
+    "pushIos": "Di iPhone dan iPad, tambahkan situs ini ke Layar Utama terlebih dahulu.",
+    "timezone": "Zona waktu Anda",
+    "error": "Terjadi kesalahan. Silakan coba lagi."
   }
 }

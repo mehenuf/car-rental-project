@@ -471,5 +471,46 @@
   "sms": {
     "booking_confirmed": "BestCar：预订 {reference} 已确认，取车时间 {pickup}。回复 STOP 退订。",
     "pickup_reminder": "BestCar：提醒，{reference} 将于 {pickup} 取车。回复 STOP 退订。"
+  },
+  "messages": {
+    "title": "消息",
+    "empty": "暂无消息。",
+    "placeholder": "给租车公司写一条消息",
+    "send": "发送",
+    "sending": "发送中...",
+    "you": "您",
+    "them": "租车公司",
+    "platform": "BestCar",
+    "loadFailed": "出了点问题，请重试。",
+    "hint": "预订付款后，您可以分享电话号码和链接。"
+  },
+  "notify": {
+    "navLabel": "通知",
+    "title": "通知",
+    "intro": "预订确认、收据和安全通知始终通过邮件发送。请选择您希望如何接收其他通知。",
+    "reminders": "取车和还车提醒",
+    "messagesCat": "新消息",
+    "email": "邮件",
+    "sms": "短信",
+    "push": "浏览器",
+    "saved": "已保存。",
+    "phoneTitle": "接收短信的手机号",
+    "phoneLabel": "手机号码（含国家区号）",
+    "sendCode": "发送验证码",
+    "code": "验证码",
+    "verify": "验证",
+    "verified": "已验证",
+    "smsOptIn": "向我发送预订确认和取车提醒短信",
+    "smsNote": "短信仅限三类：预订已确认、取车提醒和安全验证码。随时回复 STOP 即可退订。当地时间 21:00 至 08:00 不会发送任何短信。",
+    "pushTitle": "浏览器通知",
+    "pushBody": "在此浏览器中接收简短提醒。内容绝不包含地址或金额。",
+    "pushEnable": "在此浏览器中开启",
+    "pushDisable": "在此浏览器中关闭",
+    "pushUnsupported": "此浏览器不支持通知。",
+    "pushDenied": "浏览器设置中已阻止通知。",
+    "pushNotConfigured": "此网站尚未设置浏览器通知。",
+    "pushIos": "在 iPhone 和 iPad 上，请先将此网站添加到主屏幕。",
+    "timezone": "您的时区",
+    "error": "出了点问题，请重试。"
   }
 }

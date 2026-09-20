@@ -110,6 +110,10 @@ Create a `.env.local` file in the project root with the following variables:
 | `GROQ_API_KEY` | API key for Groq, the primary AI provider behind the chat assistant. |
 | `GEMINI_API_KEY` | API key for Gemini, the automatic fallback if a Groq request fails. |
 | `AUTH_REQUIRE_EMAIL_VERIFICATION` | Optional. Defaults to on: new accounts must click the emailed link (needs SMTP in Supabase). Set to `false` to create pre-confirmed accounts for demos with no email provider. |
+| `RESEND_API_KEY`, `RESEND_FROM`, `RESEND_WEBHOOK_SECRET` | Optional. Send email through Resend (without them, messages are written to the console and the `notifications` table). The webhook secret verifies delivery, bounce and complaint callbacks. |
+| `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `TWILIO_MESSAGING_SERVICE_SID`, `TWILIO_VERIFY_SERVICE_SID` | Optional. Text messages and phone verification through Twilio. Without the Verify service the demo accepts code 000000. |
+| `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | Optional. Web Push (free): generate with `npx web-push generate-vapid-keys`. |
+| `NEXT_PUBLIC_SITE_URL` | The public origin, used for links inside emails and to verify Twilio webhooks. |
 | `QUOTE_SIGNING_SECRET` | Server-only secret (at least 32 characters) used to sign the 15 minute price quotes returned by `POST /api/quote`. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Quoting fails without it. |
 | `CRON_SECRET` | Server-only secret that protects `GET /api/cron/maintenance`. Vercel Cron sends it as `Authorization: Bearer <secret>`. Without it the endpoint answers 503. |
 | `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Optional. Stripe **test-mode** keys and the webhook signing secret. With them, card payments go through Stripe. Without them every method is simulated and the site works the same. |

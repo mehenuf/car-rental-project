@@ -481,5 +481,46 @@
   "sms": {
     "booking_confirmed": "BestCar: reserva {reference} confirmada. Retirada {pickup}. Responda STOP para cancelar o recebimento.",
     "pickup_reminder": "BestCar: lembrete, retirada de {reference} em {pickup}. Responda STOP para cancelar o recebimento."
+  },
+  "messages": {
+    "title": "Mensagens",
+    "empty": "Nenhuma mensagem ainda.",
+    "placeholder": "Escreva uma mensagem para a locadora",
+    "send": "Enviar",
+    "sending": "Enviando...",
+    "you": "Você",
+    "them": "Locadora",
+    "platform": "BestCar",
+    "loadFailed": "Algo deu errado. Tente novamente.",
+    "hint": "Você poderá compartilhar telefones e links depois que a reserva for paga."
+  },
+  "notify": {
+    "navLabel": "Notificações",
+    "title": "Notificações",
+    "intro": "Confirmações de reserva, recibos e avisos de segurança são sempre enviados por e-mail. Escolha como quer ser avisado sobre o resto.",
+    "reminders": "Lembretes de retirada e devolução",
+    "messagesCat": "Novas mensagens",
+    "email": "E-mail",
+    "sms": "SMS",
+    "push": "Navegador",
+    "saved": "Salvo.",
+    "phoneTitle": "Telefone para SMS",
+    "phoneLabel": "Número de telefone (com código do país)",
+    "sendCode": "Enviar código",
+    "code": "Código",
+    "verify": "Verificar",
+    "verified": "Verificado",
+    "smsOptIn": "Enviar SMS com confirmações de reserva e lembretes de retirada",
+    "smsNote": "Os SMS se limitam a três tipos: reserva confirmada, lembrete de retirada e código de segurança. Responda STOP a qualquer momento para cancelar. Nada é enviado entre 21h e 8h no seu horário.",
+    "pushTitle": "Notificações do navegador",
+    "pushBody": "Receba alertas curtos neste navegador. Eles nunca incluem endereços ou valores.",
+    "pushEnable": "Ativar neste navegador",
+    "pushDisable": "Desativar neste navegador",
+    "pushUnsupported": "Este navegador não oferece suporte a notificações.",
+    "pushDenied": "As notificações estão bloqueadas nas configurações do navegador.",
+    "pushNotConfigured": "As notificações do navegador ainda não foram configuradas neste site.",
+    "pushIos": "No iPhone e no iPad, adicione primeiro este site à Tela de Início.",
+    "timezone": "Seu fuso horário",
+    "error": "Algo deu errado. Tente novamente."
   }
 }

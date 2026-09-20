@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { dispatchSoon } from "@/lib/comms/service";
 import { withErrorHandling } from "@/lib/api-response";
 import { requireProviderAccess } from "@/lib/provider/context";
 import { loadProviderBooking } from "@/lib/provider/bookings";
@@ -17,6 +18,7 @@ export const POST = withErrorHandling(
     await loadProviderBooking(providerId, membership, id);
 
     const result = await cancelBooking(paymentsDeps(), { bookingId: id, cancelledBy: "provider" });
+    dispatchSoon();
     return NextResponse.json({ refund_minor: result.refundMinor, refund_status: result.refundStatus });
   }
 );

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { dispatchSoon } from "@/lib/comms/service";
 import { withErrorHandling } from "@/lib/api-response";
 import { RateLimitError } from "@/lib/errors";
 import { resolveRequestIdentity } from "@/lib/guest";
@@ -24,7 +25,8 @@ export const POST = withErrorHandling(
       identity: { userId: identity.userId, guestId: identity.guestId },
     });
 
-    return NextResponse.json({
+    dispatchSoon();
+  return NextResponse.json({
       payment_id: result.paymentId,
       status: result.status,
       failure_code: result.failureCode ?? null,

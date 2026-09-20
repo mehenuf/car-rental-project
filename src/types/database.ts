@@ -267,6 +267,99 @@ export type ReceiptRow = {
   snapshot: Json;
 };
 
+export type OutboxEventRow = {
+  id: string;
+  type: string;
+  aggregate_type: string;
+  aggregate_id: string;
+  payload: Record<string, unknown>;
+  locale: string;
+  dedupe_key: string | null;
+  run_at: string;
+  status: "pending" | "processed" | "failed";
+  attempts: number;
+  last_error: string | null;
+  created_at: string;
+  processed_at: string | null;
+};
+
+export type NotificationDbRow = {
+  id: string;
+  event_id: string | null;
+  channel: "email" | "sms" | "push";
+  template: string;
+  recipient_user_id: string | null;
+  address: string;
+  locale: string;
+  payload: Record<string, unknown>;
+  status: "queued" | "sent" | "delivered" | "failed" | "suppressed" | "bounced";
+  provider: string | null;
+  provider_ref: string | null;
+  error: string | null;
+  dedupe_key: string;
+  attempts: number;
+  next_attempt_at: string;
+  sent_at: string | null;
+  delivered_at: string | null;
+  created_at: string;
+};
+
+export type NotificationPreferenceRow = {
+  user_id: string;
+  category: "reminders" | "messages";
+  channel: "email" | "sms" | "push";
+  enabled: boolean;
+};
+
+export type ContactChannelRow = {
+  user_id: string;
+  phone_e164: string | null;
+  phone_verified_at: string | null;
+  sms_opt_in: boolean;
+  sms_opt_in_at: string | null;
+  locale: string;
+  timezone: string;
+};
+
+export type SuppressionRow = {
+  channel: "email" | "sms" | "push";
+  address: string;
+  reason: "bounce" | "complaint" | "opt_out";
+  created_at: string;
+};
+
+export type PushSubscriptionRow = {
+  id: string;
+  user_id: string;
+  endpoint: string;
+  p256dh: string;
+  auth: string;
+  locale: string;
+  user_agent: string | null;
+  created_at: string;
+  last_used_at: string | null;
+};
+
+export type MessageThreadRow = {
+  id: string;
+  booking_id: string;
+  customer_user_id: string | null;
+  provider_id: string;
+  created_at: string;
+  last_message_at: string;
+};
+
+export type MessageRow = {
+  id: string;
+  thread_id: string;
+  sender_side: "customer" | "provider" | "platform";
+  sender_user_id: string | null;
+  body: string;
+  flagged: boolean;
+  created_at: string;
+  read_at: string | null;
+};
+
 export type GuestClaimRow = {
   id: string;
   user_id: string;
@@ -539,6 +632,54 @@ export interface Database {
         Update: Partial<ReceiptRow>;
         Relationships: [];
       };
+      outbox_events: {
+        Row: OutboxEventRow;
+        Insert: InsertOf<OutboxEventRow, "type" | "aggregate_type" | "aggregate_id">;
+        Update: Partial<OutboxEventRow>;
+        Relationships: [];
+      };
+      notifications: {
+        Row: NotificationDbRow;
+        Insert: InsertOf<NotificationDbRow, "channel" | "template" | "address" | "dedupe_key">;
+        Update: Partial<NotificationDbRow>;
+        Relationships: [];
+      };
+      notification_preferences: {
+        Row: NotificationPreferenceRow;
+        Insert: NotificationPreferenceRow;
+        Update: Partial<NotificationPreferenceRow>;
+        Relationships: [];
+      };
+      contact_channels: {
+        Row: ContactChannelRow;
+        Insert: InsertOf<ContactChannelRow, "user_id">;
+        Update: Partial<ContactChannelRow>;
+        Relationships: [];
+      };
+      suppressions: {
+        Row: SuppressionRow;
+        Insert: InsertOf<SuppressionRow, "channel" | "address" | "reason">;
+        Update: Partial<SuppressionRow>;
+        Relationships: [];
+      };
+      push_subscriptions: {
+        Row: PushSubscriptionRow;
+        Insert: InsertOf<PushSubscriptionRow, "user_id" | "endpoint" | "p256dh" | "auth">;
+        Update: Partial<PushSubscriptionRow>;
+        Relationships: [];
+      };
+      message_threads: {
+        Row: MessageThreadRow;
+        Insert: InsertOf<MessageThreadRow, "booking_id" | "provider_id">;
+        Update: Partial<MessageThreadRow>;
+        Relationships: [];
+      };
+      messages: {
+        Row: MessageRow;
+        Insert: InsertOf<MessageRow, "thread_id" | "sender_side" | "body">;
+        Update: Partial<MessageRow>;
+        Relationships: [];
+      };
       guest_claims: {
         Row: GuestClaimRow;
         Insert: InsertOf<GuestClaimRow, "user_id" | "booking_id">;
@@ -761,6 +902,10 @@ export interface Database {
         };
         Returns: BookingRow;
       };
+      claim_pending_events: { Args: { p_limit: number }; Returns: OutboxEventRow[] };
+      claim_due_notifications: { Args: { p_limit: number }; Returns: NotificationDbRow[] };
+      provider_recipients: { Args: { p_provider_id: string }; Returns: { user_id: string; email: string }[] };
+      enqueue_due_reminders: { Args: { p_now?: string }; Returns: number };
       issue_receipt: { Args: { p_payment_id: string }; Returns: ReceiptRow };
       claim_guest_bookings: { Args: { p_user_id: string; p_email: string }; Returns: number };
       expire_stale_holds: {

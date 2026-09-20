@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { dispatchSoon } from "@/lib/comms/service";
 import { withErrorHandling } from "@/lib/api-response";
 import { ApiError } from "@/lib/errors";
 import { paymentsDeps } from "@/lib/payments/deps";
@@ -20,5 +21,6 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   const rawBody = await request.text();
   const event = parseStripeWebhook(rawBody, signature, secret);
   const outcome = await handleStripeEvent(paymentsDeps(), event);
+  dispatchSoon();
   return NextResponse.json({ received: true, outcome });
 });

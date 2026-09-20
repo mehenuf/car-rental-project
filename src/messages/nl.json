@@ -481,5 +481,46 @@
   "sms": {
     "booking_confirmed": "BestCar: boeking {reference} bevestigd. Ophalen {pickup}. Antwoord STOP om je af te melden.",
     "pickup_reminder": "BestCar: herinnering, ophalen van {reference} op {pickup}. Antwoord STOP om je af te melden."
+  },
+  "messages": {
+    "title": "Berichten",
+    "empty": "Nog geen berichten.",
+    "placeholder": "Schrijf een bericht aan het verhuurbedrijf",
+    "send": "Versturen",
+    "sending": "Bezig met versturen...",
+    "you": "Jij",
+    "them": "Verhuurbedrijf",
+    "platform": "BestCar",
+    "loadFailed": "Er is iets misgegaan. Probeer het opnieuw.",
+    "hint": "Telefoonnummers en links kun je delen zodra de boeking is betaald."
+  },
+  "notify": {
+    "navLabel": "Meldingen",
+    "title": "Meldingen",
+    "intro": "Boekingsbevestigingen, bonnen en veiligheidsberichten worden altijd per e-mail verstuurd. Kies hoe je de rest wilt ontvangen.",
+    "reminders": "Herinneringen voor ophalen en inleveren",
+    "messagesCat": "Nieuwe berichten",
+    "email": "E-mail",
+    "sms": "Sms",
+    "push": "Browser",
+    "saved": "Opgeslagen.",
+    "phoneTitle": "Telefoon voor sms",
+    "phoneLabel": "Telefoonnummer (met landcode)",
+    "sendCode": "Code versturen",
+    "code": "Code",
+    "verify": "Verifiëren",
+    "verified": "Geverifieerd",
+    "smsOptIn": "Stuur me sms'jes voor boekingsbevestigingen en ophaalherinneringen",
+    "smsNote": "Sms'jes zijn beperkt tot drie soorten: boeking bevestigd, ophaalherinnering en beveiligingscode. Antwoord op elk moment STOP om je af te melden. Tussen 21:00 en 08:00 uur jouw tijd wordt niets verstuurd.",
+    "pushTitle": "Browsermeldingen",
+    "pushBody": "Ontvang korte meldingen in deze browser. Ze bevatten nooit adressen of bedragen.",
+    "pushEnable": "Aanzetten voor deze browser",
+    "pushDisable": "Uitzetten voor deze browser",
+    "pushUnsupported": "Deze browser ondersteunt geen meldingen.",
+    "pushDenied": "Meldingen zijn geblokkeerd in je browserinstellingen.",
+    "pushNotConfigured": "Browsermeldingen zijn op deze site nog niet ingesteld.",
+    "pushIos": "Voeg op iPhone en iPad deze site eerst toe aan je beginscherm.",
+    "timezone": "Jouw tijdzone",
+    "error": "Er is iets misgegaan. Probeer het opnieuw."
   }
 }

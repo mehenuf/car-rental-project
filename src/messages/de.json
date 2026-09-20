@@ -481,5 +481,46 @@
   "sms": {
     "booking_confirmed": "BestCar: Buchung {reference} bestätigt. Abholung {pickup}. Antworten Sie STOP zum Abmelden.",
     "pickup_reminder": "BestCar: Erinnerung, Abholung für {reference} am {pickup}. Antworten Sie STOP zum Abmelden."
+  },
+  "messages": {
+    "title": "Nachrichten",
+    "empty": "Noch keine Nachrichten.",
+    "placeholder": "Schreiben Sie der Autovermietung eine Nachricht",
+    "send": "Senden",
+    "sending": "Wird gesendet...",
+    "you": "Sie",
+    "them": "Autovermietung",
+    "platform": "BestCar",
+    "loadFailed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "hint": "Telefonnummern und Links können Sie austauschen, sobald die Buchung bezahlt ist."
+  },
+  "notify": {
+    "navLabel": "Benachrichtigungen",
+    "title": "Benachrichtigungen",
+    "intro": "Buchungsbestätigungen, Belege und Sicherheitshinweise werden immer per E-Mail gesendet. Wählen Sie, wie Sie über alles andere informiert werden möchten.",
+    "reminders": "Erinnerungen an Abholung und Rückgabe",
+    "messagesCat": "Neue Nachrichten",
+    "email": "E-Mail",
+    "sms": "SMS",
+    "push": "Browser",
+    "saved": "Gespeichert.",
+    "phoneTitle": "Telefon für SMS",
+    "phoneLabel": "Telefonnummer (mit Ländervorwahl)",
+    "sendCode": "Code senden",
+    "code": "Code",
+    "verify": "Bestätigen",
+    "verified": "Bestätigt",
+    "smsOptIn": "SMS für Buchungsbestätigungen und Abholerinnerungen senden",
+    "smsNote": "SMS beschränken sich auf drei Arten: Buchung bestätigt, Abholerinnerung und Sicherheitscode. Antworten Sie jederzeit mit STOP, um sich abzumelden. Zwischen 21:00 und 08:00 Uhr Ihrer Zeit wird nichts gesendet.",
+    "pushTitle": "Browser-Benachrichtigungen",
+    "pushBody": "Erhalten Sie kurze Hinweise in diesem Browser. Sie enthalten nie Adressen oder Beträge.",
+    "pushEnable": "Für diesen Browser aktivieren",
+    "pushDisable": "Für diesen Browser deaktivieren",
+    "pushUnsupported": "Dieser Browser unterstützt keine Benachrichtigungen.",
+    "pushDenied": "Benachrichtigungen sind in Ihren Browsereinstellungen blockiert.",
+    "pushNotConfigured": "Browser-Benachrichtigungen sind auf dieser Website noch nicht eingerichtet.",
+    "pushIos": "Auf iPhone und iPad fügen Sie diese Website zuerst zum Home-Bildschirm hinzu.",
+    "timezone": "Ihre Zeitzone",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
   }
 }
