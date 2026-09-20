@@ -2,10 +2,13 @@ import "server-only";
 import { randomBytes } from "crypto";
 import { supabaseAdmin } from "@/lib/supabase-server";
 import { ConflictError, NotFoundError } from "@/lib/errors";
+import { toBookingApiError } from "@/lib/booking-errors";
 import { daysBetween } from "@/lib/date-range";
 import type {
+  BookingSource,
   BookingStatus,
   Fuel,
+  PaymentMethod,
   Tables,
   TablesInsert,
   TablesUpdate,
@@ -83,10 +86,43 @@ export interface VehicleFilters extends Pagination {
   fuel?: Fuel;
   available?: boolean;
   locationId?: number;
+  /** Only vehicles with a free unit for this trip. */
+  availability?: { pickupBranchId: number; dropoffBranchId: number; from: Date; to: Date };
   sortBy?: VehicleSortBy;
   sortOrder?: SortOrder;
   /** Case-insensitive match against name, brand, or slug. */
   search?: string;
+}
+
+/** Vehicle ids allowed by the branch/availability filters, or null for "no restriction".
+ * Uses the availability RPC when dates are given, otherwise units at the branch.
+ * (An `in` list is fine at current catalogue size; move this into SQL if the
+ * catalogue grows to thousands of models.) */
+async function resolveVehicleIdFilter(filters: VehicleFilters): Promise<string[] | null> {
+  const { locationId, availability } = filters;
+
+  if (availability) {
+    const { data, error } = await supabaseAdmin.rpc("available_vehicle_ids", {
+      p_pickup_branch_id: availability.pickupBranchId,
+      p_dropoff_branch_id: availability.dropoffBranchId,
+      p_start: availability.from.toISOString(),
+      p_end: availability.to.toISOString(),
+    });
+    if (error) throw new Error(`resolveVehicleIdFilter: ${error.message}`);
+    return data ?? [];
+  }
+
+  if (locationId !== undefined) {
+    const { data, error } = await supabaseAdmin
+      .from("fleet_units")
+      .select("vehicle_id")
+      .eq("branch_id", locationId)
+      .eq("status", "active");
+    if (error) throw new Error(`resolveVehicleIdFilter: ${error.message}`);
+    return [...new Set((data ?? []).map((row) => row.vehicle_id))];
+  }
+
+  return null;
 }
 
 export async function getVehicles(
@@ -100,7 +136,6 @@ export async function getVehicles(
     transmission,
     fuel,
     available,
-    locationId,
     sortBy = "created_at",
     sortOrder = "desc",
     search,
@@ -117,7 +152,11 @@ export async function getVehicles(
   if (transmission) query = query.eq("transmission", transmission);
   if (fuel) query = query.eq("fuel", fuel);
   if (available !== undefined) query = query.eq("available", available);
-  if (locationId !== undefined) query = query.eq("location_id", locationId);
+  const idFilter = await resolveVehicleIdFilter(filters);
+  if (idFilter) {
+    if (idFilter.length === 0) return { data: [], count: 0 };
+    query = query.in("id", idFilter);
+  }
   if (search) {
     const escaped = escapePostgrestValue(search);
     query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
@@ -154,7 +193,6 @@ export async function getVehicleCards(
     transmission,
     fuel,
     available,
-    locationId,
     sortBy = "created_at",
     sortOrder = "desc",
     search,
@@ -173,7 +211,11 @@ export async function getVehicleCards(
   if (transmission) query = query.eq("transmission", transmission);
   if (fuel) query = query.eq("fuel", fuel);
   if (available !== undefined) query = query.eq("available", available);
-  if (locationId !== undefined) query = query.eq("location_id", locationId);
+  const idFilter = await resolveVehicleIdFilter(filters);
+  if (idFilter) {
+    if (idFilter.length === 0) return { data: [], count: 0 };
+    query = query.in("id", idFilter);
+  }
   if (search) {
     const escaped = escapePostgrestValue(search);
     query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
@@ -401,71 +443,83 @@ export async function getSalesByCountry(
 // createBooking
 // ---------------------------------------------------------------
 
-export type CreateBookingInput = Omit<
-  TablesInsert<"bookings">,
-  "id" | "reference" | "total_amount" | "created_at"
->;
+export interface CreateBookingInput {
+  vehicle_id: string;
+  customer_name: string;
+  email: string;
+  phone: string | null;
+  pickup_branch_id: number | null;
+  dropoff_branch_id: number | null;
+  guest_id: string | null;
+  user_id: string | null;
+  pickup_at: string;
+  dropoff_at: string;
+  payment_method: PaymentMethod | null;
+  source?: BookingSource;
+}
 
 function generateBookingReference(): string {
   return `BC-${randomBytes(3).toString("hex").toUpperCase()}`;
 }
 
-export async function createBooking(
-  data: CreateBookingInput
-): Promise<Tables<"bookings">> {
-  if (!data.vehicle_id) {
-    throw new Error("createBooking: vehicle_id is required");
-  }
+/** Explicit branch, else the vehicle's home branch, else the branch of its first active unit. */
+async function resolvePickupBranchId(
+  vehicleId: string,
+  requested: number | null,
+  homeBranchId: number | null
+): Promise<number> {
+  if (requested) return requested;
+  if (homeBranchId) return homeBranchId;
+  const { data, error } = await supabaseAdmin
+    .from("fleet_units")
+    .select("branch_id")
+    .eq("vehicle_id", vehicleId)
+    .eq("status", "active")
+    .limit(1)
+    .maybeSingle();
+  if (error) throw new Error(`createBooking: ${error.message}`);
+  if (!data) throw new ConflictError("This vehicle is no longer available for booking.");
+  return data.branch_id;
+}
 
+export async function createBooking(data: CreateBookingInput): Promise<Tables<"bookings">> {
   const { data: vehicle, error: vehicleError } = await supabaseAdmin
     .from("vehicles")
-    .select("price_per_day, stock, available")
+    .select("price_per_day, location_id")
     .eq("id", data.vehicle_id)
     .maybeSingle();
-
   if (vehicleError) throw new Error(`createBooking: ${vehicleError.message}`);
   if (!vehicle) throw new NotFoundError(`Vehicle ${data.vehicle_id} not found`);
-  if (!vehicle.available || vehicle.stock <= 0) {
-    throw new ConflictError("This vehicle is no longer available for booking.");
-  }
 
-  // Atomically claim a unit before inserting the booking: the RPC's
-  // `where stock > 0` guard doubles as the availability check, so if a
-  // concurrent request already took the last unit between the read above
-  // and this call, it returns zero rows here and the booking is aborted
-  // instead of both requests succeeding against the same unit (the race
-  // the earlier read-then-write version of this function allowed).
-  const { data: claimed, error: claimError } = await supabaseAdmin.rpc(
-    "decrement_vehicle_stock",
-    { p_vehicle_id: data.vehicle_id }
+  const pickupBranchId = await resolvePickupBranchId(
+    data.vehicle_id,
+    data.pickup_branch_id,
+    vehicle.location_id
   );
-  if (claimError) throw new Error(`createBooking: ${claimError.message}`);
-  if (!claimed || claimed.length === 0) {
-    throw new ConflictError("This vehicle is no longer available for booking.");
-  }
+  const dropoffBranchId = data.dropoff_branch_id ?? pickupBranchId;
 
+  // Pricing engine arrives in sub-project 2; until then: price_per_day x whole days.
   const days = daysBetween(data.pickup_at, data.dropoff_at);
   const totalAmount = Math.round(vehicle.price_per_day * days * 100) / 100;
 
-  const insertPayload: TablesInsert<"bookings"> = {
-    ...data,
-    reference: generateBookingReference(),
-    total_amount: totalAmount,
-  };
+  const { data: booking, error } = await supabaseAdmin.rpc("create_booking_atomic", {
+    p_vehicle_id: data.vehicle_id,
+    p_pickup_branch_id: pickupBranchId,
+    p_dropoff_branch_id: dropoffBranchId,
+    p_pickup_at: data.pickup_at,
+    p_dropoff_at: data.dropoff_at,
+    p_customer_name: data.customer_name,
+    p_email: data.email,
+    p_total_amount: totalAmount,
+    p_reference: generateBookingReference(),
+    p_phone: data.phone,
+    p_payment_method: data.payment_method,
+    p_source: data.source ?? "web",
+    p_guest_id: data.guest_id,
+    p_user_id: data.user_id,
+  });
 
-  const { data: booking, error } = await supabaseAdmin
-    .from("bookings")
-    .insert(insertPayload)
-    .select("*")
-    .single();
-
-  if (error) {
-    // The claimed unit would otherwise be stranded as permanently
-    // unavailable if the booking insert itself fails after it.
-    await supabaseAdmin.rpc("increment_vehicle_stock", { p_vehicle_id: data.vehicle_id });
-    throw new Error(`createBooking: ${error.message}`);
-  }
-
+  if (error) throw toBookingApiError(error, "createBooking");
   return booking;
 }
 
@@ -550,22 +604,52 @@ export async function createLead(data: TablesInsert<"leads">): Promise<Tables<"l
 // Vehicle admin writes (createVehicle, updateVehicle, deleteVehicle)
 // ---------------------------------------------------------------
 
+/** `stock` on create means "initial number of units": that many fleet units
+ * are created at the vehicle's home branch (or the first active branch). */
 export async function createVehicle(
   data: TablesInsert<"vehicles">
 ): Promise<Tables<"vehicles">> {
+  const { stock: initialUnits = 0, ...fields } = data;
+
   const { data: vehicle, error } = await supabaseAdmin
     .from("vehicles")
-    .insert(data)
+    .insert({ ...fields, stock: 0 })
     .select("*")
     .single();
-
   if (error) throw new Error(`createVehicle: ${error.message}`);
-  return vehicle;
+
+  if (initialUnits > 0) {
+    const branchQuery = supabaseAdmin.from("branches").select("id, provider_id").eq("is_active", true);
+    const { data: branch, error: branchError } = fields.location_id
+      ? await branchQuery.eq("id", fields.location_id).maybeSingle()
+      : await branchQuery.order("id", { ascending: true }).limit(1).maybeSingle();
+    if (branchError) throw new Error(`createVehicle: ${branchError.message}`);
+    if (!branch) throw new ConflictError("No active branch exists to hold the new vehicle's units.");
+
+    const prefix = vehicle.slug.slice(0, 6).toUpperCase();
+    const suffix = randomBytes(2).toString("hex").toUpperCase();
+    const units = Array.from({ length: initialUnits }, (_, i) => ({
+      provider_id: branch.provider_id,
+      branch_id: branch.id,
+      vehicle_id: vehicle.id,
+      plate: `${prefix}-${suffix}-${i + 1}`,
+    }));
+    const { error: unitsError } = await supabaseAdmin.from("fleet_units").insert(units);
+    if (unitsError) throw new Error(`createVehicle: ${unitsError.message}`);
+  }
+
+  const { data: refreshed, error: refreshError } = await supabaseAdmin
+    .from("vehicles")
+    .select("*")
+    .eq("id", vehicle.id)
+    .single();
+  if (refreshError) throw new Error(`createVehicle: ${refreshError.message}`);
+  return refreshed;
 }
 
 export async function updateVehicle(
   id: string,
-  data: TablesUpdate<"vehicles">
+  data: Omit<TablesUpdate<"vehicles">, "stock">
 ): Promise<Tables<"vehicles">> {
   const { data: vehicle, error } = await supabaseAdmin
     .from("vehicles")
@@ -600,34 +684,19 @@ export async function updateBookingStatus(
 ): Promise<Tables<"bookings">> {
   const { data: existing, error: existingError } = await supabaseAdmin
     .from("bookings")
-    .select("status, vehicle_id")
+    .select("*")
     .eq("id", id)
     .maybeSingle();
   if (existingError) throw new Error(`updateBookingStatus: ${existingError.message}`);
   if (!existing) throw new NotFoundError(`Booking ${id} not found`);
+  if (existing.status === status) return existing;
 
-  const { data: booking, error } = await supabaseAdmin
-    .from("bookings")
-    .update({ status })
-    .eq("id", id)
-    .select("*")
-    .maybeSingle();
-
-  if (error) throw new Error(`updateBookingStatus: ${error.message}`);
-  if (!booking) throw new NotFoundError(`Booking ${id} not found`);
-
-  // Cancelling a booking frees the unit createBooking claimed for it —
-  // otherwise stock only ever goes down and a car with several cancelled
-  // (not actually out) bookings eventually becomes unbookable for no
-  // real reason. Guarded on the *previous* status so re-saving an
-  // already-cancelled booking doesn't award stock twice.
-  if (status === "cancelled" && existing.status !== "cancelled" && existing.vehicle_id) {
-    const { error: restoreError } = await supabaseAdmin.rpc("increment_vehicle_stock", {
-      p_vehicle_id: existing.vehicle_id,
-    });
-    if (restoreError) throw new Error(`updateBookingStatus: ${restoreError.message}`);
-  }
-
+  // Legality, unit release and unit relocation all happen in one SQL function.
+  const { data: booking, error } = await supabaseAdmin.rpc("transition_booking", {
+    p_booking_id: id,
+    p_to: status,
+  });
+  if (error) throw toBookingApiError(error, "updateBookingStatus");
   return booking;
 }
 
@@ -635,10 +704,22 @@ export async function updateBookingStatus(
 // getLocations — powers the customer site's pick-up/drop-off dropdowns.
 // ---------------------------------------------------------------
 
-export async function getLocations(): Promise<Tables<"locations">[]> {
+export type BranchOption = Pick<Tables<"branches">, "id" | "city" | "country" | "country_code">;
+
+/** Pick-up/drop-off options: active branches of approved providers. Same
+ * ids as the legacy `locations` rows, so existing URLs keep working. */
+export async function getLocations(): Promise<BranchOption[]> {
+  const { data: providers, error: providerError } = await supabaseAdmin
+    .from("providers")
+    .select("id")
+    .eq("status", "approved");
+  if (providerError) throw new Error(`getLocations: ${providerError.message}`);
+
   const { data, error } = await supabaseAdmin
-    .from("locations")
-    .select("*")
+    .from("branches")
+    .select("id, city, country, country_code")
+    .eq("is_active", true)
+    .in("provider_id", (providers ?? []).map((p) => p.id))
     .order("city", { ascending: true });
 
   if (error) throw new Error(`getLocations: ${error.message}`);

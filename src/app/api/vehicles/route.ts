@@ -19,10 +19,19 @@ import {
  * every vehicle column (the shape the admin table's edit dialog needs).
  */
 export const GET = withErrorHandling(async (request: NextRequest) => {
-  const { fields, ...query } = VehiclesQuerySchema.parse(
-    searchParamsToObject(request.nextUrl.searchParams)
-  );
-  const result = fields === "card" ? await getVehicleCards(query) : await getVehicles(query);
+  const { fields, pickupLocationId, dropoffLocationId, pickupDate, dropoffDate, ...query } =
+    VehiclesQuerySchema.parse(searchParamsToObject(request.nextUrl.searchParams));
+  const availability =
+    pickupLocationId && pickupDate && dropoffDate
+      ? {
+          pickupBranchId: pickupLocationId,
+          dropoffBranchId: dropoffLocationId ?? pickupLocationId,
+          from: new Date(pickupDate),
+          to: new Date(dropoffDate),
+        }
+      : undefined;
+  const filters = { ...query, availability };
+  const result = fields === "card" ? await getVehicleCards(filters) : await getVehicles(filters);
   return NextResponse.json(result);
 });
 

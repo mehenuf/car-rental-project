@@ -117,6 +117,11 @@ export const VehiclesQuerySchema = z
     fuel: FuelSchema.optional(),
     available: QueryBooleanSchema.optional(),
     locationId: z.coerce.number().int().positive().optional(),
+    /** Availability search: needs pickupLocationId + both dates to take effect. */
+    pickupLocationId: z.coerce.number().int().positive().optional(),
+    dropoffLocationId: z.coerce.number().int().positive().optional(),
+    pickupDate: DateOnlySchema.optional(),
+    dropoffDate: DateOnlySchema.optional(),
     sortBy: VehicleSortBySchema.optional(),
     sortOrder: SortOrderSchema.optional(),
     page: PageSchema.optional(),
@@ -131,6 +136,10 @@ export const VehiclesQuerySchema = z
     (data) =>
       data.minPrice === undefined || data.maxPrice === undefined || data.minPrice <= data.maxPrice,
     { message: "minPrice must be less than or equal to maxPrice", path: ["minPrice"] }
+  )
+  .refine(
+    (data) => !data.pickupDate || !data.dropoffDate || data.dropoffDate > data.pickupDate,
+    { message: "dropoffDate must be after pickupDate", path: ["dropoffDate"] }
   );
 
 // ---------------------------------------------------------------
@@ -185,7 +194,7 @@ export const CreateVehicleSchema = VehicleFieldsSchema.partial({
   location_id: true,
 });
 
-export const UpdateVehicleSchema = VehicleFieldsSchema.partial().extend({
+export const UpdateVehicleSchema = VehicleFieldsSchema.omit({ stock: true }).partial().extend({
   id: z.uuid("id must be a valid UUID"),
 });
 
@@ -237,8 +246,8 @@ export const CreateBookingSchema = z
     customer_name: z.string().trim().min(1, "customer_name is required"),
     email: z.string().trim().email("email must be a valid email address"),
     phone: z.string().trim().min(1).nullable().optional(),
-    pickup_location_id: z.coerce.number().int().nullable().optional(),
-    dropoff_location_id: z.coerce.number().int().nullable().optional(),
+    pickup_branch_id: z.coerce.number().int().positive().nullable().optional(),
+    dropoff_branch_id: z.coerce.number().int().positive().nullable().optional(),
     pickup_at: z.coerce.date({ message: "pickup_at must be a valid date" }),
     dropoff_at: z.coerce.date({ message: "dropoff_at must be a valid date" }),
     payment_method: PaymentMethodSchema.nullable().optional(),
