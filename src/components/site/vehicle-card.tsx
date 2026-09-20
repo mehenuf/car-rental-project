@@ -21,7 +21,8 @@ gsap.registerPlugin(useGSAP);
  * values never touch React state or trigger a re-render. */
 const MAX_TILT_DEG = 6;
 
-export function VehicleCard({ vehicle }: { vehicle: VehicleCardData }) {
+export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData; searchQuery?: string }) {
+  const href = `/cars/${vehicle.slug}${searchQuery ? `?${searchQuery}` : ""}`;
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(vehicle.id);
   const soldOut = !vehicle.available || vehicle.stock <= 0;
@@ -98,7 +99,7 @@ export function VehicleCard({ vehicle }: { vehicle: VehicleCardData }) {
       </div>
 
       <Link
-        href={`/cars/${vehicle.slug}`}
+        href={href}
         className="relative mt-(--space-xs) block aspect-[4/3] w-full overflow-hidden bg-muted"
       >
         <VehicleImage
@@ -125,7 +126,7 @@ export function VehicleCard({ vehicle }: { vehicle: VehicleCardData }) {
             Sold Out
           </span>
         ) : (
-          <Link href={`/cars/${vehicle.slug}`} className={buttonVariants({ size: "sm" })}>
+          <Link href={href} className={buttonVariants({ size: "sm" })}>
             Rent Now
           </Link>
         )}

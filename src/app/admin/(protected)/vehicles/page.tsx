@@ -171,7 +171,7 @@ export default function AdminVehiclesPage() {
     },
     {
       key: "stock",
-      header: "Stock",
+      header: "Units",
       align: "right",
       render: (row) => row.stock,
     },

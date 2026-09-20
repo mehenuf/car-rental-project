@@ -43,10 +43,14 @@ export function VehicleBookingPanel({
   vehicle,
   defaultPickupDate,
   defaultDropoffDate,
+  pickupBranchId,
+  dropoffBranchId,
 }: {
   vehicle: Tables<"vehicles">;
   defaultPickupDate?: string;
   defaultDropoffDate?: string;
+  pickupBranchId?: number;
+  dropoffBranchId?: number;
 }) {
   const router = useRouter();
   const today = startOfToday();
@@ -111,6 +115,8 @@ export function VehicleBookingPanel({
       customer_name: name,
       email,
       phone: phone.trim() ? phone : undefined,
+      pickup_branch_id: pickupBranchId,
+      dropoff_branch_id: dropoffBranchId,
       pickup_at: pickupDate,
       dropoff_at: dropoffDate,
       source: "web",
