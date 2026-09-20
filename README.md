@@ -110,9 +110,11 @@ Create a `.env.local` file in the project root with the following variables:
 | `GROQ_API_KEY` | API key for Groq, the primary AI provider behind the chat assistant. |
 | `GEMINI_API_KEY` | API key for Gemini, the automatic fallback if a Groq request fails. |
 | `QUOTE_SIGNING_SECRET` | Server-only secret (at least 32 characters) used to sign the 15 minute price quotes returned by `POST /api/quote`. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Quoting fails without it. |
+| `CRON_SECRET` | Server-only secret that protects `GET /api/cron/maintenance`. Vercel Cron sends it as `Authorization: Bearer <secret>`. Without it the endpoint answers 503. |
+| `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Optional. Stripe **test-mode** keys and the webhook signing secret. With them, card payments go through Stripe. Without them every method is simulated and the site works the same. |
 | `N8N_WEBHOOK_URL` | The n8n webhook URL that receives lead and booking events (only the lead-scoring one currently has a workflow acting on it; see section 9). This one is optional. If it is missing, the app just skips sending the webhook instead of failing. |
 
-Build a fresh database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0008`), in the Supabase SQL editor. Never run `schema.sql` against a database that holds real data: it drops tables. Then seed it with sample branches, vehicles, fleet units and bookings:
+Build a fresh database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0009`), in the Supabase SQL editor. Never run `schema.sql` against a database that holds real data: it drops tables. Then seed it with sample branches, vehicles, fleet units and bookings:
 
 ```bash
 npx tsx seed.ts
@@ -279,6 +281,32 @@ Public, rate-limited to 30 requests per minute per visitor. Prices a trip and re
 
 All amounts are integer minor units (cents) of `quote.currency`. The total already contains every mandatory fee and tax; the deposit is a separate refundable hold. Billable days are whole 24 hour periods rounded up after a 59 minute grace.
 
+### `POST /api/payments/intents`
+
+Public, rate-limited to 10 requests per minute. Pays for the caller's own pending booking (the signed-in user or the guest cookie that created it). Repeating the same `attempt` replays the stored result, so it can never charge twice.
+
+**Body:** `reference`, `method` (`card`, `paypal`, `apple_pay`, `google_pay`, `ideal`, `upi`, `bkash`, `mpesa`; local methods only for their country and currency), `attempt` (one id per submit of the form), `test_input` (simulated provider only).
+
+**Response:** `{ "payment_id": "...", "status": "succeeded" | "requires_action" | "processing" | "failed", "failure_code": null, "client_secret": null }`. The refundable security deposit is authorized first (no money moves), then the charge is made. A failed charge releases the deposit hold.
+
+Simulated test values: a card ending `0002` declines, `9995` has insufficient funds, `0069` is expired, `3220` asks for a confirmation code (`000000` approves). For other methods type `decline` or `pending`. Typing `nodeposit` makes the deposit hold fail.
+
+### `POST /api/payments/[id]/confirm`
+
+Completes a simulated payment that returned `requires_action`. **Body:** `{ "code": "000000" }`.
+
+### `POST /api/bookings/[id]/cancel`
+
+A customer cancels their own booking. The refund follows the cancellation tiers stored in the booking's price snapshot (for example free until 48 hours before pick-up, then 50%, then nothing). **Response:** `{ "refund_minor": 20000, "refund_bp": 10000, "refund_status": "none" | "succeeded" | "failed" }`. An admin cancelling through `PATCH /api/bookings/[id]` refunds in full.
+
+### `POST /api/webhooks/stripe`
+
+Stripe's server-to-server notifications, authenticated by the signature over the raw body (`STRIPE_WEBHOOK_SECRET`). Handles `payment_intent.succeeded` and `payment_intent.payment_failed`; every other event is acknowledged and ignored.
+
+### `GET /api/cron/maintenance`
+
+Protected by `CRON_SECRET`. Cancels unpaid bookings whose 15 minute hold expired (and frees their cars), releases security deposits 48 hours after completion, and pays out due provider earnings (simulated bank transfer). Every step is idempotent. `vercel.json` schedules it daily; correctness does not depend on the schedule because expired holds are also swept whenever someone quotes or books.
+
 ### `POST /api/bookings`
 
 Public. This is what the customer-facing booking form calls. `status` and `lead_score` are deliberately not accepted here. Every new booking starts as `pending` with no score, no matter what the request contains.
@@ -307,7 +335,7 @@ Public. This is what the customer-facing booking form calls. `status` and `lead_
 }
 ```
 
-`total_amount` (major units) is calculated on the server by the quote engine from the vehicle's rate plan, extras, fees and taxes for that branch. It is never trusted from the client. If no unit of the vehicle is free for the dates, the response is `409`. With a `quote_token`, the server re-prices the trip and, if the total changed, answers `409` with `{ error: { code: "PRICE_CHANGED" }, quote }` instead of booking at a different price. Every booking stores the accepted quote as an immutable `price_snapshot`. On success, the booking's details are also sent to the n8n webhook URL in the background, but no automation currently acts on that particular event. See section 9 for details.
+`total_amount` (major units) is calculated on the server by the quote engine from the vehicle's rate plan, extras, fees and taxes for that branch. It is never trusted from the client. If no unit of the vehicle is free for the dates, the response is `409`. With a `quote_token`, the server re-prices the trip and, if the total changed, answers `409` with `{ error: { code: "PRICE_CHANGED" }, quote }` instead of booking at a different price. Every booking stores the accepted quote as an immutable `price_snapshot`. A new booking is `pending` and **held for 15 minutes**; the customer is sent to `/checkout/[reference]` to pay, and payment confirms it. On success, the booking's details are also sent to the n8n webhook URL in the background, but no automation currently acts on that particular event. See section 9 for details.
 
 ### `PATCH /api/bookings/[id]`
 
@@ -502,7 +530,7 @@ Only one automation is actually built and working right now: the one described b
 ## 11. What I'd build next
 
 1. **Provider pricing screens.** Rate plans, seasons, extras, policies and promo codes are stored and used by the quote engine but edited by SQL and the seed for now; provider portal screens are sub-project 4.
-2. **Payment processing.** Right now a booking is a request, not a transaction. No payment gateway is integrated, and everything lands as `pending` for an admin to follow up on manually. Adding Stripe, or something similar, at the booking step would make this a real checkout flow.
+2. **Real payment processing.** Payments run through a provider layer with Stripe in test mode and simulated local methods, with an append-only double-entry ledger and simulated payouts. Going live needs Stripe live keys, Stripe Connect onboarding for real provider payouts, and a legal and tax review.
 3. **A durable rate limiter and webhook retry queue.** The chat endpoint's rate limiting and the n8n webhook calls both currently live in memory on a single server process: a rate-limit counter that resets on every deploy, and a webhook call that is simply dropped and logged if n8n is briefly unreachable. Moving both onto something persistent, such as Redis for rate limiting and a small retry queue for webhooks, would let both survive a restart and a transient n8n outage.
 4. **A second n8n workflow for the booking webhook.** The app already sends a webhook on every new booking, but nothing in n8n currently reacts to it. Building that workflow, for example to notify staff or log the booking to its own sheet, would put that existing hook to use instead of leaving it silently ignored.
 
