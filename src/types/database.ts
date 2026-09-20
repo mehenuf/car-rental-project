@@ -228,6 +228,50 @@ export type BookingInspectionRow = {
   photo_paths: string[];
   created_by: string | null;
   created_at: string;
+  licence_override_reason: string | null;
+};
+
+export type LicenceStatusValue = "unverified" | "pending" | "verified" | "rejected" | "expired";
+
+export type DriverProfileRow = {
+  user_id: string;
+  date_of_birth: string | null;
+  licence_country: string | null;
+  licence_number_last4: string | null;
+  licence_expiry: string | null;
+  status: LicenceStatusValue;
+  review_note: string | null;
+  submitted_at: string | null;
+  reviewed_at: string | null;
+  reviewed_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type DriverDocumentRow = {
+  id: string;
+  user_id: string;
+  kind: "licence_front" | "licence_back" | "selfie";
+  storage_path: string;
+  mime_type: "image/jpeg" | "image/png" | "image/webp" | "application/pdf";
+  size_bytes: number;
+  created_at: string;
+};
+
+export type ReceiptRow = {
+  id: string;
+  number: string;
+  booking_id: string;
+  payment_id: string;
+  issued_at: string;
+  snapshot: Json;
+};
+
+export type GuestClaimRow = {
+  id: string;
+  user_id: string;
+  booking_id: string;
+  claimed_at: string;
 };
 
 export type PaymentRow = {
@@ -477,6 +521,30 @@ export interface Database {
         Update: Partial<PayoutAccountRow>;
         Relationships: [];
       };
+      driver_profiles: {
+        Row: DriverProfileRow;
+        Insert: InsertOf<DriverProfileRow, "user_id">;
+        Update: Partial<DriverProfileRow>;
+        Relationships: [];
+      };
+      driver_documents: {
+        Row: DriverDocumentRow;
+        Insert: InsertOf<DriverDocumentRow, "user_id" | "kind" | "storage_path" | "mime_type" | "size_bytes">;
+        Update: Partial<DriverDocumentRow>;
+        Relationships: [];
+      };
+      receipts: {
+        Row: ReceiptRow;
+        Insert: InsertOf<ReceiptRow, "number" | "booking_id" | "payment_id" | "snapshot">;
+        Update: Partial<ReceiptRow>;
+        Relationships: [];
+      };
+      guest_claims: {
+        Row: GuestClaimRow;
+        Insert: InsertOf<GuestClaimRow, "user_id" | "booking_id">;
+        Update: Partial<GuestClaimRow>;
+        Relationships: [];
+      };
       booking_inspections: {
         Row: BookingInspectionRow;
         Insert: InsertOf<BookingInspectionRow, "booking_id" | "provider_id" | "kind" | "odometer_km" | "fuel_level">;
@@ -689,9 +757,12 @@ export interface Database {
           p_notes: string | null;
           p_photo_paths: string[];
           p_user_id: string | null;
+          p_override_reason?: string | null;
         };
         Returns: BookingRow;
       };
+      issue_receipt: { Args: { p_payment_id: string }; Returns: ReceiptRow };
+      claim_guest_bookings: { Args: { p_user_id: string; p_email: string }; Returns: number };
       expire_stale_holds: {
         Args: Record<PropertyKey, never>;
         Returns: number;

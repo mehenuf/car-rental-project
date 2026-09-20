@@ -44,14 +44,14 @@ select test.mk_confirmed('BC-I00001', '2032-03-01');
 select transition_booking((select id from bookings where reference = 'BC-I00001'), 'confirmed');
 
 select test.expect_error($$select record_inspection((select id from bookings where reference = 'BC-I00001'), 'return', 1000, 'full', null, '{}', null)$$, 'BP006');
-select test.assert((record_inspection((select id from bookings where reference = 'BC-I00001'), 'pickup', 1000, 'full', 'Small scratch on the left door', array['p/photo1.jpg'], null)).status = 'active', 'a pickup inspection activates the booking');
+select test.assert((record_inspection((select id from bookings where reference = 'BC-I00001'), 'pickup', 1000, 'full', 'Small scratch on the left door', array['p/photo1.jpg'], null, 'Licence checked at the counter')).status = 'active', 'a pickup inspection activates the booking');
 select test.expect_error($$select record_inspection((select id from bookings where reference = 'BC-I00001'), 'pickup', 1000, 'full', null, '{}', null)$$, 'BP006');
 select test.expect_error($$select record_inspection((select id from bookings where reference = 'BC-I00001'), 'return', 900, 'half', null, '{}', null)$$, 'BP007');
 select test.assert((record_inspection((select id from bookings where reference = 'BC-I00001'), 'return', 1250, 'half', null, '{}', null)).status = 'completed', 'a return inspection completes the booking');
 select test.assert((select mileage_km from fleet_units where id = (select fleet_unit_id from bookings where reference = 'BC-I00001')) = 1250, 'and updates the unit mileage');
 select test.assert((select count(*) from booking_inspections where booking_id = (select id from bookings where reference = 'BC-I00001')) = 2, 'both inspections are stored');
 select test.expect_error($$select record_inspection('99999999-9999-9999-9999-999999999999', 'pickup', 1, 'full', null, '{}', null)$$, 'P0002');
-select test.assert(not has_function_privilege('anon', 'record_inspection(uuid,text,integer,text,text,text[],uuid)', 'execute'), 'anon cannot record inspections');
+select test.assert(not has_function_privilege('anon', 'record_inspection(uuid,text,integer,text,text,text[],uuid,text)', 'execute'), 'anon cannot record inspections');
 
 -- Access: members read their provider's documents, inspections and payout account; strangers see nothing.
 insert into auth.users (id) values ('cccccccc-0000-0000-0000-0000000000d1'), ('cccccccc-0000-0000-0000-0000000000d2');

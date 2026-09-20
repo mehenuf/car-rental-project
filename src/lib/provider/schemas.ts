@@ -230,6 +230,8 @@ export const InspectionSchema = z.object({
   fuel_level: z.enum(["empty", "quarter", "half", "three_quarters", "full"]),
   notes: z.string().trim().max(1000).nullable().optional(),
   photo_paths: z.array(z.string().min(1).max(300)).max(10).default([]),
+  /** Pickup only: hand the car over without a verified licence on file, with a written reason. */
+  licence_override_reason: z.string().trim().min(5).max(300).nullable().optional(),
 });
 
 export const InspectionPhotoSchema = z.object({
