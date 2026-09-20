@@ -30,10 +30,10 @@ export function LocationChip({ className }: { className?: string }) {
         }
       >
         <MapPin className="text-accent-text" aria-hidden="true" />
-        <span className="hidden truncate sm:inline">
+        <span className="hidden truncate sm:inline md:hidden lg:inline">
           {selected ? `${selected.city}, ${selected.country_code}` : loading ? "" : t("location.choose")}
         </span>
-        <ChevronDown className={cn("hidden size-3.5 sm:block text-muted-foreground transition-transform duration-200", open && "rotate-180")} aria-hidden="true" />
+        <ChevronDown className={cn("hidden size-3.5 sm:block md:hidden lg:block text-muted-foreground transition-transform duration-200", open && "rotate-180")} aria-hidden="true" />
       </PopoverTrigger>
       <PopoverContent align="start" className="w-80 max-w-[calc(100vw-1.5rem)] p-2">
         <p className="px-1 pb-2 text-xs text-muted-foreground">{!chosen && detected ? t("location.guessed") : t("location.choose")}</p>

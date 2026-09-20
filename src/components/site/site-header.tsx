@@ -98,13 +98,14 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-card">
-      <div className="mx-auto flex h-16 max-w-7xl items-center gap-(--space-sm) px-(--space-sm)">
+      <div className="mx-auto flex h-16 max-w-7xl items-center gap-(--space-xs) px-(--space-sm) sm:gap-(--space-sm)">
         <Link
           href="/"
           className="flex shrink-0 items-center gap-2 font-heading text-lg font-bold text-foreground"
         >
           <Car className="size-6 text-accent-text" />
-          {t("common.brand")}
+          {/* On the narrowest phones the mark alone keeps the row on one line; the name stays for screen readers. */}
+          <span className="max-[359px]:sr-only">{t("common.brand")}</span>
         </Link>
 
         <LocationChip className="h-11 min-w-11 px-2 md:h-8" />

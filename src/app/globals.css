@@ -266,22 +266,6 @@
    the page uses ordinary transitions — this is the moment that earns
    authorship, so it's the only place a bespoke keyframe animation lives.
    ------------------------------------------------------------------- */
-@keyframes title-card-in {
-  from {
-    opacity: 0;
-    transform: translateY(28px) scale(1.015);
-    filter: blur(8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-    filter: blur(0);
-  }
-}
-
-.animate-title-card {
-  animation: title-card-in 900ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
 
 /* Theme every browser-native surface from the palette instead of leaving
    OS defaults — selection, caret, and scrollbar are part of the design
@@ -310,44 +294,6 @@ html {
   }
 }
 
-/* ---- Hero scene: the few bespoke keyframes behind the 2.5D night-drive opening ---- */
-@keyframes hero-breathe {
-  from { opacity: 0.7; }
-  to { opacity: 1; }
-}
-.hero-breathe {
-  animation: hero-breathe 8s ease-in-out infinite alternate;
-}
-
-/* Each title line rises out of its own mask, one after the other. */
-.hero-line-mask {
-  display: block;
-  overflow: hidden;
-  padding-bottom: 0.12em;
-  margin-bottom: -0.12em;
-}
-@keyframes hero-line-rise {
-  from { transform: translateY(105%); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-.hero-line {
-  display: block;
-  animation: hero-line-rise 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: calc(250ms + var(--i, 0) * 140ms);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .hero-breathe { animation: none; }
-  .hero-line { animation: none; }
-}
-
-/* Tactile feedback for everything pressable, without shifting layout. */
-a, button, [role="button"], [role="option"], [role="radio"] {
-  -webkit-tap-highlight-color: transparent;
-}
-@media (hover: hover) {
-  a:not([class*="no-lift"]):active, [role="option"]:active { opacity: 0.85; }
-}
 
 /* ScrollReveal states (see scroll-reveal.tsx): hidden only after load and only below the fold. */
 [data-reveal="hidden"] {
@@ -360,15 +306,6 @@ a, button, [role="button"], [role="option"], [role="radio"] {
   transition: opacity 700ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s), transform 700ms cubic-bezier(0.16, 1, 0.3, 1) var(--reveal-delay, 0s);
 }
 
-/* Hero scene: glow and streaks fade in after the photo, which is never faded so it can paint at once. */
-@keyframes hero-layer-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-[data-hero-root] > [data-layer="glow"],
-[data-hero-root] > [data-layer="streaks"] {
-  animation: hero-layer-in 1600ms ease-out 200ms both;
-}
 
 /* Returning visitors who already answered never see the cookie card (see root-shell.tsx). */
 html[data-consent="set"] [data-consent-banner] { display: none; }

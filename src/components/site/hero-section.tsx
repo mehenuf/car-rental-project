@@ -9,23 +9,20 @@ export async function HeroSection({ cityNames }: { cityNames: string[] }) {
   const reach = cityNames.length > 0 ? new Intl.ListFormat(locale, { style: "long", type: "conjunction" }).format(cityNames) : "";
 
   return (
-    <section className="relative flex min-h-[92dvh] flex-col overflow-hidden bg-background sm:min-h-[85dvh]">
+    <section className="relative flex min-h-[70dvh] flex-col overflow-hidden bg-background sm:min-h-[62dvh]">
       <HeroScene />
 
       {/* Content sits a fixed distance above the bottom edge so it always clears the search bar that overlaps the
           hero from below, whatever the viewport height. */}
-      <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end px-(--space-sm) pt-20 pb-24 sm:pb-28">
+      <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end px-(--space-sm) pt-16 pb-20 sm:pb-24">
         <div className="flex max-w-3xl flex-col gap-(--space-sm)">
           <h1 className="font-heading text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
-            <span className="hero-line-mask">
-              <span className="hero-line" style={{ "--i": 0 } as React.CSSProperties}>{t("landing.hero.titleLine1")}</span>
-            </span>
-            <span className="hero-line-mask">
-              <span className="hero-line text-accent" style={{ "--i": 1 } as React.CSSProperties}>{t("landing.hero.titleAccent")}</span>
-            </span>
+            {t("landing.hero.titleLine1")}
+            <br />
+            <span className="text-accent">{t("landing.hero.titleAccent")}</span>
           </h1>
-          <p className="animate-title-card max-w-lg text-base text-white/80 sm:text-lg [animation-delay:650ms]">{t("landing.hero.body")}</p>
-          <div className="animate-title-card flex flex-col gap-3 pt-(--space-2xs) sm:flex-row [animation-delay:850ms]">
+          <p className="max-w-lg text-base text-white/80 sm:text-lg">{t("landing.hero.body")}</p>
+          <div className="flex flex-col gap-3 pt-(--space-2xs) sm:flex-row">
             <Link href="#search-bar" className={buttonVariants({ size: "lg", className: "px-8 shadow-lg shadow-black/30" })}>
               {t("landing.hero.find")}
             </Link>
@@ -41,7 +38,7 @@ export async function HeroSection({ cityNames }: { cityNames: string[] }) {
             </Link>
           </div>
           {reach && (
-            <p data-chat-avoid className="animate-title-card pt-(--space-2xs) text-sm text-white/70 [animation-delay:1050ms]">
+            <p data-chat-avoid className="pt-(--space-2xs) text-sm text-white/70">
               {t("landing.hero.reach", { cities: reach })}
             </p>
           )}
