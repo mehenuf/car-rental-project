@@ -14,6 +14,8 @@ export const CURRENCY_EXPONENTS: Record<string, 0 | 2> = {
   KES: 2,
   IDR: 2,
   BRL: 2,
+  INR: 2,
+  BDT: 2,
   JPY: 0,
 };
 
