@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "Aller au contenu principal",
+    "backHome": "Retour à l'accueil",
+    "browseCars": "Voir les voitures",
+    "tryAgain": "Réessayer",
+    "openMenu": "Ouvrir le menu",
+    "accountMenu": "Menu du compte",
+    "language": "Langue"
+  },
+  "nav": {
+    "home": "Accueil",
+    "cars": "Voitures",
+    "howItWorks": "Comment ça marche",
+    "about": "À propos",
+    "contact": "Contact"
+  },
+  "header": {
+    "myBookings": "Mes réservations",
+    "register": "S'inscrire",
+    "logIn": "Se connecter",
+    "logOut": "Se déconnecter",
+    "adminDashboard": "Tableau de bord admin",
+    "myAccount": "Mon compte"
+  },
+  "footer": {
+    "tagline": "Location de voitures simple et transparente. Réservez en ligne en quelques minutes, sans compte.",
+    "company": "Entreprise",
+    "support": "Assistance",
+    "howItWorks": "Comment ça marche",
+    "browseCars": "Voir les voitures",
+    "aboutUs": "À propos de nous",
+    "listYourCar": "Proposez votre voiture",
+    "contactUs": "Nous contacter",
+    "myBookings": "Mes réservations",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions générales",
+    "copyright": "© {year} BestCar. Tous droits réservés."
+  },
+  "hero": {
+    "titleLine1": "Prenez la route",
+    "titleAccent": "ce soir.",
+    "body": "Choisissez vos dates, choisissez votre voiture et partez en quelques minutes. Aucun compte requis, et le prix affiché est le prix payé.",
+    "bookNow": "Réserver",
+    "seeAll": "Voir toutes les voitures",
+    "rating": "4,9 / 5",
+    "renters": "Plus de 2 400 clients satisfaits"
+  },
+  "howItWorks": {
+    "step1Title": "Choisissez le lieu",
+    "step1Body": "Sélectionnez une ville proche parmi des dizaines de points de retrait dans tout le pays.",
+    "step2Title": "Date de prise en charge",
+    "step2Body": "Dites-nous quand vous avez besoin de la voiture et pour combien de temps. Nous vous la réservons.",
+    "step3Title": "Réservez votre voiture",
+    "step3Body": "Confirmez vos informations et c'est fait. Votre voiture vous attendra."
+  },
+  "whyChooseUs": {
+    "title": "Pourquoi nous choisir",
+    "subtitle": "Un service de location de voitures performant, fondé sur la simplicité, la transparence et la fiabilité.",
+    "imageAlt": "Rue de la ville la nuit avec une voiture roulant vers les gratte-ciel",
+    "supportTitle": "Service client",
+    "supportBody": "Notre équipe d'assistance est disponible jour et nuit : l'aide est toujours à un appel.",
+    "priceTitle": "Meilleur prix garanti",
+    "priceBody": "Des tarifs journaliers clairs et compétitifs, sans frais cachés au retrait.",
+    "locationTitle": "De nombreux lieux",
+    "locationBody": "Retrait et retour dans des lieux pratiques de chaque grande ville où nous sommes présents."
+  },
+  "notFound": {
+    "title": "Page introuvable",
+    "body": "Cette page n'existe pas ou a été déplacée. Il s'agit peut-être d'une voiture qui ne fait plus partie de notre flotte."
+  },
+  "error": {
+    "title": "Une erreur est survenue",
+    "body": "Nous avons rencontré un problème au chargement de cette page. Réessayez ou retournez à l'accueil."
+  }
+}

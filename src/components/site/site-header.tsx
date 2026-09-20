@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link } from "@/lib/i18n/link";
+import { useLocaleRouter } from "@/lib/i18n/provider";
 import { Car, LayoutDashboard, Menu, User } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
@@ -19,6 +19,9 @@ import { supabase } from "@/lib/supabase";
 import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { initialsFor } from "@/lib/format";
+import { LanguageSwitcher } from "@/components/site/language-switcher";
+import { useLocale, useT } from "@/lib/i18n/provider";
+import { directionOf } from "@/lib/i18n/locales";
 
 function AccountMenu({
   name,
@@ -31,12 +34,13 @@ function AccountMenu({
   isAdmin: boolean;
   onLogout: () => void;
 }) {
+  const t = useT();
   const initialsSource = name || email;
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
-        render={<button type="button" className="rounded-full" aria-label="Account menu" />}
+        render={<button type="button" className="rounded-full" aria-label={t("common.accountMenu")} />}
       >
         <Avatar>
           <AvatarFallback>{initialsFor(initialsSource || "?")}</AvatarFallback>
@@ -52,17 +56,17 @@ function AccountMenu({
           </Avatar>
           <div className="flex min-w-0 flex-col">
             <span className="truncate text-sm font-semibold text-foreground">
-              {name || "My Account"}
+              {name || t("header.myAccount")}
             </span>
             <span className="truncate text-xs text-muted-foreground">{email}</span>
           </div>
         </div>
         <DropdownMenuSeparator />
         <DropdownMenuItem render={<Link href={isAdmin ? "/admin" : "/dashboard"} />}>
-          <LayoutDashboard /> {isAdmin ? "Admin Dashboard" : "My Bookings"}
+          <LayoutDashboard /> {isAdmin ? t("header.adminDashboard") : t("header.myBookings")}
         </DropdownMenuItem>
         <DropdownMenuItem variant="destructive" onClick={onLogout}>
-          Log out
+          {t("header.logOut")}
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
@@ -70,8 +74,10 @@ function AccountMenu({
 }
 
 export function SiteHeader() {
+  const t = useT();
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
-  const router = useRouter();
+  const router = useLocaleRouter();
   const { user, isAdmin, loading } = useSupabaseUser();
 
   async function handleLogout() {
@@ -92,17 +98,17 @@ export function SiteHeader() {
           className="flex shrink-0 items-center gap-2 font-heading text-lg font-bold text-foreground"
         >
           <Car className="size-6 text-accent-text" />
-          BestCar
+          {t("common.brand")}
         </Link>
 
-        <nav className="ml-4 hidden items-center gap-4 md:flex lg:ml-6 lg:gap-6">
+        <nav className="ms-4 hidden items-center gap-4 md:flex lg:ms-6 lg:gap-6">
           {SITE_NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
             >
-              {link.label}
+              {t(`nav.${link.labelKey}`)}
             </Link>
           ))}
         </nav>
@@ -111,7 +117,8 @@ export function SiteHeader() {
             below that, the compact tablet block right after this one covers
             md-lg with a single CTA instead of leaving a hamburger-only dead
             zone despite there being room for the nav. */}
-        <div className="ml-auto hidden items-center gap-2 lg:flex">
+        <div className="ms-auto hidden items-center gap-2 lg:flex">
+          <LanguageSwitcher />
           <ThemeToggle />
           {!loading && !user && (
             <>
@@ -119,13 +126,13 @@ export function SiteHeader() {
                 href="/dashboard"
                 className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
               >
-                My Bookings
+                {t("header.myBookings")}
               </Link>
               <Link href="/register" className={buttonVariants({ variant: "outline" })}>
-                Register
+                {t("header.register")}
               </Link>
               <Link href="/login" className={buttonVariants()}>
-                Log In
+                {t("header.logIn")}
               </Link>
             </>
           )}
@@ -135,11 +142,12 @@ export function SiteHeader() {
           )}
         </div>
 
-        <div className="ml-auto hidden items-center gap-2 md:flex lg:hidden">
+        <div className="ms-auto hidden items-center gap-2 md:flex lg:hidden">
+          <LanguageSwitcher />
           <ThemeToggle />
           {!loading && !user && (
             <Link href="/login" className={buttonVariants({ size: "sm" })}>
-              Log In
+              {t("header.logIn")}
             </Link>
           )}
           {user && (
@@ -147,7 +155,8 @@ export function SiteHeader() {
           )}
         </div>
 
-        <div className="ml-auto flex items-center gap-1 md:hidden">
+        <div className="ms-auto flex items-center gap-1 md:hidden">
+          <LanguageSwitcher className="h-11" />
           <ThemeToggle className="size-11" />
           <Button
             type="button"
@@ -155,7 +164,7 @@ export function SiteHeader() {
             size="icon"
             className="size-11"
             onClick={() => setOpen(true)}
-            aria-label="Open menu"
+            aria-label={t("common.openMenu")}
           >
             <Menu />
           </Button>
@@ -163,10 +172,10 @@ export function SiteHeader() {
       </div>
 
       <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side="right" className="flex w-72 flex-col">
+        <SheetContent side={directionOf(locale) === "rtl" ? "left" : "right"} className="flex w-72 flex-col">
           <SheetHeader>
             <SheetTitle className="flex items-center gap-2">
-              <Car className="size-6 text-accent-text" /> BestCar
+              <Car className="size-6 text-accent-text" /> {t("common.brand")}
             </SheetTitle>
           </SheetHeader>
           <nav className="flex flex-col gap-1 px-4">
@@ -177,7 +186,7 @@ export function SiteHeader() {
                 onClick={() => setOpen(false)}
                 className="rounded-lg px-3 py-2 text-sm font-medium text-foreground hover:bg-muted"
               >
-                {link.label}
+                {t(`nav.${link.labelKey}`)}
               </Link>
             ))}
           </nav>
@@ -189,17 +198,17 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className={buttonVariants({ variant: "outline" })}
                 >
-                  My Bookings
+                  {t("header.myBookings")}
                 </Link>
                 <Link
                   href="/register"
                   onClick={() => setOpen(false)}
                   className={buttonVariants({ variant: "outline" })}
                 >
-                  Register
+                  {t("header.register")}
                 </Link>
                 <Link href="/login" onClick={() => setOpen(false)} className={buttonVariants()}>
-                  Log In
+                  {t("header.logIn")}
                 </Link>
               </>
             )}
@@ -214,10 +223,10 @@ export function SiteHeader() {
                   onClick={() => setOpen(false)}
                   className={buttonVariants({ variant: "outline" })}
                 >
-                  {isAdmin ? "Admin Dashboard" : "My Bookings"}
+                  {isAdmin ? t("header.adminDashboard") : t("header.myBookings")}
                 </Link>
                 <Button type="button" variant="destructive" onClick={handleLogout}>
-                  Log out
+                  {t("header.logOut")}
                 </Button>
               </>
             )}

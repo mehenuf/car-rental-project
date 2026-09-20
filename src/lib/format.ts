@@ -1,12 +1,8 @@
-const currencyFormatter = new Intl.NumberFormat("en-US", {
-  style: "currency",
-  currency: "USD",
-});
+import { numberingLocale, type Locale } from "@/lib/i18n/locales";
 
-const numberFormatter = new Intl.NumberFormat("en-US");
-
-export function formatCurrency(value: number): string {
-  return currencyFormatter.format(value);
+/** Dollar amounts (the admin dashboards). Pass a locale to format for a language. */
+export function formatCurrency(value: number, locale: Locale = "en"): string {
+  return new Intl.NumberFormat(numberingLocale(locale), { style: "currency", currency: "USD" }).format(value);
 }
 
 /** "Jane Doe" -> "JD"; falls back gracefully for a single word or an email. */
@@ -19,13 +15,17 @@ export function initialsFor(name: string): string {
     .join("");
 }
 
-export function formatNumber(value: number): string {
-  return numberFormatter.format(value);
+export function formatNumber(value: number, locale: Locale = "en"): string {
+  return new Intl.NumberFormat(numberingLocale(locale)).format(value);
 }
 
-export function formatDate(dateInput: string | Date): string {
+export function formatDate(dateInput: string | Date, locale: Locale = "en"): string {
   const date = typeof dateInput === "string" ? new Date(dateInput) : dateInput;
-  return date.toLocaleDateString("en-US", { day: "2-digit", month: "short", year: "numeric" });
+  return date.toLocaleDateString(locale === "en" ? "en-US" : numberingLocale(locale), {
+    day: "2-digit",
+    month: locale === "en" ? "short" : "2-digit",
+    year: "numeric",
+  });
 }
 
 export function formatTimeAgo(dateInput: string | Date): string {

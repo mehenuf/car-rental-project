@@ -27,7 +27,7 @@ export function Pagination({
         onClick={() => onPageChange(page - 1)}
         aria-label="Previous page"
       >
-        <ChevronLeft className="size-4" />
+        <ChevronLeft className="size-4 rtl:-scale-x-100" />
       </Button>
 
       {pages.map((p, i) =>
@@ -59,7 +59,7 @@ export function Pagination({
         onClick={() => onPageChange(page + 1)}
         aria-label="Next page"
       >
-        <ChevronRight className="size-4" />
+        <ChevronRight className="size-4 rtl:-scale-x-100" />
       </Button>
     </nav>
   );

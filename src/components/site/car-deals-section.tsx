@@ -149,7 +149,7 @@ export function CarDealsSection({
         >
           {isLoading && page > 1 ? "Loading..." : hasMore ? "Show more cars" : "No more cars"}
         </Button>
-        <span className="w-32 text-center text-sm text-muted-foreground sm:text-right">
+        <span className="w-32 text-center text-sm text-muted-foreground sm:text-end">
           {totalCount} {totalCount === 1 ? "Car" : "Cars"}
         </span>
       </div>

@@ -1,27 +1,16 @@
 import Image from "next/image";
 import { BadgeCheck, Headset, MapPinned } from "lucide-react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { getT } from "@/lib/i18n/dictionary";
 
 const FEATURES = [
-  {
-    icon: Headset,
-    title: "Customer Support",
-    description:
-      "Our support team is on call around the clock, so help is always a phone call away.",
-  },
-  {
-    icon: BadgeCheck,
-    title: "Best Price Guaranteed",
-    description: "Transparent, competitive daily rates with no hidden fees at pick-up.",
-  },
-  {
-    icon: MapPinned,
-    title: "Many Locations",
-    description: "Pick up and drop off at convenient locations in every major city we serve.",
-  },
-];
+  { icon: Headset, key: "support" },
+  { icon: BadgeCheck, key: "price" },
+  { icon: MapPinned, key: "location" },
+] as const;
 
-export function WhyChooseUsSection() {
+export async function WhyChooseUsSection() {
+  const t = await getT();
   return (
     <section id="why-choose-us" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
       <div className="grid grid-cols-1 items-center gap-(--space-xl) lg:grid-cols-2">
@@ -31,7 +20,7 @@ export function WhyChooseUsSection() {
         >
           <Image
             src="https://images.unsplash.com/photo-1608142129869-8bc08524503a?auto=format&fit=crop&w=1200&q=80"
-            alt="City street at night with a car driving toward the skyline"
+            alt={t("whyChooseUs.imageAlt")}
             fill
             sizes="(min-width: 1024px) 500px, 90vw"
             className="object-cover"
@@ -40,17 +29,14 @@ export function WhyChooseUsSection() {
 
         <div className="flex flex-col gap-(--space-md)">
           <ScrollReveal className="flex flex-col gap-2">
-            <h2 className="font-heading text-3xl font-bold text-foreground">Why Choose Us</h2>
-            <p className="max-w-md text-muted-foreground">
-              A high-performing car rental service built around convenience, transparency, and
-              reliability.
-            </p>
+            <h2 className="font-heading text-3xl font-bold text-foreground">{t("whyChooseUs.title")}</h2>
+            <p className="max-w-md text-muted-foreground">{t("whyChooseUs.subtitle")}</p>
           </ScrollReveal>
 
           <div className="flex flex-col gap-(--space-md)">
             {FEATURES.map((feature, index) => (
               <ScrollReveal
-                key={feature.title}
+                key={feature.key}
                 delay={index * 0.12}
                 className="flex items-start gap-4"
               >
@@ -59,9 +45,9 @@ export function WhyChooseUsSection() {
                 </div>
                 <div className="flex flex-col gap-1">
                   <h3 className="font-heading text-base font-semibold text-foreground">
-                    {feature.title}
+                    {t(`whyChooseUs.${feature.key}Title`)}
                   </h3>
-                  <p className="text-sm text-muted-foreground">{feature.description}</p>
+                  <p className="text-sm text-muted-foreground">{t(`whyChooseUs.${feature.key}Body`)}</p>
                 </div>
               </ScrollReveal>
             ))}

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, type FormEvent } from "react";
-import { useRouter } from "next/navigation";
+import { useLocaleRouter } from "@/lib/i18n/provider";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -60,7 +60,7 @@ export function VehicleBookingPanel({
   pickupBranchId?: number;
   dropoffBranchId?: number;
 }) {
-  const router = useRouter();
+  const router = useLocaleRouter();
   const today = startOfToday();
   const tomorrow = new Date(today);
   tomorrow.setDate(tomorrow.getDate() + 1);

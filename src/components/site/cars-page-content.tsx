@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/lib/i18n/link";
 import { buttonVariants } from "@/components/ui/button";
 import { VehicleCard } from "@/components/site/vehicle-card";
 import { CarsFilterControls } from "@/components/site/cars-filter-controls";

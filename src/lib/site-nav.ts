@@ -1,12 +1,13 @@
 export interface SiteNavLink {
-  label: string;
+  /** Key under `nav` in the message catalogue. */
+  labelKey: "home" | "cars" | "howItWorks" | "about" | "contact";
   href: string;
 }
 
 export const SITE_NAV_LINKS: SiteNavLink[] = [
-  { label: "Home", href: "/" },
-  { label: "Cars", href: "/cars" },
-  { label: "How It Works", href: "/#how-it-works" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { labelKey: "home", href: "/" },
+  { labelKey: "cars", href: "/cars" },
+  { labelKey: "howItWorks", href: "/#how-it-works" },
+  { labelKey: "about", href: "/about" },
+  { labelKey: "contact", href: "/contact" },
 ];

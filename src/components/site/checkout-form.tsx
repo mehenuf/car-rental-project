@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState, type FormEvent } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { Link } from "@/lib/i18n/link";
+import { useLocalePath, useLocaleRouter } from "@/lib/i18n/provider";
 import { Clock, FlaskConical, ShieldCheck } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -58,7 +58,7 @@ export function CheckoutForm({
   methods: CheckoutMethod[];
   stripe: { enabled: boolean; publishableKey: string | null };
 }) {
-  const router = useRouter();
+  const router = useLocaleRouter();
   const [method, setMethod] = useState(methods[0]?.code ?? "card");
   const [testInput, setTestInput] = useState("");
   const [attempt, setAttempt] = useState(() => crypto.randomUUID());
@@ -81,10 +81,12 @@ export function CheckoutForm({
   const usesStripe = stripe.enabled && stripe.publishableKey !== null && method === "card";
   const money = (minor: number) => formatMinor(minor, currency);
   const payLabel = `Pay ${money(totalMinor)}`;
-  const confirmationUrl = `/booking-confirmation?ref=${encodeURIComponent(reference)}`;
+  const localePath = useLocalePath();
+  const confirmationPath = `/booking-confirmation?ref=${encodeURIComponent(reference)}`;
+  const confirmationUrl = localePath(confirmationPath);
 
   function finish() {
-    router.push(confirmationUrl);
+    router.push(confirmationPath);
   }
 
   function handleResult(body: PaymentResponse) {
@@ -199,7 +201,7 @@ export function CheckoutForm({
                   aria-checked={method === m.code}
                   onClick={() => setMethod(m.code)}
                   className={cn(
-                    "flex items-center justify-between rounded-lg border px-3 py-2.5 text-left text-sm transition-colors",
+                    "flex items-center justify-between rounded-lg border px-3 py-2.5 text-start text-sm transition-colors",
                     method === m.code ? "border-primary bg-primary/5 text-foreground" : "border-border text-muted-foreground hover:border-foreground/30"
                   )}
                 >

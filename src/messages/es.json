@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "Saltar al contenido principal",
+    "backHome": "Volver al inicio",
+    "browseCars": "Ver coches",
+    "tryAgain": "Reintentar",
+    "openMenu": "Abrir menú",
+    "accountMenu": "Menú de la cuenta",
+    "language": "Idioma"
+  },
+  "nav": {
+    "home": "Inicio",
+    "cars": "Coches",
+    "howItWorks": "Cómo funciona",
+    "about": "Nosotros",
+    "contact": "Contacto"
+  },
+  "header": {
+    "myBookings": "Mis reservas",
+    "register": "Registrarse",
+    "logIn": "Iniciar sesión",
+    "logOut": "Cerrar sesión",
+    "adminDashboard": "Panel de administración",
+    "myAccount": "Mi cuenta"
+  },
+  "footer": {
+    "tagline": "Alquiler de coches cómodo y transparente. Reserva en línea en minutos, sin necesidad de cuenta.",
+    "company": "Empresa",
+    "support": "Ayuda",
+    "howItWorks": "Cómo funciona",
+    "browseCars": "Ver coches",
+    "aboutUs": "Sobre nosotros",
+    "listYourCar": "Publica tu coche",
+    "contactUs": "Contáctanos",
+    "myBookings": "Mis reservas",
+    "privacy": "Política de privacidad",
+    "terms": "Términos y condiciones",
+    "copyright": "© {year} BestCar. Todos los derechos reservados."
+  },
+  "hero": {
+    "titleLine1": "Alquila la carretera",
+    "titleAccent": "esta noche.",
+    "body": "Elige tus fechas, elige tu coche y sal en minutos. Sin necesidad de cuenta, y el precio que ves es el que pagas.",
+    "bookNow": "Reservar ahora",
+    "seeAll": "Ver todos los coches",
+    "rating": "4,9 / 5",
+    "renters": "Más de 2.400 clientes satisfechos"
+  },
+  "howItWorks": {
+    "step1Title": "Elige el lugar",
+    "step1Body": "Elige una ciudad cercana entre decenas de puntos de recogida en todo el país.",
+    "step2Title": "Fecha de recogida",
+    "step2Body": "Dinos cuándo necesitas el coche y por cuánto tiempo. Te lo reservamos.",
+    "step3Title": "Reserva tu coche",
+    "step3Body": "Confirma tus datos y listo. Tu coche estará esperándote."
+  },
+  "whyChooseUs": {
+    "title": "Por qué elegirnos",
+    "subtitle": "Un servicio de alquiler de coches de alto rendimiento, basado en la comodidad, la transparencia y la fiabilidad.",
+    "imageAlt": "Calle de la ciudad de noche con un coche conduciendo hacia el horizonte urbano",
+    "supportTitle": "Atención al cliente",
+    "supportBody": "Nuestro equipo de ayuda está disponible las 24 horas, así que siempre tienes asistencia a una llamada.",
+    "priceTitle": "Mejor precio garantizado",
+    "priceBody": "Tarifas diarias claras y competitivas, sin cargos ocultos en la recogida.",
+    "locationTitle": "Muchas ubicaciones",
+    "locationBody": "Recoge y devuelve el coche en puntos cómodos de cada ciudad importante donde operamos."
+  },
+  "notFound": {
+    "title": "Página no encontrada",
+    "body": "Esa página no existe o se ha movido. Puede que sea un coche que ya no está en nuestra flota."
+  },
+  "error": {
+    "title": "Algo salió mal",
+    "body": "Tuvimos un problema al cargar esta página. Inténtalo de nuevo o vuelve al inicio."
+  }
+}

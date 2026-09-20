@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useLocaleRouter } from "@/lib/i18n/provider";
 import { MapPin, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -39,7 +39,7 @@ function startOfToday(): Date {
 }
 
 export function SearchBar() {
-  const router = useRouter();
+  const router = useLocaleRouter();
   const { data: locations } = useApiData<Location[]>("/api/locations");
 
   const today = useMemo(() => startOfToday(), []);
@@ -123,7 +123,7 @@ export function SearchBar() {
               floating above the row it belongs next to. Bottom-aligning
               (both this wrapper and each leg share the same p-(--space-sm))
               lines the button up with that row instead. */}
-          <div className="flex items-end justify-center p-(--space-sm) lg:pl-(--space-md)">
+          <div className="flex items-end justify-center p-(--space-sm) lg:ps-(--space-md)">
             <Button type="button" size="lg" className="w-full gap-2 lg:w-auto" onClick={handleSearch}>
               <Search className="size-4" />
               Search

@@ -54,7 +54,7 @@ export function CancelBookingButton({ bookingId, currency, paid }: { bookingId: 
         </Button>
       )}
       {message && (
-        <p role="status" className="max-w-56 text-xs text-muted-foreground sm:text-right">
+        <p role="status" className="max-w-56 text-xs text-muted-foreground sm:text-end">
           {message}
         </p>
       )}

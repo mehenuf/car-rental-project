@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "メインコンテンツへ移動",
+    "backHome": "ホームに戻る",
+    "browseCars": "車を探す",
+    "tryAgain": "もう一度試す",
+    "openMenu": "メニューを開く",
+    "accountMenu": "アカウントメニュー",
+    "language": "言語"
+  },
+  "nav": {
+    "home": "ホーム",
+    "cars": "車種",
+    "howItWorks": "ご利用の流れ",
+    "about": "会社概要",
+    "contact": "お問い合わせ"
+  },
+  "header": {
+    "myBookings": "予約一覧",
+    "register": "新規登録",
+    "logIn": "ログイン",
+    "logOut": "ログアウト",
+    "adminDashboard": "管理ダッシュボード",
+    "myAccount": "マイアカウント"
+  },
+  "footer": {
+    "tagline": "手軽で明朗なレンタカー。アカウント不要、オンラインで数分で予約できます。",
+    "company": "会社情報",
+    "support": "サポート",
+    "howItWorks": "ご利用の流れ",
+    "browseCars": "車を探す",
+    "aboutUs": "会社概要",
+    "listYourCar": "車を掲載する",
+    "contactUs": "お問い合わせ",
+    "myBookings": "予約一覧",
+    "privacy": "プライバシーポリシー",
+    "terms": "利用規約",
+    "copyright": "© {year} BestCar. All rights reserved."
+  },
+  "hero": {
+    "titleLine1": "道を借りよう",
+    "titleAccent": "今夜から。",
+    "body": "日程を選び、車を選んで、数分で出発。アカウントは不要で、表示価格がそのままお支払い額です。",
+    "bookNow": "今すぐ予約",
+    "seeAll": "すべての車を見る",
+    "rating": "4.9 / 5",
+    "renters": "2,400人以上のご満足の声"
+  },
+  "howItWorks": {
+    "step1Title": "場所を選ぶ",
+    "step1Body": "全国数十か所の受け取り場所から、お近くの都市を選びます。",
+    "step2Title": "受け取り日",
+    "step2Body": "車が必要な日と期間をお知らせください。お車をお取り置きします。",
+    "step3Title": "車を予約する",
+    "step3Body": "情報を確認すれば完了です。お車をご用意してお待ちしています。"
+  },
+  "whyChooseUs": {
+    "title": "選ばれる理由",
+    "subtitle": "利便性、明朗さ、信頼性を軸にした高品質なレンタカーサービスです。",
+    "imageAlt": "夜の街並みでスカイラインへ向かって走る車",
+    "supportTitle": "カスタマーサポート",
+    "supportBody": "サポートチームが24時間待機しているので、いつでも電話一本でご相談いただけます。",
+    "priceTitle": "最安値保証",
+    "priceBody": "明朗で競争力のある日額料金。受け取り時の隠れた費用はありません。",
+    "locationTitle": "多数の拠点",
+    "locationBody": "対応するすべての主要都市で、便利な場所での受け取りと返却が可能です。"
+  },
+  "notFound": {
+    "title": "ページが見つかりません",
+    "body": "このページは存在しないか、移動した可能性があります。すでに取り扱いを終了した車かもしれません。"
+  },
+  "error": {
+    "title": "問題が発生しました",
+    "body": "このページの読み込み中に問題が発生しました。もう一度お試しいただくか、ホームに戻ってください。"
+  }
+}

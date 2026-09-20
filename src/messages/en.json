@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "Skip to main content",
+    "backHome": "Back to homepage",
+    "browseCars": "Browse cars",
+    "tryAgain": "Try again",
+    "openMenu": "Open menu",
+    "accountMenu": "Account menu",
+    "language": "Language"
+  },
+  "nav": {
+    "home": "Home",
+    "cars": "Cars",
+    "howItWorks": "How It Works",
+    "about": "About",
+    "contact": "Contact"
+  },
+  "header": {
+    "myBookings": "My Bookings",
+    "register": "Register",
+    "logIn": "Log In",
+    "logOut": "Log out",
+    "adminDashboard": "Admin Dashboard",
+    "myAccount": "My Account"
+  },
+  "footer": {
+    "tagline": "Convenient, transparent car rental. Book online in minutes, no account required.",
+    "company": "Company",
+    "support": "Support",
+    "howItWorks": "How it works",
+    "browseCars": "Browse cars",
+    "aboutUs": "About us",
+    "listYourCar": "List your car",
+    "contactUs": "Contact us",
+    "myBookings": "My bookings",
+    "privacy": "Privacy Policy",
+    "terms": "Terms & Conditions",
+    "copyright": "© {year} BestCar. All rights reserved."
+  },
+  "hero": {
+    "titleLine1": "Rent the road",
+    "titleAccent": "tonight.",
+    "body": "Pick your dates, choose your car, and drive off in minutes. No account required, and the price you see is the price you pay.",
+    "bookNow": "Book now",
+    "seeAll": "See all cars",
+    "rating": "4.9 / 5",
+    "renters": "2,400+ happy renters"
+  },
+  "howItWorks": {
+    "step1Title": "Choose Location",
+    "step1Body": "Pick a city near you from dozens of pick-up points across the country.",
+    "step2Title": "Pick-up Date",
+    "step2Body": "Tell us when you need the car and for how long. We'll hold it for you.",
+    "step3Title": "Book your car",
+    "step3Body": "Confirm your details and you're set. Your ride will be ready and waiting."
+  },
+  "whyChooseUs": {
+    "title": "Why Choose Us",
+    "subtitle": "A high-performing car rental service built around convenience, transparency, and reliability.",
+    "imageAlt": "City street at night with a car driving toward the skyline",
+    "supportTitle": "Customer Support",
+    "supportBody": "Our support team is on call around the clock, so help is always a phone call away.",
+    "priceTitle": "Best Price Guaranteed",
+    "priceBody": "Transparent, competitive daily rates with no hidden fees at pick-up.",
+    "locationTitle": "Many Locations",
+    "locationBody": "Pick up and drop off at convenient locations in every major city we serve."
+  },
+  "notFound": {
+    "title": "Page not found",
+    "body": "That page doesn't exist or may have moved. It might be a car that's no longer in our fleet."
+  },
+  "error": {
+    "title": "Something went wrong",
+    "body": "We hit a snag loading this page. Give it another try, or head back home."
+  }
+}
