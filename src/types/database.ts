@@ -13,7 +13,111 @@ export type VehicleCategory = "popular" | "large" | "small" | "exclusive";
 export type Transmission = "automatic" | "manual";
 export type Fuel = "petrol" | "diesel" | "hybrid" | "electric";
 export type PaymentMethod = "paypal" | "stripe" | "apple_pay" | "payu" | "paytm";
-export type BookingStatus = "success" | "pending" | "cancelled";
+export type BookingStatus = "pending" | "confirmed" | "active" | "completed" | "cancelled" | "no_show";
+export type ProviderType = "company" | "individual";
+export type ProviderStatus = "draft" | "submitted" | "under_review" | "approved" | "rejected" | "suspended";
+export type MemberRole = "owner" | "manager" | "agent";
+export type FleetUnitStatus = "active" | "maintenance" | "retired";
+export type OccupancyReason = "booking" | "maintenance" | "transfer" | "owner_block";
+
+/** Insert shape helper: everything optional except the listed required keys. */
+type InsertOf<Row, Required extends keyof Row> = Partial<Row> & Pick<Row, Required>;
+
+export type ProviderRow = {
+  id: string;
+  type: ProviderType;
+  legal_name: string;
+  display_name: string;
+  country_code: string;
+  default_currency: string;
+  status: ProviderStatus;
+  commission_rate_override: number | null;
+  created_at: string;
+}
+
+export type BranchRow = {
+  id: number;
+  provider_id: string;
+  code: string;
+  name: string;
+  city: string;
+  country: string;
+  country_code: string;
+  address: string | null;
+  timezone: string;
+  currency: string;
+  turnaround_minutes: number;
+  opening_hours: Json | null;
+  is_active: boolean;
+  created_at: string;
+}
+
+export type ProviderMemberRow = {
+  provider_id: string;
+  user_id: string;
+  role: MemberRole;
+  branch_id: number | null;
+  created_at: string;
+}
+
+export type FleetUnitRow = {
+  id: string;
+  provider_id: string;
+  branch_id: number;
+  vehicle_id: string;
+  plate: string;
+  vin: string | null;
+  mileage_km: number;
+  status: FleetUnitStatus;
+  requires_window: boolean;
+  created_at: string;
+}
+
+/** `during` is a Postgres tstzrange in its text form, e.g. `["2030-01-01 00:00:00+00","2030-01-02 00:00:00+00")`. */
+export type AvailabilityWindowRow = {
+  id: string;
+  fleet_unit_id: string;
+  provider_id: string;
+  during: string;
+}
+
+export type UnitOccupancyRow = {
+  id: string;
+  fleet_unit_id: string;
+  provider_id: string;
+  reason: OccupancyReason;
+  booking_id: string | null;
+  during: string;
+  created_at: string;
+}
+
+export type BookingRow = {
+  id: string;
+  reference: string;
+  vehicle_id: string | null;
+  customer_name: string;
+  email: string;
+  phone: string | null;
+  pickup_location_id: number | null;
+  dropoff_location_id: number | null;
+  guest_id: string | null;
+  user_id: string | null;
+  provider_id: string | null;
+  fleet_unit_id: string | null;
+  pickup_branch_id: number | null;
+  dropoff_branch_id: number | null;
+  currency: string | null;
+  pickup_at: string;
+  dropoff_at: string;
+  /** Generated column (`greatest(1, extract(day from dropoff_at - pickup_at))`), read-only. */
+  days: number;
+  total_amount: number;
+  payment_method: PaymentMethod | null;
+  status: BookingStatus;
+  lead_score: number | null;
+  source: BookingSource | null;
+  created_at: string | null;
+}
 export type BookingSource = "web" | "chat" | "phone";
 export type BudgetBand = "low" | "mid" | "high" | "unknown";
 export type Urgency = "immediate" | "this_week" | "browsing" | "unknown";
@@ -122,29 +226,44 @@ export interface Database {
           },
         ];
       };
+      providers: {
+        Row: ProviderRow;
+        Insert: InsertOf<ProviderRow, "type" | "legal_name" | "display_name" | "country_code" | "default_currency">;
+        Update: Partial<ProviderRow>;
+        Relationships: [];
+      };
+      branches: {
+        Row: BranchRow;
+        Insert: InsertOf<BranchRow, "provider_id" | "code" | "name" | "city" | "country" | "country_code" | "currency">;
+        Update: Partial<BranchRow>;
+        Relationships: [];
+      };
+      provider_members: {
+        Row: ProviderMemberRow;
+        Insert: InsertOf<ProviderMemberRow, "provider_id" | "user_id" | "role">;
+        Update: Partial<ProviderMemberRow>;
+        Relationships: [];
+      };
+      fleet_units: {
+        Row: FleetUnitRow;
+        Insert: InsertOf<FleetUnitRow, "provider_id" | "branch_id" | "vehicle_id" | "plate">;
+        Update: Partial<FleetUnitRow>;
+        Relationships: [];
+      };
+      availability_windows: {
+        Row: AvailabilityWindowRow;
+        Insert: InsertOf<AvailabilityWindowRow, "fleet_unit_id" | "provider_id" | "during">;
+        Update: Partial<AvailabilityWindowRow>;
+        Relationships: [];
+      };
+      unit_occupancy: {
+        Row: UnitOccupancyRow;
+        Insert: InsertOf<UnitOccupancyRow, "fleet_unit_id" | "provider_id" | "reason" | "during">;
+        Update: Partial<UnitOccupancyRow>;
+        Relationships: [];
+      };
       bookings: {
-        Row: {
-          id: string;
-          reference: string;
-          vehicle_id: string | null;
-          customer_name: string;
-          email: string;
-          phone: string | null;
-          pickup_location_id: number | null;
-          dropoff_location_id: number | null;
-          guest_id: string | null;
-          user_id: string | null;
-          pickup_at: string;
-          dropoff_at: string;
-          /** Generated column (`greatest(1, extract(day from dropoff_at - pickup_at))`), read-only. */
-          days: number;
-          total_amount: number;
-          payment_method: PaymentMethod | null;
-          status: BookingStatus;
-          lead_score: number | null;
-          source: BookingSource | null;
-          created_at: string | null;
-        };
+        Row: BookingRow;
         Insert: {
           id?: string;
           reference: string;
@@ -154,6 +273,11 @@ export interface Database {
           phone?: string | null;
           pickup_location_id?: number | null;
           dropoff_location_id?: number | null;
+          provider_id?: string | null;
+          fleet_unit_id?: string | null;
+          pickup_branch_id?: number | null;
+          dropoff_branch_id?: number | null;
+          currency?: string | null;
           guest_id?: string | null;
           user_id?: string | null;
           pickup_at: string;
@@ -174,6 +298,11 @@ export interface Database {
           phone?: string | null;
           pickup_location_id?: number | null;
           dropoff_location_id?: number | null;
+          provider_id?: string | null;
+          fleet_unit_id?: string | null;
+          pickup_branch_id?: number | null;
+          dropoff_branch_id?: number | null;
+          currency?: string | null;
           guest_id?: string | null;
           user_id?: string | null;
           pickup_at?: string;
@@ -306,6 +435,38 @@ export interface Database {
       refresh_daily_stats: {
         Args: Record<PropertyKey, never>;
         Returns: undefined;
+      };
+      create_booking_atomic: {
+        Args: {
+          p_vehicle_id: string;
+          p_pickup_branch_id: number;
+          p_dropoff_branch_id: number;
+          p_pickup_at: string;
+          p_dropoff_at: string;
+          p_customer_name: string;
+          p_email: string;
+          p_total_amount: number;
+          p_reference: string;
+          p_phone?: string | null;
+          p_payment_method?: PaymentMethod | null;
+          p_source?: BookingSource;
+          p_guest_id?: string | null;
+          p_user_id?: string | null;
+        };
+        Returns: BookingRow;
+      };
+      transition_booking: {
+        Args: { p_booking_id: string; p_to: BookingStatus };
+        Returns: BookingRow;
+      };
+      available_vehicle_ids: {
+        Args: {
+          p_pickup_branch_id: number;
+          p_dropoff_branch_id: number;
+          p_start: string;
+          p_end: string;
+        };
+        Returns: string[];
       };
       decrement_vehicle_stock: {
         Args: { p_vehicle_id: string };
