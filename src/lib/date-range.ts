@@ -1,3 +1,5 @@
+import { billableDays } from "@/lib/pricing/days";
+
 export interface DateRange {
   from: Date;
   to: Date;
@@ -52,16 +54,12 @@ export function previousPeriod(range: DateRange): DateRange {
   return { from, to };
 }
 
-/** Number of whole days between two dates, matching the `bookings.days`
- * generated column formula: `greatest(1, extract(day from (dropoff - pickup)))`.
- * Shared between the server-side price calculation in createBooking and the
- * client-side pre-submit price preview in VehicleBookingPanel, so the two
- * can never silently drift apart. */
+/** Billable rental days between two dates (24h periods rounded up after a
+ * 59 minute grace, minimum 1). Delegates to the shared pricing rule so the
+ * server-side quote, the client-side preview and the `bookings.days`
+ * generated column can never silently drift apart. */
 export function daysBetween(pickupAt: string | Date, dropoffAt: string | Date): number {
-  const pickup = new Date(pickupAt).getTime();
-  const dropoff = new Date(dropoffAt).getTime();
-  const diffDays = Math.floor((dropoff - pickup) / (1000 * 60 * 60 * 24));
-  return Math.max(1, diffDays);
+  return billableDays(pickupAt, dropoffAt);
 }
 
 export function formatRangeLabel(range: DateRange): string {
