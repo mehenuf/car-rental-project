@@ -58,7 +58,7 @@
 
 - [ ] **Step 1: Install dev dependencies**
 
-Run: `npm install -D vitest pg @types/pg`
+Run: `npm install -D vitest@3 pg @types/pg` (vitest 5 needs `@types/node` 22+, this project pins 20)
 Expected: installs without errors.
 
 - [ ] **Step 2: Add scripts to `package.json`**
