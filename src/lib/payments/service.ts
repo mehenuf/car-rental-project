@@ -353,6 +353,57 @@ export async function cancelBooking(deps: PaymentsDeps, input: CancelBookingInpu
   return outcome;
 }
 
+/**
+ * Refunds part of a paid booking (for example after a dispute is decided in the renter's favour).
+ * Keyed, so repeating the call returns the same refund. Null when the provider refuses.
+ */
+export async function refundAmount(
+  deps: PaymentsDeps,
+  input: { bookingId: string; amountMinor: number; idempotencyKey: string }
+): Promise<{ paymentId: string } | null> {
+  const { repo } = deps;
+  const existing = await repo.findPaymentByKey(input.idempotencyKey);
+  if (existing) return existing.status === "succeeded" ? { paymentId: existing.id } : null;
+
+  const payments = await repo.listPayments(input.bookingId);
+  const charge = payments.find((p) => p.kind === "charge" && p.status === "succeeded");
+  if (!charge) throw new ConflictError("This booking has no payment to refund.");
+
+  const refund = await repo.insertPayment({
+    booking_id: input.bookingId,
+    kind: "refund",
+    method: charge.method,
+    provider: charge.provider,
+    amount_minor: input.amountMinor,
+    currency: charge.currency,
+    idempotency_key: input.idempotencyKey,
+  });
+  const result = await deps.providerByName(charge.provider).refund({
+    providerRef: charge.provider_ref ?? "",
+    amountMinor: input.amountMinor,
+    currency: charge.currency,
+    idempotencyKey: input.idempotencyKey,
+  });
+  if (result.status !== "succeeded") {
+    await repo.updatePayment(refund.id, { status: "failed", failure_code: result.failureCode ?? "refund_failed" });
+    return null;
+  }
+  await repo.updatePayment(refund.id, { provider_ref: result.providerRef });
+  await repo.recordRefundSuccess(refund.id);
+  return { paymentId: refund.id };
+}
+
+/** Captures part of the held security deposit with the payment provider (the ledger entry is made by the database step). */
+export async function captureDepositForBooking(
+  deps: PaymentsDeps,
+  input: { bookingId: string; amountMinor: number }
+): Promise<void> {
+  const payments = await deps.repo.listPayments(input.bookingId);
+  const deposit = payments.find((p) => p.kind === "deposit_hold" && p.status === "succeeded");
+  if (!deposit) throw new ConflictError("There is no held deposit to capture.");
+  await deps.providerByName(deposit.provider).captureDeposit(deposit.provider_ref ?? "", input.amountMinor);
+}
+
 // ---------------------------------------------------------------
 // Webhooks and scheduled work
 // ---------------------------------------------------------------

@@ -476,6 +476,26 @@
     "payout_paid": {
       "subject": "Uitbetaling verstuurd",
       "body": "Een uitbetaling van {amount} is naar je bankrekening verstuurd."
+    },
+    "licence_verified": {
+      "subject": "Je rijbewijs is geverifieerd",
+      "body": "Goed nieuws: je rijbewijs is geverifieerd. Je kunt je huurauto nu ophalen."
+    },
+    "licence_rejected": {
+      "subject": "Je rijbewijs is niet goedgekeurd",
+      "body": "We konden je rijbewijs niet goedkeuren. Reden: {note}. Log in om nieuwe foto's te uploaden."
+    },
+    "licence_expired": {
+      "subject": "Je rijbewijs is verlopen",
+      "body": "Je geverifieerde rijbewijs heeft zijn vervaldatum bereikt. Voeg een geldig rijbewijs toe vóór je volgende huur."
+    },
+    "return_reminder": {
+      "subject": "Herinnering inleveren: {reference}",
+      "body": "Je huur {reference} moet op {dropoff} worden ingeleverd. Lever de auto op tijd in en met het afgesproken brandstofniveau."
+    },
+    "review_request": {
+      "subject": "Hoe was je huur {reference}?",
+      "body": "Je huur {reference} is afgerond. Geef een beoordeling: het kost een minuut en helpt andere huurders. Je beoordeling verschijnt zodra het verhuurbedrijf jou ook heeft beoordeeld, of na 14 dagen."
     }
   },
   "sms": {
@@ -522,5 +542,71 @@
     "pushIos": "Voeg op iPhone en iPad deze site eerst toe aan je beginscherm.",
     "timezone": "Jouw tijdzone",
     "error": "Er is iets misgegaan. Probeer het opnieuw."
+  },
+  "reviews": {
+    "title": "Beoordelingen",
+    "stars": "{n} van 5",
+    "rate": "Beoordeel je huur",
+    "overall": "Algemeen",
+    "cleanliness": "Netheid",
+    "accuracy": "Juistheid van de advertentie",
+    "communication": "Communicatie",
+    "value": "Prijs-kwaliteit",
+    "comment": "Je beoordeling (optioneel)",
+    "submit": "Beoordeling versturen",
+    "submitting": "Bezig met versturen...",
+    "thanks": "Bedankt! Je beoordeling verschijnt zodra het verhuurbedrijf jou ook heeft beoordeeld, of na 14 dagen.",
+    "submitted": "Je beoordeling is verstuurd.",
+    "pickOverall": "Kies een algemene beoordeling.",
+    "error": "Er is iets misgegaan. Probeer het opnieuw.",
+    "reply": "Reactie van het verhuurbedrijf"
+  },
+  "disputes": {
+    "title": "Een probleem melden",
+    "intro": "Je kunt tot 48 uur na het inleveren een probleem melden. De uitbetaling aan het verhuurbedrijf wordt intussen gepauzeerd.",
+    "type": "Wat voor probleem?",
+    "describe": "Wat is er gebeurd?",
+    "amountAsked": "Bedrag dat je terug wilt (optioneel)",
+    "open": "Geschil openen",
+    "deadline": "Reageer vóór {date}",
+    "offerFromProvider": "Het verhuurbedrijf vraagt {amount}.",
+    "message": "Bericht toevoegen",
+    "send": "Versturen",
+    "accept": "Bod accepteren",
+    "contest": "Laat een beoordelaar beslissen",
+    "contestNote": "Ik wil dat een BestCar-beoordelaar beslist.",
+    "yourOffer": "Jouw bod",
+    "counter": "Tegenbod",
+    "error": "Er is iets misgegaan. Probeer het opnieuw.",
+    "types": {
+      "listing_mismatch": "De auto was niet zoals beschreven",
+      "overcharge": "Er is te veel in rekening gebracht",
+      "service_problem": "Een probleem met de service",
+      "damage": "Schade",
+      "cleanliness_or_fees": "Schoonmaak of kosten"
+    },
+    "status": {
+      "awaiting_response": "Wacht op reactie",
+      "negotiating": "In onderhandeling",
+      "agreed": "Overeengekomen",
+      "escalated": "Bij een BestCar-beoordelaar",
+      "resolved": "Opgelost",
+      "dismissed": "Gesloten"
+    },
+    "side": {
+      "customer": "Jij",
+      "provider": "Verhuurbedrijf",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "Geopend",
+      "message": "Bericht",
+      "evidence": "Bewijs",
+      "offer": "Bod",
+      "accept": "Geaccepteerd",
+      "contest": "Betwist",
+      "escalate": "Geëscaleerd",
+      "decision": "Beslissing"
+    }
   }
 }

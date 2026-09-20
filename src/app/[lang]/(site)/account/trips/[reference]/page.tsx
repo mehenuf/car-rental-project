@@ -3,6 +3,11 @@ import { Link } from "@/lib/i18n/link";
 import { Lock } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { MessageThread } from "@/components/site/message-thread";
+import { DisputePanel } from "@/components/site/dispute-panel";
+import { ReviewForm } from "@/components/site/review-form";
+import { canEditReview, isReviewWindowOpen } from "@/lib/reviews/rules";
+import { disputeWindowEnds } from "@/lib/disputes/rules";
+import { supabaseAdmin } from "@/lib/supabase-server";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
 import { getTrip } from "@/lib/account/trips";
@@ -23,6 +28,15 @@ export default async function TripPage({ params }: { params: Promise<{ reference
   const trip = await getTrip(identity.userId, decodeURIComponent(reference));
   if (!trip) notFound();
   const { booking, pickup, provider, receipt } = trip;
+
+  const completedAt = booking.completed_at ? new Date(booking.completed_at) : null;
+  const now = new Date();
+  const completed = booking.status === "completed" && completedAt !== null;
+  const canReview = completed && isReviewWindowOpen(completedAt, now);
+  const canOpenDispute = completed && now <= disputeWindowEnds(completedAt);
+  const { data: myReview } = completed
+    ? await supabaseAdmin.from("reviews").select("id, overall, aspects, comment, status, submitted_at").eq("booking_id", booking.id).eq("direction", "customer_to_provider").maybeSingle()
+    : { data: null };
 
   return (
     <div className="flex flex-col gap-(--space-md)">
@@ -79,6 +93,27 @@ export default async function TripPage({ params }: { params: Promise<{ reference
                 loadFailed: t("messages.loadFailed"),
               }}
             />
+          </CardContent>
+        </Card>
+      )}
+
+      {completed && (canReview || myReview) && (
+        <Card className="shadow-card ring-0">
+          <CardContent className="flex flex-col gap-(--space-xs)">
+            <h2 className="font-heading text-base font-semibold text-foreground">{t("reviews.rate")}</h2>
+            {myReview && <p className="text-xs text-muted-foreground">{t("reviews.thanks")}</p>}
+            <ReviewForm
+              bookingId={booking.id}
+              existing={myReview ? { id: myReview.id, overall: myReview.overall, aspects: myReview.aspects, comment: myReview.comment, editable: canEditReview({ status: myReview.status, submittedAt: new Date(myReview.submitted_at), now }) } : null}
+            />
+          </CardContent>
+        </Card>
+      )}
+
+      {completed && (
+        <Card className="shadow-card ring-0">
+          <CardContent>
+            <DisputePanel bookingId={booking.id} currency={booking.currency ?? "USD"} canOpen={canOpenDispute} />
           </CardContent>
         </Card>
       )}

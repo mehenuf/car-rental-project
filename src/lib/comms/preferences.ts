@@ -9,7 +9,9 @@ const ESSENTIAL = new Set([
   "booking_cancelled",
   "refund_issued",
   "pickup_instructions",
-  "licence_reviewed",
+  "licence_verified",
+  "licence_rejected",
+  "licence_expired",
   "security_alert",
   "provider_approved",
   "provider_rejected",
@@ -26,6 +28,7 @@ const CATEGORY: Record<string, "reminders" | "messages"> = {
   pickup_reminder: "reminders",
   return_reminder: "reminders",
   new_message: "messages",
+  review_request: "reminders",
 };
 
 export function isEssential(template: string): boolean {

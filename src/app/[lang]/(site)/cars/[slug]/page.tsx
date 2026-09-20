@@ -8,6 +8,7 @@ import { VehicleGallery } from "@/components/site/vehicle-gallery";
 import { VehicleBookingPanel } from "@/components/site/vehicle-booking-panel";
 import { VehicleCard } from "@/components/site/vehicle-card";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { VehicleReviews } from "@/components/site/vehicle-reviews";
 import { getT } from "@/lib/i18n/dictionary";
 
 export async function generateMetadata({
@@ -122,6 +123,10 @@ export default async function VehicleDetailPage({
             dropoffBranchId={toBranchId(dropoffLocationId)}
           />
         </div>
+      </div>
+
+      <div className="mt-(--space-xl)">
+        <VehicleReviews vehicleId={vehicle.id} />
       </div>
 
       {similar.length > 0 && (

@@ -476,6 +476,26 @@
     "payout_paid": {
       "subject": "Repasse enviado",
       "body": "Um repasse de {amount} foi enviado para a sua conta bancária."
+    },
+    "licence_verified": {
+      "subject": "Sua habilitação foi verificada",
+      "body": "Boa notícia: sua habilitação foi verificada. Agora você pode retirar seu carro alugado."
+    },
+    "licence_rejected": {
+      "subject": "Sua habilitação não foi aprovada",
+      "body": "Não conseguimos aprovar sua habilitação. Motivo: {note}. Entre para enviar novas fotos."
+    },
+    "licence_expired": {
+      "subject": "Sua habilitação venceu",
+      "body": "Sua habilitação verificada passou da data de validade. Adicione uma válida antes do próximo aluguel."
+    },
+    "return_reminder": {
+      "subject": "Lembrete de devolução: {reference}",
+      "body": "Seu aluguel {reference} deve ser devolvido em {dropoff}. Devolva o carro no prazo e com o nível de combustível combinado."
+    },
+    "review_request": {
+      "subject": "Como foi o seu aluguel {reference}?",
+      "body": "Seu aluguel {reference} foi concluído. Avalie: leva um minuto e ajuda outros clientes. Sua avaliação aparece quando a locadora também avaliar você, ou após 14 dias."
     }
   },
   "sms": {
@@ -522,5 +542,71 @@
     "pushIos": "No iPhone e no iPad, adicione primeiro este site à Tela de Início.",
     "timezone": "Seu fuso horário",
     "error": "Algo deu errado. Tente novamente."
+  },
+  "reviews": {
+    "title": "Avaliações",
+    "stars": "{n} de 5",
+    "rate": "Avalie seu aluguel",
+    "overall": "Geral",
+    "cleanliness": "Limpeza",
+    "accuracy": "Precisão do anúncio",
+    "communication": "Comunicação",
+    "value": "Custo-benefício",
+    "comment": "Sua avaliação (opcional)",
+    "submit": "Enviar avaliação",
+    "submitting": "Enviando...",
+    "thanks": "Obrigado! Sua avaliação aparece quando a locadora também avaliar você, ou após 14 dias.",
+    "submitted": "Sua avaliação foi enviada.",
+    "pickOverall": "Escolha uma nota geral.",
+    "error": "Algo deu errado. Tente novamente.",
+    "reply": "Resposta da locadora"
+  },
+  "disputes": {
+    "title": "Relatar um problema",
+    "intro": "Você pode relatar um problema até 48 horas após devolver o carro. O repasse à locadora fica pausado enquanto isso.",
+    "type": "Que tipo de problema?",
+    "describe": "O que aconteceu?",
+    "amountAsked": "Valor que deseja de volta (opcional)",
+    "open": "Abrir uma disputa",
+    "deadline": "Responda até {date}",
+    "offerFromProvider": "A locadora pede {amount}.",
+    "message": "Adicionar uma mensagem",
+    "send": "Enviar",
+    "accept": "Aceitar a proposta",
+    "contest": "Pedir que um analista decida",
+    "contestNote": "Quero que um analista da BestCar decida.",
+    "yourOffer": "Sua proposta",
+    "counter": "Contraproposta",
+    "error": "Algo deu errado. Tente novamente.",
+    "types": {
+      "listing_mismatch": "O carro não era como descrito",
+      "overcharge": "Fui cobrado a mais",
+      "service_problem": "Um problema com o serviço",
+      "damage": "Danos",
+      "cleanliness_or_fees": "Limpeza ou taxas"
+    },
+    "status": {
+      "awaiting_response": "Aguardando resposta",
+      "negotiating": "Em negociação",
+      "agreed": "Acordado",
+      "escalated": "Com um analista da BestCar",
+      "resolved": "Resolvido",
+      "dismissed": "Encerrado"
+    },
+    "side": {
+      "customer": "Você",
+      "provider": "Locadora",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "Aberta",
+      "message": "Mensagem",
+      "evidence": "Evidência",
+      "offer": "Proposta",
+      "accept": "Aceita",
+      "contest": "Contestada",
+      "escalate": "Escalada",
+      "decision": "Decisão"
+    }
   }
 }

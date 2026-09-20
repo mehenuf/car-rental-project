@@ -1,4 +1,4 @@
-import { CalendarDays, Car, LayoutDashboard, Receipt, Settings, Tag, Users, Wallet } from "lucide-react";
+import { CalendarDays, Car, LayoutDashboard, MessageSquareWarning, Receipt, Settings, Star, Tag, Users, Wallet } from "lucide-react";
 import type { AdminNavGroup } from "@/lib/admin-nav";
 import type { ProviderRole } from "@/lib/provider/permissions";
 import type { ProviderType } from "@/types/database";
@@ -28,6 +28,8 @@ export function providerNav(type: ProviderType, role: ProviderRole): AdminNavGro
     { label: individual ? "Availability" : "Calendar", href: "/provider/calendar", icon: CalendarDays },
     { label: individual ? "Requests" : "Bookings", href: "/provider/bookings", icon: Receipt },
     { label: "Pricing", href: "/provider/pricing", icon: Tag },
+    { label: "Reviews", href: "/provider/reviews", icon: Star },
+    { label: "Disputes", href: "/provider/disputes", icon: MessageSquareWarning },
   ];
 
   const account = [

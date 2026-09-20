@@ -476,6 +476,26 @@
     "payout_paid": {
       "subject": "Pago enviado",
       "body": "Se ha enviado un pago de {amount} a tu cuenta bancaria."
+    },
+    "licence_verified": {
+      "subject": "Tu permiso de conducir está verificado",
+      "body": "Buenas noticias: hemos verificado tu permiso de conducir. Ya puedes recoger tu coche de alquiler."
+    },
+    "licence_rejected": {
+      "subject": "No se aprobó tu permiso de conducir",
+      "body": "No pudimos aprobar tu permiso de conducir. Motivo: {note}. Inicia sesión para subir nuevas fotos."
+    },
+    "licence_expired": {
+      "subject": "Tu permiso de conducir ha caducado",
+      "body": "Tu permiso verificado ha superado su fecha de caducidad. Añade uno vigente antes de tu próximo alquiler."
+    },
+    "return_reminder": {
+      "subject": "Recordatorio de devolución: {reference}",
+      "body": "Tu alquiler {reference} debe devolverse el {dropoff}. Devuelve el coche a tiempo y con el nivel de combustible acordado."
+    },
+    "review_request": {
+      "subject": "¿Qué tal tu alquiler {reference}?",
+      "body": "Tu alquiler {reference} ha terminado. Valóralo: te lleva un minuto y ayuda a otros clientes. Tu opinión se publica cuando la empresa también te valore a ti, o a los 14 días."
     }
   },
   "sms": {
@@ -522,5 +542,71 @@
     "pushIos": "En iPhone y iPad, primero añade este sitio a la pantalla de inicio.",
     "timezone": "Tu zona horaria",
     "error": "Algo salió mal. Inténtalo de nuevo."
+  },
+  "reviews": {
+    "title": "Opiniones",
+    "stars": "{n} de 5",
+    "rate": "Valora tu alquiler",
+    "overall": "General",
+    "cleanliness": "Limpieza",
+    "accuracy": "Exactitud del anuncio",
+    "communication": "Comunicación",
+    "value": "Relación calidad-precio",
+    "comment": "Tu opinión (opcional)",
+    "submit": "Enviar opinión",
+    "submitting": "Enviando...",
+    "thanks": "¡Gracias! Tu opinión aparecerá cuando la empresa también te valore, o a los 14 días.",
+    "submitted": "Tu opinión se ha enviado.",
+    "pickOverall": "Elige una valoración general.",
+    "error": "Algo salió mal. Inténtalo de nuevo.",
+    "reply": "Respuesta de la empresa de alquiler"
+  },
+  "disputes": {
+    "title": "Informar de un problema",
+    "intro": "Puedes informar de un problema hasta 48 horas después de devolver el coche. El pago a la empresa queda en pausa mientras se resuelve.",
+    "type": "¿Qué tipo de problema?",
+    "describe": "¿Qué pasó?",
+    "amountAsked": "Importe que quieres que te reembolsen (opcional)",
+    "open": "Abrir una disputa",
+    "deadline": "Responder antes del {date}",
+    "offerFromProvider": "La empresa de alquiler pide {amount}.",
+    "message": "Añadir un mensaje",
+    "send": "Enviar",
+    "accept": "Aceptar la oferta",
+    "contest": "Pedir que decida un revisor",
+    "contestNote": "Quiero que decida un revisor de BestCar.",
+    "yourOffer": "Tu oferta",
+    "counter": "Contraoferta",
+    "error": "Algo salió mal. Inténtalo de nuevo.",
+    "types": {
+      "listing_mismatch": "El coche no era como se describía",
+      "overcharge": "Me cobraron de más",
+      "service_problem": "Un problema con el servicio",
+      "damage": "Daños",
+      "cleanliness_or_fees": "Limpieza o cargos"
+    },
+    "status": {
+      "awaiting_response": "Esperando respuesta",
+      "negotiating": "Negociando",
+      "agreed": "Acordado",
+      "escalated": "Con un revisor de BestCar",
+      "resolved": "Resuelto",
+      "dismissed": "Cerrado"
+    },
+    "side": {
+      "customer": "Tú",
+      "provider": "Empresa de alquiler",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "Abierta",
+      "message": "Mensaje",
+      "evidence": "Prueba",
+      "offer": "Oferta",
+      "accept": "Aceptada",
+      "contest": "Impugnada",
+      "escalate": "Escalada",
+      "decision": "Decisión"
+    }
   }
 }

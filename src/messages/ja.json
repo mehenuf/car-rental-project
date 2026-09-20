@@ -466,6 +466,26 @@
     "payout_paid": {
       "subject": "お支払いを送金しました",
       "body": "{amount} をお客様の銀行口座に送金しました。"
+    },
+    "licence_verified": {
+      "subject": "運転免許証が確認されました",
+      "body": "お知らせです：運転免許証の確認が完了しました。レンタカーを受け取れます。"
+    },
+    "licence_rejected": {
+      "subject": "運転免許証は承認されませんでした",
+      "body": "運転免許証を承認できませんでした。理由：{note}。ログインして新しい写真をアップロードしてください。"
+    },
+    "licence_expired": {
+      "subject": "運転免許証の有効期限が切れました",
+      "body": "確認済みの運転免許証が有効期限を過ぎています。次回のレンタル前に有効な免許証を追加してください。"
+    },
+    "return_reminder": {
+      "subject": "返却のお知らせ：{reference}",
+      "body": "レンタル {reference} の返却期限は {dropoff} です。時間どおりに、約束した燃料量で返却してください。"
+    },
+    "review_request": {
+      "subject": "レンタル {reference} はいかがでしたか？",
+      "body": "レンタル {reference} が完了しました。ぜひ評価をお願いします。1分ほどで、他のお客様の参考になります。レンタカー会社もあなたを評価した後、または14日後に、あなたのレビューが公開されます。"
     }
   },
   "sms": {
@@ -512,5 +532,71 @@
     "pushIos": "iPhone・iPadでは、先にこのサイトをホーム画面に追加してください。",
     "timezone": "タイムゾーン",
     "error": "問題が発生しました。もう一度お試しください。"
+  },
+  "reviews": {
+    "title": "レビュー",
+    "stars": "5点中{n}点",
+    "rate": "レンタルを評価する",
+    "overall": "総合",
+    "cleanliness": "清潔さ",
+    "accuracy": "掲載内容の正確さ",
+    "communication": "コミュニケーション",
+    "value": "コストパフォーマンス",
+    "comment": "レビュー（任意）",
+    "submit": "レビューを送信",
+    "submitting": "送信中...",
+    "thanks": "ありがとうございます。レンタカー会社もあなたを評価した後、または14日後にレビューが公開されます。",
+    "submitted": "レビューを送信しました。",
+    "pickOverall": "総合評価を選んでください。",
+    "error": "問題が発生しました。もう一度お試しください。",
+    "reply": "レンタカー会社からの返信"
+  },
+  "disputes": {
+    "title": "問題を報告",
+    "intro": "車を返却してから48時間以内であれば、問題を報告できます。解決するまで、レンタカー会社への支払いは保留されます。",
+    "type": "どのような問題ですか？",
+    "describe": "何がありましたか？",
+    "amountAsked": "返金を希望する金額（任意）",
+    "open": "紛争を開始",
+    "deadline": "{date}までにご返信ください",
+    "offerFromProvider": "レンタカー会社は{amount}を求めています。",
+    "message": "メッセージを追加",
+    "send": "送信",
+    "accept": "提案を承諾",
+    "contest": "担当者に判断を依頼",
+    "contestNote": "BestCarの担当者に判断してほしい。",
+    "yourOffer": "あなたの提案",
+    "counter": "対案",
+    "error": "問題が発生しました。もう一度お試しください。",
+    "types": {
+      "listing_mismatch": "車が説明と違った",
+      "overcharge": "請求額が多すぎた",
+      "service_problem": "サービスに関する問題",
+      "damage": "損傷",
+      "cleanliness_or_fees": "清掃または手数料"
+    },
+    "status": {
+      "awaiting_response": "返信待ち",
+      "negotiating": "交渉中",
+      "agreed": "合意済み",
+      "escalated": "BestCarの担当者が確認中",
+      "resolved": "解決済み",
+      "dismissed": "終了"
+    },
+    "side": {
+      "customer": "あなた",
+      "provider": "レンタカー会社",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "開始",
+      "message": "メッセージ",
+      "evidence": "証拠",
+      "offer": "提案",
+      "accept": "承諾",
+      "contest": "異議",
+      "escalate": "エスカレーション",
+      "decision": "決定"
+    }
   }
 }

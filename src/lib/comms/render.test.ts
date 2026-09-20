@@ -8,7 +8,7 @@ import { SMS_TEMPLATES, TEMPLATE_NAMES, renderNotification } from "./render";
 
 const load = (l: string) => JSON.parse(readFileSync(join(process.cwd(), "src/messages", `${l}.json`), "utf8")) as Messages;
 const tFor = (locale: Locale) => createT(locale, deepMerge(load("en"), load(locale)));
-const params = { name: "Sam", reference: "BC-1234", pickup: "5 Mar 2026", amount: "$80.00", link: "https://bestcar.example/en/account" };
+const params = { name: "Sam", reference: "BC-1234", pickup: "5 Mar 2026", dropoff: "7 Mar 2026", note: "Blurry photo", amount: "$80.00", link: "https://bestcar.example/en/account" };
 
 describe("renderNotification", () => {
   it("renders an email with subject, html and plain text", () => {

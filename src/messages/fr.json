@@ -476,6 +476,26 @@
     "payout_paid": {
       "subject": "Versement envoyé",
       "body": "Un versement de {amount} a été envoyé sur votre compte bancaire."
+    },
+    "licence_verified": {
+      "subject": "Votre permis de conduire est vérifié",
+      "body": "Bonne nouvelle : votre permis de conduire a été vérifié. Vous pouvez maintenant récupérer votre voiture."
+    },
+    "licence_rejected": {
+      "subject": "Votre permis de conduire n'a pas été approuvé",
+      "body": "Nous n'avons pas pu approuver votre permis de conduire. Motif : {note}. Connectez-vous pour envoyer de nouvelles photos."
+    },
+    "licence_expired": {
+      "subject": "Votre permis de conduire a expiré",
+      "body": "Votre permis vérifié a dépassé sa date d'expiration. Ajoutez un permis en cours de validité avant votre prochaine location."
+    },
+    "return_reminder": {
+      "subject": "Rappel de retour : {reference}",
+      "body": "Votre location {reference} doit être rendue le {dropoff}. Rendez la voiture à l'heure et avec le niveau de carburant convenu."
+    },
+    "review_request": {
+      "subject": "Comment s'est passée votre location {reference} ?",
+      "body": "Votre location {reference} est terminée. Merci de la noter : cela prend une minute et aide les autres locataires. Votre avis est publié quand le loueur vous aura aussi évalué, ou après 14 jours."
     }
   },
   "sms": {
@@ -522,5 +542,71 @@
     "pushIos": "Sur iPhone et iPad, ajoutez d'abord ce site à l'écran d'accueil.",
     "timezone": "Votre fuseau horaire",
     "error": "Une erreur est survenue. Veuillez réessayer."
+  },
+  "reviews": {
+    "title": "Avis",
+    "stars": "{n} sur 5",
+    "rate": "Notez votre location",
+    "overall": "Globalement",
+    "cleanliness": "Propreté",
+    "accuracy": "Exactitude de l'annonce",
+    "communication": "Communication",
+    "value": "Rapport qualité-prix",
+    "comment": "Votre avis (facultatif)",
+    "submit": "Envoyer l'avis",
+    "submitting": "Envoi...",
+    "thanks": "Merci ! Votre avis apparaîtra quand le loueur vous aura aussi évalué, ou après 14 jours.",
+    "submitted": "Votre avis a été envoyé.",
+    "pickOverall": "Veuillez choisir une note globale.",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "reply": "Réponse du loueur"
+  },
+  "disputes": {
+    "title": "Signaler un problème",
+    "intro": "Vous pouvez signaler un problème jusqu'à 48 heures après avoir rendu la voiture. Le versement au loueur est suspendu le temps du règlement.",
+    "type": "Quel type de problème ?",
+    "describe": "Que s'est-il passé ?",
+    "amountAsked": "Montant à rembourser (facultatif)",
+    "open": "Ouvrir un litige",
+    "deadline": "Répondre avant le {date}",
+    "offerFromProvider": "Le loueur demande {amount}.",
+    "message": "Ajouter un message",
+    "send": "Envoyer",
+    "accept": "Accepter l'offre",
+    "contest": "Demander à un arbitre de trancher",
+    "contestNote": "Je souhaite qu'un arbitre BestCar tranche.",
+    "yourOffer": "Votre offre",
+    "counter": "Contre-proposition",
+    "error": "Une erreur est survenue. Veuillez réessayer.",
+    "types": {
+      "listing_mismatch": "La voiture ne correspondait pas à la description",
+      "overcharge": "On m'a trop facturé",
+      "service_problem": "Un problème avec le service",
+      "damage": "Dommages",
+      "cleanliness_or_fees": "Nettoyage ou frais"
+    },
+    "status": {
+      "awaiting_response": "En attente de réponse",
+      "negotiating": "Négociation",
+      "agreed": "Accord trouvé",
+      "escalated": "Chez un arbitre BestCar",
+      "resolved": "Résolu",
+      "dismissed": "Clos"
+    },
+    "side": {
+      "customer": "Vous",
+      "provider": "Loueur",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "Ouverture",
+      "message": "Message",
+      "evidence": "Preuve",
+      "offer": "Offre",
+      "accept": "Acceptée",
+      "contest": "Contestée",
+      "escalate": "Escaladée",
+      "decision": "Décision"
+    }
   }
 }

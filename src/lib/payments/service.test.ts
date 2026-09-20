@@ -6,6 +6,8 @@ import {
   cancelBooking,
   confirmCheckout,
   handleStripeEvent,
+  captureDepositForBooking,
+  refundAmount,
   releaseDueDeposits,
   startCheckout,
   type BookingForPayment,
@@ -131,6 +133,7 @@ class SpyProvider extends SimulatedProvider implements PaymentProvider {
   charges = 0;
   refunds: RefundRequest[] = [];
   releases: string[] = [];
+  captures: { providerRef: string; amountMinor: number }[] = [];
   refundResult: RefundResult | null = null;
   override async createCharge(request: ChargeRequest): Promise<ProviderResult> {
     this.charges++;
@@ -142,6 +145,9 @@ class SpyProvider extends SimulatedProvider implements PaymentProvider {
   }
   override async releaseDeposit(providerRef: string): Promise<void> {
     this.releases.push(providerRef);
+  }
+  override async captureDeposit(providerRef: string, amountMinor: number): Promise<void> {
+    this.captures.push({ providerRef, amountMinor });
   }
 }
 
@@ -324,6 +330,41 @@ describe("handleStripeEvent", () => {
     await handleStripeEvent(deps, { kind: "charge_failed", providerRef: "pi_2", paymentId: "px", failureCode: "card_declined" });
     expect(repo.payments.get("px")).toMatchObject({ status: "failed", failure_code: "card_declined" });
     expect(repo.payments.get("pd")?.status).toBe("released");
+  });
+});
+
+describe("refundAmount", () => {
+  it("refunds part of a paid booking through the provider and records it once", async () => {
+    await pay();
+    const first = await refundAmount(deps, { bookingId: "b1", amountMinor: 5000, idempotencyKey: "dispute-refund:d1" });
+    expect(first).toEqual({ paymentId: expect.any(String) });
+    expect(provider.refunds.at(-1)).toMatchObject({ amountMinor: 5000 });
+    expect(repo.byKind("refund")[0]).toMatchObject({ amount_minor: 5000, status: "succeeded" });
+    const again = await refundAmount(deps, { bookingId: "b1", amountMinor: 5000, idempotencyKey: "dispute-refund:d1" });
+    expect(again?.paymentId).toBe(first?.paymentId);
+    expect(repo.byKind("refund")).toHaveLength(1);
+  });
+  it("returns null when the provider refuses, leaving a failed payment", async () => {
+    await pay();
+    provider.refundResult = { providerRef: "", status: "failed", failureCode: "declined" } as RefundResult;
+    expect(await refundAmount(deps, { bookingId: "b1", amountMinor: 5000, idempotencyKey: "k2" })).toBeNull();
+    expect(repo.byKind("refund")[0]?.status).toBe("failed");
+  });
+  it("refuses an unpaid booking", async () => {
+    repo.addBooking({ id: "b2", reference: "BC-NOPAY1" });
+    await expect(refundAmount(deps, { bookingId: "b2", amountMinor: 100, idempotencyKey: "k3" })).rejects.toBeInstanceOf(ConflictError);
+  });
+});
+
+describe("captureDepositForBooking", () => {
+  it("captures part of the held deposit with the provider", async () => {
+    await pay();
+    await captureDepositForBooking(deps, { bookingId: "b1", amountMinor: 4000 });
+    expect(provider.captures).toEqual([{ providerRef: expect.any(String), amountMinor: 4000 }]);
+  });
+  it("needs a held deposit", async () => {
+    repo.addBooking({ id: "b3", reference: "BC-NODEP1", payment_status: "paid", status: "completed" });
+    await expect(captureDepositForBooking(deps, { bookingId: "b3", amountMinor: 100 })).rejects.toBeInstanceOf(ConflictError);
   });
 });
 

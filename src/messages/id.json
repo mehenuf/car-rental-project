@@ -466,6 +466,26 @@
     "payout_paid": {
       "subject": "Pembayaran dikirim",
       "body": "Pembayaran sebesar {amount} telah dikirim ke rekening bank Anda."
+    },
+    "licence_verified": {
+      "subject": "SIM Anda terverifikasi",
+      "body": "Kabar baik: SIM Anda telah diverifikasi. Sekarang Anda dapat mengambil mobil sewaan."
+    },
+    "licence_rejected": {
+      "subject": "SIM Anda tidak disetujui",
+      "body": "Kami tidak dapat menyetujui SIM Anda. Alasan: {note}. Masuk untuk mengunggah foto baru."
+    },
+    "licence_expired": {
+      "subject": "SIM Anda telah kedaluwarsa",
+      "body": "SIM Anda yang terverifikasi telah melewati tanggal kedaluwarsa. Tambahkan SIM yang berlaku sebelum penyewaan berikutnya."
+    },
+    "return_reminder": {
+      "subject": "Pengingat pengembalian: {reference}",
+      "body": "Penyewaan {reference} harus dikembalikan pada {dropoff}. Kembalikan mobil tepat waktu dengan level bahan bakar yang disepakati."
+    },
+    "review_request": {
+      "subject": "Bagaimana penyewaan {reference} Anda?",
+      "body": "Penyewaan {reference} Anda telah selesai. Silakan beri penilaian: hanya semenit dan membantu penyewa lain. Ulasan Anda tampil setelah perusahaan rental juga menilai Anda, atau setelah 14 hari."
     }
   },
   "sms": {
@@ -512,5 +532,71 @@
     "pushIos": "Di iPhone dan iPad, tambahkan situs ini ke Layar Utama terlebih dahulu.",
     "timezone": "Zona waktu Anda",
     "error": "Terjadi kesalahan. Silakan coba lagi."
+  },
+  "reviews": {
+    "title": "Ulasan",
+    "stars": "{n} dari 5",
+    "rate": "Nilai penyewaan Anda",
+    "overall": "Keseluruhan",
+    "cleanliness": "Kebersihan",
+    "accuracy": "Kesesuaian iklan",
+    "communication": "Komunikasi",
+    "value": "Nilai untuk harga",
+    "comment": "Ulasan Anda (opsional)",
+    "submit": "Kirim ulasan",
+    "submitting": "Mengirim...",
+    "thanks": "Terima kasih! Ulasan Anda tampil setelah perusahaan rental juga menilai Anda, atau setelah 14 hari.",
+    "submitted": "Ulasan Anda telah dikirim.",
+    "pickOverall": "Pilih penilaian keseluruhan.",
+    "error": "Terjadi kesalahan. Silakan coba lagi.",
+    "reply": "Balasan dari perusahaan rental"
+  },
+  "disputes": {
+    "title": "Laporkan masalah",
+    "intro": "Anda dapat melaporkan masalah hingga 48 jam setelah mengembalikan mobil. Pembayaran ke perusahaan rental dijeda selama masalah diselesaikan.",
+    "type": "Jenis masalahnya?",
+    "describe": "Apa yang terjadi?",
+    "amountAsked": "Jumlah yang ingin dikembalikan (opsional)",
+    "open": "Buka sengketa",
+    "deadline": "Balas sebelum {date}",
+    "offerFromProvider": "Perusahaan rental meminta {amount}.",
+    "message": "Tambahkan pesan",
+    "send": "Kirim",
+    "accept": "Terima tawaran",
+    "contest": "Minta peninjau memutuskan",
+    "contestNote": "Saya ingin peninjau BestCar yang memutuskan.",
+    "yourOffer": "Tawaran Anda",
+    "counter": "Tawaran balik",
+    "error": "Terjadi kesalahan. Silakan coba lagi.",
+    "types": {
+      "listing_mismatch": "Mobil tidak sesuai deskripsi",
+      "overcharge": "Saya ditagih terlalu banyak",
+      "service_problem": "Masalah dengan layanan",
+      "damage": "Kerusakan",
+      "cleanliness_or_fees": "Pembersihan atau biaya"
+    },
+    "status": {
+      "awaiting_response": "Menunggu balasan",
+      "negotiating": "Bernegosiasi",
+      "agreed": "Disepakati",
+      "escalated": "Bersama peninjau BestCar",
+      "resolved": "Selesai",
+      "dismissed": "Ditutup"
+    },
+    "side": {
+      "customer": "Anda",
+      "provider": "Perusahaan rental",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "Dibuka",
+      "message": "Pesan",
+      "evidence": "Bukti",
+      "offer": "Tawaran",
+      "accept": "Diterima",
+      "contest": "Dibantah",
+      "escalate": "Dieskalasi",
+      "decision": "Keputusan"
+    }
   }
 }
