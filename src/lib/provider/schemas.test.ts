@@ -50,3 +50,28 @@ describe("ProviderReviewSchema", () => {
     expect(ProviderReviewSchema.safeParse({ decision: "delete" }).success).toBe(false);
   });
 });
+
+import { AvailabilitySchema, CreateUnitSchema, PayoutAccountSchema } from "@/lib/provider/schemas";
+
+describe("portal schemas", () => {
+  it("accepts a car with an optional first price", () => {
+    const r = CreateUnitSchema.safeParse({ vehicle_id: "11111111-1111-4111-8111-111111111111", branch_id: "3", plate: "ABC-123", daily_price: "48.5" });
+    expect(r.success).toBe(true);
+    if (r.success) expect(r.data.daily_price).toBe(48.5);
+    expect(CreateUnitSchema.safeParse({ vehicle_id: "nope", branch_id: 1, plate: "ABC-123" }).success).toBe(false);
+  });
+
+  it("validates availability periods", () => {
+    const unit = "11111111-1111-4111-8111-111111111111";
+    expect(AvailabilitySchema.safeParse({ kind: "window", fleet_unit_id: unit, start_date: "2030-03-01", end_date: "2030-03-05" }).success).toBe(true);
+    expect(AvailabilitySchema.safeParse({ kind: "block", fleet_unit_id: unit, start_date: "2030-03-01", end_date: "2030-03-05" }).success).toBe(false); // block needs a reason
+    expect(AvailabilitySchema.safeParse({ kind: "block", block_reason: "maintenance", fleet_unit_id: unit, start_date: "2030-03-01", end_date: "2030-03-05" }).success).toBe(true);
+    expect(AvailabilitySchema.safeParse({ kind: "window", fleet_unit_id: unit, start_date: "2030-03-05", end_date: "2030-03-01" }).success).toBe(false);
+    expect(AvailabilitySchema.safeParse({ kind: "window", fleet_unit_id: unit, start_date: "2030-01-01", end_date: "2031-06-01" }).success).toBe(false);
+  });
+
+  it("takes a full account number but the schema itself never returns more than validated text", () => {
+    expect(PayoutAccountSchema.safeParse({ account_holder: "Ola Owner", bank_name: "Test Bank", account_number: "GB29NWBK60161331926819", country_code: "gb" }).success).toBe(true);
+    expect(PayoutAccountSchema.safeParse({ account_holder: "Ola Owner", bank_name: "Test Bank", account_number: "12", country_code: "GB" }).success).toBe(false);
+  });
+});
