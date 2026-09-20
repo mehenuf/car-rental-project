@@ -440,5 +440,46 @@
     "note": "Ceci est un reçu de paiement. C'est le loueur qui émet la facture de la location.",
     "item": "Désignation",
     "amount": "Montant"
+  },
+  "email": {
+    "greeting": "Bonjour {name},",
+    "footer": "Vous recevez ce message à cause de votre réservation BestCar.",
+    "view": "Voir les détails",
+    "booking_confirmed": {
+      "subject": "Réservation confirmée : {reference}",
+      "body": "Votre paiement a été reçu et votre réservation {reference} est confirmée. Retrait : {pickup}. Connectez-vous pour voir l'adresse de retrait et les coordonnées."
+    },
+    "booking_cancelled": {
+      "subject": "Réservation annulée : {reference}",
+      "body": "Votre réservation {reference} a été annulée. Si un remboursement vous est dû, vous recevrez un message séparé."
+    },
+    "refund_issued": {
+      "subject": "Remboursement émis pour {reference}",
+      "body": "Un remboursement de la réservation {reference} a été émis. Il peut mettre quelques jours à apparaître sur votre compte."
+    },
+    "pickup_reminder": {
+      "subject": "Rappel de retrait : {reference}",
+      "body": "Le retrait de votre réservation {reference} a lieu le {pickup}. Pensez à apporter votre permis de conduire."
+    },
+    "new_message": {
+      "subject": "Nouveau message sur la réservation {reference}",
+      "body": "Vous avez un nouveau message sur la réservation {reference}. Connectez-vous pour le lire et répondre."
+    },
+    "new_booking": {
+      "subject": "Nouvelle réservation {reference}",
+      "body": "Une nouvelle réservation {reference} a été payée. Retrait : {pickup}."
+    },
+    "booking_cancelled_provider": {
+      "subject": "Réservation {reference} annulée",
+      "body": "La réservation {reference} a été annulée."
+    },
+    "payout_paid": {
+      "subject": "Versement envoyé",
+      "body": "Un versement de {amount} a été envoyé sur votre compte bancaire."
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar : réservation {reference} confirmée. Retrait {pickup}. Répondez STOP pour ne plus recevoir de SMS.",
+    "pickup_reminder": "BestCar : rappel, retrait de {reference} le {pickup}. Répondez STOP pour ne plus recevoir de SMS."
   }
 }

@@ -430,5 +430,46 @@
     "note": "Ini adalah tanda terima pembayaran. Faktur pajak untuk penyewaan diterbitkan oleh perusahaan rental.",
     "item": "Item",
     "amount": "Jumlah"
+  },
+  "email": {
+    "greeting": "Halo {name},",
+    "footer": "Anda menerima pesan ini karena pemesanan Anda di BestCar.",
+    "view": "Lihat detail",
+    "booking_confirmed": {
+      "subject": "Pemesanan dikonfirmasi: {reference}",
+      "body": "Pembayaran Anda diterima dan pemesanan {reference} dikonfirmasi. Pengambilan: {pickup}. Masuk untuk melihat alamat pengambilan dan kontak."
+    },
+    "booking_cancelled": {
+      "subject": "Pemesanan dibatalkan: {reference}",
+      "body": "Pemesanan {reference} dibatalkan. Jika Anda berhak atas pengembalian dana, Anda akan menerima pesan terpisah."
+    },
+    "refund_issued": {
+      "subject": "Pengembalian dana untuk {reference}",
+      "body": "Pengembalian dana untuk pemesanan {reference} telah diproses. Mungkin perlu beberapa hari hingga muncul di bank Anda."
+    },
+    "pickup_reminder": {
+      "subject": "Pengingat pengambilan: {reference}",
+      "body": "Pengambilan untuk pemesanan {reference} pada {pickup}. Harap bawa SIM Anda."
+    },
+    "new_message": {
+      "subject": "Pesan baru tentang pemesanan {reference}",
+      "body": "Anda punya pesan baru tentang pemesanan {reference}. Masuk untuk membaca dan membalas."
+    },
+    "new_booking": {
+      "subject": "Pemesanan baru {reference}",
+      "body": "Pemesanan baru {reference} telah dibayar. Pengambilan: {pickup}."
+    },
+    "booking_cancelled_provider": {
+      "subject": "Pemesanan {reference} dibatalkan",
+      "body": "Pemesanan {reference} dibatalkan."
+    },
+    "payout_paid": {
+      "subject": "Pembayaran dikirim",
+      "body": "Pembayaran sebesar {amount} telah dikirim ke rekening bank Anda."
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar: pemesanan {reference} dikonfirmasi. Pengambilan {pickup}. Balas STOP untuk berhenti.",
+    "pickup_reminder": "BestCar: pengingat, pengambilan {reference} pada {pickup}. Balas STOP untuk berhenti."
   }
 }

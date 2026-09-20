@@ -440,5 +440,46 @@
     "note": "Este es un recibo de pago. La empresa de alquiler emite la factura del alquiler.",
     "item": "Concepto",
     "amount": "Importe"
+  },
+  "email": {
+    "greeting": "Hola, {name}:",
+    "footer": "Recibes este mensaje por tu reserva en BestCar.",
+    "view": "Ver detalles",
+    "booking_confirmed": {
+      "subject": "Reserva confirmada: {reference}",
+      "body": "Hemos recibido tu pago y tu reserva {reference} está confirmada. Recogida: {pickup}. Inicia sesión para ver la dirección de recogida y los datos de contacto."
+    },
+    "booking_cancelled": {
+      "subject": "Reserva cancelada: {reference}",
+      "body": "Tu reserva {reference} se ha cancelado. Si te corresponde un reembolso, recibirás un mensaje aparte."
+    },
+    "refund_issued": {
+      "subject": "Reembolso emitido para {reference}",
+      "body": "Se ha emitido un reembolso de la reserva {reference}. Puede tardar unos días en aparecer en tu banco."
+    },
+    "pickup_reminder": {
+      "subject": "Recordatorio de recogida: {reference}",
+      "body": "La recogida de tu reserva {reference} es el {pickup}. Lleva tu permiso de conducir."
+    },
+    "new_message": {
+      "subject": "Nuevo mensaje sobre la reserva {reference}",
+      "body": "Tienes un mensaje nuevo sobre la reserva {reference}. Inicia sesión para leerlo y responder."
+    },
+    "new_booking": {
+      "subject": "Nueva reserva {reference}",
+      "body": "Se ha pagado una nueva reserva {reference}. Recogida: {pickup}."
+    },
+    "booking_cancelled_provider": {
+      "subject": "Reserva {reference} cancelada",
+      "body": "La reserva {reference} se ha cancelado."
+    },
+    "payout_paid": {
+      "subject": "Pago enviado",
+      "body": "Se ha enviado un pago de {amount} a tu cuenta bancaria."
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar: reserva {reference} confirmada. Recogida {pickup}. Responde STOP para no recibir más.",
+    "pickup_reminder": "BestCar: recordatorio, recogida de {reference} el {pickup}. Responde STOP para no recibir más."
   }
 }

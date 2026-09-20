@@ -480,5 +480,46 @@
     "note": "هذا إيصال دفع. تصدر شركة التأجير فاتورة الإيجار الضريبية.",
     "item": "البند",
     "amount": "المبلغ"
+  },
+  "email": {
+    "greeting": "مرحبًا {name}،",
+    "footer": "تصلك هذه الرسالة بسبب حجزك في BestCar.",
+    "view": "عرض التفاصيل",
+    "booking_confirmed": {
+      "subject": "تم تأكيد الحجز: {reference}",
+      "body": "تم استلام دفعتك وتأكيد حجزك {reference}. الاستلام: {pickup}. سجّل الدخول لرؤية عنوان الاستلام وبيانات التواصل."
+    },
+    "booking_cancelled": {
+      "subject": "تم إلغاء الحجز: {reference}",
+      "body": "تم إلغاء حجزك {reference}. إذا كان لك استرداد فستصلك رسالة منفصلة."
+    },
+    "refund_issued": {
+      "subject": "تم إصدار استرداد للحجز {reference}",
+      "body": "تم إصدار استرداد للحجز {reference}. قد يستغرق ظهوره في بنكك بضعة أيام."
+    },
+    "pickup_reminder": {
+      "subject": "تذكير بالاستلام: {reference}",
+      "body": "موعد استلام حجزك {reference} هو {pickup}. يرجى إحضار رخصة القيادة."
+    },
+    "new_message": {
+      "subject": "رسالة جديدة بخصوص الحجز {reference}",
+      "body": "لديك رسالة جديدة بخصوص الحجز {reference}. سجّل الدخول لقراءتها والرد."
+    },
+    "new_booking": {
+      "subject": "حجز جديد {reference}",
+      "body": "تم دفع حجز جديد {reference}. الاستلام: {pickup}."
+    },
+    "booking_cancelled_provider": {
+      "subject": "تم إلغاء الحجز {reference}",
+      "body": "تم إلغاء الحجز {reference}."
+    },
+    "payout_paid": {
+      "subject": "تم إرسال الدفعة",
+      "body": "تم إرسال دفعة بقيمة {amount} إلى حسابك المصرفي."
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar: تم تأكيد الحجز {reference}. الاستلام {pickup}. أرسل STOP لإيقاف الرسائل.",
+    "pickup_reminder": "BestCar: تذكير، استلام {reference} في {pickup}. أرسل STOP لإيقاف الرسائل."
   }
 }

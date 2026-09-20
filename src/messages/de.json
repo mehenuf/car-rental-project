@@ -440,5 +440,46 @@
     "note": "Dies ist ein Zahlungsbeleg. Die Rechnung für die Miete stellt die Autovermietung aus.",
     "item": "Position",
     "amount": "Betrag"
+  },
+  "email": {
+    "greeting": "Hallo {name},",
+    "footer": "Sie erhalten diese Nachricht wegen Ihrer BestCar-Buchung.",
+    "view": "Details ansehen",
+    "booking_confirmed": {
+      "subject": "Buchung bestätigt: {reference}",
+      "body": "Ihre Zahlung ist eingegangen und Ihre Buchung {reference} ist bestätigt. Abholung: {pickup}. Melden Sie sich an, um Abholadresse und Kontaktdaten zu sehen."
+    },
+    "booking_cancelled": {
+      "subject": "Buchung storniert: {reference}",
+      "body": "Ihre Buchung {reference} wurde storniert. Falls Ihnen eine Erstattung zusteht, erhalten Sie eine separate Nachricht."
+    },
+    "refund_issued": {
+      "subject": "Erstattung für {reference}",
+      "body": "Für die Buchung {reference} wurde eine Erstattung veranlasst. Sie kann einige Tage brauchen, bis sie bei Ihrer Bank erscheint."
+    },
+    "pickup_reminder": {
+      "subject": "Erinnerung an die Abholung: {reference}",
+      "body": "Die Abholung für Ihre Buchung {reference} ist am {pickup}. Bitte bringen Sie Ihren Führerschein mit."
+    },
+    "new_message": {
+      "subject": "Neue Nachricht zur Buchung {reference}",
+      "body": "Sie haben eine neue Nachricht zur Buchung {reference}. Melden Sie sich an, um sie zu lesen und zu antworten."
+    },
+    "new_booking": {
+      "subject": "Neue Buchung {reference}",
+      "body": "Eine neue Buchung {reference} wurde bezahlt. Abholung: {pickup}."
+    },
+    "booking_cancelled_provider": {
+      "subject": "Buchung {reference} storniert",
+      "body": "Die Buchung {reference} wurde storniert."
+    },
+    "payout_paid": {
+      "subject": "Auszahlung gesendet",
+      "body": "Eine Auszahlung von {amount} wurde auf Ihr Bankkonto überwiesen."
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar: Buchung {reference} bestätigt. Abholung {pickup}. Antworten Sie STOP zum Abmelden.",
+    "pickup_reminder": "BestCar: Erinnerung, Abholung für {reference} am {pickup}. Antworten Sie STOP zum Abmelden."
   }
 }

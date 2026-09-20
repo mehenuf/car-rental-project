@@ -430,5 +430,46 @@
     "note": "これはお支払いの領収書です。レンタルの税務上の請求書は、レンタカー会社が発行します。",
     "item": "項目",
     "amount": "金額"
+  },
+  "email": {
+    "greeting": "{name}さん、",
+    "footer": "このメールは BestCar のご予約に基づいてお送りしています。",
+    "view": "詳細を見る",
+    "booking_confirmed": {
+      "subject": "予約が確定しました：{reference}",
+      "body": "お支払いを確認し、ご予約 {reference} が確定しました。受け取り：{pickup}。ログインすると受け取り場所の住所と連絡先を確認できます。"
+    },
+    "booking_cancelled": {
+      "subject": "予約がキャンセルされました：{reference}",
+      "body": "ご予約 {reference} はキャンセルされました。返金がある場合は、別途ご連絡します。"
+    },
+    "refund_issued": {
+      "subject": "{reference} の返金",
+      "body": "ご予約 {reference} の返金を行いました。お取引の銀行に反映されるまで数日かかる場合があります。"
+    },
+    "pickup_reminder": {
+      "subject": "受け取りのお知らせ：{reference}",
+      "body": "ご予約 {reference} の受け取りは {pickup} です。運転免許証をお持ちください。"
+    },
+    "new_message": {
+      "subject": "ご予約 {reference} に関する新着メッセージ",
+      "body": "ご予約 {reference} に関する新しいメッセージがあります。ログインして確認・返信してください。"
+    },
+    "new_booking": {
+      "subject": "新しい予約 {reference}",
+      "body": "新しい予約 {reference} のお支払いがありました。受け取り：{pickup}。"
+    },
+    "booking_cancelled_provider": {
+      "subject": "予約 {reference} がキャンセルされました",
+      "body": "予約 {reference} はキャンセルされました。"
+    },
+    "payout_paid": {
+      "subject": "お支払いを送金しました",
+      "body": "{amount} をお客様の銀行口座に送金しました。"
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar：予約 {reference} 確定。受け取り {pickup}。配信停止は STOP と返信してください。",
+    "pickup_reminder": "BestCar：{reference} の受け取りは {pickup} です。配信停止は STOP と返信してください。"
   }
 }

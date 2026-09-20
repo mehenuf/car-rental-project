@@ -440,5 +440,46 @@
     "note": "Dit is een betalingsbewijs. De factuur voor de huur wordt door het verhuurbedrijf uitgegeven.",
     "item": "Omschrijving",
     "amount": "Bedrag"
+  },
+  "email": {
+    "greeting": "Hallo {name},",
+    "footer": "Je ontvangt dit bericht vanwege je BestCar-boeking.",
+    "view": "Details bekijken",
+    "booking_confirmed": {
+      "subject": "Boeking bevestigd: {reference}",
+      "body": "Je betaling is ontvangen en je boeking {reference} is bevestigd. Ophalen: {pickup}. Log in om het ophaaladres en de contactgegevens te zien."
+    },
+    "booking_cancelled": {
+      "subject": "Boeking geannuleerd: {reference}",
+      "body": "Je boeking {reference} is geannuleerd. Als je geld terugkrijgt, ontvang je daarover een apart bericht."
+    },
+    "refund_issued": {
+      "subject": "Terugbetaling voor {reference}",
+      "body": "Voor boeking {reference} is een terugbetaling gedaan. Het kan enkele dagen duren voordat deze op je rekening staat."
+    },
+    "pickup_reminder": {
+      "subject": "Herinnering ophalen: {reference}",
+      "body": "Het ophalen voor je boeking {reference} is op {pickup}. Neem je rijbewijs mee."
+    },
+    "new_message": {
+      "subject": "Nieuw bericht over boeking {reference}",
+      "body": "Je hebt een nieuw bericht over boeking {reference}. Log in om het te lezen en te antwoorden."
+    },
+    "new_booking": {
+      "subject": "Nieuwe boeking {reference}",
+      "body": "Een nieuwe boeking {reference} is betaald. Ophalen: {pickup}."
+    },
+    "booking_cancelled_provider": {
+      "subject": "Boeking {reference} geannuleerd",
+      "body": "Boeking {reference} is geannuleerd."
+    },
+    "payout_paid": {
+      "subject": "Uitbetaling verstuurd",
+      "body": "Een uitbetaling van {amount} is naar je bankrekening verstuurd."
+    }
+  },
+  "sms": {
+    "booking_confirmed": "BestCar: boeking {reference} bevestigd. Ophalen {pickup}. Antwoord STOP om je af te melden.",
+    "pickup_reminder": "BestCar: herinnering, ophalen van {reference} op {pickup}. Antwoord STOP om je af te melden."
   }
 }
