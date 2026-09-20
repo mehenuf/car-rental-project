@@ -17,6 +17,8 @@ describe("DriverProfileInputSchema", () => {
   });
   it("rejects an underage or impossible date of birth", () => {
     expect(parse({ ...valid, date_of_birth: "2015-01-01" }).success).toBe(false);
+    expect(parse({ ...valid, date_of_birth: "2009-06-15" }).success).toBe(false);
+    expect(parse({ ...valid, date_of_birth: "2008-09-20" }).success).toBe(true);
     expect(parse({ ...valid, date_of_birth: "1800-01-01" }).success).toBe(false);
     expect(parse({ ...valid, date_of_birth: "1990-13-45" }).success).toBe(false);
   });

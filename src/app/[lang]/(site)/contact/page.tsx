@@ -1,9 +1,10 @@
+import { pageMetadata } from "@/lib/seo/metadata";
 import { Mail, MessageCircle, Phone } from "lucide-react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { LiveChatTrigger } from "@/components/site/live-chat-trigger";
 import { getT } from "@/lib/i18n/dictionary";
 
-export const metadata = { title: "Contact Us" };
+export const generateMetadata = () => pageMetadata("/contact", { title: "Contact Us" });
 
 export default async function ContactPage() {
   const t = await getT();

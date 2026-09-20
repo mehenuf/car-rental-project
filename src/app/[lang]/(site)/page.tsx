@@ -1,4 +1,7 @@
+import { pageMetadata } from "@/lib/seo/metadata";
 import dynamic from "next/dynamic";
+import { jsonLdString, organizationLd } from "@/lib/seo/jsonld";
+import { siteUrl } from "@/lib/seo/urls";
 import { HeroSection } from "@/components/site/hero-section";
 import { SearchBar } from "@/components/site/search-bar";
 import { CarDealsSection } from "@/components/site/car-deals-section";
@@ -14,6 +17,7 @@ const DEALS_PAGE_SIZE = 8;
 // build time, since the homepage otherwise has no per-request dynamic
 // input (no searchParams/cookies) to force dynamic rendering on its own.
 export const revalidate = 60;
+export const generateMetadata = () => pageMetadata("/", {});
 
 // Below the fold on every viewport size — deferred so its JS doesn't
 // compete with the hero/search bar/deals for the initial render.
@@ -47,6 +51,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(organizationLd(siteUrl())) }} />
       <HeroSection />
       <SearchBar />
       <HowItWorksSection />

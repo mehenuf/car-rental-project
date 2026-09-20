@@ -1,3 +1,7 @@
+import { jsonLdString, vehicleLd } from "@/lib/seo/jsonld";
+import { localizedUrl } from "@/lib/seo/urls";
+import { getLocale } from "@/lib/i18n/dictionary";
+import { pageMetadata } from "@/lib/seo/metadata";
 import { notFound } from "next/navigation";
 import { Check, Cog, DoorOpen, Fuel as FuelIcon, Star, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -20,10 +24,10 @@ export async function generateMetadata({
   const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) return {};
 
-  return {
+  return pageMetadata(`/cars/${slug}`, {
     title: `${vehicle.name} — ${vehicle.brand}`,
     description: `Rent the ${vehicle.name} from ${vehicle.brand}. ${vehicle.category} category, rated ${vehicle.rating.toFixed(1)}/5 from ${vehicle.review_count} reviews.`,
-  };
+  });
 }
 
 function toBranchId(value: string | undefined): number | undefined {
@@ -46,6 +50,7 @@ export default async function VehicleDetailPage({
   const { slug } = await params;
   const { pickupDate, dropoffDate, pickupLocationId, dropoffLocationId } = await searchParams;
   const t = await getT();
+  const locale = await getLocale();
 
   const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) notFound();
@@ -60,6 +65,7 @@ export default async function VehicleDetailPage({
 
   return (
     <div className="mx-auto max-w-7xl px-(--space-sm) py-(--space-lg)">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(vehicleLd(vehicle, localizedUrl(locale, `/cars/${slug}`))) }} />
       <div className="grid grid-cols-1 gap-(--space-lg) lg:grid-cols-[1.6fr_1fr] lg:items-start">
         <div className="flex flex-col gap-(--space-lg)">
           <VehicleGallery images={images} name={vehicle.name} />
