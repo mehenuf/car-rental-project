@@ -1,4 +1,4 @@
-import { CalendarDays, Car, LayoutDashboard, Settings } from "lucide-react";
+import { CalendarDays, Car, LayoutDashboard, Settings, Tag } from "lucide-react";
 import type { AdminNavGroup } from "@/lib/admin-nav";
 import type { ProviderRole } from "@/lib/provider/permissions";
 import type { ProviderType } from "@/types/database";
@@ -25,6 +25,7 @@ export function providerNav(type: ProviderType, role: ProviderRole): AdminNavGro
       items: [
         { label: individual ? "My cars" : "Fleet", href: "/provider/fleet", icon: Car },
         { label: individual ? "Availability" : "Calendar", href: "/provider/calendar", icon: CalendarDays },
+        { label: "Pricing", href: "/provider/pricing", icon: Tag },
         { label: "Settings", href: "/provider/settings", icon: Settings },
       ],
     },
