@@ -360,6 +360,108 @@ export type MessageRow = {
   read_at: string | null;
 };
 
+export type ReviewRow = {
+  id: string;
+  booking_id: string;
+  direction: "customer_to_provider" | "provider_to_customer";
+  author_user_id: string | null;
+  subject_provider_id: string | null;
+  subject_user_id: string | null;
+  vehicle_id: string | null;
+  overall: number;
+  aspects: Record<string, number>;
+  comment: string | null;
+  status: "hidden" | "published" | "removed";
+  submitted_at: string;
+  published_at: string | null;
+  edited_at: string | null;
+  removed_reason: string | null;
+};
+
+export type ReviewReplyRow = {
+  review_id: string;
+  provider_id: string;
+  author_user_id: string | null;
+  body: string;
+  created_at: string;
+};
+
+export type ReviewReportRow = {
+  id: string;
+  review_id: string;
+  reporter_user_id: string | null;
+  reason: string;
+  status: "open" | "actioned" | "dismissed";
+  created_at: string;
+};
+
+export type ProviderRatingRow = {
+  provider_id: string;
+  review_count: number;
+  rating_sum: number;
+  bayes_score: number;
+  updated_at: string;
+};
+
+export type DisputeRow = {
+  id: string;
+  booking_id: string;
+  opened_by_side: "customer" | "provider";
+  opened_by: string | null;
+  type: "damage" | "cleanliness_or_fees" | "listing_mismatch" | "overcharge" | "service_problem";
+  status: "awaiting_response" | "negotiating" | "agreed" | "escalated" | "resolved" | "dismissed";
+  currency: string;
+  claimed_amount_minor: number | null;
+  offer_minor: number | null;
+  offer_by_side: "customer" | "provider" | null;
+  offer_count: number;
+  agreed_amount_minor: number | null;
+  resolution: "capture" | "refund" | "dismiss" | null;
+  deadline_at: string;
+  resolved_at: string | null;
+  resolved_by: string | null;
+  created_at: string;
+};
+
+export type DisputeEventRow = {
+  id: number;
+  dispute_id: string;
+  actor_side: "customer" | "provider" | "platform";
+  actor_user_id: string | null;
+  kind: "open" | "message" | "evidence" | "offer" | "accept" | "contest" | "escalate" | "decision";
+  body: string | null;
+  amount_minor: number | null;
+  photo_paths: string[];
+  created_at: string;
+};
+
+export type ReportRow = {
+  id: string;
+  kind: "listing" | "user" | "message" | "review";
+  target_id: string;
+  reporter_user_id: string | null;
+  reason: string;
+  status: "open" | "actioned" | "dismissed";
+  handled_by: string | null;
+  handled_at: string | null;
+  created_at: string;
+};
+
+export type InsuranceAttestationRow = {
+  provider_id: string;
+  version: string;
+  accepted_by: string | null;
+  accepted_at: string;
+};
+
+export type UserFlagRow = {
+  user_id: string;
+  suspended: boolean;
+  reason: string | null;
+  updated_by: string | null;
+  updated_at: string;
+};
+
 export type GuestClaimRow = {
   id: string;
   user_id: string;
@@ -417,6 +519,8 @@ export type BookingRow = {
   payment_status: "unpaid" | "paid" | "refunded" | "partially_refunded";
   hold_expires_at: string | null;
   completed_at: string | null;
+  risk_flags: string[];
+  risk_status: "clear" | "held" | "cleared";
   pickup_at: string;
   dropoff_at: string;
   /** Generated column (`greatest(1, extract(day from dropoff_at - pickup_at))`), read-only. */
@@ -680,6 +784,60 @@ export interface Database {
         Update: Partial<MessageRow>;
         Relationships: [];
       };
+      reviews: {
+        Row: ReviewRow;
+        Insert: InsertOf<ReviewRow, "booking_id" | "direction" | "overall">;
+        Update: Partial<ReviewRow>;
+        Relationships: [];
+      };
+      review_replies: {
+        Row: ReviewReplyRow;
+        Insert: InsertOf<ReviewReplyRow, "review_id" | "provider_id" | "body">;
+        Update: Partial<ReviewReplyRow>;
+        Relationships: [];
+      };
+      review_reports: {
+        Row: ReviewReportRow;
+        Insert: InsertOf<ReviewReportRow, "review_id" | "reason">;
+        Update: Partial<ReviewReportRow>;
+        Relationships: [];
+      };
+      provider_ratings: {
+        Row: ProviderRatingRow;
+        Insert: InsertOf<ProviderRatingRow, "provider_id">;
+        Update: Partial<ProviderRatingRow>;
+        Relationships: [];
+      };
+      disputes: {
+        Row: DisputeRow;
+        Insert: InsertOf<DisputeRow, "booking_id" | "opened_by_side" | "type" | "currency" | "deadline_at">;
+        Update: Partial<DisputeRow>;
+        Relationships: [];
+      };
+      dispute_events: {
+        Row: DisputeEventRow;
+        Insert: InsertOf<DisputeEventRow, "dispute_id" | "actor_side" | "kind">;
+        Update: Partial<DisputeEventRow>;
+        Relationships: [];
+      };
+      reports: {
+        Row: ReportRow;
+        Insert: InsertOf<ReportRow, "kind" | "target_id" | "reason">;
+        Update: Partial<ReportRow>;
+        Relationships: [];
+      };
+      insurance_attestations: {
+        Row: InsuranceAttestationRow;
+        Insert: InsertOf<InsuranceAttestationRow, "provider_id" | "version">;
+        Update: Partial<InsuranceAttestationRow>;
+        Relationships: [];
+      };
+      user_flags: {
+        Row: UserFlagRow;
+        Insert: InsertOf<UserFlagRow, "user_id">;
+        Update: Partial<UserFlagRow>;
+        Relationships: [];
+      };
       guest_claims: {
         Row: GuestClaimRow;
         Insert: InsertOf<GuestClaimRow, "user_id" | "booking_id">;
@@ -734,6 +892,8 @@ export interface Database {
           created_at?: string | null;
         };
         Update: {
+          risk_status?: "clear" | "held" | "cleared";
+          risk_flags?: string[];
           id?: string;
           reference?: string;
           vehicle_id?: string | null;
@@ -905,8 +1065,32 @@ export interface Database {
       claim_pending_events: { Args: { p_limit: number }; Returns: OutboxEventRow[] };
       claim_due_notifications: { Args: { p_limit: number }; Returns: NotificationDbRow[] };
       provider_recipients: { Args: { p_provider_id: string }; Returns: { user_id: string; email: string }[] };
+      expire_licences: { Args: Record<PropertyKey, never>; Returns: number };
       enqueue_due_reminders: { Args: { p_now?: string }; Returns: number };
       issue_receipt: { Args: { p_payment_id: string }; Returns: ReceiptRow };
+      submit_review: {
+        Args: { p_booking_id: string; p_direction: string; p_author: string; p_overall: number; p_aspects: Json; p_comment: string | null };
+        Returns: ReviewRow;
+      };
+      edit_review: { Args: { p_review_id: string; p_author: string; p_overall: number; p_aspects: Json | null; p_comment: string | null }; Returns: ReviewRow };
+      publish_due_reviews: { Args: { p_now?: string }; Returns: number };
+      reply_to_review: { Args: { p_review_id: string; p_author: string; p_body: string }; Returns: ReviewReplyRow };
+      remove_review: { Args: { p_review_id: string; p_reason: string }; Returns: ReviewRow };
+      open_dispute: {
+        Args: { p_booking_id: string; p_side: string; p_user: string; p_type: string; p_claimed_minor: number | null; p_body: string; p_photo_paths?: string[] };
+        Returns: DisputeRow;
+      };
+      respond_dispute: {
+        Args: { p_dispute_id: string; p_side: string; p_user: string; p_action: string; p_body?: string | null; p_amount?: number | null; p_photo_paths?: string[] };
+        Returns: DisputeRow;
+      };
+      escalate_dispute: { Args: { p_dispute_id: string; p_side: string; p_user: string; p_body: string | null }; Returns: DisputeRow };
+      expire_disputes: { Args: { p_now?: string }; Returns: number };
+      resolve_dispute: {
+        Args: { p_dispute_id: string; p_resolution: string; p_amount: number | null; p_actor: string; p_actor_side: string; p_note?: string | null; p_refund_payment_id?: string | null };
+        Returns: DisputeRow;
+      };
+      evaluate_booking_risk: { Args: { p_booking_id: string }; Returns: string[] };
       claim_guest_bookings: { Args: { p_user_id: string; p_email: string }; Returns: number };
       expire_stale_holds: {
         Args: Record<PropertyKey, never>;

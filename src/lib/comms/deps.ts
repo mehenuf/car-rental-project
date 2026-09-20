@@ -94,7 +94,12 @@ async function recipientsFor(event: OutboxEvent): Promise<Recipient[]> {
     case "booking_confirmed":
     case "booking_cancelled":
     case "refund_issued":
-    case "pickup_reminder": {
+    case "pickup_reminder":
+    case "return_reminder":
+    case "review_request":
+    case "licence_verified":
+    case "licence_rejected":
+    case "licence_expired": {
       const email = str("email");
       if (!email) return [];
       return [await loadRecipient({ userId: str("user_id"), email, name: str("name") ?? "", fallbackLocale: event.locale, area: "account" })];

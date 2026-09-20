@@ -476,6 +476,26 @@
     "payout_paid": {
       "subject": "Auszahlung gesendet",
       "body": "Eine Auszahlung von {amount} wurde auf Ihr Bankkonto überwiesen."
+    },
+    "licence_verified": {
+      "subject": "Ihr Führerschein ist bestätigt",
+      "body": "Gute Nachrichten: Ihr Führerschein wurde bestätigt. Sie können Ihren Mietwagen jetzt abholen."
+    },
+    "licence_rejected": {
+      "subject": "Ihr Führerschein wurde nicht akzeptiert",
+      "body": "Wir konnten Ihren Führerschein nicht akzeptieren. Grund: {note}. Melden Sie sich an, um neue Fotos hochzuladen."
+    },
+    "licence_expired": {
+      "subject": "Ihr Führerschein ist abgelaufen",
+      "body": "Ihr bestätigter Führerschein hat sein Ablaufdatum überschritten. Fügen Sie vor Ihrer nächsten Miete einen gültigen hinzu."
+    },
+    "return_reminder": {
+      "subject": "Erinnerung an die Rückgabe: {reference}",
+      "body": "Ihr Mietwagen {reference} ist am {dropoff} zurückzugeben. Bitte geben Sie das Auto pünktlich und mit dem vereinbarten Tankstand zurück."
+    },
+    "review_request": {
+      "subject": "Wie war Ihre Miete {reference}?",
+      "body": "Ihre Miete {reference} ist abgeschlossen. Bitte bewerten Sie sie: Das dauert eine Minute und hilft anderen Mietern. Ihre Bewertung erscheint, sobald die Autovermietung Sie ebenfalls bewertet hat, oder nach 14 Tagen."
     }
   },
   "sms": {
@@ -522,5 +542,71 @@
     "pushIos": "Auf iPhone und iPad fügen Sie diese Website zuerst zum Home-Bildschirm hinzu.",
     "timezone": "Ihre Zeitzone",
     "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+  },
+  "reviews": {
+    "title": "Bewertungen",
+    "stars": "{n} von 5",
+    "rate": "Bewerten Sie Ihre Miete",
+    "overall": "Gesamt",
+    "cleanliness": "Sauberkeit",
+    "accuracy": "Richtigkeit der Anzeige",
+    "communication": "Kommunikation",
+    "value": "Preis-Leistung",
+    "comment": "Ihre Bewertung (optional)",
+    "submit": "Bewertung abschicken",
+    "submitting": "Wird gesendet...",
+    "thanks": "Danke! Ihre Bewertung erscheint, sobald die Autovermietung Sie ebenfalls bewertet hat, oder nach 14 Tagen.",
+    "submitted": "Ihre Bewertung wurde abgeschickt.",
+    "pickOverall": "Bitte wählen Sie eine Gesamtbewertung.",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "reply": "Antwort der Autovermietung"
+  },
+  "disputes": {
+    "title": "Problem melden",
+    "intro": "Sie können ein Problem bis zu 48 Stunden nach der Rückgabe melden. Die Auszahlung an die Autovermietung ist währenddessen pausiert.",
+    "type": "Um welche Art von Problem geht es?",
+    "describe": "Was ist passiert?",
+    "amountAsked": "Betrag, der erstattet werden soll (optional)",
+    "open": "Streitfall eröffnen",
+    "deadline": "Antwort bis {date}",
+    "offerFromProvider": "Die Autovermietung fordert {amount}.",
+    "message": "Nachricht hinzufügen",
+    "send": "Senden",
+    "accept": "Angebot annehmen",
+    "contest": "Einen Prüfer entscheiden lassen",
+    "contestNote": "Ich möchte, dass ein BestCar-Prüfer entscheidet.",
+    "yourOffer": "Ihr Angebot",
+    "counter": "Gegenangebot",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "types": {
+      "listing_mismatch": "Das Auto entsprach nicht der Beschreibung",
+      "overcharge": "Mir wurde zu viel berechnet",
+      "service_problem": "Ein Problem mit dem Service",
+      "damage": "Schaden",
+      "cleanliness_or_fees": "Reinigung oder Gebühren"
+    },
+    "status": {
+      "awaiting_response": "Wartet auf Antwort",
+      "negotiating": "In Verhandlung",
+      "agreed": "Einigung erzielt",
+      "escalated": "Bei einem BestCar-Prüfer",
+      "resolved": "Gelöst",
+      "dismissed": "Geschlossen"
+    },
+    "side": {
+      "customer": "Sie",
+      "provider": "Autovermietung",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "Eröffnet",
+      "message": "Nachricht",
+      "evidence": "Nachweis",
+      "offer": "Angebot",
+      "accept": "Angenommen",
+      "contest": "Bestritten",
+      "escalate": "Eskaliert",
+      "decision": "Entscheidung"
+    }
   }
 }

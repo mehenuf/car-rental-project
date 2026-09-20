@@ -12,6 +12,11 @@ export const TEMPLATE_NAMES = [
   "new_booking",
   "booking_cancelled_provider",
   "payout_paid",
+  "licence_verified",
+  "licence_rejected",
+  "licence_expired",
+  "return_reminder",
+  "review_request",
 ] as const;
 export type TemplateName = (typeof TEMPLATE_NAMES)[number];
 

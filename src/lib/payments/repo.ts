@@ -189,6 +189,17 @@ export const paymentsRepo: PaymentsRepo = {
     if (bookingError) throw new Error(`payments repo (dueDeposits): ${bookingError.message}`);
 
     const due = new Set((bookings ?? []).map((b) => b.id));
+    if (due.size === 0) return [];
+
+    // A deposit stays held while a dispute about the booking is unresolved.
+    const { data: open, error: disputeError } = await supabaseAdmin
+      .from("disputes")
+      .select("booking_id")
+      .in("booking_id", [...due])
+      .not("status", "in", "(resolved,dismissed)");
+    if (disputeError) throw new Error(`payments repo (dueDeposits): ${disputeError.message}`);
+    for (const d of open ?? []) due.delete(d.booking_id);
+
     return deposits.filter((d) => due.has(d.booking_id)).map(toRecord);
   },
 };

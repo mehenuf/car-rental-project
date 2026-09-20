@@ -476,6 +476,26 @@
     "payout_paid": {
       "subject": "Payout sent",
       "body": "A payout of {amount} was sent to your bank account."
+    },
+    "licence_verified": {
+      "subject": "Your driver's licence is verified",
+      "body": "Good news: your driver's licence was verified. You can now collect your rental car."
+    },
+    "licence_rejected": {
+      "subject": "Your driver's licence was not approved",
+      "body": "We could not approve your driver's licence. Reason: {note}. Sign in to upload new photos."
+    },
+    "licence_expired": {
+      "subject": "Your driver's licence has expired",
+      "body": "Your verified driver's licence has passed its expiry date. Add a current licence before your next rental."
+    },
+    "return_reminder": {
+      "subject": "Return reminder: {reference}",
+      "body": "Your rental {reference} is due back on {dropoff}. Please return the car on time and with the agreed fuel level."
+    },
+    "review_request": {
+      "subject": "How was your rental {reference}?",
+      "body": "Your rental {reference} is complete. Please rate it. It takes a minute and helps other renters. Your review appears once the rental company has reviewed you too, or after 14 days."
     }
   },
   "sms": {
@@ -522,5 +542,71 @@
     "pushIos": "On iPhone and iPad, add this site to your Home Screen first.",
     "timezone": "Your time zone",
     "error": "Something went wrong. Please try again."
+  },
+  "reviews": {
+    "title": "Reviews",
+    "stars": "{n} out of 5",
+    "rate": "Rate your rental",
+    "overall": "Overall",
+    "cleanliness": "Cleanliness",
+    "accuracy": "Accuracy of the listing",
+    "communication": "Communication",
+    "value": "Value",
+    "comment": "Your review (optional)",
+    "submit": "Submit review",
+    "submitting": "Submitting...",
+    "thanks": "Thank you! Your review appears once the rental company has reviewed you too, or after 14 days.",
+    "submitted": "Your review has been submitted.",
+    "pickOverall": "Please choose an overall rating.",
+    "error": "Something went wrong. Please try again.",
+    "reply": "Reply from the rental company"
+  },
+  "disputes": {
+    "title": "Report a problem",
+    "intro": "You can report a problem up to 48 hours after returning the car. The rental company's payout is paused while it is sorted out.",
+    "type": "What kind of problem?",
+    "describe": "What happened?",
+    "amountAsked": "Amount you would like refunded (optional)",
+    "open": "Open a dispute",
+    "deadline": "Reply by {date}",
+    "offerFromProvider": "The rental company is asking for {amount}.",
+    "message": "Add a message",
+    "send": "Send",
+    "accept": "Accept the offer",
+    "contest": "Ask a reviewer to decide",
+    "contestNote": "I would like a BestCar reviewer to decide.",
+    "yourOffer": "Your offer",
+    "counter": "Counter offer",
+    "error": "Something went wrong. Please try again.",
+    "types": {
+      "listing_mismatch": "The car was not as described",
+      "overcharge": "I was charged too much",
+      "service_problem": "A problem with the service",
+      "damage": "Damage",
+      "cleanliness_or_fees": "Cleaning or fees"
+    },
+    "status": {
+      "awaiting_response": "Waiting for a reply",
+      "negotiating": "Negotiating",
+      "agreed": "Agreed",
+      "escalated": "With a BestCar reviewer",
+      "resolved": "Resolved",
+      "dismissed": "Closed"
+    },
+    "side": {
+      "customer": "You",
+      "provider": "Rental company",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "Opened",
+      "message": "Message",
+      "evidence": "Evidence",
+      "offer": "Offer",
+      "accept": "Accepted",
+      "contest": "Contested",
+      "escalate": "Escalated",
+      "decision": "Decision"
+    }
   }
 }

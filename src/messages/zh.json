@@ -466,6 +466,26 @@
     "payout_paid": {
       "subject": "结算款已发出",
       "body": "{amount} 的结算款已发送至您的银行账户。"
+    },
+    "licence_verified": {
+      "subject": "您的驾驶证已验证",
+      "body": "好消息：您的驾驶证已通过验证，现在可以取车了。"
+    },
+    "licence_rejected": {
+      "subject": "您的驾驶证未通过审核",
+      "body": "我们无法通过您的驾驶证审核。原因：{note}。请登录后重新上传照片。"
+    },
+    "licence_expired": {
+      "subject": "您的驾驶证已过期",
+      "body": "您已验证的驾驶证已超过有效期。请在下次租车前添加有效的驾驶证。"
+    },
+    "return_reminder": {
+      "subject": "还车提醒：{reference}",
+      "body": "您的租车 {reference} 应于 {dropoff} 归还。请按时还车，并保持约定的油量。"
+    },
+    "review_request": {
+      "subject": "您的租车 {reference} 体验如何？",
+      "body": "您的租车 {reference} 已完成。请为它评分：只需一分钟，也能帮助其他租车用户。租车公司也评价您后，或 14 天后，您的评价才会公开。"
     }
   },
   "sms": {
@@ -512,5 +532,71 @@
     "pushIos": "在 iPhone 和 iPad 上，请先将此网站添加到主屏幕。",
     "timezone": "您的时区",
     "error": "出了点问题，请重试。"
+  },
+  "reviews": {
+    "title": "评价",
+    "stars": "{n} 分（满分 5 分）",
+    "rate": "为您的租车评分",
+    "overall": "总体",
+    "cleanliness": "清洁度",
+    "accuracy": "描述准确度",
+    "communication": "沟通",
+    "value": "性价比",
+    "comment": "您的评价（选填）",
+    "submit": "提交评价",
+    "submitting": "提交中...",
+    "thanks": "谢谢！租车公司也评价您后，或 14 天后，您的评价才会公开。",
+    "submitted": "您的评价已提交。",
+    "pickOverall": "请选择总体评分。",
+    "error": "出了点问题，请重试。",
+    "reply": "租车公司的回复"
+  },
+  "disputes": {
+    "title": "报告问题",
+    "intro": "还车后 48 小时内可报告问题。处理期间，租车公司的结算款会暂停。",
+    "type": "是哪类问题？",
+    "describe": "发生了什么？",
+    "amountAsked": "希望退还的金额（选填）",
+    "open": "发起争议",
+    "deadline": "请在 {date} 前回复",
+    "offerFromProvider": "租车公司要求 {amount}。",
+    "message": "添加消息",
+    "send": "发送",
+    "accept": "接受报价",
+    "contest": "请审核员裁决",
+    "contestNote": "我希望由 BestCar 审核员裁决。",
+    "yourOffer": "您的报价",
+    "counter": "还价",
+    "error": "出了点问题，请重试。",
+    "types": {
+      "listing_mismatch": "车辆与描述不符",
+      "overcharge": "我被多收了费用",
+      "service_problem": "服务方面的问题",
+      "damage": "损坏",
+      "cleanliness_or_fees": "清洁或费用"
+    },
+    "status": {
+      "awaiting_response": "等待回复",
+      "negotiating": "协商中",
+      "agreed": "已达成一致",
+      "escalated": "由 BestCar 审核员处理",
+      "resolved": "已解决",
+      "dismissed": "已关闭"
+    },
+    "side": {
+      "customer": "您",
+      "provider": "租车公司",
+      "platform": "BestCar"
+    },
+    "kind": {
+      "open": "已发起",
+      "message": "消息",
+      "evidence": "证据",
+      "offer": "报价",
+      "accept": "已接受",
+      "contest": "已提出异议",
+      "escalate": "已升级",
+      "decision": "裁决"
+    }
   }
 }

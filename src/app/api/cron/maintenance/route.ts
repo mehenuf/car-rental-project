@@ -24,6 +24,16 @@ async function run(request: NextRequest) {
   const { data: paidOut, error: payoutError } = await supabaseAdmin.rpc("run_payouts");
   if (payoutError) throw new Error(`run_payouts: ${payoutError.message}`);
 
+  // Licences past their expiry date stop counting (the pickup gate also checks the date itself).
+  const { data: expiredLicences, error: licenceError } = await supabaseAdmin.rpc("expire_licences");
+  if (licenceError) throw new Error(`expire_licences: ${licenceError.message}`);
+
+  // Reviews whose 14 days have ended appear; unanswered disputes go to a reviewer after 72 hours.
+  const { data: published, error: publishError } = await supabaseAdmin.rpc("publish_due_reviews");
+  if (publishError) throw new Error(`publish_due_reviews: ${publishError.message}`);
+  const { data: escalated, error: escalateError } = await supabaseAdmin.rpc("expire_disputes");
+  if (escalateError) throw new Error(`expire_disputes: ${escalateError.message}`);
+
   // Queue due pickup reminders, then send everything waiting (also retries earlier failures).
   const { data: reminders, error: reminderError } = await supabaseAdmin.rpc("enqueue_due_reminders");
   if (reminderError) throw new Error(`enqueue_due_reminders: ${reminderError.message}`);
@@ -33,6 +43,9 @@ async function run(request: NextRequest) {
     expired_holds: expired ?? 0,
     released_deposits: releasedDeposits,
     payouts_paid: paidOut ?? 0,
+    licences_expired: expiredLicences ?? 0,
+    reviews_published: published ?? 0,
+    disputes_escalated: escalated ?? 0,
     reminders_queued: reminders ?? 0,
     ...dispatched,
   });

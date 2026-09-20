@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react";
-import { Building2, IdCard, LayoutDashboard, Package, Receipt, Users } from "lucide-react";
+import { Building2, IdCard, LayoutDashboard, Package, Receipt, ShieldAlert, Users } from "lucide-react";
 
 export interface AdminNavItem {
   label: string;
@@ -26,6 +26,7 @@ export const ADMIN_NAV: AdminNavGroup[] = [
       { label: "Leads", href: "/admin/leads", icon: Users },
       { label: "Providers", href: "/admin/providers", icon: Building2 },
       { label: "Licences", href: "/admin/licences", icon: IdCard },
+      { label: "Trust and safety", href: "/admin/trust", icon: ShieldAlert },
     ],
   },
 ];

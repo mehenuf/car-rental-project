@@ -10,6 +10,7 @@ export function buildParams(event: OutboxEvent, recipient: Recipient, baseUrl: s
   const p = event.payload;
   const str = (key: string) => (typeof p[key] === "string" ? (p[key] as string) : "");
   const pickupAt = str("pickup_at");
+  const dropoffAt = str("dropoff_at");
 
   let amount = "";
   if (typeof p.amount_minor === "number" && typeof p.currency === "string") {
@@ -22,6 +23,8 @@ export function buildParams(event: OutboxEvent, recipient: Recipient, baseUrl: s
   return {
     name: recipient.name || recipient.email,
     reference: str("reference"),
+    dropoff: dropoffAt ? formatDateLocale(dropoffAt, recipient.locale, recipient.timezone) : "",
+    note: str("note"),
     pickup: pickupAt ? formatDateLocale(pickupAt, recipient.locale, recipient.timezone) : "",
     amount,
     link: baseUrl.replace(/\/$/, "") + withLocale(recipient.locale, path),

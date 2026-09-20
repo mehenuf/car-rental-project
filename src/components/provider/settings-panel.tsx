@@ -1,5 +1,6 @@
 "use client";
 
+import { AttestationCard } from "@/components/provider/attestation-card";
 import { useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -236,6 +237,7 @@ export function SettingsPanel({ individual, role }: { individual: boolean; role:
     { title: individual ? "Pick-up location" : "Branches", body: <BranchesSection canEdit={canEdit} individual={individual} /> },
     { title: "Payout account", body: <PayoutAccountForm canEdit={owner} /> },
     { title: "Verification documents", body: <DocumentsSection /> },
+    ...(individual ? [{ title: "Insurance", body: <AttestationCard /> }] : []),
   ];
   return (
     <div className="flex flex-col gap-(--space-md)">

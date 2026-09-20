@@ -14,6 +14,9 @@ select test.assert(exists (select 1 from free_units('11111111-1111-1111-1111-111
 insert into fleet_units (id, provider_id, branch_id, vehicle_id, plate, listing_status) values
   ('eeeeeeee-0000-0000-0000-000000000070', 'bbbbbbbb-0000-0000-0000-000000000070', 970, '33333333-3333-3333-3333-333333333333', 'OLA-MINI', 'draft');
 select test.assert(not exists (select 1 from free_units('33333333-3333-3333-3333-333333333333', 970, 970, '2032-01-01 10:00+00', '2032-01-02 10:00+00')), 'a draft car is not offered');
+-- A private owner must accept the insurance declaration before a car can be submitted.
+select test.expect_error($$update fleet_units set listing_status = 'pending_review' where id = 'eeeeeeee-0000-0000-0000-000000000070'$$, 'BS001');
+insert into insurance_attestations (provider_id, version) values ('bbbbbbbb-0000-0000-0000-000000000070', '2026-09');
 update fleet_units set listing_status = 'pending_review' where id = 'eeeeeeee-0000-0000-0000-000000000070';
 select test.assert(not exists (select 1 from free_units('33333333-3333-3333-3333-333333333333', 970, 970, '2032-01-01 10:00+00', '2032-01-02 10:00+00')), 'a car pending review is not offered');
 update fleet_units set listing_status = 'approved' where id = 'eeeeeeee-0000-0000-0000-000000000070';
