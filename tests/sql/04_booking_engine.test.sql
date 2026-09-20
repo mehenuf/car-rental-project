@@ -83,5 +83,5 @@ select transition_booking(id, 'cancelled') from bookings where reference = 'BC-T
 select create_booking_atomic('11111111-1111-1111-1111-111111111111', 1, 1, '2030-03-01 10:00+00', '2030-03-03 10:00+00', 'P', 'p@example.com', 96, 'BC-T00017');
 
 -- Only the service role may call the engine.
-select test.assert(not has_function_privilege('anon', 'create_booking_atomic(uuid,integer,integer,timestamp with time zone,timestamp with time zone,text,text,numeric,text,text,text,text,uuid,uuid)', 'execute'), 'anon cannot execute create_booking_atomic');
-select test.assert(has_function_privilege('service_role', 'create_booking_atomic(uuid,integer,integer,timestamp with time zone,timestamp with time zone,text,text,numeric,text,text,text,text,uuid,uuid)', 'execute'), 'service_role can execute create_booking_atomic');
+select test.assert(not has_function_privilege('anon', 'create_booking_atomic(uuid,integer,integer,timestamp with time zone,timestamp with time zone,text,text,numeric,text,text,text,text,uuid,uuid,jsonb)', 'execute'), 'anon cannot execute create_booking_atomic');
+select test.assert(has_function_privilege('service_role', 'create_booking_atomic(uuid,integer,integer,timestamp with time zone,timestamp with time zone,text,text,numeric,text,text,text,text,uuid,uuid,jsonb)', 'execute'), 'service_role can execute create_booking_atomic');
