@@ -26,7 +26,7 @@ export async function SiteFooter() {
   ];
 
   return (
-    <footer className="border-t border-border bg-card">
+    <footer className="border-t border-border bg-card [content-visibility:auto] [contain-intrinsic-size:auto_360px]">
       <div className="mx-auto flex max-w-7xl flex-col gap-(--space-lg) px-(--space-sm) py-(--space-lg)">
         <div className="grid grid-cols-1 gap-(--space-md) sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div className="flex flex-col gap-(--space-xs)">

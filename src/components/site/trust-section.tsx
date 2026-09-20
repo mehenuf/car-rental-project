@@ -8,7 +8,7 @@ const ITEMS = ["verified", "price", "deposit", "reviews", "disputes", "languages
 export async function TrustSection() {
   const t = await getT();
   return (
-    <section id="trust" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
+    <section id="trust" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl) [content-visibility:auto] [contain-intrinsic-size:auto_640px]">
       <div className="grid grid-cols-1 gap-(--space-xl) lg:grid-cols-[0.8fr_1.2fr] lg:items-start">
         <ScrollReveal className="flex flex-col gap-(--space-md) lg:sticky lg:top-24">
           <h2 className="font-heading text-3xl font-bold leading-tight text-foreground sm:text-4xl">{t("landing.trust.title")}</h2>

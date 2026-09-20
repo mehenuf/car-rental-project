@@ -97,7 +97,7 @@ export function SiteHeader() {
   const displayName = fullName || user?.email || "";
 
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-card/95 backdrop-blur-sm supports-backdrop-filter:bg-card/85">
+    <header className="sticky top-0 z-40 border-b border-border bg-card">
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-(--space-sm) px-(--space-sm)">
         <Link
           href="/"

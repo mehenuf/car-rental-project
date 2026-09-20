@@ -12,7 +12,7 @@
  */
 @theme inline {
   /* One calm motion language: every `transition` utility eases out softly instead of the stiff browser default. */
-  --default-transition-duration: 240ms;
+  --default-transition-duration: 160ms;
   --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -311,23 +311,12 @@ html {
 }
 
 /* ---- Hero scene: the few bespoke keyframes behind the 2.5D night-drive opening ---- */
-@keyframes hero-streak-run {
-  from { stroke-dashoffset: 220; }
-  to { stroke-dashoffset: -2400; }
-}
-.hero-streak {
-  animation-name: hero-streak-run;
-  animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
-  animation-iteration-count: infinite;
-  filter: drop-shadow(0 0 6px currentColor);
-}
-
 @keyframes hero-breathe {
-  from { transform: scale(1); opacity: 0.45; }
-  to { transform: scale(1.14); opacity: 0.7; }
+  from { opacity: 0.7; }
+  to { opacity: 1; }
 }
 .hero-breathe {
-  animation: hero-breathe 9s ease-in-out infinite alternate;
+  animation: hero-breathe 8s ease-in-out infinite alternate;
 }
 
 /* Each title line rises out of its own mask, one after the other. */
@@ -348,18 +337,8 @@ html {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-streak { animation: none; stroke-dasharray: none; opacity: 0.35; }
   .hero-breathe { animation: none; }
   .hero-line { animation: none; }
-}
-
-/* Route changes: the new page settles in instead of snapping. */
-@keyframes page-in {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: none; }
-}
-.animate-page-in {
-  animation: page-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
 /* Tactile feedback for everything pressable, without shifting layout. */
@@ -390,9 +369,14 @@ a, button, [role="button"], [role="option"], [role="radio"] {
 [data-hero-root] > [data-layer="streaks"] {
   animation: hero-layer-in 1600ms ease-out 200ms both;
 }
-@media (max-width: 1023px) {
-  .hero-streak { filter: none; }
-}
 
 /* Returning visitors who already answered never see the cookie card (see root-shell.tsx). */
 html[data-consent="set"] [data-consent-banner] { display: none; }
+
+/* Native scrolling: the browser's own scrolling responds instantly, so the page never trails the wheel or finger. In-page links glide. */
+html {
+  scroll-padding-top: 5rem;
+}
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}

@@ -24,7 +24,7 @@ export function HeroScene() {
   preload(HERO_LG, { as: "image", imageSrcSet: `${HERO_SM} 900w, ${HERO_LG} 1920w`, imageSizes: "100vw", fetchPriority: "high" });
   return (
     <div className="absolute inset-0 overflow-hidden" aria-hidden="true">
-      <div data-hero-root className="absolute inset-0 [perspective:1400px] [transform-style:preserve-3d]">
+      <div data-hero-root className="absolute inset-0">
         <div
           data-layer="sky"
           className="absolute -inset-[6%]"
@@ -51,38 +51,30 @@ export function HeroScene() {
           />
         </div>
 
-        <div data-layer="glow" className="pointer-events-none absolute -inset-[8%]">
-          <div className="hero-breathe absolute -bottom-[10%] start-[8%] h-[70%] w-[60%] rounded-full opacity-60 blur-3xl" style={{ background: "radial-gradient(closest-side, oklch(0.78 0.15 80 / 0.55), transparent)" }} />
-          <div className="hero-breathe absolute end-[4%] top-[28%] h-[45%] w-[38%] rounded-full opacity-50 blur-3xl [animation-delay:-4s]" style={{ background: "radial-gradient(closest-side, oklch(0.62 0.2 25 / 0.5), transparent)" }} />
+        {/* Headlight glow: soft radial gradients (no blur filter, which is costly to repaint) on one layer whose opacity
+            slowly breathes, so the browser animates it on the GPU without repainting. */}
+        <div data-layer="glow" className="hero-breathe pointer-events-none absolute -inset-[8%]">
+          <div className="absolute -bottom-[10%] start-[8%] h-[70%] w-[60%] opacity-60" style={{ background: "radial-gradient(closest-side, oklch(0.78 0.15 80 / 0.5), transparent)" }} />
+          <div className="absolute end-[4%] top-[28%] h-[45%] w-[38%] opacity-50" style={{ background: "radial-gradient(closest-side, oklch(0.62 0.2 25 / 0.45), transparent)" }} />
         </div>
 
-        <svg data-layer="streaks" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" className="pointer-events-none absolute -inset-[6%] h-[112%] w-[112%] mix-blend-screen">
+        <svg data-layer="streaks" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid slice" className="hero-streaks pointer-events-none absolute -inset-[6%] h-[112%] w-[112%]">
           {STREAKS.map((s, i) => (
             <g key={i}>
-              <path d={s.d} fill="none" stroke={s.color} strokeWidth={s.width * 5} strokeLinecap="round" opacity="0.12" />
-              <path
-                className="hero-streak"
-                d={s.d}
-                fill="none"
-                stroke={s.color}
-                strokeWidth={s.width}
-                strokeLinecap="round"
-                pathLength={2400}
-                strokeDasharray="220 2180"
-                style={{ animationDuration: `${s.dur}s`, animationDelay: `${s.delay}s` }}
-              />
+              <path d={s.d} fill="none" stroke={s.color} strokeWidth={s.width * 4} strokeLinecap="round" opacity="0.1" />
+              <path d={s.d} fill="none" stroke={s.color} strokeWidth={s.width} strokeLinecap="round" opacity="0.55" />
             </g>
           ))}
         </svg>
 
-        <div data-layer="bloom" className="pointer-events-none absolute start-[34%] top-[26%] hidden size-[34rem] rounded-full opacity-40 mix-blend-screen blur-2xl lg:block" style={{ background: "radial-gradient(closest-side, oklch(0.82 0.14 80 / 0.5), transparent)" }} />
+        <div data-layer="bloom" className="pointer-events-none absolute start-[34%] top-[26%] hidden size-[34rem] rounded-full opacity-35 lg:block" style={{ background: "radial-gradient(closest-side, oklch(0.82 0.14 80 / 0.45), transparent)" }} />
 
         <div data-layer="dust" className="pointer-events-none absolute -inset-[8%]" />
 
         <div data-layer="vignette" className="pointer-events-none absolute -inset-[8%]">
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/55 to-background/5" />
           <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/45 to-transparent" />
-          <div className="absolute inset-0" style={{ boxShadow: "inset 0 0 220px 40px oklch(0.1 0.02 255 / 0.85)" }} />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,transparent_55%,oklch(0.1_0.02_255/0.7))]" />
         </div>
       </div>
       <HeroEffectsLoader />

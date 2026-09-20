@@ -24,7 +24,7 @@ export async function ReviewsSection({ reviews }: { reviews: FeaturedReview[] })
   if (!lead) return null;
 
   return (
-    <section id="reviews" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
+    <section id="reviews" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl) [content-visibility:auto] [contain-intrinsic-size:auto_640px]">
       <ScrollReveal className="flex flex-col gap-2">
         <h2 className="font-heading text-3xl font-bold text-foreground">{t("landing.reviews.title")}</h2>
         <p className="max-w-xl text-muted-foreground">{t("landing.reviews.subtitle")}</p>

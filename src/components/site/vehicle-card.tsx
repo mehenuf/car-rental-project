@@ -1,6 +1,5 @@
 "use client";
 
-import { useEffect, useRef } from "react";
 import { Link } from "@/lib/i18n/link";
 import { Heart } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -13,9 +12,6 @@ import { cn } from "@/lib/utils";
 import type { VehicleCardData } from "@/lib/queries";
 import { useLocale, useT } from "@/lib/i18n/provider";
 
-/** Maximum tilt in degrees: a hint of depth, not a gimmick. */
-const MAX_TILT_DEG = 6;
-
 export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData; searchQuery?: string }) {
   const t = useT();
   const locale = useLocale();
@@ -23,38 +19,10 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(vehicle.id);
   const soldOut = !vehicle.available || vehicle.stock <= 0;
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  // A slight 3D tilt that follows the mouse, driven by CSS variables so it costs no animation library. It only runs
-  // for mouse users who have not asked for reduced motion.
-  useEffect(() => {
-    const card = cardRef.current;
-    if (!card || !window.matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)").matches) return;
-    const onMove = (e: MouseEvent) => {
-      const rect = card.getBoundingClientRect();
-      const px = (e.clientX - rect.left) / rect.width - 0.5;
-      const py = (e.clientY - rect.top) / rect.height - 0.5;
-      card.style.setProperty("--ry", `${px * MAX_TILT_DEG * 2}deg`);
-      card.style.setProperty("--rx", `${-py * MAX_TILT_DEG * 2}deg`);
-      card.style.setProperty("--lift", "12px");
-    };
-    const onLeave = () => {
-      card.style.setProperty("--ry", "0deg");
-      card.style.setProperty("--rx", "0deg");
-      card.style.setProperty("--lift", "0px");
-    };
-    card.addEventListener("mousemove", onMove);
-    card.addEventListener("mouseleave", onLeave);
-    return () => {
-      card.removeEventListener("mousemove", onMove);
-      card.removeEventListener("mouseleave", onLeave);
-    };
-  }, []);
 
   return (
     <Card
-      ref={cardRef}
-      className="group animate-in fade-in slide-in-from-bottom-3 gap-0 overflow-hidden p-0 shadow-card ring-0 duration-500 [transform-style:preserve-3d] [transform:perspective(800px)_rotateX(var(--rx,0deg))_rotateY(var(--ry,0deg))_translateZ(var(--lift,0px))] transition-[transform,box-shadow] hover:shadow-xl"
+      className="group animate-in fade-in gap-0 overflow-hidden p-0 shadow-card ring-0 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="flex items-center justify-between gap-2 px-(--space-sm) pt-(--space-sm)">
         <span className="truncate font-heading text-sm font-semibold text-foreground">
