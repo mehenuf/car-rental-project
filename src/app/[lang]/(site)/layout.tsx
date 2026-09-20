@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { SiteHeader } from "@/components/site/site-header";
 import { ChatWidget } from "@/components/site/chat-widget";
+import { LocationProvider } from "@/components/location/location-provider";
 import { SmoothScrollProvider } from "@/components/site/smooth-scroll-provider";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -23,12 +24,14 @@ const SiteFooter = dynamic(
 export default function SiteLayout({ children }: { children: ReactNode }) {
   return (
     <SmoothScrollProvider>
-      <SiteHeader />
-      <main id="main-content" className="flex-1">
-        {children}
-      </main>
-      <SiteFooter />
-      <ChatWidget />
+      <LocationProvider>
+        <SiteHeader />
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
+        <SiteFooter />
+        <ChatWidget />
+      </LocationProvider>
     </SmoothScrollProvider>
   );
 }

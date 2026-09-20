@@ -743,5 +743,14 @@
       "title": "Ce que disent les locataires",
       "subtitle": "Les avis viennent uniquement de personnes ayant terminé une location."
     }
+  },
+  "location": {
+    "placeholder": "Cherchez une ville, une agence ou un pays",
+    "choose": "Choisissez votre lieu",
+    "nearYou": "Près de vous",
+    "empty": "Aucun lieu ne correspond à « {query} »",
+    "guessed": "Nous l'avons choisi d'après votre connexion. Modifiez-le à tout moment.",
+    "showing": "Voitures affichées à {place}.",
+    "showAll": "Voir tous les lieux"
   }
 }

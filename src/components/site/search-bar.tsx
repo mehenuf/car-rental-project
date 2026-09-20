@@ -2,28 +2,16 @@
 
 import { useMemo, useState } from "react";
 import { useLocaleRouter, useT } from "@/lib/i18n/provider";
-import { MapPin, Search } from "lucide-react";
+import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { DatePickerField, FIELD_CLASS } from "@/components/site/date-picker-field";
+import { DatePickerField } from "@/components/site/date-picker-field";
+import { PlaceCombobox } from "@/components/location/place-combobox";
+import { useLocation } from "@/components/location/location-provider";
+import type { Place } from "@/lib/location/places";
 import { TimeSelectField } from "@/components/site/time-select-field";
 import { DEFAULT_TIME, combineDateAndTime } from "@/lib/booking-time";
-import { useApiData } from "@/hooks/use-api-data";
 import { toApiDate } from "@/lib/date-range";
-
-interface Location {
-  id: number;
-  city: string;
-  country: string;
-  country_code: string;
-}
 
 
 function startOfToday(): Date {
@@ -35,7 +23,7 @@ function startOfToday(): Date {
 export function SearchBar() {
   const router = useLocaleRouter();
   const t = useT();
-  const { data: locations } = useApiData<Location[]>("/api/locations");
+  const { places, selected, detected, select } = useLocation();
 
   const today = useMemo(() => startOfToday(), []);
   const tomorrow = useMemo(() => {
@@ -44,17 +32,19 @@ export function SearchBar() {
     return d;
   }, [today]);
 
-  const [pickupLocationId, setPickupLocationId] = useState("");
-  const [dropoffLocationId, setDropoffLocationId] = useState("");
+  const [pickupPlace, setPickupPlace] = useState<Place | null>(null);
+  const [dropoffPlace, setDropoffPlace] = useState<Place | null>(null);
   const [pickupDate, setPickupDate] = useState<Date | undefined>(today);
   const [dropoffDate, setDropoffDate] = useState<Date | undefined>(tomorrow);
   const [pickupTime, setPickupTime] = useState(DEFAULT_TIME);
   const [dropoffTime, setDropoffTime] = useState(DEFAULT_TIME);
   const [error, setError] = useState<string | null>(null);
 
-  const firstLocationId = locations?.[0] ? String(locations[0].id) : "";
-  const effectivePickup = pickupLocationId || firstLocationId;
-  const effectiveDropoff = dropoffLocationId || firstLocationId;
+  // Pick-up defaults to the place chosen in the header (or guessed for the visitor); drop-off defaults to pick-up.
+  const pickup = pickupPlace ?? selected ?? places[0] ?? null;
+  const dropoff = dropoffPlace ?? pickup;
+  const effectivePickup = pickup ? String(pickup.id) : "";
+  const effectiveDropoff = dropoff ? String(dropoff.id) : "";
 
   function handlePickupDateChange(date: Date | undefined) {
     setPickupDate(date);
@@ -91,11 +81,14 @@ export function SearchBar() {
       <Card className="shadow-card ring-0">
         <div className="flex flex-col divide-y divide-border lg:flex-row lg:divide-x lg:divide-y-0">
           <RentalLeg
-            id="pickup"
             heading={t("search.pickUp")}
-            locations={locations ?? []}
-            locationId={effectivePickup}
-            onLocationChange={setPickupLocationId}
+            places={places}
+            place={pickup}
+            onPlaceChange={(place) => {
+              setPickupPlace(place);
+              select(place);
+            }}
+            detected={detected}
             date={pickupDate}
             onDateChange={handlePickupDateChange}
             minDate={today}
@@ -103,11 +96,11 @@ export function SearchBar() {
             onTimeChange={setPickupTime}
           />
           <RentalLeg
-            id="dropoff"
             heading={t("search.dropOff")}
-            locations={locations ?? []}
-            locationId={effectiveDropoff}
-            onLocationChange={setDropoffLocationId}
+            places={places}
+            place={dropoff}
+            onPlaceChange={setDropoffPlace}
+            detected={null}
             date={dropoffDate}
             onDateChange={setDropoffDate}
             minDate={pickupDate ?? today}
@@ -134,22 +127,22 @@ export function SearchBar() {
 }
 
 function RentalLeg({
-  id,
   heading,
-  locations,
-  locationId,
-  onLocationChange,
+  places,
+  place,
+  onPlaceChange,
+  detected,
   date,
   onDateChange,
   minDate,
   time,
   onTimeChange,
 }: {
-  id: string;
   heading: string;
-  locations: Location[];
-  locationId: string;
-  onLocationChange: (id: string) => void;
+  places: Place[];
+  place: Place | null;
+  onPlaceChange: (place: Place) => void;
+  detected: Place | null;
   date: Date | undefined;
   onDateChange: (date: Date | undefined) => void;
   minDate: Date;
@@ -161,38 +154,7 @@ function RentalLeg({
     <div className="flex flex-1 flex-col gap-(--space-sm) p-(--space-sm)">
       <span className="text-sm font-semibold text-accent-text">{heading}</span>
       <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-3">
-        <div className="flex flex-col gap-1.5">
-          <span id={`${id}-location-label`} className="text-xs font-medium text-muted-foreground">
-            {t("search.location")}
-          </span>
-          <Select value={locationId} onValueChange={(value) => onLocationChange(value ?? "")}>
-            <SelectTrigger
-              aria-labelledby={`${id}-location-label`}
-              className={`${FIELD_CLASS} h-auto gap-2`}
-            >
-              <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent-text"><MapPin className="size-4" aria-hidden="true" /></span>
-              {/* Full "City, Country" only in the open list, where there's
-                  room — the closed trigger uses the 2-letter country code
-                  so a long name (e.g. "United Arab Emirates") never
-                  truncates mid-word against the chevron. */}
-              <SelectValue placeholder={t("search.selectCity")}>
-                {(value: string | null) => {
-                  const selected = locations.find((loc) => String(loc.id) === value);
-                  return selected
-                    ? `${selected.city}, ${selected.country_code.toUpperCase()}`
-                    : t("search.selectCity");
-                }}
-              </SelectValue>
-            </SelectTrigger>
-            <SelectContent>
-              {locations.map((loc) => (
-                <SelectItem key={loc.id} value={String(loc.id)}>
-                  {loc.city}, {loc.country}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+        <PlaceCombobox label={t("search.location")} places={places} value={place} onChange={onPlaceChange} detected={detected} />
 
         <DatePickerField
           label={t("search.date")}

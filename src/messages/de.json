@@ -742,5 +742,14 @@
       "title": "Was Mieter sagen",
       "subtitle": "Bewertungen stammen nur von Menschen, die eine Fahrt abgeschlossen haben."
     }
+  },
+  "location": {
+    "placeholder": "Stadt, Filiale oder Land suchen",
+    "choose": "Standort wählen",
+    "nearYou": "In Ihrer Nähe",
+    "empty": "Kein Standort passt zu „{query}“",
+    "guessed": "Wir haben das anhand Ihrer Verbindung gewählt. Sie können es jederzeit ändern.",
+    "showing": "Autos in {place}.",
+    "showAll": "Alle Standorte anzeigen"
   }
 }

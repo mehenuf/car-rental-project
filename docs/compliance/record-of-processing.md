@@ -11,3 +11,4 @@
 | Audit log | Security, accountability | Legitimate interest | Kept; personal fields redacted in exports | Append-only |
 
 `apply_retention` (run daily by the maintenance cron) currently purges notifications, outbox events, rate-limit rows and anonymous consent records using days from `retention_rules`. Time-based purging of licence documents and messages is a known gap to settle with counsel.
+| Location choice (`bc_loc` cookie) | Show cars near the place the visitor picked | Legitimate interest (functional preference) | 1 year in the visitor's browser; holds only a branch id | Location picker |

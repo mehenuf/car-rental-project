@@ -742,5 +742,14 @@
       "title": "Wat huurders zeggen",
       "subtitle": "Beoordelingen komen alleen van mensen die een rit hebben afgerond."
     }
+  },
+  "location": {
+    "placeholder": "Zoek stad, vestiging of land",
+    "choose": "Kies je locatie",
+    "nearYou": "In de buurt",
+    "empty": "Geen locaties gevonden voor \"{query}\"",
+    "guessed": "We hebben dit gekozen op basis van je verbinding. Wijzig het wanneer je wilt.",
+    "showing": "Auto's in {place}.",
+    "showAll": "Alle locaties tonen"
   }
 }

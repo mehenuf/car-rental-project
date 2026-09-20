@@ -726,7 +726,7 @@ export async function updateBookingStatus(
 // getLocations — powers the customer site's pick-up/drop-off dropdowns.
 // ---------------------------------------------------------------
 
-export type BranchOption = Pick<Tables<"branches">, "id" | "city" | "country" | "country_code">;
+export type BranchOption = Pick<Tables<"branches">, "id" | "name" | "city" | "country" | "country_code">;
 
 /** Pick-up/drop-off options: active branches of approved providers. Same
  * ids as the legacy `locations` rows, so existing URLs keep working. */
@@ -739,7 +739,7 @@ export async function getLocations(): Promise<BranchOption[]> {
 
   const { data, error } = await supabaseAdmin
     .from("branches")
-    .select("id, city, country, country_code")
+    .select("id, name, city, country, country_code")
     .eq("is_active", true)
     .in("provider_id", (providers ?? []).map((p) => p.id))
     .order("city", { ascending: true });
@@ -758,5 +758,16 @@ export async function getVehicleTranslation(vehicleId: string, lang: string) {
     .eq("lang", lang as "de")
     .maybeSingle();
   if (error) throw new Error(`getVehicleTranslation: ${error.message}`);
+  return data ?? null;
+}
+
+/** One active branch as a place (used to say where a list of cars is being shown). */
+export async function getBranchPlace(id: number): Promise<BranchOption | null> {
+  const { data } = await supabaseAdmin
+    .from("branches")
+    .select("id, name, city, country, country_code")
+    .eq("id", id)
+    .eq("is_active", true)
+    .maybeSingle();
   return data ?? null;
 }

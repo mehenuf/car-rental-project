@@ -743,5 +743,14 @@
       "title": "O que dizem os locatários",
       "subtitle": "As avaliações vêm só de quem concluiu uma viagem."
     }
+  },
+  "location": {
+    "placeholder": "Busque cidade, filial ou país",
+    "choose": "Escolha sua localização",
+    "nearYou": "Perto de você",
+    "empty": "Nenhum local corresponde a \"{query}\"",
+    "guessed": "Escolhemos isto pela sua conexão. Você pode mudar quando quiser.",
+    "showing": "Mostrando carros em {place}.",
+    "showAll": "Ver todos os locais"
   }
 }

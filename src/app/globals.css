@@ -11,6 +11,9 @@
  * hardcode a raw hex/rgb/px value in a component.
  */
 @theme inline {
+  /* One calm motion language: every `transition` utility eases out softly instead of the stiff browser default. */
+  --default-transition-duration: 240ms;
+  --default-transition-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-script, var(--font-inter));
@@ -305,4 +308,64 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+/* ---- Hero scene: the few bespoke keyframes behind the 2.5D night-drive opening ---- */
+@keyframes hero-streak-run {
+  from { stroke-dashoffset: 220; }
+  to { stroke-dashoffset: -2400; }
+}
+.hero-streak {
+  animation-name: hero-streak-run;
+  animation-timing-function: cubic-bezier(0.45, 0, 0.2, 1);
+  animation-iteration-count: infinite;
+  filter: drop-shadow(0 0 6px currentColor);
+}
+
+@keyframes hero-breathe {
+  from { transform: scale(1); opacity: 0.45; }
+  to { transform: scale(1.14); opacity: 0.7; }
+}
+.hero-breathe {
+  animation: hero-breathe 9s ease-in-out infinite alternate;
+}
+
+/* Each title line rises out of its own mask, one after the other. */
+.hero-line-mask {
+  display: block;
+  overflow: hidden;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+@keyframes hero-line-rise {
+  from { transform: translateY(105%); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+.hero-line {
+  display: block;
+  animation: hero-line-rise 1100ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: calc(250ms + var(--i, 0) * 140ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-streak { animation: none; stroke-dasharray: none; opacity: 0.35; }
+  .hero-breathe { animation: none; }
+  .hero-line { animation: none; }
+}
+
+/* Route changes: the new page settles in instead of snapping. */
+@keyframes page-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.animate-page-in {
+  animation: page-in 460ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Tactile feedback for everything pressable, without shifting layout. */
+a, button, [role="button"], [role="option"], [role="radio"] {
+  -webkit-tap-highlight-color: transparent;
+}
+@media (hover: hover) {
+  a:not([class*="no-lift"]):active, [role="option"]:active { opacity: 0.85; }
 }

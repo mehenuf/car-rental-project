@@ -19,6 +19,7 @@ import { supabase } from "@/lib/supabase";
 import { useSupabaseUser } from "@/hooks/use-supabase-user";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { initialsFor } from "@/lib/format";
+import { LocationChip } from "@/components/location/location-chip";
 import { LanguageSwitcher } from "@/components/site/language-switcher";
 import { useLocale, useT } from "@/lib/i18n/provider";
 import { directionOf } from "@/lib/i18n/locales";
@@ -105,6 +106,8 @@ export function SiteHeader() {
           <Car className="size-6 text-accent-text" />
           {t("common.brand")}
         </Link>
+
+        <LocationChip className="h-11 min-w-11 px-2 md:h-8" />
 
         <nav className="ms-4 hidden items-center gap-4 md:flex lg:ms-6 lg:gap-6">
           {SITE_NAV_LINKS.map((link) => (

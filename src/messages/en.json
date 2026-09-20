@@ -742,5 +742,14 @@
       "title": "What renters say",
       "subtitle": "Reviews come only from people who completed a trip."
     }
+  },
+  "location": {
+    "placeholder": "Search city, branch or country",
+    "choose": "Choose your location",
+    "nearYou": "Near you",
+    "empty": "No locations match \"{query}\"",
+    "guessed": "We picked this from your connection. Change it any time.",
+    "showing": "Showing cars in {place}.",
+    "showAll": "Show all locations"
   }
 }

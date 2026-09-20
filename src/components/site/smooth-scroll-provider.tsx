@@ -45,6 +45,9 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       duration: 1.15,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      // In-page links (#search-bar, #how-it-works) glide instead of jumping.
+      anchors: { offset: -80 },
+      wheelMultiplier: 0.9,
       // Lists that scroll on their own (language menu, time slots, selects, dialogs) must keep their wheel and touch
       // events, otherwise the smoothing layer swallows them and the list cannot be scrolled.
       prevent: (node) => node.closest(SELF_SCROLLING) !== null,

@@ -731,5 +731,14 @@
       "title": "租客怎么说",
       "subtitle": "评价只来自完成行程的人。"
     }
+  },
+  "location": {
+    "placeholder": "搜索城市、门店或国家",
+    "choose": "选择您的所在地",
+    "nearYou": "您附近",
+    "empty": "没有与“{query}”匹配的地点",
+    "guessed": "我们根据您的网络连接选择了这里，您可随时更改。",
+    "showing": "正在显示{place}的车辆。",
+    "showAll": "显示所有地点"
   }
 }

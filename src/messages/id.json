@@ -731,5 +731,14 @@
       "title": "Kata para penyewa",
       "subtitle": "Ulasan hanya datang dari orang yang menyelesaikan perjalanan."
     }
+  },
+  "location": {
+    "placeholder": "Cari kota, cabang, atau negara",
+    "choose": "Pilih lokasi Anda",
+    "nearYou": "Dekat Anda",
+    "empty": "Tidak ada lokasi yang cocok dengan \"{query}\"",
+    "guessed": "Kami memilih ini dari koneksi Anda. Ubah kapan saja.",
+    "showing": "Menampilkan mobil di {place}.",
+    "showAll": "Tampilkan semua lokasi"
   }
 }

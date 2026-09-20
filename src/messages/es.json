@@ -743,5 +743,14 @@
       "title": "Lo que dicen los clientes",
       "subtitle": "Las opiniones solo vienen de quienes completaron un viaje."
     }
+  },
+  "location": {
+    "placeholder": "Busca ciudad, sucursal o país",
+    "choose": "Elige tu ubicación",
+    "nearYou": "Cerca de ti",
+    "empty": "Ninguna ubicación coincide con \"{query}\"",
+    "guessed": "Lo elegimos según tu conexión. Puedes cambiarlo cuando quieras.",
+    "showing": "Mostrando coches en {place}.",
+    "showAll": "Ver todas las ubicaciones"
   }
 }

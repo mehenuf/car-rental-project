@@ -10,6 +10,9 @@ import { getVehicleCards } from "@/lib/queries";
 import { VehiclesQuerySchema, searchParamsToObject } from "@/lib/schemas";
 import { formatDate } from "@/lib/format";
 import { getLocale, getT } from "@/lib/i18n/dictionary";
+import { getBranchPlace } from "@/lib/queries";
+import { placeLabel } from "@/lib/location/places";
+import { cookies } from "next/headers";
 
 const PAGE_SIZE = 12;
 
@@ -57,6 +60,15 @@ export async function CarsPageContent({
   }
   const searchQuery = carried.toString();
 
+  // Where to look: an explicit place in the URL, else the place the visitor chose in the header (unless they asked for
+  // every car). The choice is a small cookie set by the location picker.
+  const showAll = params.get("all") === "1";
+  const cookieId = Number((await cookies()).get("bc_loc")?.value);
+  const cookiePlaceId = !showAll && Number.isInteger(cookieId) && cookieId > 0 ? cookieId : undefined;
+  const explicitPlaceId = filters.locationId ?? (availability ? undefined : filters.pickupLocationId);
+  const locationId = explicitPlaceId ?? cookiePlaceId;
+  const lookingIn = locationId ? await getBranchPlace(locationId) : null;
+
   const { data, count } = await getVehicleCards({
     category: filters.category,
     minPrice: filters.minPrice,
@@ -64,7 +76,7 @@ export async function CarsPageContent({
     seats: filters.seats,
     transmission: filters.transmission,
     fuel: filters.fuel,
-    locationId: filters.locationId,
+    locationId,
     availability,
     sortBy,
     sortOrder,
@@ -91,6 +103,14 @@ export async function CarsPageContent({
         <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
           {t("cars.title")}
         </h1>
+        {lookingIn && (
+          <p className="flex flex-wrap items-center gap-x-2 text-sm text-muted-foreground">
+            {t("location.showing", { place: placeLabel(lookingIn) })}
+            <Link href="/cars?all=1" className="font-medium text-accent-text underline underline-offset-4">
+              {t("location.showAll")}
+            </Link>
+          </p>
+        )}
         {pickupDate && dropoffDate && (
           <p className="text-sm text-muted-foreground">
             {t("cars.showingDates", { from: formatDate(pickupDate, locale), to: formatDate(dropoffDate, locale) })}
