@@ -94,3 +94,17 @@ automation/README.md
 # Playwright
 /test-results/
 /playwright-report/
+
+# test tooling output
+/blob-report/
+/playwright/.cache/
+/.nyc_output/
+.eslintcache
+.vitest-cache/
+
+# database backups taken before upgrades (docs/GO-LIVE.md), never commit these
+bestcar-backup-*.sql
+*.bak
+
+# logs
+*.log
