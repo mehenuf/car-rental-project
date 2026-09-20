@@ -120,9 +120,10 @@ export function CarDealsSection({
           <button
             key={tab}
             type="button"
+            aria-pressed={activeTab === tab}
             onClick={() => handleTabChange(tab)}
             className={cn(
-              "relative pb-3 text-sm font-medium text-muted-foreground transition-colors hover:text-foreground",
+              "relative min-h-9 pb-3 text-sm pointer-coarse:min-h-11 pointer-coarse:px-1 font-medium text-muted-foreground transition-colors hover:text-foreground",
               activeTab === tab &&
                 "text-foreground after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:rounded-full after:bg-accent"
             )}

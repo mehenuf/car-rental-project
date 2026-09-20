@@ -30,7 +30,7 @@ export async function SiteFooter() {
       <div className="mx-auto flex max-w-7xl flex-col gap-(--space-lg) px-(--space-sm) py-(--space-lg)">
         <div className="grid grid-cols-1 gap-(--space-md) sm:grid-cols-2 lg:grid-cols-[1.5fr_1fr_1fr]">
           <div className="flex flex-col gap-(--space-xs)">
-            <Link href="/" className="flex items-center gap-2 font-heading text-lg font-bold text-foreground">
+            <Link href="/" className="flex min-h-11 items-center gap-2 font-heading text-lg font-bold text-foreground">
               <Car className="size-6 text-accent-text" />
               {t("common.brand")}
             </Link>
@@ -39,7 +39,7 @@ export async function SiteFooter() {
 
           {columns.map((column) => (
             <div key={column.title} className="flex flex-col gap-(--space-xs)">
-              <h3 className="font-heading text-sm font-semibold text-foreground">{column.title}</h3>
+              <h2 className="font-heading text-sm font-semibold text-foreground">{column.title}</h2>
               <ul className="flex flex-col gap-2">
                 {column.links.map((link) => (
                   <li key={link.href}>

@@ -129,9 +129,13 @@ export async function CarsPageContent({
           <div className="flex items-center justify-between gap-(--space-sm)">
             <CarsMobileFiltersSheet filters={filterValues} />
 
-            <span className="hidden text-sm text-muted-foreground sm:inline">
+            <span aria-hidden="true" className="hidden text-sm text-muted-foreground sm:inline">
               {t("cars.found", { count })}
             </span>
+            {/* Read out when filters change the number of results; the visible copy above is hidden on phones. */}
+            <p role="status" className="sr-only">
+              {t("cars.found", { count })}
+            </p>
 
             <CarsSortSelect value={priceScope || sortBy !== "price_per_day" ? `${sortBy}:${sortOrder}` : "created_at:desc"} priceSort={Boolean(lookingIn)} />
           </div>

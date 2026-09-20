@@ -301,13 +301,13 @@ export function VehicleBookingPanel({
               const unit = currency ? money(extra.unitPriceMinor, currency) : "";
               const per = extra.pricing === "per_day" ? t("vehicle.perDay") : "";
               return (
-                <div key={extra.code} className="flex items-center justify-between gap-3 text-sm">
+                <div key={extra.code} className="flex items-center justify-between gap-3 text-sm pointer-coarse:min-h-11">
                   {extra.maxQuantity > 1 ? (
                     <Label htmlFor={`extra-${extra.code}`} className="flex-1 font-normal">
                       {extra.name} <span className="text-muted-foreground">({unit}{per})</span>
                     </Label>
                   ) : (
-                    <Label htmlFor={`extra-${extra.code}`} className="flex flex-1 items-center gap-2 font-normal">
+                    <Label htmlFor={`extra-${extra.code}`} className="flex flex-1 items-center gap-2 font-normal pointer-coarse:min-h-11">
                       <Checkbox
                         id={`extra-${extra.code}`}
                         checked={quantity > 0}

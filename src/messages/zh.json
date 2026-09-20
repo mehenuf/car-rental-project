@@ -7,7 +7,8 @@
     "tryAgain": "重试",
     "openMenu": "打开菜单",
     "accountMenu": "账户菜单",
-    "language": "语言"
+    "language": "语言",
+    "mainNav": "主导航"
   },
   "nav": {
     "home": "首页",

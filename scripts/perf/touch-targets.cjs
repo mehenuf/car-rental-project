@@ -20,13 +20,15 @@ const ADMIN = ["/admin", "/admin/vehicles", "/admin/bookings", "/admin/leads", "
   }
   for (const path of admin ? ADMIN : PUBLIC) {
     await page.goto(base + path, { waitUntil: "networkidle" });
-    await page.waitForTimeout(500);
+    await page.waitForTimeout(1500);
     const small = await page.evaluate(() => {
       const sel = 'a[href], button, input:not([type=hidden]), select, textarea, [role=button], [role=tab], [role=menuitem], [role=checkbox], [role=radio], [role=combobox], [role=switch]';
       return [...document.querySelectorAll(sel)]
         .filter((e) => !e.closest(".sr-only") && getComputedStyle(e).visibility !== "hidden")
-        .map((e) => ({ e, r: e.getBoundingClientRect() }))
+        .map((e) => ({ e, r: { width: e.offsetWidth || e.getBoundingClientRect().width, height: e.offsetHeight || e.getBoundingClientRect().height } }))
         .filter(({ r }) => r.width > 0 && r.height > 0 && (r.width < 44 || r.height < 44))
+        // A checkbox or radio inside a label is tapped through the label, so the label is the target.
+        .filter(({ e }) => { const l = e.closest("label"); return !l || l.getBoundingClientRect().height < 44; })
         // Inline links inside a sentence are exempt from the 44px guideline (WCAG 2.5.8 inline exception).
         .filter(({ e }) => !(e.tagName === "A" && e.closest("p, li") && getComputedStyle(e).display === "inline"))
         .map(({ e, r }) => `${e.tagName.toLowerCase()} "${(e.getAttribute("aria-label") || e.textContent || e.getAttribute("placeholder") || "").trim().slice(0, 28)}" ${Math.round(r.width)}x${Math.round(r.height)}`);

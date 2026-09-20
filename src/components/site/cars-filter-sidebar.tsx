@@ -79,7 +79,7 @@ export function CarsFilterSidebar({
         <h3 className="text-sm font-semibold text-foreground">{t("cars.category")}</h3>
         <div className="flex flex-col gap-2.5">
           {CATEGORIES.map((category) => (
-            <label key={category} className="flex items-center gap-2.5 text-sm text-foreground">
+            <label key={category} className="flex items-center gap-2.5 text-sm text-foreground pointer-coarse:min-h-11">
               <Checkbox
                 checked={filters.categories.includes(category)}
                 onCheckedChange={(checked) => onCategoryToggle(category, checked === true)}

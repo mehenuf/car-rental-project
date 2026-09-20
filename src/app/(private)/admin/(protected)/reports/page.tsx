@@ -119,7 +119,7 @@ export default function AdminReportsPage() {
           </div>
           <div className="flex flex-wrap gap-2">
             {EXPORT_KINDS.map((k) => (
-              <Button key={k} type="button" size="sm" variant="outline" render={<a href={`/api/admin/exports/${k}?from=${from}&to=${to}`} download />}>
+              <Button key={k} type="button" size="sm" variant="outline" className="pointer-coarse:min-w-11 justify-center" render={<a href={`/api/admin/exports/${k}?from=${from}&to=${to}`} download />}>
                 {k}
               </Button>
             ))}

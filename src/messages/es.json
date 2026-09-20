@@ -7,7 +7,8 @@
     "tryAgain": "Reintentar",
     "openMenu": "Abrir menú",
     "accountMenu": "Menú de la cuenta",
-    "language": "Idioma"
+    "language": "Idioma",
+    "mainNav": "Principal"
   },
   "nav": {
     "home": "Inicio",

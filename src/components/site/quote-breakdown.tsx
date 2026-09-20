@@ -15,6 +15,10 @@ export function QuoteBreakdown({ quote, isUpdating }: { quote: Quote; isUpdating
 
   return (
     <div data-chat-avoid className={cn("flex flex-col gap-2 transition-opacity", isUpdating && "opacity-60")} aria-busy={isUpdating}>
+      {/* Announces the new total to screen readers whenever the price changes, without reading every line. */}
+      <p className="sr-only" role="status">
+        {t("quote.total")}: {money(quote.totalMinor)}
+      </p>
       <ul className="flex flex-col gap-1.5 border-t border-border pt-(--space-sm) text-sm">
         {quote.lines.map((line, index) => (
           <li key={`${line.kind}-${line.code ?? index}`} className="flex items-start justify-between gap-3">

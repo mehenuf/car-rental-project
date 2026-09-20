@@ -101,7 +101,7 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-(--space-xs) px-(--space-sm) sm:gap-(--space-sm)">
         <Link
           href="/"
-          className="flex shrink-0 items-center gap-2 font-heading text-lg font-bold text-foreground"
+          className="flex min-h-11 shrink-0 items-center gap-2 font-heading text-lg font-bold text-foreground"
         >
           <Car className="size-6 text-accent-text" />
           {/* On the narrowest phones the mark alone keeps the row on one line; the name stays for screen readers. */}
@@ -110,7 +110,7 @@ export function SiteHeader() {
 
         <LocationChip className="h-11 min-w-11 px-2 md:h-8" />
 
-        <nav className="ms-4 hidden items-center gap-4 md:flex lg:ms-6 lg:gap-6">
+        <nav aria-label={t("common.mainNav")} className="ms-4 hidden items-center gap-4 md:flex lg:ms-6 lg:gap-6">
           {SITE_NAV_LINKS.map((link) => (
             <Link
               key={link.href}
@@ -187,7 +187,7 @@ export function SiteHeader() {
               <Car className="size-6 text-accent-text" /> {t("common.brand")}
             </SheetTitle>
           </SheetHeader>
-          <nav className="flex flex-col gap-1 px-4">
+          <nav aria-label={t("common.mainNav")} className="flex flex-col gap-1 px-4">
             {SITE_NAV_LINKS.map((link) => (
               <Link
                 key={link.href}
