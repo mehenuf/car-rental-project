@@ -18,6 +18,8 @@ export type ProviderType = "company" | "individual";
 export type ProviderStatus = "draft" | "submitted" | "under_review" | "approved" | "rejected" | "suspended";
 export type MemberRole = "owner" | "manager" | "agent";
 export type FleetUnitStatus = "active" | "maintenance" | "retired";
+export type ListingStatus = "draft" | "pending_review" | "approved" | "rejected";
+export type DocumentKind = "business_licence" | "id_document" | "drivers_licence" | "vehicle_registration" | "insurance";
 export type OccupancyReason = "booking" | "maintenance" | "transfer" | "owner_block";
 
 /** Insert shape helper: everything optional except the listed required keys. */
@@ -32,6 +34,11 @@ export type ProviderRow = {
   default_currency: string;
   status: ProviderStatus;
   commission_rate_override: number | null;
+  registration_number: string | null;
+  contact_phone: string | null;
+  submitted_at: string | null;
+  reviewed_at: string | null;
+  review_note: string | null;
   created_at: string;
 }
 
@@ -43,7 +50,6 @@ export type BranchRow = {
   city: string;
   country: string;
   country_code: string;
-  address: string | null;
   timezone: string;
   currency: string;
   turnaround_minutes: number;
@@ -71,6 +77,8 @@ export type FleetUnitRow = {
   mileage_km: number;
   status: FleetUnitStatus;
   requires_window: boolean;
+  listing_status: ListingStatus;
+  review_note: string | null;
   created_at: string;
 }
 
@@ -178,6 +186,48 @@ export type PromoCodeRow = {
   min_days: number;
   vehicle_id: string | null;
   is_active: boolean;
+};
+
+export type BranchPrivateRow = {
+  branch_id: number;
+  provider_id: string;
+  address: string | null;
+};
+
+export type ProviderDocumentRow = {
+  id: string;
+  provider_id: string;
+  fleet_unit_id: string | null;
+  kind: DocumentKind;
+  storage_path: string;
+  file_name: string;
+  mime_type: "application/pdf" | "image/jpeg" | "image/png";
+  size_bytes: number;
+  status: "pending" | "accepted" | "rejected";
+  review_note: string | null;
+  created_at: string;
+};
+
+export type PayoutAccountRow = {
+  provider_id: string;
+  account_holder: string;
+  bank_name: string;
+  account_last4: string;
+  country_code: string;
+  updated_at: string;
+};
+
+export type BookingInspectionRow = {
+  id: string;
+  booking_id: string;
+  provider_id: string;
+  kind: "pickup" | "return";
+  odometer_km: number;
+  fuel_level: "empty" | "quarter" | "half" | "three_quarters" | "full";
+  notes: string | null;
+  photo_paths: string[];
+  created_by: string | null;
+  created_at: string;
 };
 
 export type PaymentRow = {
@@ -409,6 +459,30 @@ export interface Database {
         Update: Partial<PromoCodeRow>;
         Relationships: [];
       };
+      branch_private: {
+        Row: BranchPrivateRow;
+        Insert: InsertOf<BranchPrivateRow, "branch_id" | "provider_id">;
+        Update: Partial<BranchPrivateRow>;
+        Relationships: [];
+      };
+      provider_documents: {
+        Row: ProviderDocumentRow;
+        Insert: InsertOf<ProviderDocumentRow, "provider_id" | "kind" | "storage_path" | "file_name" | "mime_type" | "size_bytes">;
+        Update: Partial<ProviderDocumentRow>;
+        Relationships: [];
+      };
+      payout_accounts: {
+        Row: PayoutAccountRow;
+        Insert: InsertOf<PayoutAccountRow, "provider_id" | "account_holder" | "bank_name" | "account_last4" | "country_code">;
+        Update: Partial<PayoutAccountRow>;
+        Relationships: [];
+      };
+      booking_inspections: {
+        Row: BookingInspectionRow;
+        Insert: InsertOf<BookingInspectionRow, "booking_id" | "provider_id" | "kind" | "odometer_km" | "fuel_level">;
+        Update: Partial<BookingInspectionRow>;
+        Relationships: [];
+      };
       payments: {
         Row: PaymentRow;
         Insert: InsertOf<PaymentRow, "booking_id" | "kind" | "method" | "provider" | "amount_minor" | "currency" | "idempotency_key">;
@@ -602,6 +676,18 @@ export interface Database {
           p_guest_id?: string | null;
           p_user_id?: string | null;
           p_price_snapshot?: Json | null;
+        };
+        Returns: BookingRow;
+      };
+      record_inspection: {
+        Args: {
+          p_booking_id: string;
+          p_kind: "pickup" | "return";
+          p_odometer_km: number;
+          p_fuel_level: "empty" | "quarter" | "half" | "three_quarters" | "full";
+          p_notes: string | null;
+          p_photo_paths: string[];
+          p_user_id: string | null;
         };
         Returns: BookingRow;
       };
