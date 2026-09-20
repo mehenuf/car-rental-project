@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { withErrorHandling } from "@/lib/api-response";
 import { ApiError, ConflictError, NotFoundError } from "@/lib/errors";
 import { IdParamSchema, UnitReviewSchema } from "@/lib/provider/schemas";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireStaff, writeAudit } from "@/lib/admin/staff";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 /**
@@ -12,7 +12,7 @@ import { supabaseAdmin } from "@/lib/supabase-server";
  */
 export const POST = withErrorHandling(
   async (request: NextRequest, context: { params: Promise<{ id: string }> }) => {
-    await requireAdmin();
+    const ctx = await requireStaff("cars.review");
     const { id } = IdParamSchema.parse(await context.params);
     const { decision, note } = UnitReviewSchema.parse(await request.json());
     if (decision === "reject" && !note?.trim()) throw new ApiError(400, "A reason is required to reject a car.");
@@ -31,6 +31,7 @@ export const POST = withErrorHandling(
       .select("id, listing_status, review_note")
       .single();
     if (updateError) throw new Error(`unit review: ${updateError.message}`);
+    await writeAudit(ctx, { action: `car.${decision}`, entityType: "fleet_unit", entityId: id, reason: note });
     return NextResponse.json(data);
   }
 );

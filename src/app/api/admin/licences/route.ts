@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server";
 import { withErrorHandling } from "@/lib/api-response";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireStaff } from "@/lib/admin/staff";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 /** GET /api/admin/licences — driver's licences waiting for review, oldest first, with their files listed. */
 export const GET = withErrorHandling(async () => {
-  await requireAdmin();
+  await requireStaff("licences.review");
   const { data: profiles, error } = await supabaseAdmin
     .from("driver_profiles")
     .select("user_id, date_of_birth, licence_country, licence_number_last4, licence_expiry, submitted_at")

@@ -3,7 +3,7 @@ import { withErrorHandling } from "@/lib/api-response";
 import { ApiError, ConflictError, NotFoundError } from "@/lib/errors";
 import { canTransitionProvider, decisionToStatus } from "@/lib/provider/onboarding";
 import { IdParamSchema, ProviderReviewSchema } from "@/lib/provider/schemas";
-import { requireAdmin } from "@/lib/require-admin";
+import { requireStaff, writeAudit } from "@/lib/admin/staff";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
 /**
@@ -13,7 +13,7 @@ import { supabaseAdmin } from "@/lib/supabase-server";
  */
 export const POST = withErrorHandling(
   async (request: NextRequest, context: { params: Promise<{ id: string }> }) => {
-    await requireAdmin();
+    const ctx = await requireStaff("providers.review");
     const { id } = IdParamSchema.parse(await context.params);
     const { decision, note } = ProviderReviewSchema.parse(await request.json());
 
@@ -49,6 +49,7 @@ export const POST = withErrorHandling(
         .is("fleet_unit_id", null);
     }
 
+    await writeAudit(ctx, { action: `provider.${decision}`, entityType: "provider", entityId: id, before: { status: provider.status }, after: { status: target }, reason: note });
     return NextResponse.json(updated);
   }
 );
