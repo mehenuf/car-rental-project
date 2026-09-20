@@ -75,3 +75,42 @@ describe("portal schemas", () => {
     expect(PayoutAccountSchema.safeParse({ account_holder: "Ola Owner", bank_name: "Test Bank", account_number: "12", country_code: "GB" }).success).toBe(false);
   });
 });
+
+import { ExtraSchema, PolicySchema, PromoSchema, RatePlanUpsertSchema, SeasonSchema } from "@/lib/provider/schemas";
+
+describe("pricing schemas", () => {
+  const vehicle = "11111111-1111-4111-8111-111111111111";
+
+  it("applies rate plan defaults and rejects a max below the min", () => {
+    const ok = RatePlanUpsertSchema.safeParse({ vehicle_id: vehicle, branch_id: 1, base_daily: "48" });
+    expect(ok.success).toBe(true);
+    if (ok.success) expect(ok.data).toMatchObject({ weekend_uplift_pct: 0, min_days: 1 });
+    expect(RatePlanUpsertSchema.safeParse({ vehicle_id: vehicle, branch_id: 1, base_daily: 48, min_days: 5, max_days: 3 }).success).toBe(false);
+    expect(RatePlanUpsertSchema.safeParse({ vehicle_id: vehicle, branch_id: 1, base_daily: 0 }).success).toBe(false);
+  });
+
+  it("validates seasons and extras", () => {
+    expect(SeasonSchema.safeParse({ start_date: "2030-07-01", end_date: "2030-07-31", daily: 60 }).success).toBe(true);
+    expect(SeasonSchema.safeParse({ start_date: "2030-07-31", end_date: "2030-07-01", daily: 60 }).success).toBe(false);
+    const extra = ExtraSchema.safeParse({ code: " Child-Seat ", name: "Child seat", kind: "extra", pricing: "per_day", unit_price: 8 });
+    expect(extra.success).toBe(true);
+    if (extra.success) expect(extra.data.code).toBe("child-seat");
+    expect(ExtraSchema.safeParse({ code: "x y", name: "Bad", kind: "extra", pricing: "per_day", unit_price: 1 }).success).toBe(false);
+  });
+
+  it("validates the cancellation policy", () => {
+    const base = { deposit_type: "fixed", deposit_value: 200, cancellation_tiers: [{ hours_before: 48, refund_pct: 100 }], min_driver_age: 21, young_driver_age: 25, young_driver_fee: 15 };
+    expect(PolicySchema.safeParse(base).success).toBe(true);
+    expect(PolicySchema.safeParse({ ...base, cancellation_tiers: [{ hours_before: 24, refund_pct: 50 }, { hours_before: 24, refund_pct: 0 }] }).success).toBe(false);
+    expect(PolicySchema.safeParse({ ...base, deposit_type: "percent", deposit_value: 150 }).success).toBe(false);
+    expect(PolicySchema.safeParse({ ...base, young_driver_age: 20 }).success).toBe(false);
+  });
+
+  it("normalises promo codes and bounds percentage discounts", () => {
+    const ok = PromoSchema.safeParse({ code: "summer25", discount_type: "percent", value: 25 });
+    expect(ok.success).toBe(true);
+    if (ok.success) expect(ok.data.code).toBe("SUMMER25");
+    expect(PromoSchema.safeParse({ code: "BIG", discount_type: "percent", value: 150 }).success).toBe(false);
+    expect(PromoSchema.safeParse({ code: "x!", discount_type: "fixed", value: 5 }).success).toBe(false);
+  });
+});
