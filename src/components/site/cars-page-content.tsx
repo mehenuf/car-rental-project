@@ -36,6 +36,24 @@ export async function CarsPageContent({
   const sortBy = filters.sortBy ?? "created_at";
   const sortOrder = filters.sortOrder ?? "desc";
 
+  const availability =
+    filters.pickupLocationId && filters.pickupDate && filters.dropoffDate
+      ? {
+          pickupBranchId: filters.pickupLocationId,
+          dropoffBranchId: filters.dropoffLocationId ?? filters.pickupLocationId,
+          from: new Date(filters.pickupDate),
+          to: new Date(filters.dropoffDate),
+        }
+      : undefined;
+
+  // Carry the trip through to the vehicle page so the booking uses the same branches and dates.
+  const carried = new URLSearchParams();
+  for (const key of ["pickupLocationId", "dropoffLocationId", "pickupDate", "dropoffDate"]) {
+    const value = params.get(key);
+    if (value) carried.set(key, value);
+  }
+  const searchQuery = carried.toString();
+
   const { data, count } = await getVehicleCards({
     category: filters.category,
     minPrice: filters.minPrice,
@@ -44,6 +62,7 @@ export async function CarsPageContent({
     transmission: filters.transmission,
     fuel: filters.fuel,
     locationId: filters.locationId,
+    availability,
     sortBy,
     sortOrder,
     page,
@@ -108,7 +127,7 @@ export async function CarsPageContent({
           ) : (
             <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-2 xl:grid-cols-3">
               {data.map((vehicle) => (
-                <VehicleCard key={vehicle.id} vehicle={vehicle} />
+                <VehicleCard key={vehicle.id} vehicle={vehicle} searchQuery={searchQuery} />
               ))}
             </div>
           )}

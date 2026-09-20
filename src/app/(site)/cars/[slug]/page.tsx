@@ -24,15 +24,25 @@ export async function generateMetadata({
   };
 }
 
+function toBranchId(value: string | undefined): number | undefined {
+  const n = Number(value);
+  return Number.isInteger(n) && n > 0 ? n : undefined;
+}
+
 export default async function VehicleDetailPage({
   params,
   searchParams,
 }: {
   params: Promise<{ slug: string }>;
-  searchParams: Promise<{ pickupDate?: string; dropoffDate?: string }>;
+  searchParams: Promise<{
+    pickupDate?: string;
+    dropoffDate?: string;
+    pickupLocationId?: string;
+    dropoffLocationId?: string;
+  }>;
 }) {
   const { slug } = await params;
-  const { pickupDate, dropoffDate } = await searchParams;
+  const { pickupDate, dropoffDate, pickupLocationId, dropoffLocationId } = await searchParams;
 
   const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) notFound();
@@ -106,6 +116,8 @@ export default async function VehicleDetailPage({
             vehicle={vehicle}
             defaultPickupDate={pickupDate}
             defaultDropoffDate={dropoffDate}
+            pickupBranchId={toBranchId(pickupLocationId)}
+            dropoffBranchId={toBranchId(dropoffLocationId)}
           />
         </div>
       </div>

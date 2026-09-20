@@ -196,16 +196,18 @@ export function VehicleFormDialog({
                 required
               />
             </Field>
-            <Field label="Stock" htmlFor="v-stock">
-              <Input
-                id="v-stock"
-                type="number"
-                min={0}
-                value={values.stock}
-                onChange={(e) => set("stock", Number(e.target.value))}
-                required
-              />
-            </Field>
+            {!vehicle && (
+              <Field label="Units in fleet" htmlFor="v-stock">
+                <Input
+                  id="v-stock"
+                  type="number"
+                  min={0}
+                  value={values.stock}
+                  onChange={(e) => set("stock", Number(e.target.value))}
+                  required
+                />
+              </Field>
+            )}
             <Field label="Seats" htmlFor="v-seats">
               <Input
                 id="v-seats"
