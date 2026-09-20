@@ -679,6 +679,7 @@ export interface Database {
         };
         Returns: BookingRow;
       };
+      find_user_by_email: { Args: { p_email: string }; Returns: string | null };
       record_inspection: {
         Args: {
           p_booking_id: string;
