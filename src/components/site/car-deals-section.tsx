@@ -142,19 +142,13 @@ export function CarDealsSection({
           : items.map((vehicle) => <VehicleCard key={vehicle.id} vehicle={vehicle} />)}
       </div>
 
-      <div className="mt-(--space-md) flex flex-col items-center justify-center gap-3 sm:flex-row sm:justify-between">
-        <div className="hidden sm:block sm:w-32" aria-hidden />
-        <Button
-          type="button"
-          variant="outline"
-          disabled={!hasMore || isLoading}
-          onClick={() => setPage((p) => p + 1)}
-        >
-          {isLoading && page > 1 ? t("cars.loading") : hasMore ? t("cars.showMore") : t("cars.noMore")}
-        </Button>
-        <span className="w-32 text-center text-sm text-muted-foreground sm:text-end">
-          {t("cars.total", { count: totalCount })}
-        </span>
+      <div className="mt-(--space-md) flex flex-col items-center justify-center gap-3">
+        {(hasMore || page > 1) && (
+          <Button type="button" variant="outline" disabled={!hasMore || isLoading} onClick={() => setPage((p) => p + 1)}>
+            {isLoading && page > 1 ? t("cars.loading") : hasMore ? t("cars.showMore") : t("cars.noMore")}
+          </Button>
+        )}
+        <span className="text-sm text-muted-foreground">{t("cars.total", { count: totalCount })}</span>
       </div>
     </section>
   );

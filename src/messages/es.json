@@ -54,7 +54,8 @@
     "step2Title": "Fecha de recogida",
     "step2Body": "Dinos cuándo necesitas el coche y por cuánto tiempo. Te lo reservamos.",
     "step3Title": "Reserva tu coche",
-    "step3Body": "Confirma tus datos y listo. Tu coche estará esperándote."
+    "step3Body": "Confirma tus datos y listo. Tu coche estará esperándote.",
+    "title": "Alquilar un coche con nosotros son tres pasos sencillos, desde elegir el lugar hasta salir conduciendo."
   },
   "whyChooseUs": {
     "title": "Por qué elegirnos",
@@ -658,5 +659,31 @@
     "title": "Alquiler de coches en {city}",
     "intro": "Alquila un coche en {city}: compara los coches disponibles, consulta el precio antes de reservar y recógelo en una sucursal local.",
     "empty": "No hay coches disponibles en {city} ahora mismo. Vuelve a comprobarlo pronto."
+  },
+  "meta": {
+    "siteTitle": "BestCar: alquila un coche en minutos",
+    "siteDescription": "Reserva un coche de alquiler en minutos. Sin cuenta, precios claros y puntos de recogida en todo el país.",
+    "cars": "Ver coches",
+    "about": "Sobre nosotros",
+    "contact": "Contacto",
+    "login": "Iniciar sesión",
+    "register": "Crear cuenta",
+    "privacy": "Política de privacidad",
+    "terms": "Términos y condiciones"
+  },
+  "chat": {
+    "title": "Asistente de BestCar",
+    "greeting": "¡Hola! Pregúntame por nuestros coches o prueba una de estas:",
+    "q1": "Necesito un coche para 5 personas",
+    "q2": "¿Cuál es la opción más barata?",
+    "q3": "¿Tenéis coches eléctricos?",
+    "open": "Abrir chat",
+    "openActive": "Abrir chat (conversación en curso)",
+    "close": "Cerrar chat",
+    "log": "Mensajes del chat",
+    "placeholder": "Pregunta por un coche...",
+    "message": "Mensaje",
+    "send": "Enviar mensaje",
+    "error": "Lo sentimos, algo salió mal. Inténtalo de nuevo en un momento."
   }
 }

@@ -17,14 +17,11 @@ const STEPS = [
 ] as const;
 
 /**
- * The site's other signature scroll moment (alongside the hero's
- * parallax): the road line draws itself and each step arrives in sequence
- * while the section stays pinned for one viewport-height of scroll — the
- * page literally drives the visitor down the road. Reserved for desktop
- * where the road line exists at all (md:block) and there's room to pin
- * without a phone screen feeling stuck; everyone else (mobile, or
- * prefers-reduced-motion) gets the sequence pre-resolved to its end state
- * with no pin and no scrub, per DESIGN.md's motion rules.
+ * The road line draws itself and each step arrives in sequence as the
+ * section scrolls into view. Nothing is pinned, so scrolling never stalls
+ * and the page keeps moving at the visitor's own pace. Only desktop has a
+ * road line at all (md:block); mobile and prefers-reduced-motion get the
+ * sequence already resolved to its end state.
  */
 export function HowItWorksSection() {
   const t = useT();
@@ -44,11 +41,9 @@ export function HowItWorksSection() {
         const tl = gsap.timeline({
           scrollTrigger: {
             trigger: pinRef.current,
-            start: "top top",
-            end: () => "+=" + window.innerHeight,
+            start: "top 80%",
+            end: "bottom 55%",
             scrub: 0.6,
-            pin: true,
-            anticipatePin: 1,
           },
         });
 
@@ -74,10 +69,8 @@ export function HowItWorksSection() {
       id="how-it-works"
       className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)"
     >
-      <ScrollReveal className="max-w-md font-heading text-3xl font-bold text-foreground">
-        <h2>
-          Renting a car with us takes three simple steps, from picking a location to driving away.
-        </h2>
+      <ScrollReveal className="mx-auto max-w-2xl text-center font-heading text-3xl font-bold text-foreground">
+        <h2>{t("howItWorks.title")}</h2>
       </ScrollReveal>
 
       <div

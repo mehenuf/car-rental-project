@@ -54,7 +54,8 @@
     "step2Title": "Abholdatum",
     "step2Body": "Sagen Sie uns, wann und wie lange Sie das Auto brauchen. Wir halten es für Sie bereit.",
     "step3Title": "Auto buchen",
-    "step3Body": "Bestätigen Sie Ihre Angaben, und schon ist alles erledigt. Ihr Auto steht bereit."
+    "step3Body": "Bestätigen Sie Ihre Angaben, und schon ist alles erledigt. Ihr Auto steht bereit.",
+    "title": "Ein Auto bei uns zu mieten geht in drei einfachen Schritten, von der Ortswahl bis zur Abfahrt."
   },
   "whyChooseUs": {
     "title": "Warum wir",
@@ -658,5 +659,31 @@
     "title": "Mietwagen in {city}",
     "intro": "Mieten Sie ein Auto in {city}: Vergleichen Sie verfügbare Fahrzeuge, sehen Sie den Preis vor der Buchung und holen Sie es in einer Filiale vor Ort ab.",
     "empty": "Derzeit sind in {city} keine Autos verfügbar. Bitte schauen Sie bald wieder vorbei."
+  },
+  "meta": {
+    "siteTitle": "BestCar: Mietwagen in Minuten",
+    "siteDescription": "Buchen Sie einen Mietwagen in Minuten. Ohne Konto, mit transparenten Preisen und Abholorten im ganzen Land.",
+    "cars": "Fahrzeuge ansehen",
+    "about": "Über uns",
+    "contact": "Kontakt",
+    "login": "Anmelden",
+    "register": "Konto erstellen",
+    "privacy": "Datenschutzerklärung",
+    "terms": "Allgemeine Geschäftsbedingungen"
+  },
+  "chat": {
+    "title": "BestCar-Assistent",
+    "greeting": "Hallo! Fragen Sie mich zu unseren Autos oder probieren Sie eine dieser Fragen:",
+    "q1": "Ich brauche ein Auto für 5 Personen",
+    "q2": "Was ist die günstigste Option?",
+    "q3": "Haben Sie Elektroautos?",
+    "open": "Chat öffnen",
+    "openActive": "Chat öffnen (Unterhaltung läuft)",
+    "close": "Chat schließen",
+    "log": "Chat-Nachrichten",
+    "placeholder": "Fragen Sie nach einem Auto...",
+    "message": "Nachricht",
+    "send": "Nachricht senden",
+    "error": "Entschuldigung, etwas ist schiefgelaufen. Bitte versuchen Sie es gleich noch einmal."
   }
 }

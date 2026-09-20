@@ -54,7 +54,8 @@
     "step2Title": "Data de retirada",
     "step2Body": "Diga quando precisa do carro e por quanto tempo. Nós o reservamos para você.",
     "step3Title": "Reserve seu carro",
-    "step3Body": "Confirme seus dados e pronto. Seu carro estará esperando."
+    "step3Body": "Confirme seus dados e pronto. Seu carro estará esperando.",
+    "title": "Alugar um carro conosco leva três passos simples, da escolha do local até sair dirigindo."
   },
   "whyChooseUs": {
     "title": "Por que nos escolher",
@@ -658,5 +659,31 @@
     "title": "Aluguel de carros em {city}",
     "intro": "Alugue um carro em {city}: compare os carros disponíveis, veja o preço antes de reservar e retire em uma filial local.",
     "empty": "Não há carros disponíveis em {city} agora. Volte a verificar em breve."
+  },
+  "meta": {
+    "siteTitle": "BestCar: alugue um carro em minutos",
+    "siteDescription": "Reserve um carro de aluguel em minutos. Sem conta, preços transparentes e pontos de retirada em todo o país.",
+    "cars": "Ver carros",
+    "about": "Sobre nós",
+    "contact": "Contato",
+    "login": "Entrar",
+    "register": "Criar conta",
+    "privacy": "Política de privacidade",
+    "terms": "Termos e condições"
+  },
+  "chat": {
+    "title": "Assistente BestCar",
+    "greeting": "Olá! Pergunte sobre nossos carros ou experimente uma destas:",
+    "q1": "Preciso de um carro para 5 pessoas",
+    "q2": "Qual é a opção mais barata?",
+    "q3": "Vocês têm carros elétricos?",
+    "open": "Abrir chat",
+    "openActive": "Abrir chat (conversa em andamento)",
+    "close": "Fechar chat",
+    "log": "Mensagens do chat",
+    "placeholder": "Pergunte sobre um carro...",
+    "message": "Mensagem",
+    "send": "Enviar mensagem",
+    "error": "Desculpe, algo deu errado. Tente novamente em instantes."
   }
 }

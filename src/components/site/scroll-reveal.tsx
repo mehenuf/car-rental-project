@@ -27,8 +27,8 @@ export function ScrollReveal({
   children,
   className,
   delay = 0,
-  y = 20,
-  scale = 0.97,
+  y = 16,
+  scale = 0.985,
 }: {
   children: ReactNode;
   className?: string;
@@ -59,12 +59,12 @@ export function ScrollReveal({
             autoAlpha: 1,
             y: 0,
             scale: 1,
-            duration: 1.1,
+            duration: 0.7,
             delay,
-            ease: "power2.out",
+            ease: "expo.out",
             scrollTrigger: {
               trigger: el,
-              start: "top 88%",
+              start: "top 92%",
               toggleActions: "play none none none",
             },
           }

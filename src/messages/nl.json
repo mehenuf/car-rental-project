@@ -54,7 +54,8 @@
     "step2Title": "Ophaaldatum",
     "step2Body": "Vertel ons wanneer je de auto nodig hebt en voor hoe lang. Wij houden hem voor je vast.",
     "step3Title": "Boek je auto",
-    "step3Body": "Bevestig je gegevens en je bent klaar. Je auto staat voor je klaar."
+    "step3Body": "Bevestig je gegevens en je bent klaar. Je auto staat voor je klaar.",
+    "title": "Een auto huren bij ons gaat in drie eenvoudige stappen, van locatiekeuze tot wegrijden."
   },
   "whyChooseUs": {
     "title": "Waarom wij",
@@ -658,5 +659,31 @@
     "title": "Autoverhuur in {city}",
     "intro": "Huur een auto in {city}: vergelijk beschikbare auto's, zie de prijs vóór je boekt en haal hem op bij een lokale vestiging.",
     "empty": "Er zijn momenteel geen auto's beschikbaar in {city}. Kijk binnenkort opnieuw."
+  },
+  "meta": {
+    "siteTitle": "BestCar: huur een auto in minuten",
+    "siteDescription": "Boek een huurauto in minuten. Zonder account, met heldere prijzen en ophaalpunten door het hele land.",
+    "cars": "Auto's bekijken",
+    "about": "Over ons",
+    "contact": "Contact",
+    "login": "Inloggen",
+    "register": "Account aanmaken",
+    "privacy": "Privacybeleid",
+    "terms": "Algemene voorwaarden"
+  },
+  "chat": {
+    "title": "BestCar-assistent",
+    "greeting": "Hoi! Vraag me naar onze auto's of probeer een van deze vragen:",
+    "q1": "Ik heb een auto nodig voor 5 personen",
+    "q2": "Wat is de goedkoopste optie?",
+    "q3": "Hebben jullie elektrische auto's?",
+    "open": "Chat openen",
+    "openActive": "Chat openen (gesprek bezig)",
+    "close": "Chat sluiten",
+    "log": "Chatberichten",
+    "placeholder": "Vraag naar een auto...",
+    "message": "Bericht",
+    "send": "Bericht verzenden",
+    "error": "Sorry, er ging iets mis. Probeer het zo meteen opnieuw."
   }
 }

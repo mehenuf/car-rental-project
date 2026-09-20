@@ -1,5 +1,8 @@
 import { getLocale, getT } from "@/lib/i18n/dictionary";
-export const metadata = { title: "Privacy Policy" };
+export async function generateMetadata() {
+  const t = await getT();
+  return { title: t("meta.privacy") };
+}
 
 export default async function PrivacyPage() {
   const locale = await getLocale();

@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { formatCurrency } from "@/lib/format";
+import { useT } from "@/lib/i18n/provider";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
 
@@ -24,11 +25,7 @@ interface ChatMessage {
   recommendedVehicles?: RecommendedVehicle[];
 }
 
-const SUGGESTED_QUESTIONS = [
-  "I need a car for 5 people",
-  "What's your cheapest option?",
-  "Do you have electric cars?",
-];
+const SUGGESTED_KEYS = ["chat.q1", "chat.q2", "chat.q3"] as const;
 
 /** Matches the hidden marker prompts.ts tells the AI to end recommendation
  * replies with — stripped out before the text is shown to the visitor. */
@@ -69,6 +66,7 @@ async function getSessionCustomerInfo(): Promise<SessionCustomerInfo> {
 export const OPEN_CHAT_EVENT = "bestcar:open-chat";
 
 export function ChatWidget() {
+  const t = useT();
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
@@ -267,7 +265,7 @@ export function ChatWidget() {
         }).catch(() => {});
       }
     } catch {
-      updateLastMessage({ content: "Sorry, something went wrong. Please try again in a moment." });
+      updateLastMessage({ content: t("chat.error") });
     } finally {
       setLoading(false);
     }
@@ -292,7 +290,7 @@ export function ChatWidget() {
           ref={launcherRef}
           type="button"
           onClick={() => setOpen(true)}
-          aria-label={messages.length > 0 ? "Open chat (conversation in progress)" : "Open chat"}
+          aria-label={messages.length > 0 ? t("chat.openActive") : t("chat.open")}
           aria-hidden={launcherBlocked}
           tabIndex={launcherBlocked ? -1 : 0}
           className={cn(
@@ -319,13 +317,13 @@ export function ChatWidget() {
         >
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-(--space-sm)">
             <span id="chat-widget-title" className="font-heading text-base font-semibold text-foreground">
-              BestCar Assistant
+              {t("chat.title")}
             </span>
             <button
               ref={closeButtonRef}
               type="button"
               onClick={() => setOpen(false)}
-              aria-label="Close chat"
+              aria-label={t("chat.close")}
               className="flex size-11 items-center justify-center rounded-full text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <X className="size-5" />
@@ -335,15 +333,15 @@ export function ChatWidget() {
           <div
             role="log"
             aria-live="polite"
-            aria-label="Chat messages"
+            aria-label={t("chat.log")}
             className="flex flex-1 flex-col gap-(--space-sm) overflow-y-auto p-(--space-sm)"
           >
             {messages.length === 0 && (
               <div className="flex flex-col gap-(--space-xs)">
                 <p className="text-sm text-muted-foreground">
-                  Hi! Ask me about our cars, or try one of these:
+                  {t("chat.greeting")}
                 </p>
-                {SUGGESTED_QUESTIONS.map((question) => (
+                {SUGGESTED_KEYS.map((key) => t(key)).map((question) => (
                   <button
                     key={question}
                     type="button"
@@ -427,8 +425,8 @@ export function ChatWidget() {
               value={input}
               onChange={(event) => setInput(event.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="Ask about a car..."
-              aria-label="Message"
+              placeholder={t("chat.placeholder")}
+              aria-label={t("chat.message")}
               disabled={loading}
               rows={1}
               className="max-h-32 min-h-9 flex-1 resize-none py-2"
@@ -437,7 +435,7 @@ export function ChatWidget() {
               type="submit"
               size="icon"
               disabled={loading || !input.trim()}
-              aria-label="Send message"
+              aria-label={t("chat.send")}
             >
               <Send className="size-4" />
             </Button>

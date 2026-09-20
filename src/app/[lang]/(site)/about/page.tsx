@@ -5,7 +5,10 @@ import { buttonVariants } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { getT } from "@/lib/i18n/dictionary";
 
-export const generateMetadata = () => pageMetadata("/about", { title: "About Us" });
+export async function generateMetadata() {
+  const t = await getT();
+  return pageMetadata("/about", { title: t("meta.about") });
+}
 
 const VALUES = [
   { icon: Wallet, key: "v1" },

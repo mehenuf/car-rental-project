@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
+import { getT } from "@/lib/i18n/dictionary";
 import type { ReactNode } from "react";
 
-export const metadata: Metadata = { title: "Create Account" };
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return { title: t("meta.register") };
+}
 
 export default function RegisterLayout({ children }: { children: ReactNode }) {
   return children;

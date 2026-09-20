@@ -7,14 +7,15 @@ import { getMessages } from "@/lib/i18n/dictionary";
 import { LOCALES, hasLocale } from "@/lib/i18n/locales";
 import { createT } from "@/lib/i18n/t";
 
-export const metadata: Metadata = {
-  title: {
-    template: "%s | BestCar",
-    default: "BestCar — Rent a Car in Minutes",
-  },
-  description:
-    "Book a rental car in minutes. No account required, transparent pricing, pick-up points across the country.",
-};
+export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }): Promise<Metadata> {
+  const { lang } = await params;
+  if (!hasLocale(lang)) return {};
+  const t = createT(lang, await getMessages(lang));
+  return {
+    title: { template: "%s | BestCar", default: t("meta.siteTitle") },
+    description: t("meta.siteDescription"),
+  };
+}
 
 export function generateStaticParams() {
   return LOCALES.map((lang) => ({ lang }));

@@ -54,7 +54,8 @@
     "step2Title": "Tanggal Pengambilan",
     "step2Body": "Beri tahu kami kapan Anda butuh mobil dan untuk berapa lama. Kami akan menahannya untuk Anda.",
     "step3Title": "Pesan mobil Anda",
-    "step3Body": "Konfirmasi data Anda dan selesai. Mobil Anda sudah siap menunggu."
+    "step3Body": "Konfirmasi data Anda dan selesai. Mobil Anda sudah siap menunggu.",
+    "title": "Menyewa mobil bersama kami hanya butuh tiga langkah mudah, dari memilih lokasi hingga berangkat."
   },
   "whyChooseUs": {
     "title": "Mengapa Memilih Kami",
@@ -648,5 +649,31 @@
     "title": "Sewa mobil di {city}",
     "intro": "Sewa mobil di {city}: bandingkan mobil yang tersedia, lihat harga sebelum memesan, dan ambil di cabang setempat.",
     "empty": "Saat ini tidak ada mobil tersedia di {city}. Silakan periksa lagi nanti."
+  },
+  "meta": {
+    "siteTitle": "BestCar: sewa mobil dalam hitungan menit",
+    "siteDescription": "Pesan mobil sewaan dalam hitungan menit. Tanpa akun, harga transparan, dan titik penjemputan di seluruh negeri.",
+    "cars": "Lihat mobil",
+    "about": "Tentang kami",
+    "contact": "Kontak",
+    "login": "Masuk",
+    "register": "Buat akun",
+    "privacy": "Kebijakan privasi",
+    "terms": "Syarat dan ketentuan"
+  },
+  "chat": {
+    "title": "Asisten BestCar",
+    "greeting": "Halo! Tanyakan tentang mobil kami, atau coba salah satu ini:",
+    "q1": "Saya butuh mobil untuk 5 orang",
+    "q2": "Apa pilihan termurah Anda?",
+    "q3": "Apakah ada mobil listrik?",
+    "open": "Buka obrolan",
+    "openActive": "Buka obrolan (percakapan berlangsung)",
+    "close": "Tutup obrolan",
+    "log": "Pesan obrolan",
+    "placeholder": "Tanyakan tentang mobil...",
+    "message": "Pesan",
+    "send": "Kirim pesan",
+    "error": "Maaf, terjadi kesalahan. Silakan coba lagi sebentar lagi."
   }
 }

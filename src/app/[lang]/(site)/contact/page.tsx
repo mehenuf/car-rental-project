@@ -4,7 +4,10 @@ import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { LiveChatTrigger } from "@/components/site/live-chat-trigger";
 import { getT } from "@/lib/i18n/dictionary";
 
-export const generateMetadata = () => pageMetadata("/contact", { title: "Contact Us" });
+export async function generateMetadata() {
+  const t = await getT();
+  return pageMetadata("/contact", { title: t("meta.contact") });
+}
 
 export default async function ContactPage() {
   const t = await getT();

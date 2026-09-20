@@ -1,10 +1,14 @@
+import { getT } from "@/lib/i18n/dictionary";
 import { pageMetadata } from "@/lib/seo/metadata";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CarsPageContent } from "@/components/site/cars-page-content";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const generateMetadata = (): Promise<Metadata> => pageMetadata("/cars", { title: "Browse Cars" });
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getT();
+  return pageMetadata("/cars", { title: t("meta.cars") });
+}
 
 function CarsPageFallback() {
   return (

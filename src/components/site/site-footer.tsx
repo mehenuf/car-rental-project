@@ -45,7 +45,7 @@ export async function SiteFooter() {
                   <li key={link.href}>
                     <Link
                       href={link.href}
-                      className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                      className="inline-flex min-h-8 items-center text-sm text-muted-foreground transition-colors hover:text-foreground pointer-coarse:min-h-11"
                     >
                       {link.label}
                     </Link>
@@ -60,10 +60,10 @@ export async function SiteFooter() {
           <p>{t("footer.copyright", { year: String(new Date().getFullYear()) })}</p>
           <div data-chat-avoid className="flex flex-wrap items-center justify-center gap-4">
             <LanguageSwitcher />
-            <Link href="/privacy" className="hover:text-foreground">
+            <Link href="/privacy" className="inline-flex min-h-8 items-center hover:text-foreground pointer-coarse:min-h-11">
               {t("footer.privacy")}
             </Link>
-            <Link href="/terms" className="hover:text-foreground">
+            <Link href="/terms" className="inline-flex min-h-8 items-center hover:text-foreground pointer-coarse:min-h-11">
               {t("footer.terms")}
             </Link>
           </div>

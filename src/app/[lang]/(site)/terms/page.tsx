@@ -1,5 +1,8 @@
 import { getLocale, getT } from "@/lib/i18n/dictionary";
-export const metadata = { title: "Terms & Conditions" };
+export async function generateMetadata() {
+  const t = await getT();
+  return { title: t("meta.terms") };
+}
 
 export default async function TermsPage() {
   const locale = await getLocale();

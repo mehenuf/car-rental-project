@@ -41,19 +41,22 @@ export function ConsentManager() {
     <>
       {state.analytics && <Analytics />}
       {state.banner && (
-        <div role="dialog" aria-labelledby="consent-title" aria-describedby="consent-body" className="fixed inset-x-0 bottom-0 z-[90] border-t border-border bg-card p-(--space-sm) shadow-lg">
-          <div className="mx-auto flex max-w-4xl flex-col gap-(--space-xs) sm:flex-row sm:items-center">
-            <div className="flex-1">
-              <p id="consent-title" className="font-heading text-sm font-semibold text-foreground">{t("consent.title")}</p>
-              <p id="consent-body" className="text-sm text-muted-foreground">
-                {t("consent.body")}{" "}
-                <Link href="/privacy" className="underline underline-offset-2">{t("footer.privacy")}</Link>
-              </p>
-            </div>
-            <div className="flex gap-2">
-              <Button type="button" variant="outline" onClick={() => choose(false)}>{t("consent.decline")}</Button>
-              <Button type="button" onClick={() => choose(true)}>{t("consent.accept")}</Button>
-            </div>
+        <div
+          role="dialog"
+          aria-labelledby="consent-title"
+          aria-describedby="consent-body"
+          className="fixed inset-x-3 bottom-3 z-[90] flex flex-col gap-3 rounded-2xl border border-border bg-card/95 p-4 shadow-xl backdrop-blur animate-in fade-in slide-in-from-bottom-4 duration-300 sm:inset-x-auto sm:bottom-4 sm:start-4 sm:max-w-sm"
+        >
+          <div className="flex flex-col gap-1">
+            <p id="consent-title" className="font-heading text-sm font-semibold text-foreground">{t("consent.title")}</p>
+            <p id="consent-body" className="text-xs leading-relaxed text-muted-foreground">
+              {t("consent.body")}{" "}
+              <Link href="/privacy" className="underline underline-offset-2">{t("footer.privacy")}</Link>
+            </p>
+          </div>
+          <div className="grid grid-cols-2 gap-2">
+            <Button type="button" variant="outline" onClick={() => choose(false)}>{t("consent.decline")}</Button>
+            <Button type="button" onClick={() => choose(true)}>{t("consent.accept")}</Button>
           </div>
         </div>
       )}

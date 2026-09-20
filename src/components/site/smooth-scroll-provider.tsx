@@ -25,6 +25,18 @@ gsap.registerPlugin(ScrollTrigger);
  * scroll-lock signal is more robust than hardcoding one library's exact
  * attribute name, and cheap since it only watches two elements' attributes.
  */
+/** Anything that scrolls by itself and should not be driven by the page's smooth scrolling. */
+const SELF_SCROLLING = [
+  "[data-lenis-prevent]",
+  "[role='menu']",
+  "[role='listbox']",
+  "[role='dialog']",
+  "[data-slot='popover-content']",
+  "[data-slot='select-content']",
+  "[data-slot='dropdown-menu-content']",
+  "[data-slot='sheet-content']",
+].join(",");
+
 export function SmoothScrollProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -33,6 +45,9 @@ export function SmoothScrollProvider({ children }: { children: ReactNode }) {
       duration: 1.15,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       smoothWheel: true,
+      // Lists that scroll on their own (language menu, time slots, selects, dialogs) must keep their wheel and touch
+      // events, otherwise the smoothing layer swallows them and the list cannot be scrolled.
+      prevent: (node) => node.closest(SELF_SCROLLING) !== null,
     });
 
     lenis.on("scroll", ScrollTrigger.update);

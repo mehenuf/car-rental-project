@@ -54,7 +54,8 @@
     "step2Title": "Pick-up Date",
     "step2Body": "Tell us when you need the car and for how long. We'll hold it for you.",
     "step3Title": "Book your car",
-    "step3Body": "Confirm your details and you're set. Your ride will be ready and waiting."
+    "step3Body": "Confirm your details and you're set. Your ride will be ready and waiting.",
+    "title": "Renting a car with us takes three simple steps, from picking a location to driving away."
   },
   "whyChooseUs": {
     "title": "Why Choose Us",
@@ -658,5 +659,31 @@
     "title": "Car rental in {city}",
     "intro": "Rent a car in {city}: compare available cars, see the price before you book, and pick up at a local branch.",
     "empty": "No cars are available in {city} right now. Please check again soon."
+  },
+  "meta": {
+    "siteTitle": "BestCar: Rent a Car in Minutes",
+    "siteDescription": "Book a rental car in minutes. No account required, transparent pricing, pick-up points across the country.",
+    "cars": "Browse cars",
+    "about": "About us",
+    "contact": "Contact us",
+    "login": "Sign in",
+    "register": "Create account",
+    "privacy": "Privacy policy",
+    "terms": "Terms and conditions"
+  },
+  "chat": {
+    "title": "BestCar Assistant",
+    "greeting": "Hi! Ask me about our cars, or try one of these:",
+    "q1": "I need a car for 5 people",
+    "q2": "What's your cheapest option?",
+    "q3": "Do you have electric cars?",
+    "open": "Open chat",
+    "openActive": "Open chat (conversation in progress)",
+    "close": "Close chat",
+    "log": "Chat messages",
+    "placeholder": "Ask about a car...",
+    "message": "Message",
+    "send": "Send message",
+    "error": "Sorry, something went wrong. Please try again in a moment."
   }
 }

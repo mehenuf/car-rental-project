@@ -54,7 +54,8 @@
     "step2Title": "Date de prise en charge",
     "step2Body": "Dites-nous quand vous avez besoin de la voiture et pour combien de temps. Nous vous la réservons.",
     "step3Title": "Réservez votre voiture",
-    "step3Body": "Confirmez vos informations et c'est fait. Votre voiture vous attendra."
+    "step3Body": "Confirmez vos informations et c'est fait. Votre voiture vous attendra.",
+    "title": "Louer une voiture chez nous se fait en trois étapes simples, du choix du lieu jusqu'au départ."
   },
   "whyChooseUs": {
     "title": "Pourquoi nous choisir",
@@ -658,5 +659,31 @@
     "title": "Location de voitures à {city}",
     "intro": "Louez une voiture à {city} : comparez les voitures disponibles, voyez le prix avant de réserver et récupérez-la dans une agence locale.",
     "empty": "Aucune voiture n'est disponible à {city} pour le moment. Revenez bientôt."
+  },
+  "meta": {
+    "siteTitle": "BestCar : louez une voiture en quelques minutes",
+    "siteDescription": "Réservez une voiture de location en quelques minutes. Sans compte, prix transparents, points de retrait dans tout le pays.",
+    "cars": "Voir les voitures",
+    "about": "À propos",
+    "contact": "Contact",
+    "login": "Se connecter",
+    "register": "Créer un compte",
+    "privacy": "Politique de confidentialité",
+    "terms": "Conditions générales"
+  },
+  "chat": {
+    "title": "Assistant BestCar",
+    "greeting": "Bonjour ! Posez-moi vos questions sur nos voitures ou essayez l'une de ces idées :",
+    "q1": "Il me faut une voiture pour 5 personnes",
+    "q2": "Quelle est l'option la moins chère ?",
+    "q3": "Avez-vous des voitures électriques ?",
+    "open": "Ouvrir le chat",
+    "openActive": "Ouvrir le chat (conversation en cours)",
+    "close": "Fermer le chat",
+    "log": "Messages du chat",
+    "placeholder": "Posez une question sur une voiture...",
+    "message": "Message",
+    "send": "Envoyer le message",
+    "error": "Désolé, une erreur est survenue. Veuillez réessayer dans un instant."
   }
 }
