@@ -1,10 +1,11 @@
+import { pageMetadata } from "@/lib/seo/metadata";
 import { Link } from "@/lib/i18n/link";
 import { Clock, ShieldCheck, Wallet } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { getT } from "@/lib/i18n/dictionary";
 
-export const metadata = { title: "About Us" };
+export const generateMetadata = () => pageMetadata("/about", { title: "About Us" });
 
 const VALUES = [
   { icon: Wallet, key: "v1" },

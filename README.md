@@ -115,6 +115,8 @@ Create a `.env.local` file in the project root with the following variables:
 | `VAPID_PUBLIC_KEY`, `VAPID_PRIVATE_KEY`, `VAPID_SUBJECT` | Optional. Web Push (free): generate with `npx web-push generate-vapid-keys`. |
 | `NEXT_PUBLIC_SITE_URL` | The public origin, used for links inside emails and to verify Twilio webhooks. |
 | `ADMIN_REQUIRE_MFA` | Optional. Staff must complete a second factor (authenticator app) to use the admin console. Defaults to on; set to `false` only for local development. |
+| `CONSENT_SALT` | Secret salt used to hash IPs stored with cookie-consent records. Set a long random value in production. |
+| `SENTRY_DSN` | Optional. When set, server errors are sent to Sentry (personal data scrubbed) as well as logged as JSON. |
 | `QUOTE_SIGNING_SECRET` | Server-only secret (at least 32 characters) used to sign the 15 minute price quotes returned by `POST /api/quote`. Generate one with `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`. Quoting fails without it. |
 | `CRON_SECRET` | Server-only secret that protects `GET /api/cron/maintenance`. Vercel Cron sends it as `Authorization: Bearer <secret>`. Without it the endpoint answers 503. |
 | `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Optional. Stripe **test-mode** keys and the webhook signing secret. With them, card payments go through Stripe. Without them every method is simulated and the site works the same. |

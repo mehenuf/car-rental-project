@@ -18,8 +18,8 @@ export function DriverProfileInputSchema(now: Date = new Date()) {
       .refine(isRealDate, "Enter a valid date of birth")
       .refine((v) => {
         const age = ageOn(v, now, "UTC");
-        return age >= 16 && age <= 110;
-      }, "Enter a valid date of birth"),
+        return age >= 18 && age <= 110;
+      }, "You must be at least 18 to rent"),
     licence_country: z.string().trim().length(2, "Use a two-letter country code").transform((v) => v.toUpperCase()),
     licence_number_last4: z
       .string()

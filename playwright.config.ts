@@ -12,7 +12,7 @@ export default defineConfig({
   // Tests run against the production build, so the real security headers and script integrity are exercised.
   webServer: {
     command: `npx next start -p ${port}`,
-    url: `http://localhost:${port}/api/health`,
+    url: `http://localhost:${port}/en/login`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

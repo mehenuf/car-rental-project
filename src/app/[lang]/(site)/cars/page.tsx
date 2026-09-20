@@ -1,9 +1,10 @@
+import { pageMetadata } from "@/lib/seo/metadata";
 import type { Metadata } from "next";
 import { Suspense } from "react";
 import { CarsPageContent } from "@/components/site/cars-page-content";
 import { Skeleton } from "@/components/ui/skeleton";
 
-export const metadata: Metadata = { title: "Browse Cars" };
+export const generateMetadata = (): Promise<Metadata> => pageMetadata("/cars", { title: "Browse Cars" });
 
 function CarsPageFallback() {
   return (

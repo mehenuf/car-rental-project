@@ -10,7 +10,8 @@ import { supabaseAdmin } from "@/lib/supabase-server";
  * GET or POST /api/cron/maintenance — scheduled housekeeping, protected by CRON_SECRET:
  *   1. cancels unpaid bookings whose 15 minute hold has expired and frees their cars,
  *   2. releases security deposits once the dispute window after completion has passed,
- *   3. pays out provider earnings that are due (simulated bank transfer).
+ *   3. pays out provider earnings that are due (simulated bank transfer),
+ *   4. sends queued notifications and applies data retention.
  * Each step is idempotent, so running it twice or late is safe.
  */
 async function run(request: NextRequest) {
@@ -39,6 +40,10 @@ async function run(request: NextRequest) {
   if (reminderError) throw new Error(`enqueue_due_reminders: ${reminderError.message}`);
   const dispatched = await runDispatch();
 
+  // Purge or anonymise data past its retention period (see docs/compliance/record-of-processing.md).
+  const { data: retention, error: retentionError } = await supabaseAdmin.rpc("apply_retention");
+  if (retentionError) throw new Error(`apply_retention: ${retentionError.message}`);
+
   return NextResponse.json({
     expired_holds: expired ?? 0,
     released_deposits: releasedDeposits,
@@ -47,6 +52,7 @@ async function run(request: NextRequest) {
     reviews_published: published ?? 0,
     disputes_escalated: escalated ?? 0,
     reminders_queued: reminders ?? 0,
+    retention,
     ...dispatched,
   });
 }
