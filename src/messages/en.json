@@ -608,5 +608,28 @@
       "escalate": "Escalated",
       "decision": "Decision"
     }
+  },
+  "consent": {
+    "title": "Cookies and your privacy",
+    "body": "We use necessary cookies to keep you signed in and remember your language. With your permission we also use analytics to see how the site is used. You can change your mind at any time.",
+    "accept": "Accept analytics",
+    "decline": "Necessary only"
+  },
+  "privacy": {
+    "navLabel": "Privacy",
+    "title": "Your privacy",
+    "intro": "See what we keep about you, take a copy, change your cookie choice, or delete your account.",
+    "downloadTitle": "Download my data",
+    "downloadBody": "A file with your account, bookings, licence details, messages, reviews and preferences.",
+    "download": "Download (JSON)",
+    "cookiesTitle": "Cookies",
+    "cookiesBody": "Necessary cookies are always on. Analytics run only if you allow them.",
+    "saved": "Saved.",
+    "acceptedTitle": "Policies you have accepted",
+    "deleteTitle": "Delete my account",
+    "deleteBody": "This removes your personal data and anonymises your bookings. Payment and booking records that we must keep by law stay, without your name, email or phone. You cannot delete while a booking is open or a dispute is unresolved. This cannot be undone.",
+    "deleteConfirm": "Type {email} to confirm",
+    "delete": "Delete my account",
+    "error": "Something went wrong. Please try again."
   }
 }

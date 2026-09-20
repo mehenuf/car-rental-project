@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { ZodError } from "zod";
 import { ApiError } from "@/lib/errors";
+import { isAllowedOrigin } from "@/lib/security/origin";
 
 export interface ApiErrorBody {
   error: {
@@ -58,6 +59,14 @@ export function withErrorHandling<Args extends unknown[]>(
 ): (...args: Args) => Promise<NextResponse> {
   return async (...args: Args) => {
     try {
+      // CSRF guard: a browser POST from another site carries a foreign Origin and is refused.
+      const request = args[0];
+      if (request instanceof Request && !["GET", "HEAD", "OPTIONS"].includes(request.method)) {
+        const extra = (process.env.NEXT_PUBLIC_SITE_URL ? [process.env.NEXT_PUBLIC_SITE_URL] : []);
+        const origin = request.headers.get("origin");
+        const host = request.headers.get("x-forwarded-host") ?? request.headers.get("host");
+        if (!isAllowedOrigin(origin, host, extra)) throw new ApiError(403, "This request came from another site.");
+      }
       return await handler(...args);
     } catch (error) {
       return handleApiError(error);

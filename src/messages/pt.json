@@ -608,5 +608,28 @@
       "escalate": "Escalada",
       "decision": "Decisão"
     }
+  },
+  "consent": {
+    "title": "Cookies e sua privacidade",
+    "body": "Usamos cookies necessários para manter você conectado e lembrar seu idioma. Com sua permissão, também usamos análises para entender como o site é usado. Você pode mudar de ideia a qualquer momento.",
+    "accept": "Aceitar análises",
+    "decline": "Apenas os necessários"
+  },
+  "privacy": {
+    "navLabel": "Privacidade",
+    "title": "Sua privacidade",
+    "intro": "Veja o que guardamos sobre você, baixe uma cópia, altere sua escolha de cookies ou exclua sua conta.",
+    "downloadTitle": "Baixar meus dados",
+    "downloadBody": "Um arquivo com sua conta, reservas, dados da habilitação, mensagens, avaliações e preferências.",
+    "download": "Baixar (JSON)",
+    "cookiesTitle": "Cookies",
+    "cookiesBody": "Os cookies necessários estão sempre ativos. As análises só funcionam se você permitir.",
+    "saved": "Salvo.",
+    "acceptedTitle": "Políticas aceitas",
+    "deleteTitle": "Excluir minha conta",
+    "deleteBody": "Isso remove seus dados pessoais e anonimiza suas reservas. Os registros de pagamento e reserva que a lei nos obriga a manter permanecem, sem seu nome, e-mail ou telefone. Não é possível excluir enquanto houver reserva em aberto ou disputa não resolvida. Não dá para desfazer.",
+    "deleteConfirm": "Digite {email} para confirmar",
+    "delete": "Excluir minha conta",
+    "error": "Algo deu errado. Tente novamente."
   }
 }

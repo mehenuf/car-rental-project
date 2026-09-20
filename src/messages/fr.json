@@ -608,5 +608,28 @@
       "escalate": "Escaladée",
       "decision": "Décision"
     }
+  },
+  "consent": {
+    "title": "Cookies et confidentialité",
+    "body": "Nous utilisons des cookies nécessaires pour maintenir votre connexion et retenir votre langue. Avec votre accord, nous utilisons aussi des statistiques pour comprendre l'usage du site. Vous pouvez changer d'avis à tout moment.",
+    "accept": "Accepter les statistiques",
+    "decline": "Nécessaires uniquement"
+  },
+  "privacy": {
+    "navLabel": "Confidentialité",
+    "title": "Votre confidentialité",
+    "intro": "Consultez ce que nous conservons sur vous, téléchargez une copie, modifiez votre choix de cookies ou supprimez votre compte.",
+    "downloadTitle": "Télécharger mes données",
+    "downloadBody": "Un fichier avec votre compte, vos réservations, les informations de permis, messages, avis et préférences.",
+    "download": "Télécharger (JSON)",
+    "cookiesTitle": "Cookies",
+    "cookiesBody": "Les cookies nécessaires sont toujours actifs. Les statistiques ne fonctionnent que si vous les autorisez.",
+    "saved": "Enregistré.",
+    "acceptedTitle": "Politiques acceptées",
+    "deleteTitle": "Supprimer mon compte",
+    "deleteBody": "Vos données personnelles sont supprimées et vos réservations anonymisées. Les enregistrements de paiement et de réservation que la loi nous impose de conserver restent, sans votre nom, e-mail ni téléphone. Impossible de supprimer tant qu'une réservation est ouverte ou qu'un litige n'est pas réglé. Cette action est irréversible.",
+    "deleteConfirm": "Saisissez {email} pour confirmer",
+    "delete": "Supprimer mon compte",
+    "error": "Une erreur est survenue. Veuillez réessayer."
   }
 }

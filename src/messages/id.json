@@ -598,5 +598,28 @@
       "escalate": "Dieskalasi",
       "decision": "Keputusan"
     }
+  },
+  "consent": {
+    "title": "Cookie dan privasi Anda",
+    "body": "Kami memakai cookie yang diperlukan agar Anda tetap masuk dan bahasa Anda diingat. Dengan izin Anda, kami juga memakai analitik untuk melihat cara situs digunakan. Anda dapat mengubah pilihan kapan saja.",
+    "accept": "Terima analitik",
+    "decline": "Hanya yang diperlukan"
+  },
+  "privacy": {
+    "navLabel": "Privasi",
+    "title": "Privasi Anda",
+    "intro": "Lihat data yang kami simpan tentang Anda, unduh salinannya, ubah pilihan cookie, atau hapus akun Anda.",
+    "downloadTitle": "Unduh data saya",
+    "downloadBody": "Berkas berisi akun, pemesanan, data SIM, pesan, ulasan, dan preferensi Anda.",
+    "download": "Unduh (JSON)",
+    "cookiesTitle": "Cookie",
+    "cookiesBody": "Cookie yang diperlukan selalu aktif. Analitik hanya berjalan jika Anda mengizinkan.",
+    "saved": "Tersimpan.",
+    "acceptedTitle": "Kebijakan yang telah Anda setujui",
+    "deleteTitle": "Hapus akun saya",
+    "deleteBody": "Ini menghapus data pribadi Anda dan menganonimkan pemesanan Anda. Catatan pembayaran dan pemesanan yang wajib kami simpan menurut hukum tetap ada, tanpa nama, email, atau telepon Anda. Penghapusan tidak dapat dilakukan selama ada pemesanan terbuka atau sengketa belum selesai. Tindakan ini tidak dapat dibatalkan.",
+    "deleteConfirm": "Ketik {email} untuk mengonfirmasi",
+    "delete": "Hapus akun saya",
+    "error": "Terjadi kesalahan. Silakan coba lagi."
   }
 }

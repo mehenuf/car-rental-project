@@ -7,7 +7,7 @@ import { validateNewMember } from "@/lib/provider/team";
 import { createRateLimiter, getVisitorId } from "@/lib/rate-limit";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-const isRateLimited = createRateLimiter({ limit: 10, windowMs: 60_000 });
+const isRateLimited = createRateLimiter({ name: "provider/team", limit: 10, windowMs: 60_000 });
 
 /** GET /api/provider/team — everyone on the account with their role, branch scope and email. */
 export const GET = withErrorHandling(async () => {
@@ -39,7 +39,7 @@ export const GET = withErrorHandling(async () => {
  * by email, as a manager or an agent (optionally limited to one branch).
  */
 export const POST = withErrorHandling(async (request: NextRequest) => {
-  if (isRateLimited(getVisitorId(request))) throw new RateLimitError();
+  if (await isRateLimited(getVisitorId(request))) throw new RateLimitError();
   const { providerId } = await requireProviderAccess("team.manage");
   const input = AddMemberSchema.parse(await request.json());
 

@@ -608,5 +608,28 @@
       "escalate": "Eskaliert",
       "decision": "Entscheidung"
     }
+  },
+  "consent": {
+    "title": "Cookies und Datenschutz",
+    "body": "Wir verwenden notwendige Cookies, um Sie angemeldet zu halten und Ihre Sprache zu speichern. Mit Ihrer Erlaubnis nutzen wir außerdem Analysen, um die Nutzung der Website zu verstehen. Sie können Ihre Entscheidung jederzeit ändern.",
+    "accept": "Analyse zulassen",
+    "decline": "Nur notwendige"
+  },
+  "privacy": {
+    "navLabel": "Datenschutz",
+    "title": "Ihre Privatsphäre",
+    "intro": "Sehen Sie, was wir über Sie speichern, laden Sie eine Kopie herunter, ändern Sie Ihre Cookie-Auswahl oder löschen Sie Ihr Konto.",
+    "downloadTitle": "Meine Daten herunterladen",
+    "downloadBody": "Eine Datei mit Ihrem Konto, Ihren Buchungen, Führerscheindaten, Nachrichten, Bewertungen und Einstellungen.",
+    "download": "Herunterladen (JSON)",
+    "cookiesTitle": "Cookies",
+    "cookiesBody": "Notwendige Cookies sind immer aktiv. Analysen laufen nur, wenn Sie sie erlauben.",
+    "saved": "Gespeichert.",
+    "acceptedTitle": "Akzeptierte Richtlinien",
+    "deleteTitle": "Mein Konto löschen",
+    "deleteBody": "Ihre personenbezogenen Daten werden entfernt und Ihre Buchungen anonymisiert. Zahlungs- und Buchungsdaten, die wir gesetzlich aufbewahren müssen, bleiben ohne Ihren Namen, Ihre E-Mail und Telefonnummer erhalten. Solange eine Buchung offen oder ein Streitfall ungelöst ist, ist das Löschen nicht möglich. Das lässt sich nicht rückgängig machen.",
+    "deleteConfirm": "Geben Sie {email} zur Bestätigung ein",
+    "delete": "Mein Konto löschen",
+    "error": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
   }
 }

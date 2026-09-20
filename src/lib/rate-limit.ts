@@ -1,5 +1,6 @@
 import "server-only";
 import type { NextRequest } from "next/server";
+import { supabaseAdmin } from "@/lib/supabase-server";
 
 /** The FIRST entry in x-forwarded-for is whatever the client itself sent —
  * trivially spoofable. The LAST entry is the one our own edge/proxy
@@ -15,41 +16,17 @@ export function getVisitorId(request: NextRequest): string {
   return request.headers.get("x-real-ip") ?? "unknown";
 }
 
-/**
- * A plain in-memory sliding-window rate limiter — not shared across
- * server instances and reset on every deploy/restart, which is fine for
- * what this is: a soft speed bump against a single script hammering an
- * endpoint, not a durable abuse ledger. Each call site gets its own
- * independent limiter (and therefore its own independent visitor map) via
- * this factory, so a burst against one endpoint doesn't consume another
- * endpoint's budget.
- */
-export function createRateLimiter(options: {
-  limit: number;
-  windowMs: number;
-  /** Clears the whole map once it holds this many visitors, so it can
-   * never grow without bound on a long-running server. */
-  maxTrackedVisitors?: number;
-}) {
-  const { limit, windowMs, maxTrackedVisitors = 5000 } = options;
-  const hits = new Map<string, number[]>();
+import { buildRateLimiter, type HitFn } from "@/lib/rate-limit-core";
 
-  return function isRateLimited(visitorId: string): boolean {
-    const now = Date.now();
-    const recent = (hits.get(visitorId) ?? []).filter((t) => now - t < windowMs);
+export type { HitFn };
 
-    if (recent.length >= limit) {
-      hits.set(visitorId, recent);
-      return true;
-    }
+/** The shared store: one atomic Postgres upsert per hit (`rate_limit_hit`), so limits hold across serverless instances and restarts. */
+const databaseHit: HitFn = async (key, windowSeconds, limit) => {
+  const { data, error } = await supabaseAdmin.rpc("rate_limit_hit", { p_key: key, p_window_seconds: windowSeconds, p_limit: limit });
+  if (error) throw new Error(error.message);
+  return { allowed: data?.[0]?.allowed ?? true };
+};
 
-    recent.push(now);
-    hits.set(visitorId, recent);
-
-    if (hits.size > maxTrackedVisitors) {
-      hits.clear();
-    }
-
-    return false;
-  };
+export function createRateLimiter(options: { name: string; limit: number; windowMs: number; maxTrackedVisitors?: number }) {
+  return buildRateLimiter({ ...options, hit: databaseHit });
 }

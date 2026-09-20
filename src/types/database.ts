@@ -514,6 +514,32 @@ export type ModelRequestRow = {
 
 export type SettingsHistoryRow = { id: number; changed_at: string; changed_by: string | null; before: Json; after: Json; approval_id: string | null };
 
+export type ConsentRow = {
+  id: string;
+  user_id: string | null;
+  anon_id: string | null;
+  purpose: "necessary" | "analytics";
+  granted: boolean;
+  policy_version: string;
+  ip_hash: string | null;
+  created_at: string;
+};
+
+export type PolicyVersionRow = { kind: "terms" | "privacy" | "cookies"; version: string; published_at: string; content_hash: string | null };
+export type PolicyAcceptanceRow = { user_id: string; kind: string; version: string; accepted_at: string };
+
+export type DataRequestRow = {
+  id: string;
+  user_id: string | null;
+  kind: "export" | "erase";
+  status: "requested" | "verifying" | "processing" | "done" | "rejected";
+  requested_at: string;
+  completed_at: string | null;
+  note: string | null;
+};
+
+export type VehicleTranslationRow = { vehicle_id: string; lang: string; description: string | null; features: Json | null };
+
 export type GuestClaimRow = {
   id: string;
   user_id: string;
@@ -926,6 +952,36 @@ export interface Database {
         Update: Partial<SettingsHistoryRow>;
         Relationships: [];
       };
+      consents: {
+        Row: ConsentRow;
+        Insert: InsertOf<ConsentRow, "purpose" | "granted" | "policy_version">;
+        Update: Partial<ConsentRow>;
+        Relationships: [];
+      };
+      policy_versions: {
+        Row: PolicyVersionRow;
+        Insert: InsertOf<PolicyVersionRow, "kind" | "version">;
+        Update: Partial<PolicyVersionRow>;
+        Relationships: [];
+      };
+      policy_acceptances: {
+        Row: PolicyAcceptanceRow;
+        Insert: InsertOf<PolicyAcceptanceRow, "user_id" | "kind" | "version">;
+        Update: Partial<PolicyAcceptanceRow>;
+        Relationships: [];
+      };
+      data_requests: {
+        Row: DataRequestRow;
+        Insert: InsertOf<DataRequestRow, "kind">;
+        Update: Partial<DataRequestRow>;
+        Relationships: [];
+      };
+      vehicle_translations: {
+        Row: VehicleTranslationRow;
+        Insert: InsertOf<VehicleTranslationRow, "vehicle_id" | "lang">;
+        Update: Partial<VehicleTranslationRow>;
+        Relationships: [];
+      };
       guest_claims: {
         Row: GuestClaimRow;
         Insert: InsertOf<GuestClaimRow, "user_id" | "booking_id">;
@@ -1185,6 +1241,10 @@ export interface Database {
         Returns: DisputeRow;
       };
       evaluate_booking_risk: { Args: { p_booking_id: string }; Returns: string[] };
+      apply_retention: { Args: { p_now?: string }; Returns: Json };
+      export_user_data: { Args: { p_user: string }; Returns: Json };
+      erase_user: { Args: { p_user: string }; Returns: Json };
+      rate_limit_hit: { Args: { p_key: string; p_window_seconds: number; p_limit: number }; Returns: { allowed: boolean; remaining: number; retry_after_seconds: number }[] };
       staff_role: { Args: { p_user: string }; Returns: string | null };
       audit_write: { Args: { p_action: string; p_entity_type: string; p_entity_id: string; p_before: Json | null; p_after: Json | null; p_reason?: string | null }; Returns: undefined };
       decide_approval: { Args: { p_id: string; p_decider: string; p_approve: boolean; p_note?: string | null }; Returns: ApprovalRow };

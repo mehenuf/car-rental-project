@@ -9,6 +9,7 @@ export default async function AccountLayout({ children }: { children: ReactNode 
     { href: "/account/driver", label: t("account.navDriver") },
     { href: "/account/notifications", label: t("notify.navLabel") },
     { href: "/account/security", label: t("account.navSecurity") },
+    { href: "/account/privacy", label: t("privacy.navLabel") },
   ];
   return (
     <div className="mx-auto flex max-w-4xl flex-col gap-(--space-md) px-(--space-sm) py-(--space-xl)">
