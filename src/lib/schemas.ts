@@ -44,9 +44,12 @@ const fuelValues = [
 export const FuelSchema = z.enum(fuelValues);
 
 const bookingStatusValues = [
-  "success",
   "pending",
+  "confirmed",
+  "active",
+  "completed",
   "cancelled",
+  "no_show",
 ] as const satisfies readonly BookingStatus[];
 export const BookingStatusSchema = z.enum(bookingStatusValues);
 

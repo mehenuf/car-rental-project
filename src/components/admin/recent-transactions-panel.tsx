@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/u
 import { LabeledSelectValue } from "@/components/labeled-select-value";
 import { Card, CardAction, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useApiData } from "@/hooks/use-api-data";
+import { BOOKING_STATUS_OPTIONS } from "@/lib/booking-state";
 import { toApiDate, type DateRange } from "@/lib/date-range";
 import { formatCurrency, formatTimeAgo } from "@/lib/format";
 import type { BookingStatus } from "@/types/database";
@@ -144,19 +145,16 @@ export function RecentTransactionsPanel({
             <SelectTrigger size="sm" className="w-36">
               <LabeledSelectValue
                 placeholder="Status"
-                options={[
-                  { value: "all", label: "All statuses" },
-                  { value: "success", label: "Success" },
-                  { value: "pending", label: "Pending" },
-                  { value: "cancelled", label: "Cancelled" },
-                ]}
+                options={[{ value: "all", label: "All statuses" }, ...BOOKING_STATUS_OPTIONS]}
               />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="all">All statuses</SelectItem>
-              <SelectItem value="success">Success</SelectItem>
-              <SelectItem value="pending">Pending</SelectItem>
-              <SelectItem value="cancelled">Cancelled</SelectItem>
+              {BOOKING_STATUS_OPTIONS.map((o) => (
+                <SelectItem key={o.value} value={o.value}>
+                  {o.label}
+                </SelectItem>
+              ))}
             </SelectContent>
           </Select>
         </CardAction>

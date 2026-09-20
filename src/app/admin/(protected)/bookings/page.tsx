@@ -14,6 +14,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { useApiData } from "@/hooks/use-api-data";
 import { useDebouncedValue } from "@/hooks/use-debounced-value";
+import { BOOKING_STATUS_LABELS, BOOKING_STATUS_OPTIONS, nextStatuses } from "@/lib/booking-state";
 import { defaultDateRange, toApiDate, type DateRange } from "@/lib/date-range";
 import { formatCurrency, formatDate } from "@/lib/format";
 import type { BookingStatus } from "@/types/database";
@@ -41,9 +42,12 @@ const PAGE_SIZE = 10;
 type SortBy = "created_at" | "total_amount" | "pickup_at";
 
 const STATUS_TRIGGER_STYLES: Record<BookingStatus, string> = {
-  success: "border-success/30 bg-success/10 text-success-text",
-  pending: "border-info/30 bg-info/10 text-info-text",
+  pending: "border-border bg-muted text-muted-foreground",
+  confirmed: "border-info/30 bg-info/10 text-info-text",
+  active: "border-info/30 bg-info/10 text-info-text",
+  completed: "border-success/30 bg-success/10 text-success-text",
   cancelled: "border-destructive/30 bg-destructive/10 text-destructive",
+  no_show: "border-destructive/30 bg-destructive/10 text-destructive",
 };
 
 export default function AdminBookingsPage() {
@@ -175,28 +179,32 @@ export default function AdminBookingsPage() {
     {
       key: "status",
       header: "Status",
-      render: (row) => (
-        <Select
-          value={row.status}
-          onValueChange={(value) => handleStatusChange(row.id, value as BookingStatus)}
-          disabled={updatingId === row.id}
-        >
-          <SelectTrigger size="sm" className={`w-32 ${STATUS_TRIGGER_STYLES[row.status]}`}>
-            <LabeledSelectValue
-              options={[
-                { value: "success", label: "Success" },
-                { value: "pending", label: "Pending" },
-                { value: "cancelled", label: "Cancelled" },
-              ]}
-            />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem value="success">Success</SelectItem>
-            <SelectItem value="pending">Pending</SelectItem>
-            <SelectItem value="cancelled">Cancelled</SelectItem>
-          </SelectContent>
-        </Select>
-      ),
+      render: (row) => {
+        // Only the current status and the legal next moves are offered; terminal
+        // bookings (completed, cancelled, no-show) are read-only.
+        const next = nextStatuses(row.status);
+        const choices: BookingStatus[] = [row.status, ...next];
+        return (
+          <Select
+            value={row.status}
+            onValueChange={(value) => handleStatusChange(row.id, value as BookingStatus)}
+            disabled={updatingId === row.id || next.length === 0}
+          >
+            <SelectTrigger size="sm" className={`w-36 ${STATUS_TRIGGER_STYLES[row.status]}`}>
+              <LabeledSelectValue
+                options={choices.map((value) => ({ value, label: BOOKING_STATUS_LABELS[value] }))}
+              />
+            </SelectTrigger>
+            <SelectContent>
+              {choices.map((value) => (
+                <SelectItem key={value} value={value}>
+                  {BOOKING_STATUS_LABELS[value]}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        );
+      },
     },
     {
       key: "total_amount",
@@ -237,19 +245,16 @@ export default function AdminBookingsPage() {
               <SelectTrigger className="sm:w-36">
                 <LabeledSelectValue
                   placeholder="Status"
-                  options={[
-                    { value: "all", label: "All statuses" },
-                    { value: "success", label: "Success" },
-                    { value: "pending", label: "Pending" },
-                    { value: "cancelled", label: "Cancelled" },
-                  ]}
+                  options={[{ value: "all", label: "All statuses" }, ...BOOKING_STATUS_OPTIONS]}
                 />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All statuses</SelectItem>
-                <SelectItem value="success">Success</SelectItem>
-                <SelectItem value="pending">Pending</SelectItem>
-                <SelectItem value="cancelled">Cancelled</SelectItem>
+                {BOOKING_STATUS_OPTIONS.map((o) => (
+                  <SelectItem key={o.value} value={o.value}>
+                    {o.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
             <DateRangePicker
