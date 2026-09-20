@@ -747,3 +747,16 @@ export async function getLocations(): Promise<BranchOption[]> {
   if (error) throw new Error(`getLocations: ${error.message}`);
   return data ?? [];
 }
+
+/** The translated text for a vehicle in one language, or null when there is none (English is the fallback). */
+export async function getVehicleTranslation(vehicleId: string, lang: string) {
+  if (lang === "en") return null;
+  const { data, error } = await supabaseAdmin
+    .from("vehicle_translations")
+    .select("description, features")
+    .eq("vehicle_id", vehicleId)
+    .eq("lang", lang as "de")
+    .maybeSingle();
+  if (error) throw new Error(`getVehicleTranslation: ${error.message}`);
+  return data ?? null;
+}

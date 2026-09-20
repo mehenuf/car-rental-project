@@ -1,9 +1,14 @@
 import type { ReactNode } from "react";
 import { Link } from "@/lib/i18n/link";
+import { PolicyNotice } from "@/components/site/policy-notice";
+import { readRequestIdentity } from "@/lib/guest";
 import { getT } from "@/lib/i18n/dictionary";
+import { supabaseAdmin } from "@/lib/supabase-server";
 
 export default async function AccountLayout({ children }: { children: ReactNode }) {
   const t = await getT();
+  const identity = await readRequestIdentity();
+  const { data: pending } = identity.userId ? await supabaseAdmin.rpc("policies_to_accept", { p_user: identity.userId }) : { data: [] };
   const tabs = [
     { href: "/account", label: t("account.navTrips") },
     { href: "/account/driver", label: t("account.navDriver") },
@@ -24,6 +29,7 @@ export default async function AccountLayout({ children }: { children: ReactNode 
           </Link>
         ))}
       </nav>
+      {(pending ?? []).length > 0 && <PolicyNotice />}
       {children}
     </div>
   );

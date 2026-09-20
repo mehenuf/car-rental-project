@@ -107,6 +107,9 @@ export function TestimonialsSection() {
         <div
           ref={scrollerRef}
           onScroll={handleScroll}
+          tabIndex={0}
+          role="region"
+          aria-label={t("testimonials.title")}
           className="no-scrollbar flex snap-x snap-mandatory gap-(--space-sm) overflow-x-auto scroll-smooth pb-2"
         >
           {TESTIMONIALS.map((testimonial) => (
@@ -125,7 +128,8 @@ export function TestimonialsSection() {
               </div>
               <div
                 className="flex gap-0.5 text-accent-text"
-                aria-label={`Rated ${testimonial.rating} out of 5`}
+                role="img"
+                aria-label={t("testimonials.rated", { rating: testimonial.rating })}
               >
                 {Array.from({ length: 5 }).map((_, i) => (
                   <Star

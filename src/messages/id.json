@@ -300,7 +300,8 @@
     "prev": "Testimoni sebelumnya",
     "next": "Testimoni berikutnya",
     "goTo": "Buka testimoni {n}",
-    "status": "Testimoni {n} dari {total}"
+    "status": "Testimoni {n} dari {total}",
+    "rated": "Diberi nilai {rating} dari 5"
   },
   "auth": {
     "loginTitle": "Masuk",
@@ -621,5 +622,21 @@
     "deleteConfirm": "Ketik {email} untuk mengonfirmasi",
     "delete": "Hapus akun saya",
     "error": "Terjadi kesalahan. Silakan coba lagi."
+  },
+  "policy": {
+    "title": "Ketentuan atau kebijakan privasi kami telah berubah",
+    "body": "Baca dokumen yang diperbarui dan setujui untuk terus menggunakan akun Anda.",
+    "terms": "Ketentuan",
+    "privacy": "Kebijakan privasi",
+    "accept": "Setuju",
+    "error": "Terjadi kesalahan. Silakan coba lagi."
+  },
+  "legal": {
+    "englishOnly": "Dokumen ini dalam bahasa Inggris. Inilah versi yang berlaku."
+  },
+  "cityPage": {
+    "title": "Sewa mobil di {city}",
+    "intro": "Sewa mobil di {city}: bandingkan mobil yang tersedia, lihat harga sebelum memesan, dan ambil di cabang setempat.",
+    "empty": "Saat ini tidak ada mobil tersedia di {city}. Silakan periksa lagi nanti."
   }
 }

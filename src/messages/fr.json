@@ -307,7 +307,8 @@
     "prev": "Témoignage précédent",
     "next": "Témoignage suivant",
     "goTo": "Aller au témoignage {n}",
-    "status": "Témoignage {n} sur {total}"
+    "status": "Témoignage {n} sur {total}",
+    "rated": "Noté {rating} sur 5"
   },
   "auth": {
     "loginTitle": "Se connecter",
@@ -631,5 +632,21 @@
     "deleteConfirm": "Saisissez {email} pour confirmer",
     "delete": "Supprimer mon compte",
     "error": "Une erreur est survenue. Veuillez réessayer."
+  },
+  "policy": {
+    "title": "Nos conditions ou notre politique de confidentialité ont changé",
+    "body": "Lisez les documents mis à jour et acceptez-les pour continuer à utiliser votre compte.",
+    "terms": "Conditions",
+    "privacy": "Politique de confidentialité",
+    "accept": "Accepter",
+    "error": "Une erreur est survenue. Veuillez réessayer."
+  },
+  "legal": {
+    "englishOnly": "Ce document est en anglais. C'est la version qui s'applique."
+  },
+  "cityPage": {
+    "title": "Location de voitures à {city}",
+    "intro": "Louez une voiture à {city} : comparez les voitures disponibles, voyez le prix avant de réserver et récupérez-la dans une agence locale.",
+    "empty": "Aucune voiture n'est disponible à {city} pour le moment. Revenez bientôt."
   }
 }

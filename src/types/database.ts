@@ -1242,6 +1242,9 @@ export interface Database {
       };
       evaluate_booking_risk: { Args: { p_booking_id: string }; Returns: string[] };
       apply_retention: { Args: { p_now?: string }; Returns: Json };
+      expired_driver_documents: { Args: { p_now?: string }; Returns: { storage_path: string }[] };
+      policies_to_accept: { Args: { p_user: string }; Returns: { kind: string; version: string }[] };
+      accept_policies: { Args: { p_user: string }; Returns: number };
       export_user_data: { Args: { p_user: string }; Returns: Json };
       erase_user: { Args: { p_user: string }; Returns: Json };
       rate_limit_hit: { Args: { p_key: string; p_window_seconds: number; p_limit: number }; Returns: { allowed: boolean; remaining: number; retry_after_seconds: number }[] };

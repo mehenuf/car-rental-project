@@ -1,11 +1,15 @@
+import { getLocale, getT } from "@/lib/i18n/dictionary";
 export const metadata = { title: "Privacy Policy" };
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const locale = await getLocale();
+  const t = await getT();
   return (
     <div className="mx-auto flex max-w-2xl flex-col gap-(--space-md) px-(--space-sm) py-(--space-2xl)">
       <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground">
         Privacy Policy
       </h1>
+      {locale !== "en" && <p role="note" className="rounded-lg border border-border bg-muted p-3 text-sm text-foreground">{t("legal.englishOnly")}</p>}
       <p className="text-sm text-muted-foreground">Last updated September 2026.</p>
 
       <Section title="What we collect">
