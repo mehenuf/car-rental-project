@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "Langsung ke konten utama",
+    "backHome": "Kembali ke beranda",
+    "browseCars": "Lihat mobil",
+    "tryAgain": "Coba lagi",
+    "openMenu": "Buka menu",
+    "accountMenu": "Menu akun",
+    "language": "Bahasa"
+  },
+  "nav": {
+    "home": "Beranda",
+    "cars": "Mobil",
+    "howItWorks": "Cara Kerja",
+    "about": "Tentang Kami",
+    "contact": "Kontak"
+  },
+  "header": {
+    "myBookings": "Pemesanan Saya",
+    "register": "Daftar",
+    "logIn": "Masuk",
+    "logOut": "Keluar",
+    "adminDashboard": "Dasbor Admin",
+    "myAccount": "Akun Saya"
+  },
+  "footer": {
+    "tagline": "Sewa mobil yang mudah dan transparan. Pesan online dalam hitungan menit, tanpa perlu akun.",
+    "company": "Perusahaan",
+    "support": "Bantuan",
+    "howItWorks": "Cara kerja",
+    "browseCars": "Lihat mobil",
+    "aboutUs": "Tentang kami",
+    "listYourCar": "Sewakan mobil Anda",
+    "contactUs": "Hubungi kami",
+    "myBookings": "Pemesanan saya",
+    "privacy": "Kebijakan Privasi",
+    "terms": "Syarat & Ketentuan",
+    "copyright": "© {year} BestCar. Hak cipta dilindungi."
+  },
+  "hero": {
+    "titleLine1": "Sewa jalanan",
+    "titleAccent": "malam ini.",
+    "body": "Pilih tanggal, pilih mobil, dan berangkat dalam hitungan menit. Tanpa perlu akun, dan harga yang Anda lihat adalah harga yang Anda bayar.",
+    "bookNow": "Pesan sekarang",
+    "seeAll": "Lihat semua mobil",
+    "rating": "4,9 / 5",
+    "renters": "Lebih dari 2.400 penyewa puas"
+  },
+  "howItWorks": {
+    "step1Title": "Pilih Lokasi",
+    "step1Body": "Pilih kota terdekat dari puluhan titik penjemputan di seluruh negeri.",
+    "step2Title": "Tanggal Pengambilan",
+    "step2Body": "Beri tahu kami kapan Anda butuh mobil dan untuk berapa lama. Kami akan menahannya untuk Anda.",
+    "step3Title": "Pesan mobil Anda",
+    "step3Body": "Konfirmasi data Anda dan selesai. Mobil Anda sudah siap menunggu."
+  },
+  "whyChooseUs": {
+    "title": "Mengapa Memilih Kami",
+    "subtitle": "Layanan sewa mobil berkinerja tinggi yang dibangun di atas kemudahan, transparansi, dan keandalan.",
+    "imageAlt": "Jalan kota pada malam hari dengan mobil melaju menuju cakrawala kota",
+    "supportTitle": "Layanan Pelanggan",
+    "supportBody": "Tim dukungan kami siaga sepanjang waktu, jadi bantuan selalu hanya sepanggilan telepon.",
+    "priceTitle": "Jaminan Harga Terbaik",
+    "priceBody": "Tarif harian yang transparan dan kompetitif tanpa biaya tersembunyi saat pengambilan.",
+    "locationTitle": "Banyak Lokasi",
+    "locationBody": "Ambil dan kembalikan mobil di lokasi yang nyaman di setiap kota besar yang kami layani."
+  },
+  "notFound": {
+    "title": "Halaman tidak ditemukan",
+    "body": "Halaman itu tidak ada atau telah dipindahkan. Mungkin itu mobil yang sudah tidak ada di armada kami."
+  },
+  "error": {
+    "title": "Terjadi kesalahan",
+    "body": "Kami mengalami kendala saat memuat halaman ini. Coba lagi, atau kembali ke beranda."
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "Zum Hauptinhalt springen",
+    "backHome": "Zurück zur Startseite",
+    "browseCars": "Fahrzeuge ansehen",
+    "tryAgain": "Erneut versuchen",
+    "openMenu": "Menü öffnen",
+    "accountMenu": "Kontomenü",
+    "language": "Sprache"
+  },
+  "nav": {
+    "home": "Startseite",
+    "cars": "Fahrzeuge",
+    "howItWorks": "So funktioniert's",
+    "about": "Über uns",
+    "contact": "Kontakt"
+  },
+  "header": {
+    "myBookings": "Meine Buchungen",
+    "register": "Registrieren",
+    "logIn": "Anmelden",
+    "logOut": "Abmelden",
+    "adminDashboard": "Admin-Dashboard",
+    "myAccount": "Mein Konto"
+  },
+  "footer": {
+    "tagline": "Bequeme, transparente Autovermietung. Online in wenigen Minuten buchen, ganz ohne Konto.",
+    "company": "Unternehmen",
+    "support": "Hilfe",
+    "howItWorks": "So funktioniert's",
+    "browseCars": "Fahrzeuge ansehen",
+    "aboutUs": "Über uns",
+    "listYourCar": "Fahrzeug anbieten",
+    "contactUs": "Kontakt aufnehmen",
+    "myBookings": "Meine Buchungen",
+    "privacy": "Datenschutzerklärung",
+    "terms": "Allgemeine Geschäftsbedingungen",
+    "copyright": "© {year} BestCar. Alle Rechte vorbehalten."
+  },
+  "hero": {
+    "titleLine1": "Mieten Sie die Straße",
+    "titleAccent": "noch heute Abend.",
+    "body": "Wählen Sie Ihre Daten, wählen Sie Ihr Auto und fahren Sie in wenigen Minuten los. Kein Konto nötig, und der angezeigte Preis ist der Preis, den Sie zahlen.",
+    "bookNow": "Jetzt buchen",
+    "seeAll": "Alle Fahrzeuge ansehen",
+    "rating": "4,9 / 5",
+    "renters": "Über 2.400 zufriedene Kunden"
+  },
+  "howItWorks": {
+    "step1Title": "Ort wählen",
+    "step1Body": "Wählen Sie eine Stadt in Ihrer Nähe aus Dutzenden Abholstationen im ganzen Land.",
+    "step2Title": "Abholdatum",
+    "step2Body": "Sagen Sie uns, wann und wie lange Sie das Auto brauchen. Wir halten es für Sie bereit.",
+    "step3Title": "Auto buchen",
+    "step3Body": "Bestätigen Sie Ihre Angaben, und schon ist alles erledigt. Ihr Auto steht bereit."
+  },
+  "whyChooseUs": {
+    "title": "Warum wir",
+    "subtitle": "Ein leistungsstarker Autovermietungsservice, der auf Komfort, Transparenz und Zuverlässigkeit setzt.",
+    "imageAlt": "Nächtliche Stadtstraße mit einem Auto, das auf die Skyline zufährt",
+    "supportTitle": "Kundenservice",
+    "supportBody": "Unser Support-Team ist rund um die Uhr erreichbar, Hilfe ist also immer nur einen Anruf entfernt.",
+    "priceTitle": "Bestpreisgarantie",
+    "priceBody": "Transparente, günstige Tagespreise ohne versteckte Gebühren bei der Abholung.",
+    "locationTitle": "Viele Standorte",
+    "locationBody": "Abholung und Rückgabe an günstig gelegenen Standorten in jeder größeren Stadt, in der wir tätig sind."
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "body": "Diese Seite existiert nicht oder wurde verschoben. Vielleicht ist es ein Fahrzeug, das nicht mehr zu unserer Flotte gehört."
+  },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "body": "Beim Laden dieser Seite ist ein Problem aufgetreten. Versuchen Sie es erneut oder gehen Sie zurück zur Startseite."
+  }
+}

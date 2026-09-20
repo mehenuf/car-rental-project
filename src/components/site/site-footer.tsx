@@ -1,26 +1,30 @@
-import Link from "next/link";
+import { Link } from "@/lib/i18n/link";
 import { Car } from "lucide-react";
+import { LanguageSwitcher } from "@/components/site/language-switcher";
+import { getT } from "@/lib/i18n/dictionary";
 
-const FOOTER_COLUMNS: { title: string; links: { label: string; href: string }[] }[] = [
-  {
-    title: "Company",
-    links: [
-      { label: "How it works", href: "/#how-it-works" },
-      { label: "Browse cars", href: "/cars" },
-      { label: "About us", href: "/about" },
-      { label: "List your car", href: "/provider/apply" },
-    ],
-  },
-  {
-    title: "Support",
-    links: [
-      { label: "Contact us", href: "/contact" },
-      { label: "My bookings", href: "/dashboard" },
-    ],
-  },
-];
+export async function SiteFooter() {
+  const t = await getT();
 
-export function SiteFooter() {
+  const columns: { title: string; links: { label: string; href: string }[] }[] = [
+    {
+      title: t("footer.company"),
+      links: [
+        { label: t("footer.howItWorks"), href: "/#how-it-works" },
+        { label: t("footer.browseCars"), href: "/cars" },
+        { label: t("footer.aboutUs"), href: "/about" },
+        { label: t("footer.listYourCar"), href: "/provider/apply" },
+      ],
+    },
+    {
+      title: t("footer.support"),
+      links: [
+        { label: t("footer.contactUs"), href: "/contact" },
+        { label: t("footer.myBookings"), href: "/dashboard" },
+      ],
+    },
+  ];
+
   return (
     <footer className="border-t border-border bg-card">
       <div className="mx-auto flex max-w-7xl flex-col gap-(--space-lg) px-(--space-sm) py-(--space-lg)">
@@ -28,19 +32,17 @@ export function SiteFooter() {
           <div className="flex flex-col gap-(--space-xs)">
             <Link href="/" className="flex items-center gap-2 font-heading text-lg font-bold text-foreground">
               <Car className="size-6 text-accent-text" />
-              BestCar
+              {t("common.brand")}
             </Link>
-            <p className="max-w-xs text-sm text-muted-foreground">
-              Convenient, transparent car rental. Book online in minutes, no account required.
-            </p>
+            <p className="max-w-xs text-sm text-muted-foreground">{t("footer.tagline")}</p>
           </div>
 
-          {FOOTER_COLUMNS.map((column) => (
+          {columns.map((column) => (
             <div key={column.title} className="flex flex-col gap-(--space-xs)">
               <h3 className="font-heading text-sm font-semibold text-foreground">{column.title}</h3>
               <ul className="flex flex-col gap-2">
                 {column.links.map((link) => (
-                  <li key={link.label}>
+                  <li key={link.href}>
                     <Link
                       href={link.href}
                       className="text-sm text-muted-foreground transition-colors hover:text-foreground"
@@ -55,13 +57,14 @@ export function SiteFooter() {
         </div>
 
         <div className="flex flex-col items-center justify-between gap-(--space-xs) border-t border-border pt-(--space-sm) text-sm text-muted-foreground sm:flex-row">
-          <p>&copy; {new Date().getFullYear()} BestCar. All rights reserved.</p>
-          <div data-chat-avoid className="flex items-center gap-4">
+          <p>{t("footer.copyright", { year: String(new Date().getFullYear()) })}</p>
+          <div data-chat-avoid className="flex flex-wrap items-center justify-center gap-4">
+            <LanguageSwitcher />
             <Link href="/privacy" className="hover:text-foreground">
-              Privacy Policy
+              {t("footer.privacy")}
             </Link>
             <Link href="/terms" className="hover:text-foreground">
-              Terms &amp; Conditions
+              {t("footer.terms")}
             </Link>
           </div>
         </div>

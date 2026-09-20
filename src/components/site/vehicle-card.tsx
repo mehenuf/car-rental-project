@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Link from "next/link";
+import { Link } from "@/lib/i18n/link";
 import { Heart } from "lucide-react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
@@ -110,7 +110,7 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
           className="object-cover transition-transform duration-300 group-hover:scale-105"
         />
         {soldOut && (
-          <Badge variant="outline" className="absolute top-2 left-2 border-0 bg-card/90 text-foreground">
+          <Badge variant="outline" className="absolute top-2 start-2 border-0 bg-card/90 text-foreground">
             Sold Out
           </Badge>
         )}

@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "Naar hoofdinhoud",
+    "backHome": "Terug naar de homepage",
+    "browseCars": "Auto's bekijken",
+    "tryAgain": "Opnieuw proberen",
+    "openMenu": "Menu openen",
+    "accountMenu": "Accountmenu",
+    "language": "Taal"
+  },
+  "nav": {
+    "home": "Home",
+    "cars": "Auto's",
+    "howItWorks": "Hoe het werkt",
+    "about": "Over ons",
+    "contact": "Contact"
+  },
+  "header": {
+    "myBookings": "Mijn boekingen",
+    "register": "Registreren",
+    "logIn": "Inloggen",
+    "logOut": "Uitloggen",
+    "adminDashboard": "Beheerdersdashboard",
+    "myAccount": "Mijn account"
+  },
+  "footer": {
+    "tagline": "Gemakkelijke, transparante autoverhuur. Boek online in enkele minuten, zonder account.",
+    "company": "Bedrijf",
+    "support": "Hulp",
+    "howItWorks": "Hoe het werkt",
+    "browseCars": "Auto's bekijken",
+    "aboutUs": "Over ons",
+    "listYourCar": "Bied je auto aan",
+    "contactUs": "Neem contact op",
+    "myBookings": "Mijn boekingen",
+    "privacy": "Privacybeleid",
+    "terms": "Algemene voorwaarden",
+    "copyright": "© {year} BestCar. Alle rechten voorbehouden."
+  },
+  "hero": {
+    "titleLine1": "Huur de weg",
+    "titleAccent": "vanavond nog.",
+    "body": "Kies je data, kies je auto en rijd binnen enkele minuten weg. Geen account nodig, en de prijs die je ziet is de prijs die je betaalt.",
+    "bookNow": "Nu boeken",
+    "seeAll": "Alle auto's bekijken",
+    "rating": "4,9 / 5",
+    "renters": "Meer dan 2.400 tevreden huurders"
+  },
+  "howItWorks": {
+    "step1Title": "Kies een locatie",
+    "step1Body": "Kies een stad bij jou in de buurt uit tientallen ophaalpunten in het hele land.",
+    "step2Title": "Ophaaldatum",
+    "step2Body": "Vertel ons wanneer je de auto nodig hebt en voor hoe lang. Wij houden hem voor je vast.",
+    "step3Title": "Boek je auto",
+    "step3Body": "Bevestig je gegevens en je bent klaar. Je auto staat voor je klaar."
+  },
+  "whyChooseUs": {
+    "title": "Waarom wij",
+    "subtitle": "Een hoogwaardige autoverhuurservice, gebouwd op gemak, transparantie en betrouwbaarheid.",
+    "imageAlt": "Straat in de stad 's nachts met een auto die naar de skyline rijdt",
+    "supportTitle": "Klantenservice",
+    "supportBody": "Ons supportteam is dag en nacht bereikbaar, dus hulp is altijd een telefoontje verwijderd.",
+    "priceTitle": "Laagsteprijsgarantie",
+    "priceBody": "Transparante, scherpe dagtarieven zonder verborgen kosten bij het ophalen.",
+    "locationTitle": "Veel locaties",
+    "locationBody": "Haal de auto op en breng hem terug op handige locaties in elke grote stad waar wij actief zijn."
+  },
+  "notFound": {
+    "title": "Pagina niet gevonden",
+    "body": "Deze pagina bestaat niet of is verplaatst. Misschien is het een auto die niet meer in ons wagenpark zit."
+  },
+  "error": {
+    "title": "Er is iets misgegaan",
+    "body": "Er ging iets mis bij het laden van deze pagina. Probeer het opnieuw of ga terug naar de homepage."
+  }
+}

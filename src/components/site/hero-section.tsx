@@ -1,9 +1,11 @@
-import Link from "next/link";
+import { Link } from "@/lib/i18n/link";
 import { Star } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
 import { HeroParallaxBackground } from "@/components/site/hero-parallax-background";
+import { getT } from "@/lib/i18n/dictionary";
 
-export function HeroSection() {
+export async function HeroSection() {
+  const t = await getT();
   return (
     <section className="relative flex min-h-[92dvh] flex-col overflow-hidden bg-background sm:min-h-[85dvh]">
       <HeroParallaxBackground />
@@ -18,20 +20,19 @@ export function HeroSection() {
       <div className="relative mx-auto flex w-full max-w-7xl flex-1 flex-col justify-end px-(--space-sm) pt-20 pb-24 sm:pb-28">
         <div className="animate-title-card flex max-w-2xl flex-col gap-(--space-sm)">
           <h1 className="font-heading text-5xl font-extrabold leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl">
-            Rent the road
+            {t("hero.titleLine1")}
             <br />
-            <span className="text-accent">tonight.</span>
+            <span className="text-accent">{t("hero.titleAccent")}</span>
           </h1>
           <p className="max-w-md text-base text-white/80 sm:text-lg">
-            Pick your dates, choose your car, and drive off in minutes. No account required, and
-            the price you see is the price you pay.
+            {t("hero.body")}
           </p>
           <div className="flex flex-col gap-3 pt-(--space-2xs) sm:flex-row">
             <Link
               href="#search-bar"
               className={buttonVariants({ size: "lg", className: "px-8 shadow-lg shadow-black/30" })}
             >
-              Book now
+              {t("hero.bookNow")}
             </Link>
             <Link
               href="/cars"
@@ -41,7 +42,7 @@ export function HeroSection() {
                 className: "border-white/30 bg-white/5 px-8 text-white hover:bg-white/15",
               })}
             >
-              See all cars
+              {t("hero.seeAll")}
             </Link>
           </div>
         </div>
@@ -54,8 +55,8 @@ export function HeroSection() {
             <Star className="size-5 fill-current" />
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-bold text-white">4.9 / 5</span>
-            <span className="text-xs text-white/70">2,400+ happy renters</span>
+            <span className="text-sm font-bold text-white">{t("hero.rating")}</span>
+            <span className="text-xs text-white/70">{t("hero.renters")}</span>
           </div>
         </div>
       </div>

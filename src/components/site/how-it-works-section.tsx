@@ -6,26 +6,15 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
+import { useT } from "@/lib/i18n/provider";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const STEPS = [
-  {
-    icon: MapPin,
-    title: "Choose Location",
-    description: "Pick a city near you from dozens of pick-up points across the country.",
-  },
-  {
-    icon: CalendarDays,
-    title: "Pick-up Date",
-    description: "Tell us when you need the car and for how long. We'll hold it for you.",
-  },
-  {
-    icon: Car,
-    title: "Book your car",
-    description: "Confirm your details and you're set. Your ride will be ready and waiting.",
-  },
-];
+  { icon: MapPin, key: "step1" },
+  { icon: CalendarDays, key: "step2" },
+  { icon: Car, key: "step3" },
+] as const;
 
 /**
  * The site's other signature scroll moment (alongside the hero's
@@ -38,6 +27,7 @@ const STEPS = [
  * with no pin and no scrub, per DESIGN.md's motion rules.
  */
 export function HowItWorksSection() {
+  const t = useT();
   const sectionRef = useRef<HTMLElement>(null);
   const pinRef = useRef<HTMLDivElement>(null);
   const roadRef = useRef<HTMLDivElement>(null);
@@ -109,7 +99,7 @@ export function HowItWorksSection() {
         <div className="relative grid w-full grid-cols-1 gap-(--space-lg) md:grid-cols-3">
           {STEPS.map((step, i) => (
             <div
-              key={step.title}
+              key={step.key}
               ref={(el) => {
                 stepRefs.current[i] = el;
               }}
@@ -117,12 +107,12 @@ export function HowItWorksSection() {
             >
               <div className="relative flex size-16 items-center justify-center rounded-full bg-card text-accent-text ring-1 ring-border">
                 <step.icon className="size-7" />
-                <span className="absolute -top-1.5 -right-1.5 flex size-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
+                <span className="absolute -top-1.5 -end-1.5 flex size-6 items-center justify-center rounded-full bg-accent text-xs font-bold text-accent-foreground">
                   {i + 1}
                 </span>
               </div>
-              <h3 className="font-heading text-lg font-semibold text-foreground">{step.title}</h3>
-              <p className="max-w-xs text-sm text-muted-foreground">{step.description}</p>
+              <h3 className="font-heading text-lg font-semibold text-foreground">{t(`howItWorks.${step.key}Title`)}</h3>
+              <p className="max-w-xs text-sm text-muted-foreground">{t(`howItWorks.${step.key}Body`)}</p>
             </div>
           ))}
         </div>

@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "跳到主要内容",
+    "backHome": "返回首页",
+    "browseCars": "浏览车辆",
+    "tryAgain": "重试",
+    "openMenu": "打开菜单",
+    "accountMenu": "账户菜单",
+    "language": "语言"
+  },
+  "nav": {
+    "home": "首页",
+    "cars": "车辆",
+    "howItWorks": "使用流程",
+    "about": "关于我们",
+    "contact": "联系我们"
+  },
+  "header": {
+    "myBookings": "我的预订",
+    "register": "注册",
+    "logIn": "登录",
+    "logOut": "退出登录",
+    "adminDashboard": "管理后台",
+    "myAccount": "我的账户"
+  },
+  "footer": {
+    "tagline": "便捷、透明的租车服务。无需账户，几分钟即可在线预订。",
+    "company": "公司",
+    "support": "支持",
+    "howItWorks": "使用流程",
+    "browseCars": "浏览车辆",
+    "aboutUs": "关于我们",
+    "listYourCar": "发布您的车辆",
+    "contactUs": "联系我们",
+    "myBookings": "我的预订",
+    "privacy": "隐私政策",
+    "terms": "条款与条件",
+    "copyright": "© {year} BestCar。保留所有权利。"
+  },
+  "hero": {
+    "titleLine1": "租下这条路",
+    "titleAccent": "就在今晚。",
+    "body": "选好日期，选好车辆，几分钟内即可出发。无需账户，所见即所付。",
+    "bookNow": "立即预订",
+    "seeAll": "查看全部车辆",
+    "rating": "4.9 / 5",
+    "renters": "2,400+ 位满意的租车客户"
+  },
+  "howItWorks": {
+    "step1Title": "选择地点",
+    "step1Body": "从全国数十个取车点中选择离您最近的城市。",
+    "step2Title": "取车日期",
+    "step2Body": "告诉我们您何时用车、用多久，我们会为您保留车辆。",
+    "step3Title": "预订车辆",
+    "step3Body": "确认您的信息即可完成。您的座驾将准备就绪。"
+  },
+  "whyChooseUs": {
+    "title": "为什么选择我们",
+    "subtitle": "以便捷、透明和可靠为核心的高品质租车服务。",
+    "imageAlt": "夜晚的城市街道，一辆汽车驶向天际线",
+    "supportTitle": "客户支持",
+    "supportBody": "我们的支持团队全天候待命，随时一个电话即可获得帮助。",
+    "priceTitle": "最优价格保证",
+    "priceBody": "日租价格透明且有竞争力，取车时没有隐藏费用。",
+    "locationTitle": "众多地点",
+    "locationBody": "在我们服务的每个主要城市，都可在便利的地点取车和还车。"
+  },
+  "notFound": {
+    "title": "页面未找到",
+    "body": "该页面不存在或已被移动。也可能是一辆已不在我们车队中的车辆。"
+  },
+  "error": {
+    "title": "出了点问题",
+    "body": "加载此页面时遇到问题。请重试，或返回首页。"
+  }
+}

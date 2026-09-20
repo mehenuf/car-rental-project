@@ -1,5 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
+import { LOCALE_COOKIE } from "@/lib/i18n/locales";
+import { isUnprefixedPath, negotiateLocale, stripLocale, withLocale } from "@/lib/i18n/negotiate";
 
 const LOGIN_PATH = "/admin/login";
 const DASHBOARD_PATH = "/admin";
@@ -20,7 +22,7 @@ const DASHBOARD_PATH = "/admin";
  * same as a logged-out one: bounced to /admin/login, which shows the login
  * form rather than looping, since `isAdmin` is false there too.
  */
-export async function proxy(request: NextRequest) {
+async function adminGate(request: NextRequest) {
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
@@ -64,6 +66,33 @@ export async function proxy(request: NextRequest) {
   return response;
 }
 
+/**
+ * Public pages live under a language prefix (/en/cars, /ar/cars). A request without
+ * one is redirected to the negotiated language: saved cookie, then Accept-Language,
+ * then the visitor country header. The admin console and provider portal stay
+ * unprefixed (English), and admin requests are gated as before.
+ */
+export async function proxy(request: NextRequest) {
+  const { pathname, search } = request.nextUrl;
+
+  if (pathname === "/admin" || pathname.startsWith("/admin/")) return adminGate(request);
+  if (isUnprefixedPath(pathname)) return NextResponse.next();
+  if (stripLocale(pathname).locale) return NextResponse.next();
+
+  const locale = negotiateLocale({
+    cookie: request.cookies.get(LOCALE_COOKIE)?.value,
+    acceptLanguage: request.headers.get("accept-language"),
+    country: request.headers.get("x-vercel-ip-country"),
+  });
+  const url = request.nextUrl.clone();
+  const target = withLocale(locale, pathname + search);
+  const [path, query] = target.split("?");
+  url.pathname = path!;
+  url.search = query ? "?" + query : "";
+  return NextResponse.redirect(url);
+}
+
+// Everything except API routes, Next internals and files with an extension.
 export const config = {
-  matcher: ["/admin", "/admin/:path*"],
+  matcher: ["/((?!api|_next|.*\\..*).*)"],
 };

@@ -9,7 +9,7 @@ export function LiveChatTrigger({ children }: { children: React.ReactNode }) {
     <button
       type="button"
       onClick={() => window.dispatchEvent(new Event(OPEN_CHAT_EVENT))}
-      className="flex w-full items-center gap-4 py-(--space-md) text-left"
+      className="flex w-full items-center gap-4 py-(--space-md) text-start"
     >
       {children}
     </button>

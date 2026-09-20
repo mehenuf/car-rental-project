@@ -1,0 +1,77 @@
+{
+  "common": {
+    "brand": "BestCar",
+    "skipToContent": "Ir para o conteúdo principal",
+    "backHome": "Voltar à página inicial",
+    "browseCars": "Ver carros",
+    "tryAgain": "Tentar novamente",
+    "openMenu": "Abrir menu",
+    "accountMenu": "Menu da conta",
+    "language": "Idioma"
+  },
+  "nav": {
+    "home": "Início",
+    "cars": "Carros",
+    "howItWorks": "Como funciona",
+    "about": "Sobre",
+    "contact": "Contato"
+  },
+  "header": {
+    "myBookings": "Minhas reservas",
+    "register": "Cadastrar-se",
+    "logIn": "Entrar",
+    "logOut": "Sair",
+    "adminDashboard": "Painel do administrador",
+    "myAccount": "Minha conta"
+  },
+  "footer": {
+    "tagline": "Aluguel de carros prático e transparente. Reserve online em minutos, sem precisar de conta.",
+    "company": "Empresa",
+    "support": "Suporte",
+    "howItWorks": "Como funciona",
+    "browseCars": "Ver carros",
+    "aboutUs": "Sobre nós",
+    "listYourCar": "Anuncie seu carro",
+    "contactUs": "Fale conosco",
+    "myBookings": "Minhas reservas",
+    "privacy": "Política de Privacidade",
+    "terms": "Termos e Condições",
+    "copyright": "© {year} BestCar. Todos os direitos reservados."
+  },
+  "hero": {
+    "titleLine1": "Alugue a estrada",
+    "titleAccent": "hoje à noite.",
+    "body": "Escolha as datas, escolha o carro e saia em minutos. Sem precisar de conta, e o preço que você vê é o preço que você paga.",
+    "bookNow": "Reservar agora",
+    "seeAll": "Ver todos os carros",
+    "rating": "4,9 / 5",
+    "renters": "Mais de 2.400 clientes satisfeitos"
+  },
+  "howItWorks": {
+    "step1Title": "Escolha o local",
+    "step1Body": "Escolha uma cidade perto de você entre dezenas de pontos de retirada pelo país.",
+    "step2Title": "Data de retirada",
+    "step2Body": "Diga quando precisa do carro e por quanto tempo. Nós o reservamos para você.",
+    "step3Title": "Reserve seu carro",
+    "step3Body": "Confirme seus dados e pronto. Seu carro estará esperando."
+  },
+  "whyChooseUs": {
+    "title": "Por que nos escolher",
+    "subtitle": "Um serviço de aluguel de carros de alto desempenho, baseado em praticidade, transparência e confiabilidade.",
+    "imageAlt": "Rua da cidade à noite com um carro dirigindo em direção ao horizonte urbano",
+    "supportTitle": "Atendimento ao cliente",
+    "supportBody": "Nossa equipe de suporte fica de plantão o dia todo, então a ajuda está sempre a uma ligação.",
+    "priceTitle": "Melhor preço garantido",
+    "priceBody": "Diárias transparentes e competitivas, sem taxas escondidas na retirada.",
+    "locationTitle": "Muitos locais",
+    "locationBody": "Retire e devolva em locais convenientes em todas as grandes cidades onde atuamos."
+  },
+  "notFound": {
+    "title": "Página não encontrada",
+    "body": "Essa página não existe ou foi movida. Pode ser um carro que não faz mais parte da nossa frota."
+  },
+  "error": {
+    "title": "Algo deu errado",
+    "body": "Tivemos um problema ao carregar esta página. Tente novamente ou volte à página inicial."
+  }
+}

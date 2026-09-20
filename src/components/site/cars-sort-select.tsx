@@ -29,7 +29,7 @@ export function CarsSortSelect({ value }: { value: string }) {
 
   return (
     <Select value={value} onValueChange={handleChange}>
-      <SelectTrigger className="ml-auto w-52">
+      <SelectTrigger className="ms-auto w-52">
         <LabeledSelectValue options={SORT_OPTIONS} />
       </SelectTrigger>
       <SelectContent>
