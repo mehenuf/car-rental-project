@@ -8,6 +8,7 @@ const FOOTER_COLUMNS: { title: string; links: { label: string; href: string }[] 
       { label: "How it works", href: "/#how-it-works" },
       { label: "Browse cars", href: "/cars" },
       { label: "About us", href: "/about" },
+      { label: "List your car", href: "/provider/apply" },
     ],
   },
   {

@@ -128,3 +128,86 @@ export const AvailabilitySchema = z
 export const CalendarQuerySchema = z.object({
   month: z.string().regex(/^\d{4}-(0[1-9]|1[0-2])$/).optional(),
 });
+
+// ---------------------------------------------------------------
+// Portal: pricing
+// ---------------------------------------------------------------
+
+export const RatePlanUpsertSchema = z
+  .object({
+    vehicle_id: z.uuid(),
+    branch_id: z.coerce.number().int().positive(),
+    /** Major units of the branch currency. */
+    base_daily: z.coerce.number().positive().max(1_000_000),
+    weekend_uplift_pct: z.coerce.number().min(0).max(100).default(0),
+    weekly_discount_pct: z.coerce.number().min(0).max(90).default(0),
+    monthly_discount_pct: z.coerce.number().min(0).max(90).default(0),
+    min_days: z.coerce.number().int().min(1).max(365).default(1),
+    max_days: z.coerce.number().int().min(1).max(365).nullable().optional(),
+  })
+  .refine((v) => v.max_days == null || v.max_days >= v.min_days, { message: "max_days must not be below min_days", path: ["max_days"] });
+
+export const SeasonSchema = z
+  .object({
+    start_date: DateOnly,
+    end_date: DateOnly,
+    daily: z.coerce.number().positive().max(1_000_000),
+  })
+  .refine((v) => v.end_date >= v.start_date, { message: "end_date must not be before start_date", path: ["end_date"] });
+
+const extraFields = {
+  code: z.string().trim().toLowerCase().regex(/^[a-z0-9_-]{2,30}$/, "Use 2 to 30 letters, numbers, dashes or underscores."),
+  name: z.string().trim().min(2).max(80),
+  kind: z.enum(["extra", "insurance"]),
+  pricing: z.enum(["per_day", "per_rental"]),
+  unit_price: z.coerce.number().min(0).max(100_000),
+  max_quantity: z.coerce.number().int().min(1).max(20).default(1),
+  cap: z.coerce.number().min(0).max(1_000_000).nullable().optional(),
+  is_mandatory: z.boolean().default(false),
+  is_active: z.boolean().default(true),
+};
+export const ExtraSchema = z.object(extraFields);
+export const ExtraUpdateSchema = z.object(extraFields).omit({ code: true }).partial();
+
+export const PolicySchema = z
+  .object({
+    deposit_type: z.enum(["fixed", "percent"]),
+    deposit_value: z.coerce.number().min(0).max(1_000_000),
+    cancellation_tiers: z
+      .array(z.object({ hours_before: z.coerce.number().int().min(0).max(720), refund_pct: z.coerce.number().min(0).max(100) }))
+      .max(6),
+    min_driver_age: z.coerce.number().int().min(16).max(30),
+    young_driver_age: z.coerce.number().int().min(18).max(30).nullable(),
+    young_driver_fee: z.coerce.number().min(0).max(10_000),
+  })
+  .refine((v) => new Set(v.cancellation_tiers.map((t) => t.hours_before)).size === v.cancellation_tiers.length, {
+    message: "Each cancellation deadline can only appear once.",
+    path: ["cancellation_tiers"],
+  })
+  .refine((v) => v.deposit_type === "fixed" || v.deposit_value <= 100, { message: "A percentage deposit cannot exceed 100%.", path: ["deposit_value"] })
+  .refine((v) => v.young_driver_age === null || v.young_driver_age > v.min_driver_age, {
+    message: "The young driver age must be above the minimum age.",
+    path: ["young_driver_age"],
+  });
+
+export const PromoSchema = z
+  .object({
+    code: z.string().trim().toUpperCase().regex(/^[A-Z0-9]{3,30}$/, "Use 3 to 30 letters and numbers."),
+    discount_type: z.enum(["percent", "fixed"]),
+    /** A percentage (1 to 100) or major units of the provider currency. */
+    value: z.coerce.number().positive().max(1_000_000),
+    min_days: z.coerce.number().int().min(1).max(365).default(1),
+    valid_from: DateOnly.nullable().optional(),
+    valid_to: DateOnly.nullable().optional(),
+    vehicle_id: z.uuid().nullable().optional(),
+  })
+  .refine((v) => v.discount_type === "fixed" || v.value <= 100, { message: "A percentage discount cannot exceed 100%.", path: ["value"] })
+  .refine((v) => !v.valid_from || !v.valid_to || v.valid_to >= v.valid_from, { message: "valid_to must not be before valid_from", path: ["valid_to"] });
+
+export const PromoUpdateSchema = z.object({ is_active: z.boolean() });
+
+export const OneWayFeeSchema = z.object({
+  from_branch_id: z.coerce.number().int().positive(),
+  to_branch_id: z.coerce.number().int().positive(),
+  amount: z.coerce.number().min(0).max(100_000),
+});
