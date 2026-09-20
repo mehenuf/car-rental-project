@@ -7,6 +7,7 @@ export type ProviderAction =
   | "pricing.write"
   | "bookings.read"
   | "bookings.operate"
+  | "bookings.cancel"
   | "payouts.read"
   | "team.manage"
   | "documents.write"
@@ -19,6 +20,7 @@ const ALL: readonly ProviderAction[] = [
   "pricing.write",
   "bookings.read",
   "bookings.operate",
+  "bookings.cancel",
   "payouts.read",
   "team.manage",
   "documents.write",

@@ -114,7 +114,7 @@ Create a `.env.local` file in the project root with the following variables:
 | `STRIPE_SECRET_KEY`, `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`, `STRIPE_WEBHOOK_SECRET` | Optional. Stripe **test-mode** keys and the webhook signing secret. With them, card payments go through Stripe. Without them every method is simulated and the site works the same. |
 | `N8N_WEBHOOK_URL` | The n8n webhook URL that receives lead and booking events (only the lead-scoring one currently has a workflow acting on it; see section 9). This one is optional. If it is missing, the app just skips sending the webhook instead of failing. |
 
-Build a fresh database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0009`), in the Supabase SQL editor. Never run `schema.sql` against a database that holds real data: it drops tables. Then seed it with sample branches, vehicles, fleet units and bookings:
+Build a fresh database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0011`), in the Supabase SQL editor. Never run `schema.sql` against a database that holds real data: it drops tables. Then seed it with sample branches, vehicles, fleet units and bookings:
 
 ```bash
 npx tsx seed.ts
@@ -480,6 +480,23 @@ The `<recommendations>` tag is stripped out by the chat widget before it is show
 Public, but only ever called by the chat widget itself in the background, never by a user directly. Silently scores a conversation and saves it as a lead. Always returns `204 No Content`, even if something inside failed, so it can never disrupt the visible chat.
 
 **Body:** same shape as `POST /api/chat`'s body, but requires at least 3 messages. Shorter conversations are skipped.
+
+## 7b. Provider portal
+
+Rental companies and private owners apply at `/provider/apply`, upload verification documents (private storage, short-lived links), and are reviewed by a platform admin at `/admin/providers`. Once approved they use the portal at `/provider`:
+
+| Page | What it does |
+|---|---|
+| Overview | Earnings this month, bookings, today's pick-ups and returns, 30-day utilisation |
+| Fleet / My cars | Add cars from the catalogue with a first price, take them off the road, submit a private owner's car for review |
+| Calendar / Availability | Month grid of every car; block days; a private owner opens the days a car may be booked |
+| Bookings / Requests | Hand cars over and take them back with odometer, fuel, notes and photos (a return schedules the payout), no-show, cancel with a full refund |
+| Pricing | Daily price, weekend uplift, weekly and monthly discounts, seasons, extras, cancellation tiers, deposit, driver-age rules, promo codes, one-way fees |
+| Payouts / Earnings | Scheduled and paid earnings, payout account (last four digits only) |
+| Team | Owners add existing accounts by email as managers or agents, optionally limited to one branch |
+| Settings | Profile, branches (the exact address is private), verification documents |
+
+Roles: **owner** does everything; **manager** everything except the team and the payout account; **agent** only hands cars over and takes them back. Every `/api/provider/*` route resolves the caller's membership on the server, filters by their provider and never trusts a provider id from the request. The two Storage buckets (`provider-documents`, `booking-inspections`) are private and created by migration `0010` where the Supabase Storage schema exists.
 
 ## 8. The AI feature
 

@@ -211,3 +211,33 @@ export const OneWayFeeSchema = z.object({
   to_branch_id: z.coerce.number().int().positive(),
   amount: z.coerce.number().min(0).max(100_000),
 });
+
+// ---------------------------------------------------------------
+// Portal: team and booking operations
+// ---------------------------------------------------------------
+
+export const AddMemberSchema = z.object({
+  email: z.string().trim().toLowerCase().email(),
+  role: z.enum(["manager", "agent"]),
+  branch_id: z.coerce.number().int().positive().nullable().optional(),
+});
+
+export const ChangeMemberSchema = z.object({ role: z.enum(["manager", "agent"]) });
+
+export const InspectionSchema = z.object({
+  kind: z.enum(["pickup", "return"]),
+  odometer_km: z.coerce.number().int().min(0).max(2_000_000),
+  fuel_level: z.enum(["empty", "quarter", "half", "three_quarters", "full"]),
+  notes: z.string().trim().max(1000).nullable().optional(),
+  photo_paths: z.array(z.string().min(1).max(300)).max(10).default([]),
+});
+
+export const InspectionPhotoSchema = z.object({
+  file_name: z.string().trim().min(1).max(200),
+  mime_type: z.enum(["image/jpeg", "image/png"]),
+  size_bytes: z.coerce.number().int().positive(),
+});
+
+export const ProviderBookingsQuerySchema = z.object({
+  view: z.enum(["upcoming", "active", "past", "all"]).default("upcoming"),
+});
