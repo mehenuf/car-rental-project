@@ -13,6 +13,8 @@ Current state after the hero removal. Native scroll only: no scroll listener dri
 | Skeletons | several | loading | opacity pulse | tw default | none | none | low | Keep | |
 | Spinners | forms | loading | rotate | tw default | none | none | none | Keep | |
 | Chat launcher position | `chat-widget.tsx` | passive window scroll and resize listeners, MutationObserver (childList only), rAF-coalesced | fixed-position opacity | n/a | none | listener on every page | low | Keep: it fades out of the way of price totals and the cookie bar (`data-chat-avoid`) | e2e: chat vs price at 2 widths |
+| Favourite heart pop | `vehicle-card.tsx`, `globals.css` `.heart-pop` | click to favourite, once | transform | `--motion-medium`, `--ease-standard` | none | none | none | Keep | e2e: pressed state; 0 slow frames |
+| Booking total fade | `quote-breakdown.tsx` | total changes | opacity | `--motion-medium` | none | none | none | Keep | |
 | Cookie card | `consent.tsx` | first visit | none | none (removed blur and slide) | none | none | none | Keep | |
 
 Removed in this recovery: pointer parallax, scroll-scrubbed layer drift, dust canvas, animated streaks, backdrop blur on the header, whole-scene tilt, smooth-scroll library (Lenis), route-change page animation, hero title mask animation, 3D tilt on vehicle cards. Dependencies removed: `gsap`, `@gsap/react`, `lenis`.

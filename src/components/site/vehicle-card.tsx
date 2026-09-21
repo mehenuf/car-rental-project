@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge";
 import { formatCurrency } from "@/lib/format";
 import { formatMinor } from "@/lib/pricing/money";
 import { numberingLocale } from "@/lib/i18n/locales";
+import { useState } from "react";
 import { cn } from "@/lib/utils";
 import type { VehicleCardData } from "@/lib/queries";
 import { useLocale, useT } from "@/lib/i18n/provider";
@@ -20,6 +21,8 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
   const href = `/cars/${vehicle.slug}${searchQuery ? `?${searchQuery}` : ""}`;
   const { isFavorite, toggleFavorite } = useFavorites();
   const favorited = isFavorite(vehicle.id);
+  // The heart pops once when the visitor favourites the car; cars that were already favourites just render filled.
+  const [popping, setPopping] = useState(false);
   const soldOut = !vehicle.available || vehicle.stock <= 0;
 
   return (
@@ -51,16 +54,22 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
         </div>
         <button
           type="button"
-          onClick={() => toggleFavorite(vehicle.id)}
+          onClick={() => {
+            if (!favorited) setPopping(true);
+            toggleFavorite(vehicle.id);
+          }}
           aria-label={
             favorited
               ? t("vehicle.removeFavorite", { name: vehicle.name })
               : t("vehicle.addFavorite", { name: vehicle.name })
           }
           aria-pressed={favorited}
-          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground transition-colors hover:text-destructive"
+          className="flex size-11 shrink-0 items-center justify-center rounded-full bg-muted text-muted-foreground transition-[color,transform] hover:text-destructive active:scale-90"
         >
-          <Heart className={cn("size-4", favorited && "fill-destructive text-destructive")} />
+          <Heart
+            className={cn("size-4", favorited && "fill-destructive text-destructive", popping && favorited && "heart-pop")}
+            onAnimationEnd={() => setPopping(false)}
+          />
         </button>
       </div>
 

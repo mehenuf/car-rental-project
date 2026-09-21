@@ -38,7 +38,10 @@ export function QuoteBreakdown({ quote, isUpdating }: { quote: Quote; isUpdating
 
       <div className="flex items-center justify-between border-t border-border pt-(--space-sm)">
         <span className="font-heading text-base font-semibold text-foreground">{t("quote.total")}</span>
-        <span className="font-heading text-xl font-bold text-accent-text">{money(quote.totalMinor)}</span>
+        {/* Keyed by the amount, so a new total fades in and the change is noticed. */}
+        <span key={quote.totalMinor} className="animate-in fade-in font-heading text-xl font-bold text-accent-text duration-(--motion-medium)">
+          {money(quote.totalMinor)}
+        </span>
       </div>
       <p className="text-xs text-muted-foreground">{t("quote.allIncluded")}</p>
 

@@ -102,3 +102,20 @@ test.describe("the cars list", () => {
     await expect(page.getByRole("banner").getByRole("link", { name: "Cars", exact: true })).toHaveAttribute("aria-current", "page");
   });
 });
+
+test.describe("small interactions", () => {
+  test("favouriting a car toggles the heart, and the pop is a one-off", async ({ page, baseURL, request }) => {
+    const places = await request.get("/api/locations");
+    test.skip(!places.ok() || (await places.json()).length === 0, "needs a database with locations");
+    await acceptCookies(page, baseURL);
+    await page.goto("/en/cars?all=1");
+    const heart = page.getByRole("button", { name: /^Add .* to favorites$/ }).first();
+    await heart.click();
+    const pressed = page.getByRole("button", { pressed: true, name: /^Remove .* from favorites$/ }).first();
+    await expect(pressed).toBeVisible();
+    // The pop class is removed when the animation ends, so it never replays on its own.
+    await expect(pressed.locator("svg.heart-pop")).toHaveCount(0);
+    await pressed.click();
+    await expect(page.getByRole("button", { pressed: true, name: /^Remove .* from favorites$/ })).toHaveCount(0);
+  });
+});

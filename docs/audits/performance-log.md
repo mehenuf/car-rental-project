@@ -39,3 +39,38 @@ Measured with Lighthouse 12 (default mobile emulation and simulated throttling; 
 **Not met, still:** mobile Lighthouse performance is 74–86 on the live site, below the 95 target. Reaching 95 on this model would mean shipping much less JavaScript before first paint (for example rendering more of the home page without client components), which is a larger change than this pass and was not attempted. Desktop is 97–99.
 
 **Server response time on the live site (Measured, 5 warm requests each, 2026-09-21 after the round-trip change):** cars 0.38 to 0.47 s to first byte (one 0.88 s outlier), vehicle page 0.62 to 0.66 s (one 1.04 s outlier). A cold request took 1.8 to 2.3 s. There is no warm "before" figure to compare against, so this is a record, not proof that the change helped. The change itself is structural: card lists read branches in the same round trip instead of a third dependent one, the vehicle page fetches its translation in parallel, and the cars page looks up the place while it fetches the list. With the function in Washington and the database elsewhere, each removed round trip is worth the full distance; pinning the function region next to the database (needs the Supabase region) is still the larger fix.
+
+## Third pass, 2026-09-21 (evening): first-load cost
+
+Method: `next experimental-analyze -o` plus `scripts/perf/bundle-composition.cjs` for what each route ships, Lighthouse 12 one run at a time, and `scripts/perf/scroll-frames.cjs` for smoothness.
+
+| Change | Measured effect |
+|---|---|
+| Mobile menu code loaded on first use (hover, focus or tap of the button) | dialog code out of first load |
+| Header renders one language switcher, theme toggle and account menu instead of three (one per breakpoint, two hidden) | 2/3 fewer hydrated controls and DOM nodes |
+| Chat loaded when the browser is idle, or at once when a page asks for it (`lazy-chat.tsx`) | launcher and panel out of first load; a request that arrives early opens the chat on mount |
+| Vercel Analytics loaded only after consent | out of first load |
+| Calendar month and weekday names loaded per language (`calendar-locale.ts`), inside the already-lazy calendar | **74 KB raw (15 KB gzipped) of date data for 11 languages removed from every page's first load** |
+| Chinese and Japanese pages use the device's own CJK fonts instead of Noto Sans SC and JP web fonts (`globals.css`); Arabic and Bengali stay web fonts in their own modules | **CSS on every page 304 KB to 120 KB raw; two render-blocking font stylesheets (about 65 KB gzipped) gone** |
+| Cookie card given a stable minimum height on phones | mobile vehicle page layout shift 0.034 to 0 on the live site |
+
+First-load JavaScript on the home page: 293 KB to 260 KB gzipped (24 to 21 files). Framework runtime is about 155 KB of what remains.
+
+**Live site after deploy (Measured):**
+
+| Page | Mobile before this pass | Mobile after | Desktop |
+|---|---:|---:|---:|
+| Home | 81 | **85–86** | 99 |
+| Cars | 83 | **86** | not run |
+| Vehicle | 75 | **78–80** (best-practices 100, CLS 0) | 96 |
+| About | 86 | **91** | not run |
+
+Over the whole recovery: live home mobile 54, then 65, then 81, now 85–86.
+
+**Smoothness (Measured, local production build, 30 wheel steps):** home 0 of 266 frames over 33 ms, cars 0 of 267, vehicle 0 of 258; no long tasks; 95th percentile 16.7 ms. Adding the touches below did not cost any frames.
+
+**Applied throttling (Observed):** with Lighthouse's real network throttling (about 560 ms round trip, 1.4 Mbps) instead of its simulated model, local home mobile first paint is 2.8 s and score 81. Round trips dominate there: connection set-up, HTML, then CSS. Inlining CSS would save one of them but would resend about 45 KB of CSS with every page instead of caching it, so it was not done.
+
+**Not met, still:** mobile 78–91 on the live site, below 95. What is left is mostly the framework runtime (about 155 KB gzipped), Base UI's positioning and menu code that the search bar and header need above the fold, and the slow-network model itself.
+
+**Interaction touches added (CSS only, on the shared timings, off under reduced motion):** the favourite heart pops once when a car is favourited (`heart-pop`, one keyframe, `--motion-medium`) and presses in on tap; the booking total fades in whenever the price changes, so a change is noticed; the card and image lift on hover already existed.
