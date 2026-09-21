@@ -49,10 +49,11 @@ export function ConsentManager() {
           role="dialog"
           aria-labelledby="consent-title"
           aria-describedby="consent-body"
-          // Below dialogs and menus (z-50) so they stay usable, and a slim bar from sm up so it does not sit on the page's
+          // A fixed minimum height on phones: when the web font replaces the fallback the text rewraps, and a card that changes
+          // height moves its top edge, which counts as a layout shift. Below dialogs and menus (z-50) so they stay usable, and a slim bar from sm up so it does not sit on the page's
           // content. The chat launcher steps away from it (data-chat-avoid).
           data-chat-avoid
-          className="fixed inset-x-3 bottom-3 z-40 flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-xl sm:inset-x-0 sm:bottom-0 sm:flex-row sm:items-center sm:justify-center sm:gap-(--space-md) sm:rounded-none sm:border-x-0 sm:border-b-0 sm:px-(--space-md) sm:py-3 sm:shadow-none"
+          className="fixed inset-x-3 bottom-3 z-40 flex min-h-40 flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-xl sm:inset-x-0 sm:bottom-0 sm:min-h-0 sm:flex-row sm:items-center sm:justify-center sm:gap-(--space-md) sm:rounded-none sm:border-x-0 sm:border-b-0 sm:px-(--space-md) sm:py-3 sm:shadow-none"
         >
           <div className="flex flex-col gap-1 sm:max-w-2xl">
             <p id="consent-title" className="font-heading text-sm font-semibold text-foreground">{t("consent.title")}</p>
