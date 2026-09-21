@@ -74,3 +74,14 @@ Over the whole recovery: live home mobile 54, then 65, then 81, now 85–86.
 **Not met, still:** mobile 78–91 on the live site, below 95. What is left is mostly the framework runtime (about 155 KB gzipped), Base UI's positioning and menu code that the search bar and header need above the fold, and the slow-network model itself.
 
 **Interaction touches added (CSS only, on the shared timings, off under reduced motion):** the favourite heart pops once when a car is favourited (`heart-pop`, one keyframe, `--motion-medium`) and presses in on tap; the booking total fades in whenever the price changes, so a change is noticed; the card and image lift on hover already existed.
+
+## Function region pinned to Tokyo (2026-09-21, Measured)
+
+After `vercel.json` set `regions: ["hnd1"]` (the database is in `ap-northeast-1`), response headers on the live site show the function ran in `hnd1`. Warm time to first byte, 5 requests each, from the development machine:
+
+| Page | Before (Washington) | After (Tokyo) |
+|---|---|---|
+| Cars list | 0.38 to 0.47 s (one 0.88 s) | 0.35 to 0.45 s (one 1.28 s outlier) |
+| Vehicle page | 0.62 to 0.66 s (one 1.04 s) | **0.36 to 0.46 s** (one 0.69 s) |
+
+The vehicle page, which makes the most database calls, is about 40% faster. The cars list changed little because it already had fewer sequential calls. Cold requests were not re-measured. Lighthouse was not re-run after this change.
