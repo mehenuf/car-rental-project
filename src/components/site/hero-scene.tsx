@@ -1,15 +1,13 @@
-import { preload } from "react-dom";
-
 const HERO_SM = "/hero/night-highway-sm.webp";
 const HERO_LG = "/hero/night-highway.webp";
 
 /**
  * The hero's background: one optimised photograph under a scrim that keeps the headline readable. It is a static
  * composition rendered on the server, with no scripts, no scroll-linked movement and no animation, so the page's
- * largest paint is as early and as cheap as it can be. The photo is preloaded because it is the LCP element.
+ * largest paint is as early and as cheap as it can be. The <img> is in the first HTML with fetchpriority=high, so the
+ * browser finds and fetches it immediately; a separate preload link added nothing and leaked onto other pages.
  */
 export function HeroScene() {
-  preload(HERO_LG, { as: "image", imageSrcSet: `${HERO_SM} 900w, ${HERO_LG} 1920w`, imageSizes: "100vw", fetchPriority: "high" });
   return (
     <div className="absolute inset-0 overflow-hidden bg-background" aria-hidden="true">
       {/* A plain img on purpose: the two sizes are already optimised files in /public, so there is no image-server

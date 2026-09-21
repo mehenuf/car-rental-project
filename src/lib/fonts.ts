@@ -16,9 +16,12 @@ const sora = Sora({ variable: "--font-sora", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"], preload: false });
 
 // Script fonts carry their own Latin glyphs, so one variable covers a whole page.
-// Only the active language's class is applied, so the others are never downloaded.
-const notoArabic = Noto_Sans_Arabic({ variable: "--font-script", subsets: ["arabic"], display: "swap" });
-const notoBengali = Noto_Sans_Bengali({ variable: "--font-script", subsets: ["bengali"], display: "swap" });
+// Only the active language's class is applied, so the others are never downloaded. They are not preloaded: a preload
+// link is emitted for every page whatever the language, and on an English page the 270 KB of Arabic and Bengali files
+// were fetched at high priority beside the hero photo (measured: mobile Lighthouse performance 71 before). A page in
+// those languages fetches its font as soon as the text needs it.
+const notoArabic = Noto_Sans_Arabic({ variable: "--font-script", subsets: ["arabic"], preload: false, display: "swap" });
+const notoBengali = Noto_Sans_Bengali({ variable: "--font-script", subsets: ["bengali"], preload: false, display: "swap" });
 const notoSC = Noto_Sans_SC({ variable: "--font-script", subsets: ["latin"], preload: false, display: "swap" });
 const notoJP = Noto_Sans_JP({ variable: "--font-script", subsets: ["latin"], preload: false, display: "swap" });
 
