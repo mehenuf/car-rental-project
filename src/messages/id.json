@@ -184,7 +184,8 @@
     "dropAfterPickup": "Pengembalian harus setelah pengambilan.",
     "pickupIn": "Pengambilan di {city}",
     "pickupInPast": "Waktu pengambilan sudah lewat. Pilih waktu yang lebih lambat.",
-    "driverAgeRange": "Masukkan usia antara 16 dan 99."
+    "driverAgeRange": "Masukkan usia antara 16 dan 99.",
+    "payNextStep": "Anda membayar di langkah berikutnya. Mobil ditahan untuk Anda selama 15 menit."
   },
   "quote": {
     "total": "Total",
@@ -235,7 +236,8 @@
     "orderSummary": "Ringkasan pesanan",
     "total": "Total",
     "depositNote": "Deposit yang dapat dikembalikan sebesar {amount} ditahan pada metode pembayaran Anda. Deposit tidak ditagihkan dan dilepas setelah masa sewa selesai.",
-    "failed": "Terjadi kesalahan. Silakan coba lagi."
+    "failed": "Terjadi kesalahan. Silakan coba lagi.",
+    "processingNote": "Pembayaran Anda sedang diproses. Mobil ditahan untuk Anda sampai selesai. Anda dapat memeriksa pemesanan kapan saja di \"Pemesanan saya\"."
   },
   "confirmation": {
     "receivedTitle": "Pemesanan Diterima",
@@ -756,5 +758,9 @@
   "bookingLookup": {
     "title": "Pemesanan itu tidak ditemukan",
     "body": "Referensi mungkin salah ketik, atau pemesanan dibuat di browser atau akun lain. Masuk untuk melihat pemesanan Anda, atau tanyakan di chat."
+  },
+  "providerApply": {
+    "title": "Sewakan mobil Anda di BestCar",
+    "body": "Masuk atau buat akun gratis, lalu mulai pengajuan Anda."
   }
 }

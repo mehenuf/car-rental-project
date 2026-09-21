@@ -188,7 +188,8 @@
     "dropAfterPickup": "Le retour doit avoir lieu après la prise en charge.",
     "pickupIn": "Retrait à {city}",
     "pickupInPast": "L'heure de retrait est déjà passée. Choisissez une heure ultérieure.",
-    "driverAgeRange": "Saisissez un âge entre 16 et 99 ans."
+    "driverAgeRange": "Saisissez un âge entre 16 et 99 ans.",
+    "payNextStep": "Vous payez à l'étape suivante. La voiture est gardée pour vous pendant 15 minutes."
   },
   "quote": {
     "total": "Total",
@@ -242,7 +243,8 @@
     "orderSummary": "Récapitulatif de la commande",
     "total": "Total",
     "depositNote": "Une caution remboursable de {amount} est bloquée sur votre moyen de paiement. Elle n'est pas débitée et est libérée après la location.",
-    "failed": "Une erreur est survenue. Veuillez réessayer."
+    "failed": "Une erreur est survenue. Veuillez réessayer.",
+    "processingNote": "Votre paiement est en cours de traitement. Nous gardons la voiture pour vous jusqu'à la fin. Vous pouvez consulter la réservation à tout moment dans « Mes réservations »."
   },
   "confirmation": {
     "receivedTitle": "Réservation reçue",
@@ -768,5 +770,9 @@
   "bookingLookup": {
     "title": "Nous ne trouvons pas cette réservation",
     "body": "La référence est peut-être mal saisie, ou la réservation a été faite dans un autre navigateur ou compte. Connectez-vous pour voir vos réservations, ou posez la question dans le chat."
+  },
+  "providerApply": {
+    "title": "Louez vos voitures sur BestCar",
+    "body": "Connectez-vous ou créez un compte gratuit, puis commencez votre demande."
   }
 }

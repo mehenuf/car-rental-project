@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useApiData } from "@/hooks/use-api-data";
+import { LoadingBlock } from "@/components/admin/loading-block";
 
 interface Member {
   user_id: string;
@@ -44,6 +45,7 @@ export default function AdminStaffPage() {
       </div>
       {message && <p role="alert" className="text-sm text-destructive">{message}</p>}
       {result.status === "error" && <p className="text-sm text-destructive">{result.error}</p>}
+      {result.status === "loading" && <LoadingBlock />}
 
       <Card className="shadow-card ring-0">
         <CardContent className="flex flex-wrap items-end gap-2">

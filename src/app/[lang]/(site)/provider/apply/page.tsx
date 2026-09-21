@@ -4,6 +4,7 @@ import { redirect } from "next/navigation";
 import { ApplyForm } from "@/components/provider/apply-form";
 import { OnboardingPanel } from "@/components/provider/onboarding-panel";
 import { buttonVariants } from "@/components/ui/button";
+import { getT } from "@/lib/i18n/dictionary";
 import { getProviderContext } from "@/lib/provider/context";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
@@ -17,16 +18,18 @@ export default async function ProviderApplyPage({ searchParams }: { searchParams
   const context = await getProviderContext();
 
   if (!context) {
+    // The front door for new hosts is translated; the application and the portal behind it are English only for now.
+    const t = await getT();
     return (
       <div className="mx-auto flex max-w-lg flex-col gap-(--space-md) px-(--space-sm) py-(--space-2xl) text-center">
-        <h1 className="font-heading text-3xl font-bold text-foreground">Rent out your cars on BestCar</h1>
-        <p className="text-muted-foreground">Sign in or create a free account, then come back to start your application.</p>
+        <h1 className="font-heading text-3xl font-bold text-foreground">{t("providerApply.title")}</h1>
+        <p className="text-muted-foreground">{t("providerApply.body")}</p>
         <div className="flex justify-center gap-(--space-xs)">
           <Link href="/login?next=%2Fprovider%2Fapply" className={buttonVariants({ size: "lg" })}>
-            Sign in
+            {t("header.logIn")}
           </Link>
           <Link href="/register" className={buttonVariants({ variant: "outline", size: "lg" })}>
-            Create account
+            {t("header.register")}
           </Link>
         </div>
       </div>

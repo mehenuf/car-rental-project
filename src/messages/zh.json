@@ -184,7 +184,8 @@
     "dropAfterPickup": "还车时间必须晚于取车时间。",
     "pickupIn": "取车地点：{city}",
     "pickupInPast": "取车时间已过，请选择更晚的时间。",
-    "driverAgeRange": "请输入 16 至 99 之间的年龄。"
+    "driverAgeRange": "请输入 16 至 99 之间的年龄。",
+    "payNextStep": "下一步付款。我们会为您保留车辆 15 分钟。"
   },
   "quote": {
     "total": "合计",
@@ -235,7 +236,8 @@
     "orderSummary": "订单摘要",
     "total": "合计",
     "depositNote": "您的支付方式上将冻结 {amount} 可退还押金。该款项不会扣除，租期结束后释放。",
-    "failed": "出了点问题，请重试。"
+    "failed": "出了点问题，请重试。",
+    "processingNote": "您的付款正在处理中。处理完成前我们会为您保留车辆。您可随时在“我的预订”中查看预订状态。"
   },
   "confirmation": {
     "receivedTitle": "已收到预订",
@@ -756,5 +758,9 @@
   "bookingLookup": {
     "title": "找不到该预订",
     "body": "预订编号可能输入有误，或该预订是在其他浏览器或账户中创建的。请登录查看您的预订，或在聊天中咨询。"
+  },
+  "providerApply": {
+    "title": "在 BestCar 出租您的车辆",
+    "body": "登录或创建免费账户，然后开始申请。"
   }
 }

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useApiData } from "@/hooks/use-api-data";
+import { LoadingBlock } from "@/components/admin/loading-block";
 import { formatDate } from "@/lib/format";
 
 interface Settings {
@@ -41,6 +42,7 @@ export default function AdminSettingsPage() {
       </div>
       {message && <p role={message.ok ? "status" : "alert"} className={`text-sm ${message.ok ? "text-success-text" : "text-destructive"}`}>{message.text}</p>}
       {result.status === "error" && <p className="text-sm text-destructive">{result.error}</p>}
+      {result.status === "loading" && <LoadingBlock />}
 
       {data?.settings && (
         <Card className="shadow-card ring-0">

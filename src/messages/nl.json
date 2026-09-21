@@ -188,7 +188,8 @@
     "dropAfterPickup": "Inleveren moet na het ophalen zijn.",
     "pickupIn": "Ophalen in {city}",
     "pickupInPast": "De ophaaltijd is al voorbij. Kies een later tijdstip.",
-    "driverAgeRange": "Vul een leeftijd in van 16 tot 99."
+    "driverAgeRange": "Vul een leeftijd in van 16 tot 99.",
+    "payNextStep": "Je betaalt in de volgende stap. De auto wordt 15 minuten voor je vastgehouden."
   },
   "quote": {
     "total": "Totaal",
@@ -242,7 +243,8 @@
     "orderSummary": "Besteloverzicht",
     "total": "Totaal",
     "depositNote": "Op je betaalmethode wordt een terugbetaalbare borg van {amount} vastgehouden. Deze wordt niet afgeschreven en na je huurperiode vrijgegeven.",
-    "failed": "Er is iets misgegaan. Probeer het opnieuw."
+    "failed": "Er is iets misgegaan. Probeer het opnieuw.",
+    "processingNote": "Je betaling wordt verwerkt. We houden de auto voor je vast tot het klaar is. Je kunt de boeking altijd bekijken onder 'Mijn boekingen'."
   },
   "confirmation": {
     "receivedTitle": "Boeking ontvangen",
@@ -767,5 +769,9 @@
   "bookingLookup": {
     "title": "We vinden die boeking niet",
     "body": "De referentie is misschien verkeerd getypt, of de boeking is in een andere browser of met een ander account gemaakt. Log in om je boekingen te zien, of vraag het in de chat."
+  },
+  "providerApply": {
+    "title": "Verhuur je auto's via BestCar",
+    "body": "Log in of maak een gratis account aan en start daarna je aanvraag."
   }
 }

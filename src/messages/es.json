@@ -188,7 +188,8 @@
     "dropAfterPickup": "La devolución debe ser después de la recogida.",
     "pickupIn": "Recogida en {city}",
     "pickupInPast": "La hora de recogida ya ha pasado. Elige una hora posterior.",
-    "driverAgeRange": "Introduce una edad entre 16 y 99."
+    "driverAgeRange": "Introduce una edad entre 16 y 99.",
+    "payNextStep": "Pagas en el siguiente paso. El coche queda reservado para ti durante 15 minutos."
   },
   "quote": {
     "total": "Total",
@@ -242,7 +243,8 @@
     "orderSummary": "Resumen del pedido",
     "total": "Total",
     "depositNote": "Se retiene una fianza reembolsable de {amount} en tu método de pago. No se cobra y se libera al terminar el alquiler.",
-    "failed": "Algo salió mal. Inténtalo de nuevo."
+    "failed": "Algo salió mal. Inténtalo de nuevo.",
+    "processingNote": "Estamos procesando tu pago. Mantenemos el coche reservado para ti hasta que termine. Puedes consultar la reserva en cualquier momento en «Mis reservas»."
   },
   "confirmation": {
     "receivedTitle": "Reserva recibida",
@@ -768,5 +770,9 @@
   "bookingLookup": {
     "title": "No encontramos esa reserva",
     "body": "Puede que la referencia tenga un error, o que la reserva se hiciera en otro navegador o cuenta. Inicia sesión para ver tus reservas o pregunta en el chat."
+  },
+  "providerApply": {
+    "title": "Alquila tus coches con BestCar",
+    "body": "Inicia sesión o crea una cuenta gratuita y empieza tu solicitud."
   }
 }

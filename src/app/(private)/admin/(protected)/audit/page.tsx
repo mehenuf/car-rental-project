@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useApiData } from "@/hooks/use-api-data";
+import { LoadingBlock } from "@/components/admin/loading-block";
 import { formatDate } from "@/lib/format";
 
 interface Entry {
@@ -50,6 +51,7 @@ export default function AdminAuditPage() {
         <Input aria-label="To" type="date" value={to} onChange={(e) => { setTo(e.target.value); setPage(1); }} className="w-40" />
       </div>
       {result.status === "error" && <p className="text-sm text-destructive">{result.error}</p>}
+      {result.status === "loading" && <LoadingBlock />}
       {data?.data.length === 0 && <p className="text-sm text-muted-foreground">No entries match.</p>}
       {data?.data.map((e) => (
         <Card key={e.id} className="shadow-card ring-0">

@@ -188,7 +188,8 @@
     "dropAfterPickup": "Drop-off must be after pick-up.",
     "pickupIn": "Pick-up in {city}",
     "pickupInPast": "The pick-up time has already passed. Choose a later time.",
-    "driverAgeRange": "Enter an age from 16 to 99."
+    "driverAgeRange": "Enter an age from 16 to 99.",
+    "payNextStep": "You pay on the next step. The car is held for you for 15 minutes."
   },
   "quote": {
     "total": "Total",
@@ -242,7 +243,8 @@
     "orderSummary": "Order summary",
     "total": "Total",
     "depositNote": "A refundable deposit of {amount} is held on your payment method. It is not charged and is released after your rental.",
-    "failed": "Something went wrong. Please try again."
+    "failed": "Something went wrong. Please try again.",
+    "processingNote": "Your payment is being processed. We keep the car held for you until it finishes. You can check the booking at any time under My bookings."
   },
   "confirmation": {
     "receivedTitle": "Booking Received",
@@ -767,5 +769,9 @@
   "bookingLookup": {
     "title": "We can't find that booking",
     "body": "The reference may be mistyped, or the booking was made in another browser or account. Sign in to see your bookings, or ask in the chat."
+  },
+  "providerApply": {
+    "title": "Rent out your cars on BestCar",
+    "body": "Sign in or create a free account, then start your application."
   }
 }

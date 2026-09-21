@@ -34,6 +34,24 @@ test.describe("sign up", () => {
     await expect(notice.getByRole("link", { name: "Privacy policy" })).toHaveAttribute("href", /\/privacy$/);
   });
 
+  test("the account type choice works with the arrow keys, like a native radio group", async ({ page, baseURL }) => {
+    await acceptCookies(page, baseURL);
+    await page.goto("/en/register");
+    const radios = page.getByRole("radio");
+    await expect(radios).toHaveCount(3);
+    await expect(radios.nth(0)).toHaveAttribute("aria-checked", "true");
+    // Only the selected option is a tab stop.
+    await expect(radios.nth(1)).toHaveAttribute("tabindex", "-1");
+    await radios.nth(0).focus();
+    await page.keyboard.press("ArrowDown");
+    await expect(radios.nth(1)).toHaveAttribute("aria-checked", "true");
+    await expect(radios.nth(1)).toBeFocused();
+    await page.keyboard.press("End");
+    await expect(radios.nth(2)).toHaveAttribute("aria-checked", "true");
+    await page.keyboard.press("ArrowRight");
+    await expect(radios.nth(0)).toHaveAttribute("aria-checked", "true");
+  });
+
   test("a name of only spaces is refused with a reason, before anything is sent", async ({ page, baseURL }) => {
     await acceptCookies(page, baseURL);
     let signupCalls = 0;

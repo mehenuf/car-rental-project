@@ -188,7 +188,8 @@
     "dropAfterPickup": "Die Rückgabe muss nach der Abholung liegen.",
     "pickupIn": "Abholung in {city}",
     "pickupInPast": "Die Abholzeit liegt bereits in der Vergangenheit. Wählen Sie eine spätere Zeit.",
-    "driverAgeRange": "Geben Sie ein Alter von 16 bis 99 ein."
+    "driverAgeRange": "Geben Sie ein Alter von 16 bis 99 ein.",
+    "payNextStep": "Die Zahlung erfolgt im nächsten Schritt. Das Auto wird 15 Minuten für Sie reserviert."
   },
   "quote": {
     "total": "Gesamt",
@@ -242,7 +243,8 @@
     "orderSummary": "Bestellübersicht",
     "total": "Gesamt",
     "depositNote": "Auf Ihrer Zahlungsart wird eine erstattbare Kaution von {amount} reserviert. Sie wird nicht abgebucht und nach der Miete freigegeben.",
-    "failed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut."
+    "failed": "Etwas ist schiefgelaufen. Bitte versuchen Sie es erneut.",
+    "processingNote": "Ihre Zahlung wird verarbeitet. Wir halten das Auto für Sie bereit, bis sie abgeschlossen ist. Den Stand sehen Sie jederzeit unter „Meine Buchungen“."
   },
   "confirmation": {
     "receivedTitle": "Buchung eingegangen",
@@ -767,5 +769,9 @@
   "bookingLookup": {
     "title": "Diese Buchung finden wir nicht",
     "body": "Die Referenz ist vielleicht falsch geschrieben, oder die Buchung wurde in einem anderen Browser oder Konto gemacht. Melden Sie sich an, um Ihre Buchungen zu sehen, oder fragen Sie im Chat."
+  },
+  "providerApply": {
+    "title": "Vermieten Sie Ihre Autos über BestCar",
+    "body": "Melden Sie sich an oder erstellen Sie ein kostenloses Konto und starten Sie dann Ihre Bewerbung."
   }
 }

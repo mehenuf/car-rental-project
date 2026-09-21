@@ -10,6 +10,8 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { supabase } from "@/lib/supabase";
 import { cn } from "@/lib/utils";
+import { nextRadioValue } from "@/lib/radio-keys";
+import { directionOf } from "@/lib/i18n/locales";
 
 type AccountType = "renter" | "individual" | "company";
 
@@ -110,13 +112,27 @@ export function RegisterForm({ initialType }: { initialType: AccountType }) {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="flex flex-col gap-(--space-sm)">
-            <div role="radiogroup" aria-label={t("auth.accountType")} className="flex flex-col gap-2">
+            <div
+              role="radiogroup"
+              aria-label={t("auth.accountType")}
+              className="flex flex-col gap-2"
+              onKeyDown={(event) => {
+                const next = nextRadioValue(event.key, ACCOUNT_TYPES.map((type) => type.value), accountType, directionOf(locale) === "rtl");
+                if (!next) return;
+                event.preventDefault();
+                setAccountType(next as AccountType);
+                // Move focus with the selection, as a native radio group does.
+                event.currentTarget.querySelector<HTMLButtonElement>(`[data-value="${next}"]`)?.focus();
+              }}
+            >
               <span className="text-sm font-medium text-foreground">{t("auth.accountType")}</span>
               {ACCOUNT_TYPES.map(({ value, icon: Icon, titleKey, bodyKey }) => (
                 <button
                   key={value}
                   type="button"
                   role="radio"
+                  data-value={value}
+                  tabIndex={accountType === value ? 0 : -1}
                   aria-checked={accountType === value}
                   disabled={loading}
                   onClick={() => setAccountType(value)}

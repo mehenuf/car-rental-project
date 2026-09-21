@@ -7,7 +7,7 @@ import { CheckoutForm } from "@/components/site/checkout-form";
 import { readRequestIdentity } from "@/lib/guest";
 import { paymentsRepo } from "@/lib/payments/repo";
 import { checkoutMethods, stripeEnabled } from "@/lib/payments/registry";
-import { getBookingByReference } from "@/lib/queries";
+import { getBookingByReference, getBranchCity } from "@/lib/queries";
 
 export async function generateMetadata() {
   return titleFromKey("meta.checkout");
@@ -35,6 +35,7 @@ export default async function CheckoutPage({ params }: { params: Promise<{ refer
     redirect(withLocale(await getLocale(), `/booking-confirmation?ref=${encodeURIComponent(reference)}`));
   }
 
+  const pickupCity = display.pickup_branch_id ? await getBranchCity(display.pickup_branch_id) : null;
   const methods = checkoutMethods(booking.country_code ?? "", booking.currency).map((m) => ({
     code: m.code,
     label: m.label,
@@ -51,6 +52,9 @@ export default async function CheckoutPage({ params }: { params: Promise<{ refer
       lines={snapshot.quote.lines ?? []}
       days={snapshot.quote.days ?? 1}
       holdExpiresAt={booking.hold_expires_at}
+      pickupCity={pickupCity}
+      pickupAt={display.pickup_at}
+      dropoffAt={display.dropoff_at}
       methods={methods}
       stripe={{
         enabled: stripeEnabled(),

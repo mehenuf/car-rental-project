@@ -1,5 +1,7 @@
 # API reference
 
+> **Coverage note (2026-09-21).** This file documents the original public, admin and lead routes: 19 of the 95 route handlers under `src/app/api`. The account (`/api/account/*`), host portal (`/api/provider/*`), staff (`/api/admin/*`), payments, webhooks and cron routes are not listed here. Every route validates input with a Zod schema, answers errors as `{ error: { message, issues? } }`, and, except the public ones, needs a signed-in user, a host role or a staff permission. Read the route file to see its exact shape.
+
 Every route is a Next.js route handler under `src/app/api`. Errors share one shape: `{ "error": { "message": "...", "issues"?: [...] } }`. Money in requests and responses is described per route; inside the database all amounts are integer minor units.
 
 

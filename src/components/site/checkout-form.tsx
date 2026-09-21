@@ -14,6 +14,9 @@ import { Label } from "@/components/ui/label";
 import { StripeCardForm } from "@/components/site/stripe-card-form";
 import { describePaymentFailure } from "@/lib/payments/messages";
 import { formatMinor } from "@/lib/pricing/money";
+import { formatDate } from "@/lib/format";
+import { nextRadioValue } from "@/lib/radio-keys";
+import { directionOf } from "@/lib/i18n/locales";
 import { cn } from "@/lib/utils";
 
 interface CheckoutMethod {
@@ -43,6 +46,9 @@ export function CheckoutForm({
   lines,
   days,
   holdExpiresAt,
+  pickupCity,
+  pickupAt,
+  dropoffAt,
   methods,
   stripe,
 }: {
@@ -54,6 +60,9 @@ export function CheckoutForm({
   lines: QuoteLine[];
   days: number;
   holdExpiresAt: string | null;
+  pickupCity: string | null;
+  pickupAt: string;
+  dropoffAt: string;
   methods: CheckoutMethod[];
   stripe: { enabled: boolean; publishableKey: string | null };
 }) {
@@ -63,13 +72,16 @@ export function CheckoutForm({
   const [method, setMethod] = useState(methods[0]?.code ?? "card");
   const [testInput, setTestInput] = useState("");
   const [attempt, setAttempt] = useState(() => crypto.randomUUID());
-  const [phase, setPhase] = useState<"form" | "code" | "stripe">("form");
+  const [phase, setPhase] = useState<"form" | "code" | "stripe" | "processing">("form");
   const [paymentId, setPaymentId] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState<string | null>(null);
   const [code, setCode] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [now, setNow] = useState(() => Date.now());
+  // What is read out about the hold. The visible countdown changes every second, which would be read every second; this
+  // changes only when the hold starts, at 5 minutes, at 1 minute and when it ends.
+  const [initialRemainingMs] = useState(() => (holdExpiresAt ? new Date(holdExpiresAt).getTime() - Date.now() : null));
 
   useEffect(() => {
     const timer = setInterval(() => setNow(Date.now()), 1000);
@@ -92,7 +104,12 @@ export function CheckoutForm({
 
   function handleResult(body: PaymentResponse) {
     setPaymentId(body.payment_id);
-    if (body.status === "succeeded" || body.status === "processing") return finish();
+    if (body.status === "succeeded") return finish();
+    if (body.status === "processing") {
+      // The payment is not finished yet, so do not send the renter to a page that says "Pay now".
+      setPhase("processing");
+      return;
+    }
     if (body.status === "requires_action") {
       if (body.client_secret) {
         setClientSecret(body.client_secret);
@@ -153,16 +170,24 @@ export function CheckoutForm({
 
         {remainingMs !== null && (
           <div
-            role="status"
             className={cn(
               "flex items-center gap-2 rounded-lg border px-3 py-2 text-sm",
               expired ? "border-destructive/40 text-destructive" : "border-border text-muted-foreground"
             )}
           >
             <Clock className="size-4" aria-hidden />
-            {expired
-              ? t("checkout.holdExpired")
-              : t("checkout.holding", { time: formatCountdown(remainingMs) })}
+            <span aria-hidden="true">
+              {expired ? t("checkout.holdExpired") : t("checkout.holding", { time: formatCountdown(remainingMs) })}
+            </span>
+            <span role="status" className="sr-only">
+              {expired
+                ? t("checkout.holdExpired")
+                : remainingMs <= 60_000
+                  ? t("checkout.holding", { time: "1:00" })
+                  : remainingMs <= 300_000
+                    ? t("checkout.holding", { time: "5:00" })
+                    : t("checkout.holding", { time: formatCountdown(initialRemainingMs ?? remainingMs) })}
+            </span>
           </div>
         )}
 
@@ -170,6 +195,13 @@ export function CheckoutForm({
           <Link href="/cars" className={buttonVariants({ size: "lg" })}>
             {t("checkout.findAnother")}
           </Link>
+        ) : phase === "processing" ? (
+          <div role="status" className="flex flex-col gap-(--space-sm)">
+            <p className="text-sm text-foreground">{t("checkout.processingNote")}</p>
+            <Link href="/account" className={buttonVariants({ size: "lg" })}>
+              {t("confirmation.viewBookings")}
+            </Link>
+          </div>
         ) : phase === "stripe" && clientSecret && stripe.publishableKey ? (
           <StripeCardForm
             clientSecret={clientSecret}
@@ -192,13 +224,25 @@ export function CheckoutForm({
           </form>
         ) : (
           <form onSubmit={pay} className="flex flex-col gap-(--space-sm)">
-            <fieldset className="flex flex-col gap-2">
+            <fieldset
+              role="radiogroup"
+              className="flex flex-col gap-2"
+              onKeyDown={(event) => {
+                const next = nextRadioValue(event.key, methods.map((m) => m.code), method, directionOf(locale) === "rtl");
+                if (!next) return;
+                event.preventDefault();
+                setMethod(next);
+                event.currentTarget.querySelector<HTMLButtonElement>(`[data-value="${next}"]`)?.focus();
+              }}
+            >
               <legend className="mb-1 text-sm font-medium text-foreground">{t("checkout.paymentMethod")}</legend>
               {methods.map((m) => (
                 <button
                   key={m.code}
                   type="button"
                   role="radio"
+                  data-value={m.code}
+                  tabIndex={method === m.code ? 0 : -1}
                   aria-checked={method === m.code}
                   onClick={() => setMethod(m.code)}
                   className={cn(
@@ -256,7 +300,19 @@ export function CheckoutForm({
       <Card className="h-fit shadow-card ring-0">
         <CardContent className="flex flex-col gap-(--space-sm)">
           <h2 className="font-heading text-lg font-semibold text-foreground">{t("checkout.orderSummary")}</h2>
-          <ul className="flex flex-col gap-1.5 text-sm">
+          <dl className="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
+            <dt className="text-muted-foreground">{t("confirmation.pickUp")}</dt>
+            <dd className="text-end font-medium text-foreground">{formatDate(pickupAt, locale)}</dd>
+            <dt className="text-muted-foreground">{t("confirmation.dropOff")}</dt>
+            <dd className="text-end font-medium text-foreground">{formatDate(dropoffAt, locale)}</dd>
+            {pickupCity && (
+              <>
+                <dt className="text-muted-foreground">{t("confirmation.pickUpAt")}</dt>
+                <dd className="text-end font-medium text-foreground">{pickupCity}</dd>
+              </>
+            )}
+          </dl>
+          <ul className="flex flex-col gap-1.5 border-t border-border pt-(--space-sm) text-sm">
             {lines.map((line, i) => (
               <li key={`${line.kind}-${i}`} className="flex justify-between gap-3">
                 <span className={cn("text-muted-foreground", line.included && "italic")}>{quoteLineLabel(line, days, t)}</span>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { useApiData } from "@/hooks/use-api-data";
+import { LoadingBlock } from "@/components/admin/loading-block";
 import { canApprove } from "@/lib/admin/approvals";
 import type { StaffRole } from "@/lib/admin/permissions";
 import { formatDate } from "@/lib/format";
@@ -54,6 +55,7 @@ export default function AdminApprovalsPage() {
       </div>
       {message && <p role="alert" className="text-sm text-destructive">{message}</p>}
       {result.status === "error" && <p className="text-sm text-destructive">{result.error}</p>}
+      {result.status === "loading" && <LoadingBlock />}
       {data && data.pending.length === 0 && <p className="text-sm text-muted-foreground">Nothing is waiting.</p>}
       {data?.pending.map((a) => {
         const allowed = canApprove({ deciderRole: data.me.role, deciderId: data.me.userId, requesterId: a.requested_by });

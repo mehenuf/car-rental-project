@@ -460,6 +460,7 @@ export function VehicleBookingPanel({
                   })
                 : vehicle.name}
             </DialogDescription>
+            <p className="text-sm text-muted-foreground">{t("booking.payNextStep")}</p>
           </DialogHeader>
           <form className="flex flex-col gap-(--space-sm)" onSubmit={handleSubmit}>
             <div className="flex flex-col gap-1.5">
