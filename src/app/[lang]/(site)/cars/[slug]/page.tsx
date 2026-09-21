@@ -69,13 +69,14 @@ export default async function VehicleDetailPage({
   if (!vehicle) notFound();
 
   // The branch whose city and daily rate the page shows, and the branch the quote is priced from.
-  const [place, { data: sameCategory }] = await Promise.all([
+  const [place, { data: sameCategory }, translation] = await Promise.all([
     getVehiclePlace(vehicle.id, toBranchId(pickupLocationId)),
     getVehicleCards({ category: [vehicle.category], pageSize: 4 }),
+    getVehicleTranslation(vehicle.id, locale),
   ]);
   const similar = sameCategory.filter((v) => v.id !== vehicle.id).slice(0, 3);
 
-  const text = localizedVehicleText(vehicle, await getVehicleTranslation(vehicle.id, locale));
+  const text = localizedVehicleText(vehicle, translation);
   const images = [vehicle.image_url, ...vehicle.gallery.filter((url) => url !== vehicle.image_url)];
 
   return (

@@ -192,16 +192,15 @@ async function attachPlaces(cards: VehicleCardData[], preferredBranchId?: number
   if (cards.length === 0) return cards;
   const ids = cards.map((c) => c.id);
   // A rate plan alone does not make a car available somewhere: it also needs an active, approved unit at that branch.
-  const [{ data: allPlans }, { data: units }] = await Promise.all([
+  // The active branches are a small table, so they are read in the same round trip instead of after the plans:
+  // one database call fewer in the chain, which is what costs most when the database is far from the server.
+  const [{ data: allPlans }, { data: units }, { data: branches }] = await Promise.all([
     supabaseAdmin.from("rate_plans").select("vehicle_id, branch_id, currency, base_daily_minor").in("vehicle_id", ids),
     supabaseAdmin.from("fleet_units").select("vehicle_id, branch_id").in("vehicle_id", ids).eq("status", "active").eq("listing_status", "approved"),
+    supabaseAdmin.from("branches").select("id, city").eq("is_active", true).limit(1000),
   ]);
   const offered = new Set((units ?? []).map((u) => `${u.vehicle_id}:${u.branch_id}`));
   const plans = (allPlans ?? []).filter((p) => offered.has(`${p.vehicle_id}:${p.branch_id}`));
-  const branchIds = [...new Set(plans.map((p) => p.branch_id))];
-  const { data: branches } = branchIds.length > 0
-    ? await supabaseAdmin.from("branches").select("id, city").eq("is_active", true).in("id", branchIds)
-    : { data: [] as { id: number; city: string }[] };
   return cards.map((card) => ({
     ...card,
     place: choosePlace(plans.filter((p) => p.vehicle_id === card.id), branches ?? [], preferredBranchId),
@@ -825,6 +824,12 @@ export async function getVehicleTranslation(vehicleId: string, lang: string) {
     .maybeSingle();
   if (error) throw new Error(`getVehicleTranslation: ${error.message}`);
   return data ?? null;
+}
+
+/** The city of a branch, for saying where a booking is picked up. */
+export async function getBranchCity(id: number): Promise<string | null> {
+  const { data } = await supabaseAdmin.from("branches").select("city").eq("id", id).maybeSingle();
+  return data?.city ?? null;
 }
 
 /** One active branch as a place (used to say where a list of cars is being shown). */

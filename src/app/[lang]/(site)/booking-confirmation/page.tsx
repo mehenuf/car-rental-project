@@ -7,7 +7,7 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatBookingTotal, formatDate } from "@/lib/format";
 import { isHoldActive } from "@/lib/payments/hold";
-import { getBookingByReference } from "@/lib/queries";
+import { getBookingByReference, getBranchCity } from "@/lib/queries";
 import { readRequestIdentity } from "@/lib/guest";
 import { getLocale, getT } from "@/lib/i18n/dictionary";
 
@@ -42,6 +42,7 @@ export default async function BookingConfirmationPage({
     (booking.guest_id !== null && booking.guest_id === identity.guestId);
   if (hasOwner && !isOwner) return <BookingNotFound />;
 
+  const pickupCity = booking.pickup_branch_id ? await getBranchCity(booking.pickup_branch_id) : null;
   const paid = booking.payment_status === "paid" || booking.payment_status === "partially_refunded";
   const refunded = booking.payment_status === "refunded";
   const cancelled = booking.status === "cancelled" || booking.status === "no_show";
@@ -83,6 +84,7 @@ export default async function BookingConfirmationPage({
           <Row label={t("confirmation.reference")} value={booking.reference} />
           <Row label={t("confirmation.vehicle")} value={booking.vehicle?.name ?? "-"} />
           <Row label={t("confirmation.pickUp")} value={formatDate(booking.pickup_at, locale)} />
+          {pickupCity && <Row label={t("confirmation.pickUpAt")} value={pickupCity} />}
           <Row label={t("confirmation.dropOff")} value={formatDate(booking.dropoff_at, locale)} />
           <Row label={t("confirmation.total")} value={formatBookingTotal(booking, locale)} emphasize />
         </CardContent>

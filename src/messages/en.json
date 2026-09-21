@@ -263,7 +263,8 @@
     "total": "Total",
     "payNow": "Pay now",
     "viewBookings": "View my bookings",
-    "browseMore": "Browse more cars"
+    "browseMore": "Browse more cars",
+    "pickUpAt": "Pick-up location"
   },
   "cancelBooking": {
     "refundFailed": "Cancelled. Your refund could not be processed automatically; our team will follow up.",

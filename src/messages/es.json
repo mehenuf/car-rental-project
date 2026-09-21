@@ -263,7 +263,8 @@
     "total": "Total",
     "payNow": "Pagar ahora",
     "viewBookings": "Ver mis reservas",
-    "browseMore": "Ver más coches"
+    "browseMore": "Ver más coches",
+    "pickUpAt": "Lugar de recogida"
   },
   "cancelBooking": {
     "refundFailed": "Cancelada. No pudimos procesar tu reembolso automáticamente; nuestro equipo se pondrá en contacto contigo.",

@@ -256,7 +256,8 @@
     "total": "Total",
     "payNow": "Bayar sekarang",
     "viewBookings": "Lihat pemesanan saya",
-    "browseMore": "Lihat mobil lainnya"
+    "browseMore": "Lihat mobil lainnya",
+    "pickUpAt": "Lokasi pengambilan"
   },
   "cancelBooking": {
     "refundFailed": "Dibatalkan. Pengembalian dana Anda tidak dapat diproses otomatis; tim kami akan menindaklanjuti.",

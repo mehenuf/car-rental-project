@@ -263,7 +263,8 @@
     "total": "Gesamt",
     "payNow": "Jetzt bezahlen",
     "viewBookings": "Meine Buchungen ansehen",
-    "browseMore": "Weitere Fahrzeuge ansehen"
+    "browseMore": "Weitere Fahrzeuge ansehen",
+    "pickUpAt": "Abholort"
   },
   "cancelBooking": {
     "refundFailed": "Storniert. Ihre Erstattung konnte nicht automatisch verarbeitet werden; unser Team meldet sich bei Ihnen.",

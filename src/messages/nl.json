@@ -263,7 +263,8 @@
     "total": "Totaal",
     "payNow": "Nu betalen",
     "viewBookings": "Mijn boekingen bekijken",
-    "browseMore": "Meer auto's bekijken"
+    "browseMore": "Meer auto's bekijken",
+    "pickUpAt": "Ophaallocatie"
   },
   "cancelBooking": {
     "refundFailed": "Geannuleerd. Je terugbetaling kon niet automatisch worden verwerkt; ons team neemt contact met je op.",

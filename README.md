@@ -85,7 +85,7 @@ Set these in `.env.local` locally and in Vercel for production.
 | `npm run test:coverage` | Unit tests with the coverage gate (85% on the pure-logic libraries) |
 | `npm run test:db` | SQL tests. Needs `TEST_DATABASE_URL` pointing at a scratch local PostgreSQL; the runner drops the `public` schema |
 | `npx next typegen` | Generate route types (`PageProps`, `LayoutProps`); needed before `tsc` on a fresh checkout |
-| `npx playwright test` | Browser tests (89): smoke, security headers, language switch, location picker, landing page, routes and 404, sign-in and recovery screens, dialogs and focus, accessibility and the accessibility tree |
+| `npx playwright test` | Browser tests (95): smoke, security headers, language switch, location picker, landing page, routes and 404, sign-in and recovery screens, dialogs and focus, accessibility and the accessibility tree |
 
 ## Project structure
 

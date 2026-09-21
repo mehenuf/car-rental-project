@@ -67,8 +67,8 @@ export async function CarsPageContent({
   const cookiePlaceId = !showAll && Number.isInteger(cookieId) && cookieId > 0 ? cookieId : undefined;
   const explicitPlaceId = filters.locationId ?? (availability ? undefined : filters.pickupLocationId);
   const locationId = explicitPlaceId ?? cookiePlaceId;
-  const lookingIn = locationId ? await getBranchPlace(locationId) : null;
-  const priceScope = lookingIn ? await getBranchPriceScope(lookingIn.id, lookingIn.currency) : null;
+  // The place lookup and the car list do not depend on each other, so they share one round trip.
+  const lookingInPromise = locationId ? getBranchPlace(locationId) : Promise.resolve(null);
 
   const request = {
     category: filters.category,
@@ -83,7 +83,9 @@ export async function CarsPageContent({
     sortOrder,
     pageSize: PAGE_SIZE,
   };
-  let { data, count } = await getVehicleCards({ ...request, page });
+  const [lookingIn, firstPage] = await Promise.all([lookingInPromise, getVehicleCards({ ...request, page })]);
+  const priceScope = lookingIn ? await getBranchPriceScope(lookingIn.id, lookingIn.currency) : null;
+  let { data, count } = firstPage;
   let totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
   // A page number past the end (an old bookmark, a typo) shows the last page instead of an empty list.
   if (data.length === 0 && count > 0 && page > totalPages) {

@@ -256,7 +256,8 @@
     "total": "合计",
     "payNow": "立即支付",
     "viewBookings": "查看我的预订",
-    "browseMore": "浏览更多车辆"
+    "browseMore": "浏览更多车辆",
+    "pickUpAt": "取车地点"
   },
   "cancelBooking": {
     "refundFailed": "已取消。退款无法自动处理，我们的团队会跟进。",

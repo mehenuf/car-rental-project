@@ -256,7 +256,8 @@
     "total": "合計",
     "payNow": "今すぐ支払う",
     "viewBookings": "予約一覧を見る",
-    "browseMore": "他の車を見る"
+    "browseMore": "他の車を見る",
+    "pickUpAt": "受け取り場所"
   },
   "cancelBooking": {
     "refundFailed": "キャンセルしました。返金を自動処理できませんでした。担当者から追ってご連絡します。",
