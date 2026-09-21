@@ -319,6 +319,15 @@ html {
 /* Returning visitors who already answered never see the cookie card (see root-shell.tsx). */
 html[data-consent="set"] [data-consent-banner] { display: none; }
 
+/* Chinese and Japanese pages use the device's own CJK fonts (Latin text keeps Inter), instead of a web font that added
+   about 65 KB of render-blocking CSS to every page in every language. */
+html[lang="ja"] {
+  --font-script: var(--font-inter), "Hiragino Sans", "Hiragino Kaku Gothic ProN", "Yu Gothic UI", "Yu Gothic", Meiryo, "Noto Sans CJK JP", "Noto Sans JP", sans-serif;
+}
+html[lang="zh"] {
+  --font-script: var(--font-inter), "PingFang SC", "Microsoft YaHei UI", "Microsoft YaHei", "Noto Sans CJK SC", "Noto Sans SC", "Hiragino Sans GB", sans-serif;
+}
+
 /* Native scrolling: the browser's own scrolling responds instantly, so the page never trails the wheel or finger. In-page links glide. */
 html {
   scroll-padding-top: 5rem;

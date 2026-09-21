@@ -9,7 +9,7 @@ const CONSENT_SNIPPET = `try{var m=document.cookie.match(/(?:^|; )${CONSENT_COOK
 import "@/app/globals.css";
 
 /** The one `<html>`/`<body>` shared by the public site (per language) and the private portals (English). */
-export function RootShell({
+export async function RootShell({
   locale,
   skipLabel,
   children,
@@ -18,11 +18,12 @@ export function RootShell({
   skipLabel: string;
   children: ReactNode;
 }) {
+  const fontClasses = await fontClassesFor(locale);
   return (
     <html
       lang={locale}
       dir={directionOf(locale)}
-      className={`${fontClassesFor(locale)} h-full antialiased`}
+      className={`${fontClasses} h-full antialiased`}
       suppressHydrationWarning
     >
       <body className="min-h-full flex flex-col">

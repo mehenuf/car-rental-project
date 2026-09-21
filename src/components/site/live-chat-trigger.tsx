@@ -1,6 +1,6 @@
 "use client";
 
-import { OPEN_CHAT_EVENT } from "@/components/site/chat-widget";
+import { OPEN_CHAT_EVENT } from "@/components/site/chat-events";
 
 /** Makes the Contact page's "Live chat" row actually open the widget,
  * instead of just describing where the launcher lives. */

@@ -8,11 +8,10 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { cn } from "@/lib/utils";
 import { numberingLocale } from "@/lib/i18n/locales";
 import { useLocale, useT } from "@/lib/i18n/provider";
-import { calendarLocale } from "@/lib/i18n/calendar-locale";
 
 // The calendar (and its per-language date data) is only needed once someone opens it, so it is loaded then, and
 // started early when the pointer or focus reaches the field.
-const loadCalendar = () => import("@/components/ui/calendar").then((mod) => mod.Calendar);
+const loadCalendar = () => import("@/components/site/localized-calendar");
 const Calendar = dynamic(loadCalendar, {
   ssr: false,
   loading: () => <div className="h-[19rem] w-[17rem] animate-pulse rounded-xl bg-muted" aria-hidden="true" />,
@@ -95,9 +94,6 @@ export function DatePickerField({
         </PopoverTrigger>
         <PopoverContent align="start" className="w-auto p-0">
           <Calendar
-            mode="single"
-            locale={calendarLocale(locale)}
-            dir={locale === "ar" ? "rtl" : "ltr"}
             selected={value}
             defaultMonth={value ?? minDate}
             onSelect={(date) => {

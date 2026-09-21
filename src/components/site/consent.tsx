@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Analytics } from "@vercel/analytics/next";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/i18n/link";
 import { useT } from "@/lib/i18n/provider";
@@ -18,6 +18,8 @@ function readCookie(): string | undefined {
  * The cookie banner and the analytics it controls. Necessary cookies (session, language, theme) need no consent;
  * analytics stay off until the visitor says yes, and the choice is asked again when the policy version changes.
  */
+const Analytics = dynamic(() => import("@vercel/analytics/next").then((mod) => mod.Analytics), { ssr: false });
+
 export function ConsentManager() {
   const t = useT();
   const [state, setState] = useState<{ ready: boolean; banner: boolean; analytics: boolean }>({ ready: false, banner: true, analytics: false });

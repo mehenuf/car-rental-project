@@ -9,6 +9,7 @@ import { VehicleImage } from "@/components/site/vehicle-image";
 import { formatCurrency } from "@/lib/format";
 import { useT } from "@/lib/i18n/provider";
 import { cn } from "@/lib/utils";
+import { OPEN_CHAT_EVENT } from "@/components/site/chat-events";
 
 interface RecommendedVehicle {
   slug: string;
@@ -59,14 +60,9 @@ async function getSessionCustomerInfo(): Promise<SessionCustomerInfo> {
   return info;
 }
 
-/** Dispatched by any page that wants to open the widget itself — e.g. the
- * Contact page's "Live chat" row — instead of just describing where the
- * launcher is. */
-export const OPEN_CHAT_EVENT = "bestcar:open-chat";
-
-export function ChatWidget() {
+export function ChatWidget({ initiallyOpen = false }: { initiallyOpen?: boolean }) {
   const t = useT();
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(initiallyOpen);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);

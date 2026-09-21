@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import dynamic from "next/dynamic";
 import { SiteHeader } from "@/components/site/site-header";
-import { ChatWidget } from "@/components/site/chat-widget";
+import { LazyChat } from "@/components/site/lazy-chat";
 import { LocationProvider } from "@/components/location/location-provider";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -29,7 +29,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
           {children}
         </main>
         <SiteFooter />
-        <ChatWidget />
+        <LazyChat />
       </LocationProvider>
     </>
   );

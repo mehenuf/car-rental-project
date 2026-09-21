@@ -1,12 +1,12 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import { Link } from "@/lib/i18n/link";
 import { usePathname } from "next/navigation";
 import { useLocaleRouter } from "@/lib/i18n/provider";
-import { Building2, Car, LayoutDashboard, Menu, User } from "lucide-react";
+import { Building2, Car, LayoutDashboard, Menu } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   DropdownMenu,
@@ -21,9 +21,12 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { initialsFor } from "@/lib/format";
 import { LocationChip } from "@/components/location/location-chip";
 import { LanguageSwitcher } from "@/components/site/language-switcher";
-import { useLocale, useT } from "@/lib/i18n/provider";
-import { directionOf } from "@/lib/i18n/locales";
+import { useT } from "@/lib/i18n/provider";
+import { cn } from "@/lib/utils";
 
+// Loaded the first time the menu button is used or approached, so the dialog code is not in every first load.
+const loadMobileMenu = () => import("@/components/site/mobile-menu");
+const MobileMenu = dynamic(loadMobileMenu, { ssr: false });
 function AccountMenu({
   name,
   email,
@@ -81,12 +84,12 @@ function AccountMenu({
 
 export function SiteHeader() {
   const t = useT();
-  const locale = useLocale();
   // "/en/cars/x" -> "/cars/x": which header link is the page you are on (links to a section of the home page never are).
   const bare = "/" + usePathname().split("/").slice(2).join("/");
   const isCurrent = (href: string) =>
     !href.includes("#") && (href === "/" ? bare === "/" : bare === href || bare.startsWith(`${href}/`));
   const [open, setOpen] = useState(false);
+  const [menuRequested, setMenuRequested] = useState(false);
   const router = useLocaleRouter();
   const { user, isAdmin, loading } = useSupabaseUser();
 
@@ -128,57 +131,43 @@ export function SiteHeader() {
           ))}
         </nav>
 
-        {/* Full auth actions (text links + both CTAs) only fit from lg up —
-            below that, the compact tablet block right after this one covers
-            md-lg with a single CTA instead of leaving a hamburger-only dead
-            zone despite there being room for the nav. */}
-        <div className="ms-auto hidden items-center gap-2 lg:flex">
-          <LanguageSwitcher />
-          <ThemeToggle label={t("common.toggleTheme")} />
+        {/* One set of controls for every width. The sign-in links show from md (the register link and My bookings from lg),
+            and below md the menu button takes their place. */}
+        <div className="ms-auto flex items-center gap-1 md:gap-2">
+          <LanguageSwitcher className="h-11 md:h-8" />
+          <ThemeToggle className="size-11 md:size-8" label={t("common.toggleTheme")} />
           {!loading && !user && (
             <>
               <Link
                 href="/account"
-                className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+                className="hidden text-sm font-medium text-muted-foreground transition-colors hover:text-foreground lg:inline"
               >
                 {t("header.myBookings")}
               </Link>
-              <Link href="/register" className={buttonVariants({ variant: "outline" })}>
+              <Link href="/register" className={cn(buttonVariants({ variant: "outline" }), "hidden lg:inline-flex")}>
                 {t("header.register")}
               </Link>
-              <Link href="/login" className={buttonVariants()}>
+              <Link href="/login" className={cn(buttonVariants(), "hidden md:inline-flex")}>
                 {t("header.logIn")}
               </Link>
             </>
           )}
-
           {user && (
-            <AccountMenu name={fullName} email={user.email ?? ""} isAdmin={isAdmin} onLogout={handleLogout} />
+            <div className="hidden md:block">
+              <AccountMenu name={fullName} email={user.email ?? ""} isAdmin={isAdmin} onLogout={handleLogout} />
+            </div>
           )}
-        </div>
-
-        <div className="ms-auto hidden items-center gap-2 md:flex lg:hidden">
-          <LanguageSwitcher />
-          <ThemeToggle label={t("common.toggleTheme")} />
-          {!loading && !user && (
-            <Link href="/login" className={buttonVariants({ size: "sm" })}>
-              {t("header.logIn")}
-            </Link>
-          )}
-          {user && (
-            <AccountMenu name={fullName} email={user.email ?? ""} isAdmin={isAdmin} onLogout={handleLogout} />
-          )}
-        </div>
-
-        <div className="ms-auto flex items-center gap-1 md:hidden">
-          <LanguageSwitcher className="h-11" />
-          <ThemeToggle className="size-11" label={t("common.toggleTheme")} />
           <Button
             type="button"
             variant="ghost"
             size="icon"
-            className="size-11"
-            onClick={() => setOpen(true)}
+            className="size-11 md:hidden"
+            onClick={() => {
+              setMenuRequested(true);
+              setOpen(true);
+            }}
+            onPointerEnter={() => void loadMobileMenu()}
+            onFocus={() => void loadMobileMenu()}
             aria-label={t("common.openMenu")}
           >
             <Menu />
@@ -186,69 +175,18 @@ export function SiteHeader() {
         </div>
       </div>
 
-      <Sheet open={open} onOpenChange={setOpen}>
-        <SheetContent side={directionOf(locale) === "rtl" ? "left" : "right"} className="flex w-72 flex-col">
-          <SheetHeader>
-            <SheetTitle className="flex items-center gap-2">
-              <Car className="size-6 text-accent-text" /> {t("common.brand")}
-            </SheetTitle>
-          </SheetHeader>
-          <nav aria-label={t("common.mainNav")} className="flex flex-col gap-1 px-4">
-            {SITE_NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setOpen(false)}
-                aria-current={isCurrent(link.href) ? "page" : undefined}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-foreground hover:bg-muted aria-[current=page]:bg-muted aria-[current=page]:font-semibold"
-              >
-                {t(`nav.${link.labelKey}`)}
-              </Link>
-            ))}
-          </nav>
-          <div className="mt-auto flex flex-col gap-2 p-4">
-            {!loading && !user && (
-              <>
-                <Link
-                  href="/account"
-                  onClick={() => setOpen(false)}
-                  className={buttonVariants({ variant: "outline" })}
-                >
-                  {t("header.myBookings")}
-                </Link>
-                <Link
-                  href="/register"
-                  onClick={() => setOpen(false)}
-                  className={buttonVariants({ variant: "outline" })}
-                >
-                  {t("header.register")}
-                </Link>
-                <Link href="/login" onClick={() => setOpen(false)} className={buttonVariants()}>
-                  {t("header.logIn")}
-                </Link>
-              </>
-            )}
-
-            {user && (
-              <>
-                <div className="flex items-center gap-2 px-1 text-sm font-medium text-foreground">
-                  <User className="size-4" /> {displayName}
-                </div>
-                <Link
-                  href={isAdmin ? "/admin" : "/account"}
-                  onClick={() => setOpen(false)}
-                  className={buttonVariants({ variant: "outline" })}
-                >
-                  {isAdmin ? t("header.adminDashboard") : t("header.myBookings")}
-                </Link>
-                <Button type="button" variant="destructive" onClick={handleLogout}>
-                  {t("header.logOut")}
-                </Button>
-              </>
-            )}
-          </div>
-        </SheetContent>
-      </Sheet>
+      {menuRequested && (
+        <MobileMenu
+          open={open}
+          onOpenChange={setOpen}
+          loading={loading}
+          signedIn={Boolean(user)}
+          isAdmin={isAdmin}
+          displayName={displayName}
+          isCurrent={isCurrent}
+          onLogout={handleLogout}
+        />
+      )}
     </header>
   );
 }
