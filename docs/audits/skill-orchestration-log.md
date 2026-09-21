@@ -78,3 +78,9 @@ Search and paging bugs, staff permission checks, currency and pick-up place on t
 - SQL tests: the new file `tests/sql/16_security_hardening.test.sql` and migration 0018 were **not run** (no PostgreSQL 16 on this machine); they run in CI.
 - Responsive: 14 pages by 13 sizes, no overflow. Touch targets: only hidden 1x1 inputs remain. Admin: 12 pages at two widths, axe clean.
 - Performance: see `performance-log.md`. Mobile target 95 not met (live 75–86).
+
+## 2026-09-21 (night): The Fool, token review, portal translation stage 1
+
+- **The Fool** (`fullstack-dev-skills:the-fool`): loaded and run in Find-the-failure-modes plus Attack-this modes. The interactive mode picker was skipped because the owner asked for it to run at once. Grounded in read-only checks (CI history through the public API, a CI-like local run, database counts, rate-limiter source). Result: `the-fool-release-review.md`. It found the CI failure (fixed) and the live weak admin credential (owner action).
+- **Token review (impeccable `detect.mjs`):** run over `src`; 8 findings (type ramp, an email font and radii, one hex colour) all resolved: three font sizes moved onto the ramp, the email template's font stack and radii aligned and its hex palette documented in `DESIGN.md`, plus three unused tokens removed. The detector now reports nothing. Code Reviewer and Architecture Designer were still **not** invoked.
+- **Portal translation, stage 1:** language negotiation for `/provider` in the proxy, a translation provider in the portal layout, the menu, shell and overview page in 11 languages. Verified by types, unit tests and a signed-out browser test only: no host test account exists, so the signed-in portal was **not** viewed. Stages 2 onward (bookings, fleet, payouts, pricing, reviews, disputes, team, settings, calendar) remain English.
