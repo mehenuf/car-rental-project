@@ -763,5 +763,58 @@
     "title": "BestCarで車を貸し出す",
     "body": "ログインまたは無料アカウントを作成して、申請を始めてください。",
     "englishOnly": "車と予約を管理するホスト用ポータルは、現在は英語のみでご利用いただけます。"
+  },
+  "portal": {
+    "nav": {
+      "work": "業務",
+      "overview": "概要",
+      "bookings": "予約",
+      "myCars": "マイカー",
+      "fleet": "車両",
+      "availability": "空き状況",
+      "calendar": "カレンダー",
+      "requests": "リクエスト",
+      "pricing": "料金",
+      "reviews": "レビュー",
+      "disputes": "紛争",
+      "earnings": "収益",
+      "payouts": "支払い",
+      "team": "チーム",
+      "settings": "設定",
+      "myRentals": "マイレンタル",
+      "dashboard": "ダッシュボード",
+      "manage": "管理",
+      "account": "アカウント"
+    },
+    "shell": {
+      "switchProvider": "プロバイダーを切り替え",
+      "personalAccount": "個人アカウント"
+    },
+    "overview": {
+      "earnings": "今月の収益",
+      "bookings": "今月の予約",
+      "movements": "本日の受け取り / 返却",
+      "utilisation": "稼働率（今後30日）",
+      "summary": "掲載中の車両: {count} 台。時刻は {timezone} です。",
+      "noCars": "掲載中の車両はまだありません。",
+      "addFirst": "最初の車を追加",
+      "recent": "最近の予約",
+      "noBookings": "予約はまだありません。",
+      "range": "{from}〜{to}"
+    },
+    "status": {
+      "pending": "保留中",
+      "confirmed": "確定",
+      "active": "利用中",
+      "completed": "完了",
+      "cancelled": "キャンセル",
+      "no_show": "不出現"
+    },
+    "payment": {
+      "unpaid": "未払い",
+      "paid": "支払い済み",
+      "refunded": "返金済み",
+      "partially_refunded": "一部返金済み"
+    }
   }
 }

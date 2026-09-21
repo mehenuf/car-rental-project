@@ -763,5 +763,58 @@
     "title": "在 BestCar 出租您的车辆",
     "body": "登录或创建免费账户，然后开始申请。",
     "englishOnly": "用于管理车辆和预订的车主门户目前仅提供英文。"
+  },
+  "portal": {
+    "nav": {
+      "work": "工作",
+      "overview": "概览",
+      "bookings": "预订",
+      "myCars": "我的车辆",
+      "fleet": "车队",
+      "availability": "可用性",
+      "calendar": "日历",
+      "requests": "请求",
+      "pricing": "定价",
+      "reviews": "评价",
+      "disputes": "争议",
+      "earnings": "收入",
+      "payouts": "结算",
+      "team": "团队",
+      "settings": "设置",
+      "myRentals": "我的出租",
+      "dashboard": "仪表板",
+      "manage": "管理",
+      "account": "账户"
+    },
+    "shell": {
+      "switchProvider": "切换服务商",
+      "personalAccount": "个人账户"
+    },
+    "overview": {
+      "earnings": "本月收入",
+      "bookings": "本月预订",
+      "movements": "今日取车 / 还车",
+      "utilisation": "使用率（未来 30 天）",
+      "summary": "在线车辆：{count} 辆。时间为 {timezone}。",
+      "noCars": "您还没有在线车辆。",
+      "addFirst": "添加第一辆车",
+      "recent": "最近预订",
+      "noBookings": "暂无预订。",
+      "range": "{from} 至 {to}"
+    },
+    "status": {
+      "pending": "待处理",
+      "confirmed": "已确认",
+      "active": "进行中",
+      "completed": "已完成",
+      "cancelled": "已取消",
+      "no_show": "未到场"
+    },
+    "payment": {
+      "unpaid": "未付款",
+      "paid": "已付款",
+      "refunded": "已退款",
+      "partially_refunded": "部分退款"
+    }
   }
 }

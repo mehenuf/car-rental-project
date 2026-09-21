@@ -774,5 +774,58 @@
     "title": "Verhuur je auto's via BestCar",
     "body": "Log in of maak een gratis account aan en start daarna je aanvraag.",
     "englishOnly": "Het hostportaal, waar je auto's en boekingen beheert, is voorlopig alleen in het Engels beschikbaar."
+  },
+  "portal": {
+    "nav": {
+      "work": "Werk",
+      "overview": "Overzicht",
+      "bookings": "Boekingen",
+      "myCars": "Mijn auto's",
+      "fleet": "Wagenpark",
+      "availability": "Beschikbaarheid",
+      "calendar": "Agenda",
+      "requests": "Aanvragen",
+      "pricing": "Prijzen",
+      "reviews": "Beoordelingen",
+      "disputes": "Geschillen",
+      "earnings": "Inkomsten",
+      "payouts": "Uitbetalingen",
+      "team": "Team",
+      "settings": "Instellingen",
+      "myRentals": "Mijn verhuur",
+      "dashboard": "Dashboard",
+      "manage": "Beheren",
+      "account": "Account"
+    },
+    "shell": {
+      "switchProvider": "Van aanbieder wisselen",
+      "personalAccount": "Persoonlijk account"
+    },
+    "overview": {
+      "earnings": "Inkomsten deze maand",
+      "bookings": "Boekingen deze maand",
+      "movements": "Ophalen / terugbrengen vandaag",
+      "utilisation": "Bezettingsgraad, komende 30 dagen",
+      "summary": "Actieve auto's in het aanbod: {count}. Tijden in {timezone}.",
+      "noCars": "Je hebt nog geen actieve auto's.",
+      "addFirst": "Voeg je eerste auto toe",
+      "recent": "Recente boekingen",
+      "noBookings": "Nog geen boekingen.",
+      "range": "{from} tot {to}"
+    },
+    "status": {
+      "pending": "in behandeling",
+      "confirmed": "bevestigd",
+      "active": "actief",
+      "completed": "voltooid",
+      "cancelled": "geannuleerd",
+      "no_show": "niet komen opdagen"
+    },
+    "payment": {
+      "unpaid": "onbetaald",
+      "paid": "betaald",
+      "refunded": "terugbetaald",
+      "partially_refunded": "deels terugbetaald"
+    }
   }
 }

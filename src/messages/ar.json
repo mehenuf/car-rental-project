@@ -818,5 +818,58 @@
     "title": "أجّر سياراتك عبر BestCar",
     "body": "سجّل الدخول أو أنشئ حسابًا مجانيًا، ثم ابدأ طلبك.",
     "englishOnly": "بوابة المضيفين، حيث تدير سياراتك وحجوزاتك، متاحة بالإنجليزية فقط حاليًا."
+  },
+  "portal": {
+    "nav": {
+      "work": "العمل",
+      "overview": "نظرة عامة",
+      "bookings": "الحجوزات",
+      "myCars": "سياراتي",
+      "fleet": "الأسطول",
+      "availability": "التوفر",
+      "calendar": "التقويم",
+      "requests": "الطلبات",
+      "pricing": "الأسعار",
+      "reviews": "التقييمات",
+      "disputes": "النزاعات",
+      "earnings": "الأرباح",
+      "payouts": "المدفوعات",
+      "team": "الفريق",
+      "settings": "الإعدادات",
+      "myRentals": "إيجاراتي",
+      "dashboard": "لوحة التحكم",
+      "manage": "الإدارة",
+      "account": "الحساب"
+    },
+    "shell": {
+      "switchProvider": "تبديل مقدّم الخدمة",
+      "personalAccount": "الحساب الشخصي"
+    },
+    "overview": {
+      "earnings": "أرباح هذا الشهر",
+      "bookings": "حجوزات هذا الشهر",
+      "movements": "الاستلام / التسليم اليوم",
+      "utilisation": "نسبة الاستخدام، الـ 30 يومًا القادمة",
+      "summary": "السيارات النشطة المعروضة: {count}. الأوقات بتوقيت {timezone}.",
+      "noCars": "ليست لديك سيارات نشطة بعد.",
+      "addFirst": "أضف سيارتك الأولى",
+      "recent": "أحدث الحجوزات",
+      "noBookings": "لا توجد حجوزات بعد.",
+      "range": "من {from} إلى {to}"
+    },
+    "status": {
+      "pending": "قيد الانتظار",
+      "confirmed": "مؤكد",
+      "active": "نشط",
+      "completed": "مكتمل",
+      "cancelled": "ملغى",
+      "no_show": "لم يحضر"
+    },
+    "payment": {
+      "unpaid": "غير مدفوع",
+      "paid": "مدفوع",
+      "refunded": "مسترد",
+      "partially_refunded": "مسترد جزئيًا"
+    }
   }
 }

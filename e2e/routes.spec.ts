@@ -119,3 +119,19 @@ test.describe("small interactions", () => {
     await expect(page.getByRole("button", { pressed: true, name: /^Remove .* from favorites$/ })).toHaveCount(0);
   });
 });
+
+test.describe("host portal language", () => {
+  test.use({ locale: "de-DE", extraHTTPHeaders: { "Accept-Language": "de-DE,de;q=0.9" } });
+
+  test("the admin console stays English whatever the browser language", async ({ page }) => {
+    await page.goto("/admin/login");
+    await expect(page.locator("html")).toHaveAttribute("lang", "en");
+  });
+
+  test("the public host application page follows the language in its address", async ({ page, baseURL }) => {
+    await acceptCookies(page, baseURL);
+    await page.goto("/de/provider/apply");
+    await expect(page.locator("html")).toHaveAttribute("lang", "de");
+    await expect(page.getByRole("heading", { level: 1, name: "Vermieten Sie Ihre Autos über BestCar" })).toBeVisible();
+  });
+});

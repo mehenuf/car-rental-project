@@ -36,6 +36,11 @@ export function useT(): TFunction {
   return useI18n().t;
 }
 
+/** The translator when there is one, or null: shared components (the admin frame) also render on pages with no language. */
+export function useMaybeT(): TFunction | null {
+  return useContext(I18nContext)?.t ?? null;
+}
+
 export function useLocale(): Locale {
   return useI18n().locale;
 }

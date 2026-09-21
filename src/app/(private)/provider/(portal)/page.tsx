@@ -5,15 +5,22 @@ import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { formatDate } from "@/lib/format";
 import { formatMinor } from "@/lib/pricing/money";
+import { numberingLocale } from "@/lib/i18n/locales";
+import { getPortalLocale, getPortalT } from "@/lib/i18n/portal";
 import { getProviderContext } from "@/lib/provider/context";
 import { summarizeBookings, utilisationPercent, type OverviewBooking } from "@/lib/provider/overview";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-export const metadata = { title: "Overview" };
+export async function generateMetadata() {
+  const t = await getPortalT();
+  return { title: t("portal.nav.overview") };
+}
 
 const DAY = 86_400_000;
 
 export default async function ProviderOverviewPage() {
+  const locale = await getPortalLocale();
+  const t = await getPortalT();
   const context = await getProviderContext();
   const active = context?.active;
   if (!active) redirect("/provider/apply");
@@ -60,12 +67,13 @@ export default async function ProviderOverviewPage() {
   }
   const utilisation = utilisationPercent(occupiedMs, units.count ?? 0, 30 * DAY);
   const currency = active.provider.defaultCurrency;
+  const money = (minor: number) => formatMinor(minor, currency, numberingLocale(locale));
 
   const stats = [
-    { label: "Earnings this month", value: formatMinor(summary.earningsThisMonthMinor, currency), icon: Wallet },
-    { label: "Bookings this month", value: String(summary.bookingsThisMonth), icon: Car },
-    { label: "Pick-ups / returns today", value: `${summary.pickupsToday} / ${summary.returnsToday}`, icon: CalendarClock },
-    { label: "Utilisation, next 30 days", value: `${utilisation}%`, icon: Gauge },
+    { label: t("portal.overview.earnings"), value: money(summary.earningsThisMonthMinor), icon: Wallet },
+    { label: t("portal.overview.bookings"), value: String(summary.bookingsThisMonth), icon: Car },
+    { label: t("portal.overview.movements"), value: `${summary.pickupsToday} / ${summary.returnsToday}`, icon: CalendarClock },
+    { label: t("portal.overview.utilisation"), value: `${utilisation}%`, icon: Gauge },
   ];
 
   return (
@@ -73,7 +81,7 @@ export default async function ProviderOverviewPage() {
       <div className="flex flex-col gap-1">
         <h1 className="font-heading text-2xl font-bold text-foreground">{active.provider.displayName}</h1>
         <p className="text-sm text-muted-foreground">
-          {units.count ?? 0} active car{(units.count ?? 0) === 1 ? "" : "s"} listed. Times are in {timezone}.
+          {t("portal.overview.summary", { count: units.count ?? 0, timezone })}
         </p>
       </div>
 
@@ -99,9 +107,9 @@ export default async function ProviderOverviewPage() {
       {(units.count ?? 0) === 0 && (
         <Card className="shadow-card ring-0">
           <CardContent className="flex flex-col items-start gap-2">
-            <p className="text-foreground">You have no active cars yet.</p>
+            <p className="text-foreground">{t("portal.overview.noCars")}</p>
             <Link href="/provider/fleet" className={buttonVariants()}>
-              Add your first car
+              {t("portal.overview.addFirst")}
             </Link>
           </CardContent>
         </Card>
@@ -109,8 +117,8 @@ export default async function ProviderOverviewPage() {
 
       <Card className="shadow-card ring-0">
         <CardContent className="flex flex-col gap-2">
-          <h2 className="font-heading text-lg font-semibold text-foreground">Recent bookings</h2>
-          {(bookings.data ?? []).length === 0 && <p className="text-sm text-muted-foreground">No bookings yet.</p>}
+          <h2 className="font-heading text-lg font-semibold text-foreground">{t("portal.overview.recent")}</h2>
+          {(bookings.data ?? []).length === 0 && <p className="text-sm text-muted-foreground">{t("portal.overview.noBookings")}</p>}
           <ul className="flex flex-col divide-y divide-border text-sm">
             {(bookings.data ?? []).slice(0, 6).map((b) => (
               <li key={b.id} className="flex flex-wrap items-center justify-between gap-2 py-2">
@@ -118,7 +126,7 @@ export default async function ProviderOverviewPage() {
                   {b.reference} <span className="font-normal text-muted-foreground">{b.customer_name}</span>
                 </span>
                 <span className="text-muted-foreground">
-                  {formatDate(b.pickup_at)} to {formatDate(b.dropoff_at)} · {b.status.replace("_", " ")} · {b.payment_status.replace("_", " ")}
+                  {t("portal.overview.range", { from: formatDate(b.pickup_at, locale), to: formatDate(b.dropoff_at, locale) })} · {t(`portal.status.${b.status}`)} · {t(`portal.payment.${b.payment_status}`)}
                 </span>
               </li>
             ))}

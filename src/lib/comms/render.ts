@@ -67,13 +67,13 @@ export function renderNotification(input: {
 
   const html = `<!doctype html>
 <html lang="${locale}" dir="${directionOf(locale)}">
-<body style="margin:0;padding:24px;background:#f4f4f5;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;color:#18181b">
-<table role="presentation" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:12px;padding:24px">
+<body style="margin:0;padding:24px;background:#f4f4f5;font-family:-apple-system,Segoe UI,sans-serif;color:#18181b">
+<table role="presentation" width="100%" style="max-width:560px;margin:0 auto;background:#ffffff;border-radius:14px;padding:24px">
 <tr><td>
 <p style="font-size:18px;font-weight:700;margin:0 0 16px">BestCar</p>
 <p style="margin:0 0 12px">${escapeHtml(greeting)}</p>
 <p style="margin:0 0 20px;line-height:1.5">${escapeHtml(body)}</p>
-${link ? `<p style="margin:0 0 20px"><a href="${escapeHtml(link)}" style="display:inline-block;background:#18181b;color:#ffffff;text-decoration:none;padding:10px 18px;border-radius:8px">${escapeHtml(view)}</a></p>` : ""}
+${link ? `<p style="margin:0 0 20px"><a href="${escapeHtml(link)}" style="display:inline-block;background:#18181b;color:#ffffff;text-decoration:none;border-radius:8px;padding:10px 18px">${escapeHtml(view)}</a></p>` : ""}
 <p style="margin:0;font-size:12px;color:#71717a">${escapeHtml(footer)}</p>
 </td></tr></table>
 </body></html>`;

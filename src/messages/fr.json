@@ -775,5 +775,58 @@
     "title": "Louez vos voitures sur BestCar",
     "body": "Connectez-vous ou créez un compte gratuit, puis commencez votre demande.",
     "englishOnly": "Le portail des hôtes, où vous gérez voitures et réservations, n'est disponible qu'en anglais pour le moment."
+  },
+  "portal": {
+    "nav": {
+      "work": "Travail",
+      "overview": "Aperçu",
+      "bookings": "Réservations",
+      "myCars": "Mes voitures",
+      "fleet": "Flotte",
+      "availability": "Disponibilité",
+      "calendar": "Calendrier",
+      "requests": "Demandes",
+      "pricing": "Tarifs",
+      "reviews": "Avis",
+      "disputes": "Litiges",
+      "earnings": "Revenus",
+      "payouts": "Versements",
+      "team": "Équipe",
+      "settings": "Paramètres",
+      "myRentals": "Mes locations",
+      "dashboard": "Tableau de bord",
+      "manage": "Gestion",
+      "account": "Compte"
+    },
+    "shell": {
+      "switchProvider": "Changer de prestataire",
+      "personalAccount": "Compte personnel"
+    },
+    "overview": {
+      "earnings": "Revenus de ce mois",
+      "bookings": "Réservations de ce mois",
+      "movements": "Retraits / retours aujourd'hui",
+      "utilisation": "Taux d'utilisation, 30 prochains jours",
+      "summary": "Voitures actives en ligne : {count}. Heures en {timezone}.",
+      "noCars": "Vous n'avez pas encore de voiture active.",
+      "addFirst": "Ajouter votre première voiture",
+      "recent": "Réservations récentes",
+      "noBookings": "Pas encore de réservation.",
+      "range": "du {from} au {to}"
+    },
+    "status": {
+      "pending": "en attente",
+      "confirmed": "confirmée",
+      "active": "en cours",
+      "completed": "terminée",
+      "cancelled": "annulée",
+      "no_show": "absence"
+    },
+    "payment": {
+      "unpaid": "impayé",
+      "paid": "payé",
+      "refunded": "remboursé",
+      "partially_refunded": "remboursé en partie"
+    }
   }
 }

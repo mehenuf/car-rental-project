@@ -76,13 +76,10 @@
   /* Brand asphalt/gold, exposed directly for the few places that need the
      raw brand color rather than a semantic role (e.g. gradients, scrims). */
   --color-asphalt: var(--asphalt);
-  --color-asphalt-light: var(--asphalt-light);
   --color-gold: var(--gold);
-  --color-gold-dark: var(--gold-dark);
 
   /* Shadows, tinted with the brand navy instead of pure black */
   --shadow-color: var(--shadow-tint);
-  --shadow-2xs: 0 1px 2px 0 var(--shadow-tint);
   --shadow-xs: 0 1px 3px 0 var(--shadow-tint);
   --shadow-sm: 0 2px 4px -1px var(--shadow-tint);
   --shadow-md: 0 4px 10px -2px var(--shadow-tint);
@@ -98,9 +95,7 @@
      sky, not a warm cream — the brand accent is what carries warmth, not
      the ground it sits on. */
   --asphalt: oklch(0.22 0.02 255);
-  --asphalt-light: oklch(0.32 0.02 255);
   --gold: oklch(0.78 0.15 80);
-  --gold-dark: oklch(0.68 0.16 72);
   /* Text-safe gold for light mode: the vivid --gold above is for solid
      fills (buttons/badges), not for rendering as plain text on the page
      background — see the --color-accent-text comment above. */
@@ -169,7 +164,7 @@
   --destructive: oklch(0.56 0.21 25);
   --border: oklch(0.89 0.008 240);
   --input: oklch(0.89 0.008 240);
-  /* --gold-dark's full-strength contrast (2.68-2.96:1) already misses the
+  /* A darker shade of the vivid gold (contrast 2.68-2.96:1) already misses the
      3:1 AA minimum for a non-text focus indicator against this light page
      — --gold-text (built for the same "too vivid to read against light
      backgrounds" problem) clears 5.5-6.2:1 instead. */

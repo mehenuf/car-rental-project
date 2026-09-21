@@ -774,5 +774,58 @@
     "title": "Rent out your cars on BestCar",
     "body": "Sign in or create a free account, then start your application.",
     "englishOnly": "The host portal, where you manage cars and bookings, is available in English only for now."
+  },
+  "portal": {
+    "nav": {
+      "work": "Work",
+      "overview": "Overview",
+      "bookings": "Bookings",
+      "myCars": "My cars",
+      "fleet": "Fleet",
+      "availability": "Availability",
+      "calendar": "Calendar",
+      "requests": "Requests",
+      "pricing": "Pricing",
+      "reviews": "Reviews",
+      "disputes": "Disputes",
+      "earnings": "Earnings",
+      "payouts": "Payouts",
+      "team": "Team",
+      "settings": "Settings",
+      "myRentals": "My rentals",
+      "dashboard": "Dashboard",
+      "manage": "Manage",
+      "account": "Account"
+    },
+    "shell": {
+      "switchProvider": "Switch provider",
+      "personalAccount": "Personal account"
+    },
+    "overview": {
+      "earnings": "Earnings this month",
+      "bookings": "Bookings this month",
+      "movements": "Pick-ups / returns today",
+      "utilisation": "Utilisation, next 30 days",
+      "summary": "Active cars listed: {count}. Times are in {timezone}.",
+      "noCars": "You have no active cars yet.",
+      "addFirst": "Add your first car",
+      "recent": "Recent bookings",
+      "noBookings": "No bookings yet.",
+      "range": "{from} to {to}"
+    },
+    "status": {
+      "pending": "pending",
+      "confirmed": "confirmed",
+      "active": "active",
+      "completed": "completed",
+      "cancelled": "cancelled",
+      "no_show": "no show"
+    },
+    "payment": {
+      "unpaid": "unpaid",
+      "paid": "paid",
+      "refunded": "refunded",
+      "partially_refunded": "partly refunded"
+    }
   }
 }

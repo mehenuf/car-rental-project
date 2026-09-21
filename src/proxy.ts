@@ -1,7 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
 import { NextResponse, type NextRequest } from "next/server";
 import { LOCALE_COOKIE } from "@/lib/i18n/locales";
-import { isUnprefixedPath, negotiateLocale, stripLocale, withLocale } from "@/lib/i18n/negotiate";
+import { isPortalPath, isUnprefixedPath, negotiateLocale, stripLocale, withLocale } from "@/lib/i18n/negotiate";
+import { PORTAL_LANG_HEADER } from "@/lib/i18n/portal-header";
 
 const LOGIN_PATH = "/admin/login";
 const DASHBOARD_PATH = "/admin";
@@ -88,6 +89,19 @@ export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   if (pathname === "/admin" || pathname.startsWith("/admin/")) return adminGate(request);
+  if (isPortalPath(pathname)) {
+    // The host portal has no language in its address, so the language is negotiated here and handed to the pages in a header.
+    const headers = new Headers(request.headers);
+    headers.set(
+      PORTAL_LANG_HEADER,
+      negotiateLocale({
+        cookie: request.cookies.get(LOCALE_COOKIE)?.value,
+        acceptLanguage: request.headers.get("accept-language"),
+        country: request.headers.get("x-vercel-ip-country"),
+      })
+    );
+    return NextResponse.next({ request: { headers } });
+  }
   if (isUnprefixedPath(pathname)) return NextResponse.next();
   if (stripLocale(pathname).locale) return NextResponse.next();
 

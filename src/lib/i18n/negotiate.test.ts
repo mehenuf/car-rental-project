@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { negotiateLocale, parseAcceptLanguage, stripLocale, withLocale } from "./negotiate";
+import { isPortalPath, negotiateLocale, parseAcceptLanguage, stripLocale, withLocale } from "./negotiate";
 
 describe("parseAcceptLanguage", () => {
   it("orders by quality and drops regions", () => {
@@ -10,6 +10,17 @@ describe("parseAcceptLanguage", () => {
     expect(parseAcceptLanguage("")).toEqual([]);
     expect(parseAcceptLanguage(null)).toEqual([]);
     expect(parseAcceptLanguage("*, xx;q=0, ;;")).toEqual(["*"]);
+  });
+});
+
+describe("isPortalPath", () => {
+  it("is true for the portal and its pages, false for the public application page and the site", () => {
+    expect(isPortalPath("/provider")).toBe(true);
+    expect(isPortalPath("/provider/fleet")).toBe(true);
+    expect(isPortalPath("/provider/apply")).toBe(false);
+    expect(isPortalPath("/en/provider/apply")).toBe(false);
+    expect(isPortalPath("/providers")).toBe(false);
+    expect(isPortalPath("/admin")).toBe(false);
   });
 });
 

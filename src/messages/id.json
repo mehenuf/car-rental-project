@@ -763,5 +763,58 @@
     "title": "Sewakan mobil Anda di BestCar",
     "body": "Masuk atau buat akun gratis, lalu mulai pengajuan Anda.",
     "englishOnly": "Portal tuan rumah, tempat Anda mengelola mobil dan pemesanan, saat ini hanya tersedia dalam bahasa Inggris."
+  },
+  "portal": {
+    "nav": {
+      "work": "Pekerjaan",
+      "overview": "Ringkasan",
+      "bookings": "Pemesanan",
+      "myCars": "Mobil saya",
+      "fleet": "Armada",
+      "availability": "Ketersediaan",
+      "calendar": "Kalender",
+      "requests": "Permintaan",
+      "pricing": "Harga",
+      "reviews": "Ulasan",
+      "disputes": "Sengketa",
+      "earnings": "Pendapatan",
+      "payouts": "Pencairan",
+      "team": "Tim",
+      "settings": "Pengaturan",
+      "myRentals": "Sewa saya",
+      "dashboard": "Dasbor",
+      "manage": "Kelola",
+      "account": "Akun"
+    },
+    "shell": {
+      "switchProvider": "Ganti penyedia",
+      "personalAccount": "Akun pribadi"
+    },
+    "overview": {
+      "earnings": "Pendapatan bulan ini",
+      "bookings": "Pemesanan bulan ini",
+      "movements": "Pengambilan / pengembalian hari ini",
+      "utilisation": "Tingkat pemakaian, 30 hari ke depan",
+      "summary": "Mobil aktif yang ditayangkan: {count}. Waktu dalam {timezone}.",
+      "noCars": "Anda belum memiliki mobil aktif.",
+      "addFirst": "Tambahkan mobil pertama Anda",
+      "recent": "Pemesanan terbaru",
+      "noBookings": "Belum ada pemesanan.",
+      "range": "{from} sampai {to}"
+    },
+    "status": {
+      "pending": "menunggu",
+      "confirmed": "dikonfirmasi",
+      "active": "aktif",
+      "completed": "selesai",
+      "cancelled": "dibatalkan",
+      "no_show": "tidak hadir"
+    },
+    "payment": {
+      "unpaid": "belum dibayar",
+      "paid": "dibayar",
+      "refunded": "dikembalikan",
+      "partially_refunded": "dikembalikan sebagian"
+    }
   }
 }

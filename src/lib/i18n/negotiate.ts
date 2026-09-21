@@ -51,6 +51,11 @@ export function isUnprefixedPath(pathname: string): boolean {
   return UNPREFIXED.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 
+/** The host portal: unprefixed like the admin console, but shown in the visitor's language (the sign-in prompt at /provider/apply is a site page). */
+export function isPortalPath(pathname: string): boolean {
+  return (pathname === "/provider" || pathname.startsWith("/provider/")) && !PUBLIC_EXCEPTIONS.includes(pathname);
+}
+
 /** Prefix an internal href with a locale; private, API and external targets are left alone. */
 export function withLocale(locale: Locale, href: string): string {
   if (!href.startsWith("/") || href.startsWith("//")) return href;

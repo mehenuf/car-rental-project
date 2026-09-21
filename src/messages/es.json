@@ -775,5 +775,58 @@
     "title": "Alquila tus coches con BestCar",
     "body": "Inicia sesión o crea una cuenta gratuita y empieza tu solicitud.",
     "englishOnly": "El portal de anfitriones, donde gestionas coches y reservas, está disponible solo en inglés por ahora."
+  },
+  "portal": {
+    "nav": {
+      "work": "Trabajo",
+      "overview": "Resumen",
+      "bookings": "Reservas",
+      "myCars": "Mis coches",
+      "fleet": "Flota",
+      "availability": "Disponibilidad",
+      "calendar": "Calendario",
+      "requests": "Solicitudes",
+      "pricing": "Precios",
+      "reviews": "Reseñas",
+      "disputes": "Disputas",
+      "earnings": "Ingresos",
+      "payouts": "Pagos",
+      "team": "Equipo",
+      "settings": "Ajustes",
+      "myRentals": "Mis alquileres",
+      "dashboard": "Panel",
+      "manage": "Gestión",
+      "account": "Cuenta"
+    },
+    "shell": {
+      "switchProvider": "Cambiar de proveedor",
+      "personalAccount": "Cuenta personal"
+    },
+    "overview": {
+      "earnings": "Ingresos de este mes",
+      "bookings": "Reservas de este mes",
+      "movements": "Recogidas / devoluciones hoy",
+      "utilisation": "Ocupación, próximos 30 días",
+      "summary": "Coches activos publicados: {count}. Las horas están en {timezone}.",
+      "noCars": "Todavía no tienes coches activos.",
+      "addFirst": "Añade tu primer coche",
+      "recent": "Reservas recientes",
+      "noBookings": "Todavía no hay reservas.",
+      "range": "{from} a {to}"
+    },
+    "status": {
+      "pending": "pendiente",
+      "confirmed": "confirmada",
+      "active": "activa",
+      "completed": "completada",
+      "cancelled": "cancelada",
+      "no_show": "no presentado"
+    },
+    "payment": {
+      "unpaid": "sin pagar",
+      "paid": "pagado",
+      "refunded": "reembolsado",
+      "partially_refunded": "reembolsado en parte"
+    }
   }
 }

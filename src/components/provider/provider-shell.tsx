@@ -1,7 +1,8 @@
 "use client";
 
 import { useState, type ReactNode } from "react";
-import Link from "next/link";
+import { Link } from "@/lib/i18n/link";
+import { useT } from "@/lib/i18n/provider";
 import { useRouter } from "next/navigation";
 import { AdminShell } from "@/components/admin/admin-shell";
 import { providerNav } from "@/lib/provider-nav";
@@ -23,6 +24,7 @@ export function ProviderShell({
   children: ReactNode;
 }) {
   const router = useRouter();
+  const t = useT();
   const [switching, setSwitching] = useState(false);
 
   async function switchTo(providerId: string) {
@@ -37,10 +39,10 @@ export function ProviderShell({
   }
 
   const extra = (
-    <div className="mr-2 flex items-center gap-2 text-sm">
+    <div className="me-2 flex items-center gap-2 text-sm">
       {providers.length > 1 ? (
         <select
-          aria-label="Switch provider"
+          aria-label={t("portal.shell.switchProvider")}
           value={activeId}
           disabled={switching}
           onChange={(e) => switchTo(e.target.value)}
@@ -56,13 +58,13 @@ export function ProviderShell({
         <span className="hidden max-w-44 truncate text-muted-foreground sm:inline">{providers[0]?.name}</span>
       )}
       <Link href="/dashboard" className="hidden text-muted-foreground underline-offset-2 hover:underline sm:inline">
-        Personal account
+        {t("portal.shell.personalAccount")}
       </Link>
     </div>
   );
 
   return (
-    <AdminShell nav={providerNav(type, role)} rootHref="/provider" loginPath="/login" topbarExtra={extra}>
+    <AdminShell nav={providerNav(type, role, t)} rootHref="/provider" loginPath="/login" topbarExtra={extra}>
       {children}
     </AdminShell>
   );

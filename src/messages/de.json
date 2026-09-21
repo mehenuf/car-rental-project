@@ -774,5 +774,58 @@
     "title": "Vermieten Sie Ihre Autos über BestCar",
     "body": "Melden Sie sich an oder erstellen Sie ein kostenloses Konto und starten Sie dann Ihre Bewerbung.",
     "englishOnly": "Das Anbieterportal, in dem Sie Autos und Buchungen verwalten, ist vorerst nur auf Englisch verfügbar."
+  },
+  "portal": {
+    "nav": {
+      "work": "Arbeit",
+      "overview": "Übersicht",
+      "bookings": "Buchungen",
+      "myCars": "Meine Autos",
+      "fleet": "Flotte",
+      "availability": "Verfügbarkeit",
+      "calendar": "Kalender",
+      "requests": "Anfragen",
+      "pricing": "Preise",
+      "reviews": "Bewertungen",
+      "disputes": "Streitfälle",
+      "earnings": "Einnahmen",
+      "payouts": "Auszahlungen",
+      "team": "Team",
+      "settings": "Einstellungen",
+      "myRentals": "Meine Vermietungen",
+      "dashboard": "Dashboard",
+      "manage": "Verwalten",
+      "account": "Konto"
+    },
+    "shell": {
+      "switchProvider": "Anbieter wechseln",
+      "personalAccount": "Persönliches Konto"
+    },
+    "overview": {
+      "earnings": "Einnahmen diesen Monat",
+      "bookings": "Buchungen diesen Monat",
+      "movements": "Abholungen / Rückgaben heute",
+      "utilisation": "Auslastung, nächste 30 Tage",
+      "summary": "Aktive Autos im Angebot: {count}. Zeiten in {timezone}.",
+      "noCars": "Sie haben noch keine aktiven Autos.",
+      "addFirst": "Erstes Auto hinzufügen",
+      "recent": "Letzte Buchungen",
+      "noBookings": "Noch keine Buchungen.",
+      "range": "{from} bis {to}"
+    },
+    "status": {
+      "pending": "ausstehend",
+      "confirmed": "bestätigt",
+      "active": "aktiv",
+      "completed": "abgeschlossen",
+      "cancelled": "storniert",
+      "no_show": "nicht erschienen"
+    },
+    "payment": {
+      "unpaid": "unbezahlt",
+      "paid": "bezahlt",
+      "refunded": "erstattet",
+      "partially_refunded": "teilweise erstattet"
+    }
   }
 }
