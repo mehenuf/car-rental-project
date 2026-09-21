@@ -33,3 +33,15 @@ Labels: **Measured** = produced by a script in this repo; **Not run** = could no
 - Fixed: `aria-label` on the status, category and year selects; sidebar group labels raised from 45% to 75% opacity; dark-mode `--info-text` lightened.
 - After: 24 of 24 views report no axe violations and no overflow.
 - **Observed** (screenshots, not scored): bookings collapse to labelled cards on phones and the dashboard hierarchy is clear, so no layout restyling was made. Not covered: axe checks only part of WCAG; forms inside dialogs and the MFA screen were not exercised.
+
+## Keyboard, reduced motion, zoom, landscape and console sweep (2026-09-21)
+
+**Measured** by two isolated audit agents with their own Playwright scripts (14 routes: home, cars, vehicle, about, contact, login, register, forgot password, privacy, terms, a 404, and `/ar`, `/ja`, `/de/cars`), 60 Tab presses per route, plus 640x800 (200% zoom), 667x375 and 844x390.
+
+- No keyboard traps; no stop without a visible focus indicator; a skip link is the first stop on every route.
+- Reduced motion: no running keyframe animation and no transition above 0.01 s on any route.
+- No horizontal overflow and no visible element outside the viewport at any of the three sizes.
+- No console errors, page errors or failed requests, apart from a CSP `eval` report on the vehicle page (fixed, see performance-log.md).
+- Defects found and fixed: the chat panel lost its title bar and close button on landscape phones (height now capped, Escape closes it); the location list took a Tab stop and dropped focus to `<body>`; the sort control and the Pick-up and Return fields had no distinguishing names; the 404 page had no language, title or landmarks; the theme toggle label was English only.
+- Open: the sticky header and chat launcher take about a third of a landscape phone screen (polish).
+- Still **not run**: a real screen reader (NVDA, JAWS, VoiceOver, TalkBack).

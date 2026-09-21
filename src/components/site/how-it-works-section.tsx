@@ -43,7 +43,7 @@ export function HowItWorksSection() {
 
   return (
     <section ref={sectionRef} id="how-it-works" className="group/how mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
-      <ScrollReveal className="mx-auto max-w-2xl text-center font-heading text-3xl font-bold text-foreground">
+      <ScrollReveal className="max-w-2xl font-heading text-3xl font-bold text-foreground">
         <h2>{t("howItWorks.title")}</h2>
       </ScrollReveal>
 

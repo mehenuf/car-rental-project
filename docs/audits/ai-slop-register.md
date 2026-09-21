@@ -17,3 +17,18 @@ Severity: P0 blocks use, P1 damages trust or clarity, P2 polish. Status as of 20
 | S11 | P2 | Tokens | `detect.mjs`: 8 type-ramp, radius and colour drift findings (11px text, 0.8rem text, Roboto in email HTML) | Impeccable | Open |
 | S12 | P1 | Product | Price filter, price sort and the sidebar slider still use the legacy USD price while cards show the branch currency | Product | **Fixed:** price filter, slider and price sort work only for a chosen place, in that branch currency; the page says so otherwise |
 | S13 | P2 | Product | Vehicle descriptions are absent for every sample car; hosts have no field for one in the portal | Product | Open |
+
+## Second pass (2026-09-21 afternoon)
+
+The full list is in `findings-register.md` (110 findings: 60 fixed, 13 partly, 2 accepted, 35 open). Slop and trust items found and fixed in this pass:
+
+| ID | Sev | Area | Finding (evidence) | Status |
+|---|---|---|---|---|
+| S14 | P1 | Trust | Terms and privacy described a single company (cancel "by contacting us", delete "by contacting us") while the product has in-app cancellation with refund tiers and self-service export and delete | **Fixed**, rewritten; test forbids the old wording |
+| S15 | P1 | Trust | The AI chat was told to send people to `support@bestcar.example`, an address that does not exist | **Fixed** |
+| S16 | P1 | Money | The booking panel showed a USD price above a quote in the branch currency; confirmation and account totals were always dollars | **Fixed** |
+| S17 | P1 | State | Password reset dead end, false "email sent" success, register error "Invalid request" with no reason | **Fixed** |
+| S18 | P1 | Interaction | Cookie card covered the car name on first visit and sat above the mobile menu | **Fixed** |
+| S19 | P1 | Structure | Unknown URLs showed an unstyled English page with no language, title or navigation | **Fixed** |
+| S20 | P2 | Layout | Home section headings mixed centred and left alignment | **Fixed** |
+| S21 | P2 | Content | Staff page said everyone signs in with two factors while it is off by default | **Fixed** |

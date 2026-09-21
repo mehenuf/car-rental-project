@@ -1,4 +1,5 @@
 import { z } from "zod";
+
 import type { SortOrder, TransactionSortBy, VehicleSortBy } from "@/lib/queries";
 import type {
   BookingSource,
@@ -8,6 +9,11 @@ import type {
   Transmission,
   VehicleCategory,
 } from "@/types/database";
+
+// Zod 4 compiles object parsers with new Function() when it can. The site's script policy forbids eval, so in the browser
+// the probe is blocked and logged as a security-policy issue on every page that validates a form. Servers keep the fast path.
+if (typeof window !== "undefined") z.config({ jitless: true });
+
 
 /** Turns `URLSearchParams` into a plain object so Zod can `.parse()` it —
  * absent keys are simply missing, which plays correctly with `.optional()`. */

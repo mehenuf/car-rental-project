@@ -106,7 +106,7 @@ export function CarDealsSection({
 
   return (
     <section id="rental-deals" className="mx-auto max-w-7xl px-(--space-sm) py-(--space-xl)">
-      <ScrollReveal className="flex flex-col items-center gap-2 text-center" delay={0.1}>
+      <ScrollReveal className="flex flex-col gap-2" delay={0.1}>
         <h2 className="font-heading text-3xl font-bold text-foreground">
           {t("cars.dealsTitle")}
         </h2>
@@ -115,7 +115,7 @@ export function CarDealsSection({
         </p>
       </ScrollReveal>
 
-      <div className="mt-(--space-md) flex items-center justify-center gap-6 border-b border-border">
+      <div className="mt-(--space-md) flex items-center gap-6 border-b border-border">
         {TAB_VALUES.map((tab) => (
           <button
             key={tab}
