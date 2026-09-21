@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { hasSampleData } from "./support";
 
 // What a screen reader is given: landmarks, the heading outline, accessible names and live regions. This reads the
 // accessibility tree the browser builds; it is not a substitute for listening with NVDA, JAWS or VoiceOver.
@@ -51,7 +52,8 @@ for (const path of PAGES) {
   });
 }
 
-test("the cars list announces its result count", async ({ page, baseURL }) => {
+test("the cars list announces its result count", async ({ page, baseURL, request }) => {
+  test.skip(!(await hasSampleData(request)), "needs a database with the sample data");
   await page.context().addCookies([
     { name: "bc_consent", value: encodeURIComponent(JSON.stringify({ v: "2026-09", analytics: false })), url: baseURL ?? "http://localhost:3210" },
   ]);

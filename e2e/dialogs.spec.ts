@@ -1,3 +1,4 @@
+import { hasSampleData } from "./support";
 import { expect, test, type Locator, type Page } from "@playwright/test";
 
 async function acceptCookies(page: Page, baseURL: string | undefined) {
@@ -25,7 +26,8 @@ async function expectFocusTrapped(page: Page, container: Locator) {
 }
 
 test.describe("modal dialogs", () => {
-  test("the booking dialog takes focus, keeps it, closes on Escape and returns focus", async ({ page, baseURL }) => {
+  test("the booking dialog takes focus, keeps it, closes on Escape and returns focus", async ({ page, baseURL, request }) => {
+    test.skip(!(await hasSampleData(request)), "needs a database with the sample data");
     await acceptCookies(page, baseURL);
     const response = await page.goto("/en/cars/honda-civic");
     test.skip(!response || response.status() !== 200, "needs the sample vehicle");
@@ -42,7 +44,8 @@ test.describe("modal dialogs", () => {
     await expect(book).toBeFocused();
   });
 
-  test("the booking dialog keeps focus inside when opened with the mouse too", async ({ page, baseURL }) => {
+  test("the booking dialog keeps focus inside when opened with the mouse too", async ({ page, baseURL, request }) => {
+    test.skip(!(await hasSampleData(request)), "needs a database with the sample data");
     await acceptCookies(page, baseURL);
     const response = await page.goto("/en/cars/honda-civic");
     test.skip(!response || response.status() !== 200, "needs the sample vehicle");
@@ -70,7 +73,8 @@ test.describe("modal dialogs", () => {
     await expect(trigger).toBeFocused();
   });
 
-  test("the mobile filters sheet traps focus and returns it", async ({ page, baseURL }) => {
+  test("the mobile filters sheet traps focus and returns it", async ({ page, baseURL, request }) => {
+    test.skip(!(await hasSampleData(request)), "needs a database with the sample data");
     await acceptCookies(page, baseURL);
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto("/en/cars?all=1");

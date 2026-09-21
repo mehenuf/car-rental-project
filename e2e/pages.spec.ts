@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { hasSampleData } from "./support";
 
 async function acceptCookies(page: Page, baseURL: string | undefined) {
   await page.context().addCookies([
@@ -42,7 +43,8 @@ test.describe("about", () => {
 
 test.describe("vehicle page", () => {
   for (const viewport of [{ width: 1280, height: 800 }, { width: 390, height: 844 }]) {
-    test(`the chat button never covers the price at ${viewport.width}px`, async ({ page, baseURL }) => {
+    test(`the chat button never covers the price at ${viewport.width}px`, async ({ page, baseURL, request }) => {
+      test.skip(!(await hasSampleData(request)), "needs a database with the sample data");
       await acceptCookies(page, baseURL);
       await page.setViewportSize(viewport);
       const response = await page.goto("/en/cars/honda-civic");

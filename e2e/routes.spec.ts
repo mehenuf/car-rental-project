@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 import ar from "../src/messages/ar.json";
+import { hasSampleData } from "./support";
 
 // Routes, redirects and error outcomes that need no sign-in and write nothing to the database.
 
@@ -95,7 +96,8 @@ test.describe("the cars list", () => {
     }
   });
 
-  test("the sort control has a name and the header marks the current page", async ({ page, baseURL }) => {
+  test("the sort control has a name and the header marks the current page", async ({ page, baseURL, request }) => {
+    test.skip(!(await hasSampleData(request)), "needs a database with the sample data");
     await acceptCookies(page, baseURL);
     await page.goto("/en/cars");
     await expect(page.getByRole("combobox", { name: "Sort by" })).toBeVisible();

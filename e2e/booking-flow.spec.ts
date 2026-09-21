@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { hasSampleData } from "./support";
 
 // The booking panel on a vehicle page, from choosing a trip to the redirect to checkout. The quote and booking APIs
 // are answered by the test (page.route), so nothing is priced against the database, no booking is created, and no
@@ -58,7 +59,8 @@ async function mockBookingApis(page: Page) {
 }
 
 test.describe("booking panel", () => {
-  test.beforeEach(async ({ page, baseURL }) => {
+  test.beforeEach(async ({ page, baseURL, request }) => {
+    test.skip(!(await hasSampleData(request)), "needs a database with the sample data");
     await acceptCookies(page, baseURL);
   });
 
