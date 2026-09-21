@@ -773,6 +773,7 @@
   },
   "providerApply": {
     "title": "Louez vos voitures sur BestCar",
-    "body": "Connectez-vous ou créez un compte gratuit, puis commencez votre demande."
+    "body": "Connectez-vous ou créez un compte gratuit, puis commencez votre demande.",
+    "englishOnly": "Le portail des hôtes, où vous gérez voitures et réservations, n'est disponible qu'en anglais pour le moment."
   }
 }

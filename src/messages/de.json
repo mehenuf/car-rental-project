@@ -772,6 +772,7 @@
   },
   "providerApply": {
     "title": "Vermieten Sie Ihre Autos über BestCar",
-    "body": "Melden Sie sich an oder erstellen Sie ein kostenloses Konto und starten Sie dann Ihre Bewerbung."
+    "body": "Melden Sie sich an oder erstellen Sie ein kostenloses Konto und starten Sie dann Ihre Bewerbung.",
+    "englishOnly": "Das Anbieterportal, in dem Sie Autos und Buchungen verwalten, ist vorerst nur auf Englisch verfügbar."
   }
 }

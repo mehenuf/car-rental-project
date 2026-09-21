@@ -772,6 +772,7 @@
   },
   "providerApply": {
     "title": "Rent out your cars on BestCar",
-    "body": "Sign in or create a free account, then start your application."
+    "body": "Sign in or create a free account, then start your application.",
+    "englishOnly": "The host portal, where you manage cars and bookings, is available in English only for now."
   }
 }

@@ -773,6 +773,7 @@
   },
   "providerApply": {
     "title": "Alugue os seus carros na BestCar",
-    "body": "Inicie sessão ou crie uma conta gratuita e comece o seu pedido."
+    "body": "Inicie sessão ou crie uma conta gratuita e comece o seu pedido.",
+    "englishOnly": "O portal de anfitriões, onde gere carros e reservas, está disponível apenas em inglês por agora."
   }
 }

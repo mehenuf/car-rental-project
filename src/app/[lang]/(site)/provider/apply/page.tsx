@@ -24,6 +24,7 @@ export default async function ProviderApplyPage({ searchParams }: { searchParams
       <div className="mx-auto flex max-w-lg flex-col gap-(--space-md) px-(--space-sm) py-(--space-2xl) text-center">
         <h1 className="font-heading text-3xl font-bold text-foreground">{t("providerApply.title")}</h1>
         <p className="text-muted-foreground">{t("providerApply.body")}</p>
+        <p className="text-sm text-muted-foreground">{t("providerApply.englishOnly")}</p>
         <div className="flex justify-center gap-(--space-xs)">
           <Link href="/login?next=%2Fprovider%2Fapply" className={buttonVariants({ size: "lg" })}>
             {t("header.logIn")}

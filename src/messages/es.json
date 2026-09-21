@@ -773,6 +773,7 @@
   },
   "providerApply": {
     "title": "Alquila tus coches con BestCar",
-    "body": "Inicia sesión o crea una cuenta gratuita y empieza tu solicitud."
+    "body": "Inicia sesión o crea una cuenta gratuita y empieza tu solicitud.",
+    "englishOnly": "El portal de anfitriones, donde gestionas coches y reservas, está disponible solo en inglés por ahora."
   }
 }
