@@ -40,7 +40,7 @@ function Thread({ row, onChanged }: { row: Row; onChanged: () => void }) {
   const save = useSave();
   const d = detail.status === "success" ? detail.data.data : null;
   const money = (m: number) => formatMinor(m, row.currency);
-  if (!d) return <p className="text-sm text-muted-foreground">Loading...</p>;
+  if (!d) return <p role={detail.status === "error" ? "alert" : "status"} className={detail.status === "error" ? "text-sm text-destructive" : "text-sm text-muted-foreground"}>{detail.status === "error" ? detail.error : "Loading..."}</p>;
 
   const can = (action: "message" | "accept" | "counter" | "contest") =>
     canRespond({ status: d.dispute.status, side: "provider", action, offerBySide: d.dispute.offer_by_side, offerCount: d.dispute.offer_count });

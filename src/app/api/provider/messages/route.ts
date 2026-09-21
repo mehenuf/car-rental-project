@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { withErrorHandling } from "@/lib/api-response";
-import { ApiError } from "@/lib/errors";
+import { ApiError, RateLimitError } from "@/lib/errors";
+import { createRateLimiter } from "@/lib/rate-limit";
 import { dispatchSoon } from "@/lib/comms/service";
 import { postMessage } from "@/lib/comms/messaging";
 import { loadThread, messagingDeps } from "@/lib/comms/messaging-deps";
 import { requireProviderAccess } from "@/lib/provider/context";
 import { supabaseAdmin } from "@/lib/supabase-server";
+
+// Each accepted message can send an email, text or push to the renter, so a flood is limited per account.
+const isLimited = createRateLimiter({ name: "provider/messages", limit: 20, windowMs: 10 * 60_000 });
 
 const QuerySchema = z.object({ booking: z.string().uuid() });
 const BodySchema = z.object({ booking_id: z.string().uuid(), body: z.string().max(4000) });
@@ -33,6 +37,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
 /** POST /api/provider/messages — a provider team member's message to the customer. */
 export const POST = withErrorHandling(async (request: NextRequest) => {
   const { providerId, userId } = await requireProviderAccess("bookings.operate");
+  if (await isLimited(userId)) throw new RateLimitError();
   const input = BodySchema.parse(await request.json());
   const { data: booking } = await supabaseAdmin.from("bookings").select("id").eq("id", input.booking_id).eq("provider_id", providerId).maybeSingle();
   if (!booking) throw new ApiError(404, "Booking not found.");

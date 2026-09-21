@@ -25,6 +25,3 @@ export async function objectExists(bucket: string, path: string): Promise<boolea
   return Boolean(data) && !error;
 }
 
-export async function removeObject(bucket: string, path: string): Promise<void> {
-  await supabaseAdmin.storage.from(bucket).remove([path]);
-}

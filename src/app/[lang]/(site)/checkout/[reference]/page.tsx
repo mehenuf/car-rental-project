@@ -1,14 +1,17 @@
-import { notFound, redirect } from "next/navigation";
+import { titleFromKey } from "@/lib/seo/metadata";
+import { redirect } from "next/navigation";
+import { BookingNotFound } from "@/components/site/booking-not-found";
 import { getLocale } from "@/lib/i18n/dictionary";
 import { withLocale } from "@/lib/i18n/negotiate";
-import type { Metadata } from "next";
 import { CheckoutForm } from "@/components/site/checkout-form";
 import { readRequestIdentity } from "@/lib/guest";
 import { paymentsRepo } from "@/lib/payments/repo";
 import { checkoutMethods, stripeEnabled } from "@/lib/payments/registry";
 import { getBookingByReference } from "@/lib/queries";
 
-export const metadata: Metadata = { title: "Checkout" };
+export async function generateMetadata() {
+  return titleFromKey("meta.checkout");
+}
 
 export default async function CheckoutPage({ params }: { params: Promise<{ reference: string }> }) {
   const { reference } = await params;
@@ -17,14 +20,14 @@ export default async function CheckoutPage({ params }: { params: Promise<{ refer
     paymentsRepo.getBookingByReference(reference),
     getBookingByReference(reference),
   ]);
-  if (!booking || !display) notFound();
+  if (!booking || !display) return <BookingNotFound />;
 
   // Only the browser or account that created the booking may pay for it.
   const identity = await readRequestIdentity();
   const isOwner =
     (booking.user_id !== null && booking.user_id === identity.userId) ||
     (booking.guest_id !== null && booking.guest_id === identity.guestId);
-  if (!isOwner) notFound();
+  if (!isOwner) return <BookingNotFound />;
 
   // Already paid, cancelled or expired: the confirmation page explains the state.
   const snapshot = booking.price_snapshot;

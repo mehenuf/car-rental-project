@@ -1,3 +1,4 @@
+import { titleFromKey } from "@/lib/seo/metadata";
 import { Link } from "@/lib/i18n/link";
 import { CalendarClock, Car, MapPin, TicketCheck } from "lucide-react";
 import { buttonVariants } from "@/components/ui/button";
@@ -8,14 +9,16 @@ import { ClaimBookings } from "@/components/site/claim-bookings";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { CancelBookingButton } from "@/components/site/cancel-booking-button";
 import { countClaimable } from "@/lib/account/trips";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatBookingTotal, formatDate } from "@/lib/format";
 import { readRequestIdentity } from "@/lib/guest";
 import { getLocale, getT } from "@/lib/i18n/dictionary";
 import { isHoldActive } from "@/lib/payments/hold";
 import { getBookingsForIdentity } from "@/lib/queries";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-export const metadata = { title: "My Account" };
+export async function generateMetadata() {
+  return titleFromKey("meta.account");
+}
 
 export default async function AccountPage() {
   const t = await getT();
@@ -120,7 +123,7 @@ export default async function AccountPage() {
                 <div className="flex flex-col gap-2 text-start sm:items-end sm:text-end">
                   <div>
                     <p className="font-heading text-lg font-bold text-foreground">
-                      {formatCurrency(booking.total_amount, locale)}
+                      {formatBookingTotal(booking, locale)}
                     </p>
                     <p className="text-xs text-muted-foreground">
                       {t("account.days", { count: booking.days })}

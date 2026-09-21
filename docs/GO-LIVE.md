@@ -23,7 +23,7 @@ Allow about 60–90 minutes the first time. Do it at a quiet time.
 - Reviews, disputes and safety checks.
 - A platform admin console with staff roles, an audit log, four-eyes approvals and reports.
 - 11 languages, cookie consent, data download and account deletion, retention, SEO, monitoring hooks.
-- Database migrations `0012` to `0017`.
+- Database migrations `0012` to `0018`.
 
 Payments are **simulated** unless you add Stripe test keys. Nothing here has been run against real payments.
 
@@ -78,7 +78,8 @@ union all select '0013 communications',          to_regclass('public.outbox_even
 union all select '0014 reviews, disputes, safety', to_regclass('public.disputes') is not null
 union all select '0015 platform admin',          to_regclass('public.platform_staff') is not null
 union all select '0016 compliance',              to_regclass('public.consents') is not null
-union all select '0017 retention and policies',  to_regproc('public.accept_policies') is not null;
+union all select '0017 retention and policies',  to_regproc('public.accept_policies') is not null
+union all select '0018 security hardening',      to_regproc('public.fleet_units_owner_guard') is not null;
 ```
 
 Every row that says `false` must be applied, **in numeric order**. If the first row is `false`, your database is older
@@ -86,7 +87,7 @@ than this guide assumes: apply `0001` to `0011` first (from the `migrations/` fo
 
 ### 3.2 Apply the missing migrations
 
-For each missing file, in order (`0012`, `0013`, `0014`, `0015`, `0016`, `0017`):
+For each missing file, in order (`0012`, `0013`, `0014`, `0015`, `0016`, `0017`, `0018`):
 
 1. Open the file from the `migrations/` folder in the repository.
 2. Copy **all** of it into a new SQL Editor query and click **Run**.
@@ -285,7 +286,7 @@ insert into policy_versions (kind, version) values ('terms', '2027-01');
 ## Quick checklist
 
 1. [ ] Backup taken
-2. [ ] Migrations `0012`–`0017` applied and verified
+2. [ ] Migrations `0012`–`0018` applied and verified
 3. [ ] Storage buckets exist and are private
 4. [ ] Supabase Auth: URLs set, TOTP on, email sender or `AUTH_REQUIRE_EMAIL_VERIFICATION=false`
 5. [ ] Vercel variables: `QUOTE_SIGNING_SECRET`, `CRON_SECRET`, `CONSENT_SALT`, `NEXT_PUBLIC_SITE_URL`

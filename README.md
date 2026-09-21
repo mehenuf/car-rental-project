@@ -43,7 +43,7 @@ cp .env.example .env.local   # then fill in the values below
 npm run dev                  # http://localhost:3000
 ```
 
-Create the database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0017`) in the Supabase SQL editor. **Never run `schema.sql` against a database that holds real data: it drops tables.** Optional sample data:
+Create the database by running `schema.sql`, then every file in `migrations/` in order (`0001` to `0018`) in the Supabase SQL editor. **Never run `schema.sql` against a database that holds real data: it drops tables.** Optional sample data:
 
 ```bash
 npx tsx seed.ts                # WIPES vehicles and bookings, then adds 24 cars and about 200 bookings
@@ -97,7 +97,7 @@ src/components/          site, ui (shadcn), admin, provider, location
 src/lib/                 pure logic and services: pricing, payments, comms, account, admin, disputes, reviews,
                          location, seo, security, i18n
 src/messages/            translations, one JSON file per language (status.json records review state)
-migrations/              numbered SQL migrations 0001 to 0017 (expand-only)
+migrations/              numbered SQL migrations 0001 to 0018 (expand-only)
 tests/sql/               SQL tests, run by scripts/run-sql-tests.ts
 e2e/                     Playwright specs
 scripts/                 SQL test runner and demo-data.sql

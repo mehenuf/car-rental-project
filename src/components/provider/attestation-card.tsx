@@ -15,6 +15,7 @@ export function AttestationCard() {
   const [agreed, setAgreed] = useState(false);
   const result = useApiData<{ version: string; acceptedAt: string | null }>(`/api/provider/attestation?_r=${refresh}`);
   const save = useSave();
+  if (result.status === "error") return <p role="alert" className="text-sm text-destructive">{result.error}</p>;
   if (result.status !== "success") return null;
   const { version, acceptedAt } = result.data;
 

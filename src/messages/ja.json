@@ -8,7 +8,8 @@
     "openMenu": "メニューを開く",
     "accountMenu": "アカウントメニュー",
     "language": "言語",
-    "mainNav": "メイン"
+    "mainNav": "メイン",
+    "toggleTheme": "テーマを切り替え"
   },
   "nav": {
     "home": "ホーム",
@@ -87,7 +88,6 @@
     "location": "場所",
     "date": "日付",
     "time": "時間",
-    "selectCity": "都市を選択",
     "selectDate": "日付を選択",
     "submit": "検索",
     "errBothDates": "受け取り日と返却日の両方を選択してください。",
@@ -132,7 +132,8 @@
     },
     "loadFailed": "車両を読み込めませんでした",
     "titleIn": "{place}の車",
-    "priceNeedsPlace": "価格で絞り込むには場所を選んでください。"
+    "priceNeedsPlace": "価格で絞り込むには場所を選んでください。",
+    "sortBy": "並べ替え"
   },
   "vehicle": {
     "perDay": "/日",
@@ -180,8 +181,10 @@
     "cancel": "キャンセル",
     "confirm": "予約を確定",
     "submitting": "予約中...",
-    "tripHint": "車が必要な日時を選んでください。日付や時刻をタップすると変更でき、料金はすぐに更新されます。",
-    "dropAfterPickup": "返却は受け取りより後にしてください。"
+    "dropAfterPickup": "返却は受け取りより後にしてください。",
+    "pickupIn": "受け取り場所: {city}",
+    "pickupInPast": "受け取り時刻はすでに過ぎています。これより後の時刻を選んでください。",
+    "driverAgeRange": "16〜99の年齢を入力してください。"
   },
   "quote": {
     "total": "合計",
@@ -335,7 +338,15 @@
     "typeOwner": "自分の車を貸し出す",
     "typeOwnerBody": "個人オーナーとして愛車で収入を得られます。",
     "typeCompany": "レンタカー会社を登録する",
-    "typeCompanyBody": "BestCar で車両と店舗を管理できます。"
+    "typeCompanyBody": "BestCar で車両と店舗を管理できます。",
+    "nameRequired": "氏名を入力してください。",
+    "legalNotice": "アカウントを作成すると、{terms}と{privacy}に同意したものとみなされます。",
+    "verifySpam": "数分経っても届かない場合は、迷惑メールフォルダを確認してください。",
+    "verifyWrong": "アドレスが違いますか？最初からやり直す",
+    "verifyBack": "ログインに戻る",
+    "forgotFailed": "メールを送信できませんでした。1分ほどしてからもう一度お試しください。",
+    "resetInvalidTitle": "このリンクは無効です",
+    "requestNewLink": "新しいリンクを請求"
   },
   "account": {
     "title": "マイアカウント",
@@ -410,8 +421,7 @@
     "rejectedNote": "理由：{note}",
     "pendingNote": "免許証を審査中です。",
     "verifiedNote": "免許証は確認済みです。",
-    "uploadFailed": "ファイルをアップロードできませんでした。",
-    "signIn": "運転免許証を追加するにはログインしてください。"
+    "uploadFailed": "ファイルをアップロードできませんでした。"
   },
   "security": {
     "title": "セキュリティ",
@@ -428,7 +438,6 @@
     "title": "領収書",
     "number": "領収書番号",
     "issued": "発行日",
-    "paidWith": "お支払い方法",
     "print": "印刷",
     "note": "これはお支払いの領収書です。レンタルの税務上の請求書は、レンタカー会社が発行します。",
     "item": "項目",
@@ -650,7 +659,20 @@
     "login": "ログイン",
     "register": "アカウント作成",
     "privacy": "プライバシーポリシー",
-    "terms": "利用規約"
+    "terms": "利用規約",
+    "forgotPassword": "パスワードをお忘れの方",
+    "resetPassword": "新しいパスワードを設定",
+    "account": "マイアカウント",
+    "accountDriver": "運転免許証",
+    "accountNotifications": "通知",
+    "accountPrivacy": "プライバシー",
+    "receipt": "領収書",
+    "accountSecurity": "セキュリティ",
+    "trip": "旅程の詳細",
+    "bookingConfirmation": "ご予約",
+    "checkout": "お支払い",
+    "providerApply": "プロバイダーになる",
+    "vehicle": "{name}をレンタル。カテゴリー：{category}、{count}件のレビューで評価{rating}/5。"
   },
   "chat": {
     "title": "BestCar アシスタント",
@@ -729,5 +751,9 @@
     "guessed": "接続情報から選びました。いつでも変更できます。",
     "showing": "{place}の車を表示しています。",
     "showAll": "すべての場所を表示"
+  },
+  "bookingLookup": {
+    "title": "そのご予約が見つかりません",
+    "body": "予約番号が間違っているか、別のブラウザまたはアカウントで予約された可能性があります。ログインして予約を確認するか、チャットでお問い合わせください。"
   }
 }

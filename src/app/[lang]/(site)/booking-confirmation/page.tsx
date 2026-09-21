@@ -1,17 +1,19 @@
+import { titleFromKey } from "@/lib/seo/metadata";
 import { Link } from "@/lib/i18n/link";
-import { notFound } from "next/navigation";
+import { BookingNotFound } from "@/components/site/booking-not-found";
 import { CheckCircle2, Clock, XCircle } from "lucide-react";
-import type { Metadata } from "next";
 import { AutoRefresh } from "@/components/site/auto-refresh";
 import { buttonVariants } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatBookingTotal, formatDate } from "@/lib/format";
 import { isHoldActive } from "@/lib/payments/hold";
 import { getBookingByReference } from "@/lib/queries";
 import { readRequestIdentity } from "@/lib/guest";
 import { getLocale, getT } from "@/lib/i18n/dictionary";
 
-export const metadata: Metadata = { title: "Your Booking" };
+export async function generateMetadata() {
+  return titleFromKey("meta.bookingConfirmation");
+}
 
 export default async function BookingConfirmationPage({
   searchParams,
@@ -19,10 +21,10 @@ export default async function BookingConfirmationPage({
   searchParams: Promise<{ ref?: string }>;
 }) {
   const { ref } = await searchParams;
-  if (!ref) notFound();
+  if (!ref) return <BookingNotFound />;
 
   const booking = await getBookingByReference(ref);
-  if (!booking) notFound();
+  if (!booking) return <BookingNotFound />;
   const t = await getT();
   const locale = await getLocale();
 
@@ -38,7 +40,7 @@ export default async function BookingConfirmationPage({
   const isOwner =
     (booking.user_id !== null && booking.user_id === identity.userId) ||
     (booking.guest_id !== null && booking.guest_id === identity.guestId);
-  if (hasOwner && !isOwner) notFound();
+  if (hasOwner && !isOwner) return <BookingNotFound />;
 
   const paid = booking.payment_status === "paid" || booking.payment_status === "partially_refunded";
   const refunded = booking.payment_status === "refunded";
@@ -82,7 +84,7 @@ export default async function BookingConfirmationPage({
           <Row label={t("confirmation.vehicle")} value={booking.vehicle?.name ?? "-"} />
           <Row label={t("confirmation.pickUp")} value={formatDate(booking.pickup_at, locale)} />
           <Row label={t("confirmation.dropOff")} value={formatDate(booking.dropoff_at, locale)} />
-          <Row label={t("confirmation.total")} value={formatCurrency(booking.total_amount, locale)} emphasize />
+          <Row label={t("confirmation.total")} value={formatBookingTotal(booking, locale)} emphasize />
         </CardContent>
       </Card>
 

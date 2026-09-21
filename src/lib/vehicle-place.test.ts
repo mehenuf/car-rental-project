@@ -7,11 +7,11 @@ const plan = (branch_id: number, currency: string, base_daily_minor: number) => 
 describe("choosePlace", () => {
   it("prefers the branch the visitor is looking at", () => {
     const p = choosePlace([plan(1, "BDT", 500000), plan(2, "GBP", 4500), plan(3, "GBP", 4300)], branches, 2);
-    expect(p).toEqual({ city: "London", otherCities: 2, currency: "GBP", dailyMinor: 4500 });
+    expect(p).toEqual({ branchId: 2, city: "London", otherCities: 2, currency: "GBP", dailyMinor: 4500 });
   });
   it("otherwise takes the lowest branch id, and never mixes currencies", () => {
     const p = choosePlace([plan(3, "GBP", 4300), plan(2, "GBP", 4500)], branches);
-    expect(p).toMatchObject({ city: "London", currency: "GBP", dailyMinor: 4500, otherCities: 1 });
+    expect(p).toMatchObject({ branchId: 2, city: "London", currency: "GBP", dailyMinor: 4500, otherCities: 1 });
   });
   it("counts a city once and ignores plans for unknown branches", () => {
     const p = choosePlace([plan(2, "GBP", 1), plan(2, "GBP", 2), plan(99, "USD", 3)], branches);

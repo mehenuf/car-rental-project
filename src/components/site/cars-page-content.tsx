@@ -70,7 +70,7 @@ export async function CarsPageContent({
   const lookingIn = locationId ? await getBranchPlace(locationId) : null;
   const priceScope = lookingIn ? await getBranchPriceScope(lookingIn.id, lookingIn.currency) : null;
 
-  const { data, count } = await getVehicleCards({
+  const request = {
     category: filters.category,
     minPrice: filters.minPrice,
     maxPrice: filters.maxPrice,
@@ -81,11 +81,16 @@ export async function CarsPageContent({
     availability,
     sortBy,
     sortOrder,
-    page,
     pageSize: PAGE_SIZE,
-  });
-
-  const totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
+  };
+  let { data, count } = await getVehicleCards({ ...request, page });
+  let totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
+  // A page number past the end (an old bookmark, a typo) shows the last page instead of an empty list.
+  if (data.length === 0 && count > 0 && page > totalPages) {
+    ({ data, count } = await getVehicleCards({ ...request, page: totalPages }));
+    totalPages = Math.max(1, Math.ceil(count / PAGE_SIZE));
+  }
+  const shownPage = Math.min(page, totalPages);
   const pickupDate = params.get("pickupDate");
   const dropoffDate = params.get("dropoffDate");
 
@@ -160,7 +165,7 @@ export async function CarsPageContent({
             </div>
           )}
 
-          {data.length > 0 && <CarsPaginationControl page={page} totalPages={totalPages} />}
+          {data.length > 0 && <CarsPaginationControl page={shownPage} totalPages={totalPages} />}
         </div>
       </div>
     </div>

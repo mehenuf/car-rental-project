@@ -27,7 +27,7 @@ function ProfileForm({ canEdit }: { canEdit: boolean }) {
   const [name, setName] = useState<string | null>(null);
   const [phone, setPhone] = useState<string | null>(null);
   const save = useSave();
-  if (profile.status !== "success") return <p className="text-sm text-muted-foreground">Loading...</p>;
+  if (profile.status !== "success") return <p role={profile.status === "error" ? "alert" : "status"} className={profile.status === "error" ? "text-sm text-destructive" : "text-sm text-muted-foreground"}>{profile.status === "error" ? profile.error : "Loading..."}</p>;
   const p = profile.data.data;
 
   function submit(e: FormEvent) {
@@ -131,7 +131,7 @@ function BranchesSection({ canEdit, individual }: { canEdit: boolean; individual
     }, "Branch added.");
   }
 
-  if (branches.status !== "success") return <p className="text-sm text-muted-foreground">Loading...</p>;
+  if (branches.status !== "success") return <p role={branches.status === "error" ? "alert" : "status"} className={branches.status === "error" ? "text-sm text-destructive" : "text-sm text-muted-foreground"}>{branches.status === "error" ? branches.error : "Loading..."}</p>;
   return (
     <div className="flex flex-col gap-(--space-sm)">
       {branches.data.data.map((b) => (
@@ -208,7 +208,7 @@ function DocumentsSection() {
     window.open(body.url, "_blank", "noopener");
   }
 
-  if (docs.status !== "success") return <p className="text-sm text-muted-foreground">Loading...</p>;
+  if (docs.status !== "success") return <p role={docs.status === "error" ? "alert" : "status"} className={docs.status === "error" ? "text-sm text-destructive" : "text-sm text-muted-foreground"}>{docs.status === "error" ? docs.error : "Loading..."}</p>;
   return (
     <div className="flex flex-col gap-2">
       {docs.data.data.length === 0 && <p className="text-sm text-muted-foreground">No documents uploaded.</p>}

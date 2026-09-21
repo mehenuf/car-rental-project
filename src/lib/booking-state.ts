@@ -24,7 +24,6 @@ export const BOOKING_STATUSES = [
 ] as const satisfies readonly BookingStatus[];
 
 /** Statuses that count as revenue in dashboards and views. */
-export const REVENUE_STATUSES = ["confirmed", "active", "completed"] as const satisfies readonly BookingStatus[];
 
 export const BOOKING_STATUS_LABELS: Record<BookingStatus, string> = {
   pending: "Pending",

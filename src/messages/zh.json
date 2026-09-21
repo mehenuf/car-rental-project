@@ -8,7 +8,8 @@
     "openMenu": "打开菜单",
     "accountMenu": "账户菜单",
     "language": "语言",
-    "mainNav": "主导航"
+    "mainNav": "主导航",
+    "toggleTheme": "切换主题"
   },
   "nav": {
     "home": "首页",
@@ -87,7 +88,6 @@
     "location": "地点",
     "date": "日期",
     "time": "时间",
-    "selectCity": "选择城市",
     "selectDate": "选择日期",
     "submit": "搜索",
     "errBothDates": "请选择取车和还车日期。",
@@ -132,7 +132,8 @@
     },
     "loadFailed": "无法加载车辆",
     "titleIn": "{place}的车辆",
-    "priceNeedsPlace": "选择一个地点后才能按价格筛选。"
+    "priceNeedsPlace": "选择一个地点后才能按价格筛选。",
+    "sortBy": "排序方式"
   },
   "vehicle": {
     "perDay": "/天",
@@ -180,8 +181,10 @@
     "cancel": "取消",
     "confirm": "确认预订",
     "submitting": "正在预订...",
-    "tripHint": "选择您用车的时间。点击日期或时间即可修改，价格会随之更新。",
-    "dropAfterPickup": "还车时间必须晚于取车时间。"
+    "dropAfterPickup": "还车时间必须晚于取车时间。",
+    "pickupIn": "取车地点：{city}",
+    "pickupInPast": "取车时间已过，请选择更晚的时间。",
+    "driverAgeRange": "请输入 16 至 99 之间的年龄。"
   },
   "quote": {
     "total": "合计",
@@ -335,7 +338,15 @@
     "typeOwner": "发布我的车辆",
     "typeOwnerBody": "作为个人车主，用爱车赚取收入。",
     "typeCompany": "登记我的租车公司",
-    "typeCompanyBody": "在 BestCar 上管理车队和门店。"
+    "typeCompanyBody": "在 BestCar 上管理车队和门店。",
+    "nameRequired": "请输入您的全名。",
+    "legalNotice": "创建账户即表示您接受{terms}和{privacy}。",
+    "verifySpam": "几分钟后仍未收到？请查看垃圾邮件文件夹。",
+    "verifyWrong": "邮箱地址有误？重新开始",
+    "verifyBack": "返回登录",
+    "forgotFailed": "邮件发送失败，请一分钟后重试。",
+    "resetInvalidTitle": "此链接已失效",
+    "requestNewLink": "重新获取链接"
   },
   "account": {
     "title": "我的账户",
@@ -410,8 +421,7 @@
     "rejectedNote": "原因：{note}",
     "pendingNote": "我们正在审核您的驾驶证。",
     "verifiedNote": "您的驾驶证已验证。",
-    "uploadFailed": "无法上传文件。",
-    "signIn": "请登录后添加驾驶证。"
+    "uploadFailed": "无法上传文件。"
   },
   "security": {
     "title": "安全",
@@ -428,7 +438,6 @@
     "title": "收据",
     "number": "收据编号",
     "issued": "开具日期",
-    "paidWith": "支付方式",
     "print": "打印",
     "note": "这是一份付款收据。租赁的税务发票由租车公司开具。",
     "item": "项目",
@@ -650,7 +659,20 @@
     "login": "登录",
     "register": "创建账户",
     "privacy": "隐私政策",
-    "terms": "条款与条件"
+    "terms": "条款与条件",
+    "forgotPassword": "忘记密码",
+    "resetPassword": "设置新密码",
+    "account": "我的账户",
+    "accountDriver": "驾驶证",
+    "accountNotifications": "通知",
+    "accountPrivacy": "您的隐私",
+    "receipt": "收据",
+    "accountSecurity": "安全",
+    "trip": "行程详情",
+    "bookingConfirmation": "您的预订",
+    "checkout": "结账",
+    "providerApply": "成为服务商",
+    "vehicle": "租用{name}。{category}类别，{count}条评价，评分 {rating}/5。"
   },
   "chat": {
     "title": "BestCar 助手",
@@ -729,5 +751,9 @@
     "guessed": "我们根据您的网络连接选择了这里，您可随时更改。",
     "showing": "正在显示{place}的车辆。",
     "showAll": "显示所有地点"
+  },
+  "bookingLookup": {
+    "title": "找不到该预订",
+    "body": "预订编号可能输入有误，或该预订是在其他浏览器或账户中创建的。请登录查看您的预订，或在聊天中咨询。"
   }
 }

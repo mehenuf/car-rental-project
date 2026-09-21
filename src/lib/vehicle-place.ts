@@ -9,6 +9,8 @@ export interface BranchRow {
   city: string;
 }
 export interface VehiclePlace {
+  /** The branch this place and rate belong to; the booking panel quotes from it so the price shown is the price charged. */
+  branchId: number;
   city: string;
   /** How many other cities this car is also offered in. */
   otherCities: number;
@@ -33,7 +35,7 @@ export function choosePlace(
   const city = cityOf.get(chosen.branch_id)!;
   const cities = new Set(usable.map((p) => cityOf.get(p.branch_id)));
   cities.delete(city);
-  return { city, otherCities: cities.size, currency: chosen.currency, dailyMinor: chosen.base_daily_minor };
+  return { branchId: chosen.branch_id, city, otherCities: cities.size, currency: chosen.currency, dailyMinor: chosen.base_daily_minor };
 }
 
 /** True for the placeholder text the sample data uses, which only repeats what the spec strip already shows. */

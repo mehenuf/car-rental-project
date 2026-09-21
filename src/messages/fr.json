@@ -8,7 +8,8 @@
     "openMenu": "Ouvrir le menu",
     "accountMenu": "Menu du compte",
     "language": "Langue",
-    "mainNav": "Principale"
+    "mainNav": "Principale",
+    "toggleTheme": "Changer de thème"
   },
   "nav": {
     "home": "Accueil",
@@ -87,7 +88,6 @@
     "location": "Lieu",
     "date": "Date",
     "time": "Heure",
-    "selectCity": "Choisissez votre ville",
     "selectDate": "Choisir la date",
     "submit": "Rechercher",
     "errBothDates": "Veuillez choisir une date de retrait et une date de retour.",
@@ -134,7 +134,8 @@
     },
     "loadFailed": "Impossible de charger les véhicules",
     "titleIn": "Voitures à {place}",
-    "priceNeedsPlace": "Choisissez un lieu pour filtrer par prix."
+    "priceNeedsPlace": "Choisissez un lieu pour filtrer par prix.",
+    "sortBy": "Trier par"
   },
   "vehicle": {
     "perDay": "/jour",
@@ -184,8 +185,10 @@
     "cancel": "Annuler",
     "confirm": "Confirmer la réservation",
     "submitting": "Réservation...",
-    "tripHint": "Choisissez quand vous avez besoin de la voiture. Touchez une date ou une heure pour la modifier ; le prix se met à jour aussitôt.",
-    "dropAfterPickup": "Le retour doit avoir lieu après la prise en charge."
+    "dropAfterPickup": "Le retour doit avoir lieu après la prise en charge.",
+    "pickupIn": "Retrait à {city}",
+    "pickupInPast": "L'heure de retrait est déjà passée. Choisissez une heure ultérieure.",
+    "driverAgeRange": "Saisissez un âge entre 16 et 99 ans."
   },
   "quote": {
     "total": "Total",
@@ -342,7 +345,15 @@
     "typeOwner": "Proposer ma voiture",
     "typeOwnerBody": "Gagnez de l'argent avec votre voiture en tant que particulier.",
     "typeCompany": "Inscrire mon entreprise de location",
-    "typeCompanyBody": "Gérez une flotte et des agences sur BestCar."
+    "typeCompanyBody": "Gérez une flotte et des agences sur BestCar.",
+    "nameRequired": "Saisissez votre nom complet.",
+    "legalNotice": "En créant un compte, vous acceptez les {terms} et la {privacy}.",
+    "verifySpam": "Rien après quelques minutes ? Vérifiez vos courriers indésirables.",
+    "verifyWrong": "Mauvaise adresse ? Recommencer",
+    "verifyBack": "Retour à la connexion",
+    "forgotFailed": "Nous n'avons pas pu envoyer l'e-mail. Réessayez dans une minute.",
+    "resetInvalidTitle": "Ce lien a expiré",
+    "requestNewLink": "Demander un nouveau lien"
   },
   "account": {
     "title": "Mon compte",
@@ -420,8 +431,7 @@
     "rejectedNote": "Motif : {note}",
     "pendingNote": "Nous vérifions votre permis.",
     "verifiedNote": "Votre permis est vérifié.",
-    "uploadFailed": "Impossible de téléverser le fichier.",
-    "signIn": "Connectez-vous pour ajouter votre permis de conduire."
+    "uploadFailed": "Impossible de téléverser le fichier."
   },
   "security": {
     "title": "Sécurité",
@@ -438,7 +448,6 @@
     "title": "Reçu",
     "number": "Reçu n°",
     "issued": "Émis le",
-    "paidWith": "Payé avec",
     "print": "Imprimer",
     "note": "Ceci est un reçu de paiement. C'est le loueur qui émet la facture de la location.",
     "item": "Désignation",
@@ -660,7 +669,20 @@
     "login": "Se connecter",
     "register": "Créer un compte",
     "privacy": "Politique de confidentialité",
-    "terms": "Conditions générales"
+    "terms": "Conditions générales",
+    "forgotPassword": "Mot de passe oublié",
+    "resetPassword": "Choisir un nouveau mot de passe",
+    "account": "Mon compte",
+    "accountDriver": "Permis de conduire",
+    "accountNotifications": "Notifications",
+    "accountPrivacy": "Votre confidentialité",
+    "receipt": "Reçu",
+    "accountSecurity": "Sécurité",
+    "trip": "Détails du voyage",
+    "bookingConfirmation": "Votre réservation",
+    "checkout": "Paiement",
+    "providerApply": "Devenir prestataire",
+    "vehicle": "Louez : {name}. Catégorie {category}, note {rating}/5 sur {count} avis."
   },
   "chat": {
     "title": "Assistant BestCar",
@@ -741,5 +763,9 @@
     "guessed": "Nous l'avons choisi d'après votre connexion. Modifiez-le à tout moment.",
     "showing": "Voitures affichées à {place}.",
     "showAll": "Voir tous les lieux"
+  },
+  "bookingLookup": {
+    "title": "Nous ne trouvons pas cette réservation",
+    "body": "La référence est peut-être mal saisie, ou la réservation a été faite dans un autre navigateur ou compte. Connectez-vous pour voir vos réservations, ou posez la question dans le chat."
   }
 }

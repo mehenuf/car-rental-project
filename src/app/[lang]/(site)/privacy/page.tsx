@@ -16,26 +16,50 @@ export default async function PrivacyPage() {
       <p className="text-sm text-muted-foreground">Last updated September 2026.</p>
 
       <Section title="What we collect">
-        When you book a car, we collect your name, email, and phone number to confirm the
-        booking and contact you about it. If you book without an account, we store a random
-        identifier in a cookie in your browser so you can view your own booking history without
-        signing in.
+        Your name, email and phone number when you book or create an account; your bookings and
+        payment records; and, if you choose to add them, your driver profile and licence
+        documents, messages with hosts, reviews and notification preferences. If you book without
+        an account, we store a random identifier in a cookie in your browser so you can see your
+        own bookings. Text you type into the chat assistant is processed to answer you.
       </Section>
 
       <Section title="How we use it">
-        Booking details are used only to fulfil your rental and to show you your own booking
-        history. We do not sell your information to third parties.
+        To run your rental, show you your bookings, check that a renter may drive, prevent fraud,
+        and send the notifications you allow. The host of a car you book sees the details they
+        need to hand over the car, such as your name, contact details and trip times. We do not
+        sell your information.
+      </Section>
+
+      <Section title="Who else handles it">
+        Service providers that run the site for us: hosting and database, payment processing,
+        email and text message delivery when those are switched on, and the provider behind the
+        chat assistant. Please do not type personal details into the chat.
       </Section>
 
       <Section title="Cookies">
-        We use one functional cookie to remember guest bookings made in your browser, and a
-        session cookie if you create an account. Neither is used for advertising.
+        Necessary cookies keep you signed in, remember guest bookings made in your browser, and
+        store your language, place, theme and cookie choice. Analytics cookies are used only if
+        you allow them in the banner, and you can change that at any time under Privacy in your
+        account. Nothing is used for advertising.
       </Section>
 
       <Section title="Your choices">
-        You can clear your browser&apos;s cookies at any time, which will disconnect your browser
-        from any guest booking history. If you have an account, you can request deletion of
-        your data by contacting us.
+        Sign in and open Account, then Privacy, to download a copy of your data, change your
+        cookie choice, or delete your account. Deleting removes your personal data and anonymises
+        your bookings; payment and booking records we must keep by law stay, without your name,
+        email or phone. You cannot delete while a booking is open or a dispute is unresolved.
+        You can also clear your browser&apos;s cookies at any time.
+      </Section>
+
+      <Section title="How long we keep it">
+        Account and booking data is kept while your account exists. Delivery logs for
+        notifications are removed after a set number of days. Records we must keep for accounting
+        are kept without personal details after you delete your account.
+      </Section>
+
+      <Section title="Questions">
+        BestCar has no support inbox yet. For a question about your data, use the chat on any
+        page or the Privacy page in your account.
       </Section>
     </div>
   );

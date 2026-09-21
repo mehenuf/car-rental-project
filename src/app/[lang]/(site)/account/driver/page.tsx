@@ -1,3 +1,4 @@
+import { titleFromKey } from "@/lib/seo/metadata";
 import { redirect } from "next/navigation";
 import { DriverForm } from "@/components/site/driver-form";
 import { readRequestIdentity } from "@/lib/guest";
@@ -5,13 +6,15 @@ import { getLocale, getT } from "@/lib/i18n/dictionary";
 import { withLocale } from "@/lib/i18n/negotiate";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-export const metadata = { title: "Driver's licence" };
+export async function generateMetadata() {
+  return titleFromKey("meta.accountDriver");
+}
 
 export default async function DriverPage() {
   const locale = await getLocale();
   const t = await getT();
   const identity = await readRequestIdentity();
-  if (!identity.userId) redirect(withLocale(locale, "/login"));
+  if (!identity.userId) redirect(withLocale(locale, "/login?next=" + encodeURIComponent("/account/driver")));
 
   const [{ data: profile }, { data: documents }] = await Promise.all([
     supabaseAdmin.from("driver_profiles").select("*").eq("user_id", identity.userId).maybeSingle(),

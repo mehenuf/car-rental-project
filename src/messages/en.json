@@ -8,7 +8,8 @@
     "openMenu": "Open menu",
     "accountMenu": "Account menu",
     "language": "Language",
-    "mainNav": "Main"
+    "mainNav": "Main",
+    "toggleTheme": "Toggle theme"
   },
   "nav": {
     "home": "Home",
@@ -87,7 +88,6 @@
     "location": "Location",
     "date": "Date",
     "time": "Time",
-    "selectCity": "Select your city",
     "selectDate": "Select date",
     "submit": "Search",
     "errBothDates": "Please choose both a pick-up and drop-off date.",
@@ -134,7 +134,8 @@
     },
     "loadFailed": "Failed to load vehicles",
     "titleIn": "Cars in {place}",
-    "priceNeedsPlace": "Choose a location to filter by price."
+    "priceNeedsPlace": "Choose a location to filter by price.",
+    "sortBy": "Sort by"
   },
   "vehicle": {
     "perDay": "/day",
@@ -184,8 +185,10 @@
     "cancel": "Cancel",
     "confirm": "Confirm Booking",
     "submitting": "Booking...",
-    "tripHint": "Choose when you need the car. Tap a date or a time to change it; the price updates as you go.",
-    "dropAfterPickup": "Drop-off must be after pick-up."
+    "dropAfterPickup": "Drop-off must be after pick-up.",
+    "pickupIn": "Pick-up in {city}",
+    "pickupInPast": "The pick-up time has already passed. Choose a later time.",
+    "driverAgeRange": "Enter an age from 16 to 99."
   },
   "quote": {
     "total": "Total",
@@ -342,7 +345,15 @@
     "typeOwner": "List my own car",
     "typeOwnerBody": "Earn from your car as a private owner.",
     "typeCompany": "List my rental company",
-    "typeCompanyBody": "Manage a fleet and branches on BestCar."
+    "typeCompanyBody": "Manage a fleet and branches on BestCar.",
+    "nameRequired": "Enter your full name.",
+    "legalNotice": "By creating an account you accept the {terms} and the {privacy}.",
+    "verifySpam": "Nothing after a few minutes? Check your spam folder.",
+    "verifyWrong": "Wrong address? Start again",
+    "verifyBack": "Back to sign in",
+    "forgotFailed": "We couldn't send the email. Please try again in a minute.",
+    "resetInvalidTitle": "This link has expired",
+    "requestNewLink": "Request a new link"
   },
   "account": {
     "title": "My account",
@@ -420,8 +431,7 @@
     "rejectedNote": "Reason: {note}",
     "pendingNote": "We are reviewing your licence.",
     "verifiedNote": "Your licence is verified.",
-    "uploadFailed": "Could not upload the file.",
-    "signIn": "Sign in to add your driver's licence."
+    "uploadFailed": "Could not upload the file."
   },
   "security": {
     "title": "Security",
@@ -438,7 +448,6 @@
     "title": "Receipt",
     "number": "Receipt no.",
     "issued": "Issued",
-    "paidWith": "Paid with",
     "print": "Print",
     "note": "This is a payment receipt. The rental company issues the tax invoice for the rental.",
     "item": "Item",
@@ -660,7 +669,20 @@
     "login": "Sign in",
     "register": "Create account",
     "privacy": "Privacy policy",
-    "terms": "Terms and conditions"
+    "terms": "Terms and conditions",
+    "forgotPassword": "Forgot password",
+    "resetPassword": "Choose a new password",
+    "account": "My account",
+    "accountDriver": "Driver's licence",
+    "accountNotifications": "Notifications",
+    "accountPrivacy": "Your privacy",
+    "receipt": "Receipt",
+    "accountSecurity": "Security",
+    "trip": "Trip details",
+    "bookingConfirmation": "Your booking",
+    "checkout": "Checkout",
+    "providerApply": "Become a provider",
+    "vehicle": "Rent the {name}. {category} category, rated {rating}/5 from {count} reviews."
   },
   "chat": {
     "title": "BestCar Assistant",
@@ -740,5 +762,9 @@
     "guessed": "We picked this from your connection. Change it any time.",
     "showing": "Showing cars in {place}.",
     "showAll": "Show all locations"
+  },
+  "bookingLookup": {
+    "title": "We can't find that booking",
+    "body": "The reference may be mistyped, or the booking was made in another browser or account. Sign in to see your bookings, or ask in the chat."
   }
 }

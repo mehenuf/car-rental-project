@@ -1,3 +1,4 @@
+import { titleFromKey } from "@/lib/seo/metadata";
 import { redirect } from "next/navigation";
 import { PrivacyPanel } from "@/components/site/privacy-panel";
 import { readRequestIdentity } from "@/lib/guest";
@@ -5,13 +6,15 @@ import { getLocale, getT } from "@/lib/i18n/dictionary";
 import { withLocale } from "@/lib/i18n/negotiate";
 import { supabaseAdmin } from "@/lib/supabase-server";
 
-export const metadata = { title: "Privacy" };
+export async function generateMetadata() {
+  return titleFromKey("meta.accountPrivacy");
+}
 
 export default async function PrivacyPage() {
   const locale = await getLocale();
   const t = await getT();
   const identity = await readRequestIdentity();
-  if (!identity.userId || !identity.user?.email) redirect(withLocale(locale, "/login"));
+  if (!identity.userId || !identity.user?.email) redirect(withLocale(locale, "/login?next=" + encodeURIComponent("/account/privacy")));
 
   const { data: accepted } = await supabaseAdmin.from("policy_acceptances").select("kind, version").eq("user_id", identity.userId);
 

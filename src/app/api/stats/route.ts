@@ -6,7 +6,7 @@ import { searchParamsToObject, StatsQuerySchema } from "@/lib/schemas";
 
 /** GET /api/stats?startDate=YYYY-MM-DD&endDate=YYYY-MM-DD — admin-only. */
 export const GET = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  await requireAdmin("reports.read");
   const { startDate, endDate } = StatsQuerySchema.parse(
     searchParamsToObject(request.nextUrl.searchParams)
   );

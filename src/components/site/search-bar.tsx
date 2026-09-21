@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useState } from "react";
 import { useLocaleRouter, useT } from "@/lib/i18n/provider";
 import { Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -158,9 +158,11 @@ function RentalLeg({
   onTimeChange: (time: string) => void;
 }) {
   const t = useT();
+  const headingId = useId();
+  // A named group, so "Location", "Date" and "Time" are announced as belonging to Pick-up or Return.
   return (
-    <div className="flex flex-1 flex-col gap-(--space-sm) p-(--space-sm)">
-      <span className="text-sm font-semibold text-accent-text">{heading}</span>
+    <div role="group" aria-labelledby={headingId} className="flex flex-1 flex-col gap-(--space-sm) p-(--space-sm)">
+      <span id={headingId} className="text-sm font-semibold text-accent-text">{heading}</span>
       <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-3">
         <PlaceCombobox label={t("search.location")} places={places} value={place} onChange={onPlaceChange} detected={detected} />
 

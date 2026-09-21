@@ -39,7 +39,7 @@ export default function AdminStaffPage() {
       <div className="flex flex-col gap-1">
         <h1 className="font-heading text-2xl font-bold text-foreground">Staff</h1>
         <p className="text-sm text-muted-foreground">
-          Reviewer: providers, cars, licences, reviews, reports, risk and disputes. Support: customers and bookings, small refunds. Finance: payments, payouts, reports, exports and fees. Super admin: everything, including staff and settings. Everyone signs in with two factors.
+          Reviewer: providers, cars, licences, reviews, reports, risk and disputes. Support: customers and bookings, small refunds. Finance: payments, payouts, reports, exports and fees. Super admin: everything, including staff and settings. Two-factor sign-in is required only when ADMIN_REQUIRE_MFA is set to true; it is off by default.
         </p>
       </div>
       {message && <p role="alert" className="text-sm text-destructive">{message}</p>}

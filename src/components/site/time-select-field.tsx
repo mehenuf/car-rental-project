@@ -16,6 +16,7 @@ export function TimeSelectField({
   onChange,
   disabledBefore,
   className,
+  compact,
 }: {
   label: string;
   /** "HH:MM" */
@@ -24,6 +25,8 @@ export function TimeSelectField({
   /** Slots earlier than this are not offered (for example times that have already passed today). */
   disabledBefore?: string;
   className?: string;
+  /** Drops the icon tile so the value has room in a narrow column. */
+  compact?: boolean;
 }) {
   const locale = useLocale();
   const tag = locale === "en" ? "en-US" : numberingLocale(locale);
@@ -35,9 +38,11 @@ export function TimeSelectField({
       </span>
       <Select value={value} onValueChange={(next) => onChange(next ?? value)}>
         <SelectTrigger aria-labelledby={labelId} className={cn(FIELD_CLASS, "h-auto gap-2 font-medium text-foreground")}>
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent-text">
-            <Clock className="size-4" aria-hidden="true" />
-          </span>
+          {!compact && (
+            <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent-text">
+              <Clock className="size-4" aria-hidden="true" />
+            </span>
+          )}
           <SelectValue>{(slot: string | null) => (slot ? formatSlot(slot, tag) : "")}</SelectValue>
         </SelectTrigger>
         <SelectContent>

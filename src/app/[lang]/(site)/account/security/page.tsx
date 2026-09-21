@@ -1,7 +1,10 @@
+import { titleFromKey } from "@/lib/seo/metadata";
 import { MfaSetup } from "@/components/site/mfa-setup";
 import { getT } from "@/lib/i18n/dictionary";
 
-export const metadata = { title: "Security" };
+export async function generateMetadata() {
+  return titleFromKey("meta.accountSecurity");
+}
 
 export default async function SecurityPage() {
   const t = await getT();

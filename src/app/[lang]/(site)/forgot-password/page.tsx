@@ -15,16 +15,23 @@ export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    setError(null);
     setLoading(true);
-    // The answer is the same whether or not the address has an account.
-    await supabase.auth.resetPasswordForEmail(email, {
+    // The answer is the same whether or not the address has an account, but a failure to send (rate limit, network)
+    // must not read as success.
+    const { error: sendError } = await supabase.auth.resetPasswordForEmail(email, {
       redirectTo: `${window.location.origin}/${locale}/reset-password`,
     });
-    setSent(true);
     setLoading(false);
+    if (sendError) {
+      setError(t("auth.forgotFailed"));
+      return;
+    }
+    setSent(true);
   }
 
   return (
@@ -41,6 +48,7 @@ export default function ForgotPasswordPage() {
                 <Label htmlFor="email">{t("auth.email")}</Label>
                 <Input id="email" type="email" autoComplete="username" required value={email} onChange={(e) => setEmail(e.target.value)} disabled={loading} />
               </div>
+              {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
               <Button type="submit" className="w-full" disabled={loading}>
                 {loading && <Loader2 className="size-4 animate-spin" />}
                 {t("auth.sendLink")}

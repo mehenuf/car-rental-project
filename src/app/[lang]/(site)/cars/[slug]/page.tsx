@@ -6,8 +6,10 @@ import { notFound } from "next/navigation";
 import { Check, Cog, DoorOpen, Fuel as FuelIcon, Star, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
-import { getVehicleBySlug, getVehicleCards, getVehicleTranslation } from "@/lib/queries";
+import { getVehicleBySlug, getVehicleCards, getVehiclePlace, getVehicleTranslation } from "@/lib/queries";
 import { isTemplateDescription } from "@/lib/vehicle-place";
+import { formatMinor } from "@/lib/pricing/money";
+import { numberingLocale } from "@/lib/i18n/locales";
 import { localizedVehicleText } from "@/lib/i18n/vehicle-text";
 import { Badge } from "@/components/ui/badge";
 import { VehicleGallery } from "@/components/site/vehicle-gallery";
@@ -25,10 +27,17 @@ export async function generateMetadata({
   const { slug } = await params;
   const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) return {};
+  const t = await getT();
 
+  // The name already carries the brand ("Honda Civic"), so the title is just the name.
   return pageMetadata(`/cars/${slug}`, {
-    title: `${vehicle.name} — ${vehicle.brand}`,
-    description: `Rent the ${vehicle.name} from ${vehicle.brand}. ${vehicle.category} category, rated ${vehicle.rating.toFixed(1)}/5 from ${vehicle.review_count} reviews.`,
+    title: vehicle.name,
+    description: t("meta.vehicle", {
+      name: vehicle.name,
+      category: t(`enums.category.${vehicle.category}`),
+      rating: vehicle.rating.toFixed(1),
+      count: vehicle.review_count,
+    }),
   });
 }
 
@@ -59,10 +68,11 @@ export default async function VehicleDetailPage({
   const vehicle = await getVehicleBySlug(slug);
   if (!vehicle) notFound();
 
-  const { data: sameCategory } = await getVehicleCards({
-    category: [vehicle.category],
-    pageSize: 4,
-  });
+  // The branch whose city and daily rate the page shows, and the branch the quote is priced from.
+  const [place, { data: sameCategory }] = await Promise.all([
+    getVehiclePlace(vehicle.id, toBranchId(pickupLocationId)),
+    getVehicleCards({ category: [vehicle.category], pageSize: 4 }),
+  ]);
   const similar = sameCategory.filter((v) => v.id !== vehicle.id).slice(0, 3);
 
   const text = localizedVehicleText(vehicle, await getVehicleTranslation(vehicle.id, locale));
@@ -72,7 +82,9 @@ export default async function VehicleDetailPage({
     <div className="mx-auto max-w-7xl px-(--space-sm) py-(--space-lg)">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonLdString(vehicleLd(vehicle, localizedUrl(locale, `/cars/${slug}`))) }} />
       <div className="grid grid-cols-1 gap-(--space-lg) lg:grid-cols-[1.6fr_1fr] lg:items-start">
-        <div className="flex flex-col gap-(--space-lg)">
+        {/* On phones the order is photos, name and specs, then the booking panel, then the details, so the price and the
+            action are one scroll away instead of below every feature. From lg the panel sits in the second column. */}
+        <div className="flex flex-col gap-(--space-lg) lg:col-start-1 lg:row-start-1">
           <VehicleGallery images={images} name={vehicle.name} />
 
           <div className="flex flex-col gap-(--space-sm)">
@@ -84,7 +96,18 @@ export default async function VehicleDetailPage({
                 <h1 className="font-heading text-2xl font-bold text-foreground sm:text-3xl">
                   {vehicle.name}
                 </h1>
-                <p className="text-muted-foreground">{vehicle.brand}</p>
+                {!vehicle.name.toLowerCase().startsWith(vehicle.brand.toLowerCase()) && (
+                  <p className="text-muted-foreground">{vehicle.brand}</p>
+                )}
+                {place && (
+                  <p className="text-sm text-muted-foreground lg:hidden">
+                    {t("booking.from")}{" "}
+                    <span className="font-semibold text-foreground">
+                      {formatMinor(place.dailyMinor, place.currency, numberingLocale(locale))}
+                    </span>
+                    {t("vehicle.perDay")} · {place.city}
+                  </p>
+                )}
               </div>
               <div className="flex items-center gap-1.5 text-accent-text">
                 <Star className="size-5 fill-current" />
@@ -104,7 +127,24 @@ export default async function VehicleDetailPage({
               <Spec icon={Cog} label={t("vehicle.transmission")} value={t(`enums.transmission.${vehicle.transmission}`)} />
               <Spec icon={FuelIcon} label={t("vehicle.fuel")} value={t(`enums.fuel.${vehicle.fuel}`)} />
             </div>
+          </div>
+        </div>
 
+        <div className="lg:sticky lg:top-24 lg:col-start-2 lg:row-span-2 lg:row-start-1">
+          <VehicleBookingPanel
+            vehicle={vehicle}
+            defaultPickupDate={pickupDate}
+            defaultPickupTime={pickupTime}
+            defaultDropoffTime={dropoffTime}
+            defaultDropoffDate={dropoffDate}
+            place={place}
+            pickupBranchId={place?.branchId ?? toBranchId(pickupLocationId)}
+            dropoffBranchId={toBranchId(dropoffLocationId)}
+          />
+        </div>
+
+        {(!isTemplateDescription(text.description) || text.features.length > 0) && (
+          <div className="flex flex-col gap-(--space-sm) lg:col-start-1 lg:row-start-2">
             {!isTemplateDescription(text.description) && (
               <p className="text-muted-foreground">{text.description}</p>
             )}
@@ -123,19 +163,7 @@ export default async function VehicleDetailPage({
               </ScrollReveal>
             )}
           </div>
-        </div>
-
-        <div className="lg:sticky lg:top-24">
-          <VehicleBookingPanel
-            vehicle={vehicle}
-            defaultPickupDate={pickupDate}
-            defaultPickupTime={pickupTime}
-            defaultDropoffTime={dropoffTime}
-            defaultDropoffDate={dropoffDate}
-            pickupBranchId={toBranchId(pickupLocationId)}
-            dropoffBranchId={toBranchId(dropoffLocationId)}
-          />
-        </div>
+        )}
       </div>
 
       <div className="mt-(--space-xl)">
@@ -144,7 +172,7 @@ export default async function VehicleDetailPage({
 
       {similar.length > 0 && (
         <ScrollReveal className="mt-(--space-xl) flex flex-col gap-(--space-md)" delay={0.2}>
-          <h2 className="font-heading text-2xl font-bold text-foreground">{t("vehicle.similar")}</h2>
+          <h2 className="font-heading text-lg font-semibold text-foreground">{t("vehicle.similar")}</h2>
           <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-2 lg:grid-cols-3">
             {similar.map((v) => (
               <VehicleCard key={v.id} vehicle={v} />

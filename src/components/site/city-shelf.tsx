@@ -25,12 +25,12 @@ export async function CityShelf({ tiles }: { tiles: CityTile[] }) {
           <li key={tile.slug} className="min-w-0">
             <Link
               href={`/cars/in/${tile.slug}`}
-              className="group flex h-full min-h-32 flex-col justify-between gap-3 rounded-xl border border-border bg-card p-4 transition-[transform,border-color,background-color] duration-200 hover:-translate-y-0.5 hover:border-accent hover:bg-muted focus-visible:border-accent"
+              className="group flex h-full min-h-32 flex-col justify-between gap-3 rounded-xl border border-border bg-card p-4 transition-[transform,border-color,background-color] duration-(--motion-medium) hover:-translate-y-0.5 hover:border-accent hover:bg-muted focus-visible:border-accent"
             >
               <span className="flex items-start justify-between gap-2">
                 <span className="min-w-0 break-words font-heading text-xl font-bold leading-tight text-foreground">{tile.city}</span>
                 <ArrowUpRight
-                  className="size-4 shrink-0 text-muted-foreground transition-colors duration-200 group-hover:text-accent-text rtl:-scale-x-100"
+                  className="size-4 shrink-0 text-muted-foreground transition-colors duration-(--motion-medium) group-hover:text-accent-text rtl:-scale-x-100"
                   aria-hidden="true"
                 />
               </span>

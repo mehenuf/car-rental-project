@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { Link } from "@/lib/i18n/link";
+import { usePathname } from "next/navigation";
 import { useLocaleRouter } from "@/lib/i18n/provider";
 import { Building2, Car, LayoutDashboard, Menu, User } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -81,6 +82,10 @@ function AccountMenu({
 export function SiteHeader() {
   const t = useT();
   const locale = useLocale();
+  // "/en/cars/x" -> "/cars/x": which header link is the page you are on (links to a section of the home page never are).
+  const bare = "/" + usePathname().split("/").slice(2).join("/");
+  const isCurrent = (href: string) =>
+    !href.includes("#") && (href === "/" ? bare === "/" : bare === href || bare.startsWith(`${href}/`));
   const [open, setOpen] = useState(false);
   const router = useLocaleRouter();
   const { user, isAdmin, loading } = useSupabaseUser();
@@ -115,7 +120,8 @@ export function SiteHeader() {
             <Link
               key={link.href}
               href={link.href}
-              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground"
+              aria-current={isCurrent(link.href) ? "page" : undefined}
+              className="text-sm font-medium text-muted-foreground transition-colors hover:text-foreground aria-[current=page]:text-foreground aria-[current=page]:underline aria-[current=page]:decoration-accent aria-[current=page]:decoration-2 aria-[current=page]:underline-offset-8"
             >
               {t(`nav.${link.labelKey}`)}
             </Link>
@@ -128,7 +134,7 @@ export function SiteHeader() {
             zone despite there being room for the nav. */}
         <div className="ms-auto hidden items-center gap-2 lg:flex">
           <LanguageSwitcher />
-          <ThemeToggle />
+          <ThemeToggle label={t("common.toggleTheme")} />
           {!loading && !user && (
             <>
               <Link
@@ -153,7 +159,7 @@ export function SiteHeader() {
 
         <div className="ms-auto hidden items-center gap-2 md:flex lg:hidden">
           <LanguageSwitcher />
-          <ThemeToggle />
+          <ThemeToggle label={t("common.toggleTheme")} />
           {!loading && !user && (
             <Link href="/login" className={buttonVariants({ size: "sm" })}>
               {t("header.logIn")}
@@ -166,7 +172,7 @@ export function SiteHeader() {
 
         <div className="ms-auto flex items-center gap-1 md:hidden">
           <LanguageSwitcher className="h-11" />
-          <ThemeToggle className="size-11" />
+          <ThemeToggle className="size-11" label={t("common.toggleTheme")} />
           <Button
             type="button"
             variant="ghost"
@@ -193,7 +199,8 @@ export function SiteHeader() {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="rounded-lg px-3 py-2 text-sm font-medium text-foreground hover:bg-muted"
+                aria-current={isCurrent(link.href) ? "page" : undefined}
+                className="rounded-lg px-3 py-2 text-sm font-medium text-foreground hover:bg-muted aria-[current=page]:bg-muted aria-[current=page]:font-semibold"
               >
                 {t(`nav.${link.labelKey}`)}
               </Link>

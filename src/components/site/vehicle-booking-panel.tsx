@@ -24,6 +24,7 @@ import { useQuote, type QuoteParams } from "@/hooks/use-quote";
 import { CreateBookingSchema } from "@/lib/schemas";
 import { formatCurrency } from "@/lib/format";
 import { formatMinor } from "@/lib/pricing/money";
+import type { VehiclePlace } from "@/lib/vehicle-place";
 import type { Tables } from "@/types/database";
 
 function startOfToday(): Date {
@@ -58,10 +59,13 @@ export function VehicleBookingPanel({
   defaultDropoffDate,
   defaultPickupTime,
   defaultDropoffTime,
+  place,
   pickupBranchId,
   dropoffBranchId,
 }: {
   vehicle: Tables<"vehicles">;
+  /** Where the car is picked up and its daily rate there, in that branch's currency. */
+  place?: VehiclePlace | null;
   defaultPickupDate?: string;
   defaultDropoffDate?: string;
   defaultPickupTime?: string;
@@ -151,6 +155,18 @@ export function VehicleBookingPanel({
     const n = Number(driverAgeInput);
     return driverAgeInput.trim() !== "" && Number.isInteger(n) && n >= 16 && n <= 99 ? n : null;
   }, [driverAgeInput]);
+  // Typed but not usable (12, 150, 2.5): say so, and do not price the trip as if no age had been given.
+  const driverAgeInvalid = driverAgeInput.trim() !== "" && driverAge === null;
+
+  // Why the trip cannot be priced yet, in words, instead of a Book Now that is silently disabled.
+  const tripProblem =
+    pickupAt && dropoffAt
+      ? dropoffAt <= pickupAt
+        ? t("booking.dropAfterPickup")
+        : pickupAt <= new Date()
+          ? t("booking.pickupInPast")
+          : null
+      : null;
 
   const extrasList = useMemo(
     () =>
@@ -274,21 +290,21 @@ export function VehicleBookingPanel({
         <div className="flex items-baseline gap-1">
           <span className="text-sm text-muted-foreground">{t("booking.from")}</span>
           <span className="font-heading text-2xl font-bold text-foreground">
-            {formatCurrency(vehicle.price_per_day, locale)}
+            {place ? money(place.dailyMinor, place.currency) : formatCurrency(vehicle.price_per_day, locale)}
           </span>
           <span className="text-sm text-muted-foreground">{t("vehicle.perDay")}</span>
         </div>
+        {place && <p className="-mt-2 text-sm text-muted-foreground">{t("booking.pickupIn", { city: place.city })}</p>}
 
         <div className="flex flex-col gap-(--space-sm)">
-          <p className="text-sm text-muted-foreground">{t("booking.tripHint")}</p>
-          <div className="grid grid-cols-[minmax(0,3fr)_minmax(0,2fr)] gap-(--space-xs)">
-            <DatePickerField label={t("booking.pickUp")} value={pickupDate} onChange={handlePickupChange} minDate={today} />
-            <TimeSelectField label={t("search.time")} value={pickupTime} onChange={setPickupTime} />
-            <DatePickerField label={t("booking.dropOff")} value={dropoffDate} onChange={setDropoffDate} minDate={pickupDate ?? today} />
-            <TimeSelectField label={t("search.time")} value={dropoffTime} onChange={setDropoffTime} />
+          <div className="grid grid-cols-[minmax(0,1fr)_7rem] gap-(--space-xs)">
+            <DatePickerField compact label={t("booking.pickUp")} value={pickupDate} onChange={handlePickupChange} minDate={today} />
+            <TimeSelectField compact label={t("search.time")} value={pickupTime} onChange={setPickupTime} />
+            <DatePickerField compact label={t("booking.dropOff")} value={dropoffDate} onChange={setDropoffDate} minDate={pickupDate ?? today} />
+            <TimeSelectField compact label={t("search.time")} value={dropoffTime} onChange={setDropoffTime} />
           </div>
-          {pickupAt && dropoffAt && dropoffAt <= pickupAt && (
-            <p role="alert" className="text-sm text-destructive">{t("booking.dropAfterPickup")}</p>
+          {tripProblem && (
+            <p id="trip-problem" role="alert" className="text-sm text-destructive">{tripProblem}</p>
           )}
         </div>
 
@@ -391,8 +407,13 @@ export function VehicleBookingPanel({
             max={99}
             value={driverAgeInput}
             onChange={(e) => setDriverAgeInput(e.target.value)}
+            aria-invalid={driverAgeInvalid}
+            aria-describedby={driverAgeInvalid ? "b-age-error" : undefined}
             className="h-9"
           />
+          {driverAgeInvalid && (
+            <p id="b-age-error" role="alert" className="text-sm text-destructive">{t("booking.driverAgeRange")}</p>
+          )}
         </div>
 
         {quoteState.status === "error" && quoteParams && (
@@ -401,7 +422,8 @@ export function VehicleBookingPanel({
           </p>
         )}
 
-        {quoteData && quoteState.status !== "error" ? (
+        {/* No quote is shown once the trip stops being priceable: an old total next to a disabled Book Now reads as a bug. */}
+        {quoteData && quoteParams && quoteState.status !== "error" ? (
           <QuoteBreakdown quote={quoteData.quote} isUpdating={isPricing} />
         ) : quoteParams && quoteState.status !== "error" ? (
           <p className="border-t border-border pt-(--space-sm) text-sm text-muted-foreground" aria-live="polite">
@@ -412,7 +434,7 @@ export function VehicleBookingPanel({
         <Button
           type="button"
           size="lg"
-          disabled={soldOut || !datesValid || !quoteReady}
+          disabled={soldOut || !datesValid || !quoteReady || driverAgeInvalid}
           onClick={() => setDialogOpen(true)}
           data-chat-avoid
         >

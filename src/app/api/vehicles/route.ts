@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { createVehicle, deleteVehicle, getVehicleCards, getVehicles, updateVehicle } from "@/lib/queries";
 import { withErrorHandling } from "@/lib/api-response";
 import { requireAdmin } from "@/lib/require-admin";
+import { writeAudit } from "@/lib/admin/staff";
 import {
   CreateVehicleSchema,
   DeleteVehicleSchema,
@@ -37,10 +38,11 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
 
 /** POST /api/vehicles — admin-only create. */
 export const POST = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  const staff = await requireAdmin("settings.manage");
   const body = await request.json();
   const input = CreateVehicleSchema.parse(body);
   const vehicle = await createVehicle(input);
+  await writeAudit(staff, { action: "vehicle.create", entityType: "vehicle", entityId: vehicle.id, after: { name: vehicle.name } });
   return NextResponse.json(vehicle, { status: 201 });
 });
 
@@ -49,18 +51,20 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
  * rather than the URL; see the note on `UpdateVehicleSchema` for why.
  */
 export const PATCH = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  const staff = await requireAdmin("settings.manage");
   const body = await request.json();
   const { id, ...fields } = UpdateVehicleSchema.parse(body);
   const vehicle = await updateVehicle(id, fields);
+  await writeAudit(staff, { action: "vehicle.update", entityType: "vehicle", entityId: id, after: fields });
   return NextResponse.json(vehicle);
 });
 
 /** DELETE /api/vehicles — admin-only delete, target `id` in the body. */
 export const DELETE = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  const staff = await requireAdmin("settings.manage");
   const body = await request.json();
   const { id } = DeleteVehicleSchema.parse(body);
   await deleteVehicle(id);
+  await writeAudit(staff, { action: "vehicle.delete", entityType: "vehicle", entityId: id });
   return NextResponse.json({ success: true });
 });

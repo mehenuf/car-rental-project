@@ -24,7 +24,7 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
 
   return (
     <Card
-      className="group animate-in fade-in gap-0 overflow-hidden p-0 shadow-card ring-0 transition-[transform,box-shadow] duration-200 hover:-translate-y-1 hover:shadow-xl"
+      className="group animate-in fade-in gap-0 overflow-hidden p-0 shadow-card ring-0 transition-[transform,box-shadow] duration-(--motion-medium) hover:-translate-y-1 hover:shadow-xl"
     >
       <div className="flex items-center justify-between gap-2 px-(--space-sm) pt-(--space-sm)">
         <div className="flex min-w-0 flex-col">
@@ -73,7 +73,7 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
           alt={vehicle.name}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-          className="object-cover transition-transform duration-300 group-hover:scale-105"
+          className="object-cover transition-transform duration-(--motion-medium) group-hover:scale-105"
         />
         {soldOut && (
           <Badge variant="outline" className="absolute top-2 start-2 border-0 bg-card/90 text-foreground">

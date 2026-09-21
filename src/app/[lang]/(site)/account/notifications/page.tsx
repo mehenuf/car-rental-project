@@ -1,16 +1,19 @@
+import { titleFromKey } from "@/lib/seo/metadata";
 import { redirect } from "next/navigation";
 import { NotificationSettings } from "@/components/site/notification-settings";
 import { readRequestIdentity } from "@/lib/guest";
 import { getLocale, getT } from "@/lib/i18n/dictionary";
 import { withLocale } from "@/lib/i18n/negotiate";
 
-export const metadata = { title: "Notifications" };
+export async function generateMetadata() {
+  return titleFromKey("meta.accountNotifications");
+}
 
 export default async function NotificationsPage() {
   const locale = await getLocale();
   const t = await getT();
   const identity = await readRequestIdentity();
-  if (!identity.userId) redirect(withLocale(locale, "/login"));
+  if (!identity.userId) redirect(withLocale(locale, "/login?next=" + encodeURIComponent("/account/notifications")));
 
   return (
     <div className="flex flex-col gap-(--space-md)">

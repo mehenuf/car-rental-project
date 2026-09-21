@@ -8,7 +8,8 @@
     "openMenu": "Buka menu",
     "accountMenu": "Menu akun",
     "language": "Bahasa",
-    "mainNav": "Utama"
+    "mainNav": "Utama",
+    "toggleTheme": "Ganti tema"
   },
   "nav": {
     "home": "Beranda",
@@ -87,7 +88,6 @@
     "location": "Lokasi",
     "date": "Tanggal",
     "time": "Waktu",
-    "selectCity": "Pilih kota Anda",
     "selectDate": "Pilih tanggal",
     "submit": "Cari",
     "errBothDates": "Pilih tanggal pengambilan dan tanggal pengembalian.",
@@ -132,7 +132,8 @@
     },
     "loadFailed": "Gagal memuat kendaraan",
     "titleIn": "Mobil di {place}",
-    "priceNeedsPlace": "Pilih lokasi untuk memfilter berdasarkan harga."
+    "priceNeedsPlace": "Pilih lokasi untuk memfilter berdasarkan harga.",
+    "sortBy": "Urutkan"
   },
   "vehicle": {
     "perDay": "/hari",
@@ -180,8 +181,10 @@
     "cancel": "Batal",
     "confirm": "Konfirmasi Pemesanan",
     "submitting": "Memesan...",
-    "tripHint": "Pilih kapan Anda membutuhkan mobil. Ketuk tanggal atau jam untuk mengubahnya; harga langsung diperbarui.",
-    "dropAfterPickup": "Pengembalian harus setelah pengambilan."
+    "dropAfterPickup": "Pengembalian harus setelah pengambilan.",
+    "pickupIn": "Pengambilan di {city}",
+    "pickupInPast": "Waktu pengambilan sudah lewat. Pilih waktu yang lebih lambat.",
+    "driverAgeRange": "Masukkan usia antara 16 dan 99."
   },
   "quote": {
     "total": "Total",
@@ -335,7 +338,15 @@
     "typeOwner": "Menyewakan mobil saya",
     "typeOwnerBody": "Dapatkan penghasilan dari mobil Anda sebagai pemilik pribadi.",
     "typeCompany": "Mendaftarkan perusahaan rental saya",
-    "typeCompanyBody": "Kelola armada dan cabang di BestCar."
+    "typeCompanyBody": "Kelola armada dan cabang di BestCar.",
+    "nameRequired": "Masukkan nama lengkap Anda.",
+    "legalNotice": "Dengan membuat akun, Anda menyetujui {terms} dan {privacy}.",
+    "verifySpam": "Belum ada setelah beberapa menit? Periksa folder spam Anda.",
+    "verifyWrong": "Alamat salah? Mulai lagi",
+    "verifyBack": "Kembali ke halaman masuk",
+    "forgotFailed": "Kami tidak dapat mengirim email. Coba lagi sebentar lagi.",
+    "resetInvalidTitle": "Tautan ini sudah kedaluwarsa",
+    "requestNewLink": "Minta tautan baru"
   },
   "account": {
     "title": "Akun saya",
@@ -410,8 +421,7 @@
     "rejectedNote": "Alasan: {note}",
     "pendingNote": "Kami sedang meninjau SIM Anda.",
     "verifiedNote": "SIM Anda terverifikasi.",
-    "uploadFailed": "File tidak dapat diunggah.",
-    "signIn": "Masuk untuk menambahkan SIM Anda."
+    "uploadFailed": "File tidak dapat diunggah."
   },
   "security": {
     "title": "Keamanan",
@@ -428,7 +438,6 @@
     "title": "Tanda terima",
     "number": "No. tanda terima",
     "issued": "Diterbitkan",
-    "paidWith": "Dibayar dengan",
     "print": "Cetak",
     "note": "Ini adalah tanda terima pembayaran. Faktur pajak untuk penyewaan diterbitkan oleh perusahaan rental.",
     "item": "Item",
@@ -650,7 +659,20 @@
     "login": "Masuk",
     "register": "Buat akun",
     "privacy": "Kebijakan privasi",
-    "terms": "Syarat dan ketentuan"
+    "terms": "Syarat dan ketentuan",
+    "forgotPassword": "Lupa kata sandi",
+    "resetPassword": "Buat kata sandi baru",
+    "account": "Akun saya",
+    "accountDriver": "SIM",
+    "accountNotifications": "Notifikasi",
+    "accountPrivacy": "Privasi Anda",
+    "receipt": "Kwitansi",
+    "accountSecurity": "Keamanan",
+    "trip": "Detail perjalanan",
+    "bookingConfirmation": "Pemesanan Anda",
+    "checkout": "Pembayaran",
+    "providerApply": "Jadi penyedia",
+    "vehicle": "Sewa {name}. Kategori {category}, dinilai {rating}/5 dari {count} ulasan."
   },
   "chat": {
     "title": "Asisten BestCar",
@@ -729,5 +751,9 @@
     "guessed": "Kami memilih ini dari koneksi Anda. Ubah kapan saja.",
     "showing": "Menampilkan mobil di {place}.",
     "showAll": "Tampilkan semua lokasi"
+  },
+  "bookingLookup": {
+    "title": "Pemesanan itu tidak ditemukan",
+    "body": "Referensi mungkin salah ketik, atau pemesanan dibuat di browser atau akun lain. Masuk untuk melihat pemesanan Anda, atau tanyakan di chat."
   }
 }

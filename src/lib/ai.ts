@@ -23,7 +23,8 @@ async function callGroq(messages: AIMessage[]): Promise<string> {
       Authorization: `Bearer ${apiKey}`,
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ model: GROQ_MODEL, messages }),
+    body: JSON.stringify({ model: GROQ_MODEL, messages, max_tokens: 1024 }),
+    signal: AbortSignal.timeout(30_000),
   });
 
   if (!res.ok) {
@@ -63,6 +64,7 @@ async function callGemini(messages: AIMessage[]): Promise<string> {
         contents,
         ...(systemText && { systemInstruction: { parts: [{ text: systemText }] } }),
       }),
+      signal: AbortSignal.timeout(30_000),
     }
   );
 

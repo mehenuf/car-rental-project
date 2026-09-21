@@ -80,7 +80,10 @@ async function streamGroqReply(
       model: GROQ_MODEL,
       messages: [{ role: "system", content: systemPrompt }, ...messages],
       stream: true,
+      // Replies are meant to be under 80 words; the cap (which also counts the model's reasoning) bounds the cost of one request.
+      max_tokens: 1024,
     }),
+    signal: AbortSignal.timeout(30_000),
   });
 
   if (!groqResponse.ok || !groqResponse.body) {

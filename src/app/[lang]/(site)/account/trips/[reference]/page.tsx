@@ -1,3 +1,4 @@
+import { titleFromKey } from "@/lib/seo/metadata";
 import { notFound, redirect } from "next/navigation";
 import { Link } from "@/lib/i18n/link";
 import { Lock } from "lucide-react";
@@ -11,19 +12,21 @@ import { supabaseAdmin } from "@/lib/supabase-server";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
 import { getTrip } from "@/lib/account/trips";
-import { formatCurrency, formatDate } from "@/lib/format";
+import { formatBookingTotal, formatDate } from "@/lib/format";
 import { readRequestIdentity } from "@/lib/guest";
 import { getLocale, getT } from "@/lib/i18n/dictionary";
 import { withLocale } from "@/lib/i18n/negotiate";
 
-export const metadata = { title: "Trip details" };
+export async function generateMetadata() {
+  return titleFromKey("meta.trip");
+}
 
 export default async function TripPage({ params }: { params: Promise<{ reference: string }> }) {
   const { reference } = await params;
   const locale = await getLocale();
   const t = await getT();
   const identity = await readRequestIdentity();
-  if (!identity.userId) redirect(withLocale(locale, "/login"));
+  if (!identity.userId) redirect(withLocale(locale, "/login?next=" + encodeURIComponent(`/account/trips/${reference}`)));
 
   const trip = await getTrip(identity.userId, decodeURIComponent(reference));
   if (!trip) notFound();
@@ -53,7 +56,7 @@ export default async function TripPage({ params }: { params: Promise<{ reference
           <Row label={t("trip.reference")} value={booking.reference} />
           <Row label={t("trip.pickup")} value={formatDate(booking.pickup_at, locale)} />
           <Row label={t("trip.dropoff")} value={formatDate(booking.dropoff_at, locale)} />
-          <Row label={t("trip.total")} value={formatCurrency(booking.total_amount, locale)} />
+          <Row label={t("trip.total")} value={formatBookingTotal(booking, locale)} />
         </CardContent>
       </Card>
 

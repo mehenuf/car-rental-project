@@ -1,5 +1,3 @@
-import { billableDays } from "@/lib/pricing/days";
-
 export interface DateRange {
   from: Date;
   to: Date;
@@ -52,14 +50,6 @@ export function previousPeriod(range: DateRange): DateRange {
   const to = new Date(range.from.getTime() - 24 * 60 * 60 * 1000);
   const from = new Date(to.getTime() - lengthMs);
   return { from, to };
-}
-
-/** Billable rental days between two dates (24h periods rounded up after a
- * 59 minute grace, minimum 1). Delegates to the shared pricing rule so the
- * server-side quote, the client-side preview and the `bookings.days`
- * generated column can never silently drift apart. */
-export function daysBetween(pickupAt: string | Date, dropoffAt: string | Date): number {
-  return billableDays(pickupAt, dropoffAt);
 }
 
 export function formatRangeLabel(range: DateRange): string {

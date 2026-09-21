@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 import { withErrorHandling } from "@/lib/api-response";
-import { ApiError } from "@/lib/errors";
+import { ApiError, RateLimitError } from "@/lib/errors";
+import { createRateLimiter } from "@/lib/rate-limit";
 import { requireUser } from "@/lib/account/session";
 import { dispatchSoon } from "@/lib/comms/service";
 import { postMessage } from "@/lib/comms/messaging";
 import { loadThread, messagingDeps } from "@/lib/comms/messaging-deps";
 import { supabaseAdmin } from "@/lib/supabase-server";
+
+// Each accepted message can send an email, text or push to the other side, so a flood is limited per account.
+const isLimited = createRateLimiter({ name: "account/messages", limit: 20, windowMs: 10 * 60_000 });
 
 const QuerySchema = z.object({ booking: z.string().uuid() });
 const BodySchema = z.object({ booking_id: z.string().uuid(), body: z.string().max(4000) });
@@ -33,6 +37,7 @@ export const GET = withErrorHandling(async (request: NextRequest) => {
 /** POST /api/account/messages — a customer's message to the rental company. */
 export const POST = withErrorHandling(async (request: NextRequest) => {
   const user = await requireUser();
+  if (await isLimited(user.id)) throw new RateLimitError();
   const input = BodySchema.parse(await request.json());
   const result = await postMessage(messagingDeps(), { bookingId: input.booking_id, userId: user.id, side: "customer", body: input.body });
   if (!result.ok) {

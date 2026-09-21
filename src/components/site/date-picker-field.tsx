@@ -34,6 +34,7 @@ export function DatePickerField({
   placeholder,
   className,
   triggerClassName,
+  compact,
 }: {
   label: string;
   value: Date | undefined;
@@ -44,6 +45,8 @@ export function DatePickerField({
   className?: string;
   /** Extra classes for the trigger, for places that need a different fit. */
   triggerClassName?: string;
+  /** Drops the icon tile so the value has room in a narrow column. */
+  compact?: boolean;
 }) {
   const [open, setOpen] = useState(false);
   const t = useT();
@@ -73,9 +76,11 @@ export function DatePickerField({
             />
           }
         >
-          <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent-text">
-            <CalendarDays className="size-4" aria-hidden="true" />
-          </span>
+          {!compact && (
+            <span className="flex size-7 shrink-0 items-center justify-center rounded-md bg-accent/15 text-accent-text">
+              <CalendarDays className="size-4" aria-hidden="true" />
+            </span>
+          )}
           <span id={valueId} className={cn("flex-1 truncate text-start text-sm", value ? "font-medium" : "text-muted-foreground")}>
             {value
               ? value.toLocaleDateString(locale === "en" ? "en-US" : numberingLocale(locale), {

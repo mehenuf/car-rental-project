@@ -8,7 +8,8 @@
     "openMenu": "Menü öffnen",
     "accountMenu": "Kontomenü",
     "language": "Sprache",
-    "mainNav": "Hauptnavigation"
+    "mainNav": "Hauptnavigation",
+    "toggleTheme": "Design wechseln"
   },
   "nav": {
     "home": "Startseite",
@@ -87,7 +88,6 @@
     "location": "Ort",
     "date": "Datum",
     "time": "Uhrzeit",
-    "selectCity": "Stadt auswählen",
     "selectDate": "Datum wählen",
     "submit": "Suchen",
     "errBothDates": "Bitte wählen Sie ein Abhol- und ein Rückgabedatum.",
@@ -134,7 +134,8 @@
     },
     "loadFailed": "Fahrzeuge konnten nicht geladen werden",
     "titleIn": "Autos in {place}",
-    "priceNeedsPlace": "Wählen Sie einen Standort, um nach Preis zu filtern."
+    "priceNeedsPlace": "Wählen Sie einen Standort, um nach Preis zu filtern.",
+    "sortBy": "Sortieren nach"
   },
   "vehicle": {
     "perDay": "/Tag",
@@ -184,8 +185,10 @@
     "cancel": "Abbrechen",
     "confirm": "Buchung bestätigen",
     "submitting": "Wird gebucht...",
-    "tripHint": "Wählen Sie, wann Sie das Auto brauchen. Tippen Sie auf ein Datum oder eine Uhrzeit, um sie zu ändern; der Preis aktualisiert sich sofort.",
-    "dropAfterPickup": "Die Rückgabe muss nach der Abholung liegen."
+    "dropAfterPickup": "Die Rückgabe muss nach der Abholung liegen.",
+    "pickupIn": "Abholung in {city}",
+    "pickupInPast": "Die Abholzeit liegt bereits in der Vergangenheit. Wählen Sie eine spätere Zeit.",
+    "driverAgeRange": "Geben Sie ein Alter von 16 bis 99 ein."
   },
   "quote": {
     "total": "Gesamt",
@@ -342,7 +345,15 @@
     "typeOwner": "Mein Auto anbieten",
     "typeOwnerBody": "Verdienen Sie mit Ihrem Auto als privater Eigentümer.",
     "typeCompany": "Meine Autovermietung anbieten",
-    "typeCompanyBody": "Verwalten Sie Flotte und Filialen auf BestCar."
+    "typeCompanyBody": "Verwalten Sie Flotte und Filialen auf BestCar.",
+    "nameRequired": "Geben Sie Ihren vollständigen Namen ein.",
+    "legalNotice": "Mit der Kontoerstellung akzeptieren Sie die {terms} und die {privacy}.",
+    "verifySpam": "Nach ein paar Minuten nichts da? Prüfen Sie Ihren Spam-Ordner.",
+    "verifyWrong": "Falsche Adresse? Neu beginnen",
+    "verifyBack": "Zurück zur Anmeldung",
+    "forgotFailed": "Die E-Mail konnte nicht gesendet werden. Bitte versuchen Sie es in einer Minute erneut.",
+    "resetInvalidTitle": "Dieser Link ist abgelaufen",
+    "requestNewLink": "Neuen Link anfordern"
   },
   "account": {
     "title": "Mein Konto",
@@ -420,8 +431,7 @@
     "rejectedNote": "Grund: {note}",
     "pendingNote": "Wir prüfen Ihren Führerschein.",
     "verifiedNote": "Ihr Führerschein ist bestätigt.",
-    "uploadFailed": "Die Datei konnte nicht hochgeladen werden.",
-    "signIn": "Melden Sie sich an, um Ihren Führerschein hinzuzufügen."
+    "uploadFailed": "Die Datei konnte nicht hochgeladen werden."
   },
   "security": {
     "title": "Sicherheit",
@@ -438,7 +448,6 @@
     "title": "Beleg",
     "number": "Beleg-Nr.",
     "issued": "Ausgestellt",
-    "paidWith": "Bezahlt mit",
     "print": "Drucken",
     "note": "Dies ist ein Zahlungsbeleg. Die Rechnung für die Miete stellt die Autovermietung aus.",
     "item": "Position",
@@ -660,7 +669,20 @@
     "login": "Anmelden",
     "register": "Konto erstellen",
     "privacy": "Datenschutzerklärung",
-    "terms": "Allgemeine Geschäftsbedingungen"
+    "terms": "Allgemeine Geschäftsbedingungen",
+    "forgotPassword": "Passwort vergessen",
+    "resetPassword": "Neues Passwort festlegen",
+    "account": "Mein Konto",
+    "accountDriver": "Führerschein",
+    "accountNotifications": "Benachrichtigungen",
+    "accountPrivacy": "Ihre Privatsphäre",
+    "receipt": "Beleg",
+    "accountSecurity": "Sicherheit",
+    "trip": "Reisedetails",
+    "bookingConfirmation": "Ihre Buchung",
+    "checkout": "Zur Kasse",
+    "providerApply": "Anbieter werden",
+    "vehicle": "{name} mieten. Kategorie {category}, bewertet mit {rating}/5 aus {count} Bewertungen."
   },
   "chat": {
     "title": "BestCar-Assistent",
@@ -740,5 +762,9 @@
     "guessed": "Wir haben das anhand Ihrer Verbindung gewählt. Sie können es jederzeit ändern.",
     "showing": "Autos in {place}.",
     "showAll": "Alle Standorte anzeigen"
+  },
+  "bookingLookup": {
+    "title": "Diese Buchung finden wir nicht",
+    "body": "Die Referenz ist vielleicht falsch geschrieben, oder die Buchung wurde in einem anderen Browser oder Konto gemacht. Melden Sie sich an, um Ihre Buchungen zu sehen, oder fragen Sie im Chat."
   }
 }

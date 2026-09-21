@@ -1,3 +1,4 @@
+import { titleFromKey } from "@/lib/seo/metadata";
 import { notFound, redirect } from "next/navigation";
 import { PrintButton } from "@/components/site/print-button";
 import { getReceipt } from "@/lib/account/trips";
@@ -10,7 +11,9 @@ import { formatMinor } from "@/lib/pricing/money";
 import type { QuoteLine } from "@/lib/pricing/types";
 import { formatDate } from "@/lib/format";
 
-export const metadata = { title: "Receipt" };
+export async function generateMetadata() {
+  return titleFromKey("meta.receipt");
+}
 
 interface ReceiptSnapshot {
   reference: string;
@@ -26,7 +29,7 @@ export default async function ReceiptPage({ params }: { params: Promise<{ number
   const locale = await getLocale();
   const t = await getT();
   const identity = await readRequestIdentity();
-  if (!identity.userId) redirect(withLocale(locale, "/login"));
+  if (!identity.userId) redirect(withLocale(locale, "/login?next=" + encodeURIComponent(`/account/receipts/${number}`)));
 
   const receipt = await getReceipt(identity.userId, decodeURIComponent(number));
   if (!receipt) notFound();

@@ -91,6 +91,7 @@ test.describe("menus and popovers", () => {
   test("the language menu opens with the keyboard, moves with arrows and returns focus on Escape", async ({ page, baseURL }) => {
     await acceptCookies(page, baseURL);
     await page.goto("/en");
+    await page.waitForLoadState("networkidle");
     const trigger = page.getByRole("button", { name: "Language" }).first();
     await trigger.focus();
     await page.keyboard.press("Enter");

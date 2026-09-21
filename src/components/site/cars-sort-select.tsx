@@ -35,7 +35,7 @@ export function CarsSortSelect({ value, priceSort }: { value: string; priceSort:
 
   return (
     <Select value={value} onValueChange={handleChange}>
-      <SelectTrigger className="ms-auto w-52">
+      <SelectTrigger aria-label={t("cars.sortBy")} className="ms-auto w-52">
         <LabeledSelectValue options={SORT_OPTIONS} />
       </SelectTrigger>
       <SelectContent>

@@ -5,6 +5,8 @@ const dev = process.env.NODE_ENV !== "production";
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL ?? "https://example.supabase.co";
 
 const nextConfig: NextConfig = {
+  // Do not announce the framework in every response.
+  poweredByHeader: false,
   images: {
     remotePatterns: [
       {

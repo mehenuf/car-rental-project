@@ -1,5 +1,6 @@
 "use client";
 
+import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -120,6 +121,10 @@ export function NotificationSettings() {
     { key: "messages", label: t("notify.messagesCat") },
   ];
   const verified = Boolean(settings?.contact?.phone_verified_at);
+
+  // Until the saved choices arrive, the defaults would look like the visitor's own settings.
+  if (result.status === "error") return <p role="alert" className="text-sm text-destructive">{t("messages.loadFailed")}</p>;
+  if (result.status !== "success") return <Skeleton aria-hidden="true" className="h-64 w-full rounded-xl" />;
 
   return (
     <div className="flex flex-col gap-(--space-md)">

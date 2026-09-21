@@ -47,16 +47,19 @@ export function ConsentManager() {
           role="dialog"
           aria-labelledby="consent-title"
           aria-describedby="consent-body"
-          className="fixed inset-x-3 bottom-3 z-[90] flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-xl sm:inset-x-auto sm:bottom-4 sm:start-4 sm:max-w-sm"
+          // Below dialogs and menus (z-50) so they stay usable, and a slim bar from sm up so it does not sit on the page's
+          // content. The chat launcher steps away from it (data-chat-avoid).
+          data-chat-avoid
+          className="fixed inset-x-3 bottom-3 z-40 flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 shadow-xl sm:inset-x-0 sm:bottom-0 sm:flex-row sm:items-center sm:justify-center sm:gap-(--space-md) sm:rounded-none sm:border-x-0 sm:border-b-0 sm:px-(--space-md) sm:py-3 sm:shadow-none"
         >
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-col gap-1 sm:max-w-2xl">
             <p id="consent-title" className="font-heading text-sm font-semibold text-foreground">{t("consent.title")}</p>
             <p id="consent-body" className="text-xs leading-relaxed text-muted-foreground">
               {t("consent.body")}{" "}
               <Link href="/privacy" className="underline underline-offset-2">{t("footer.privacy")}</Link>
             </p>
           </div>
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-2 gap-2 sm:w-64 sm:shrink-0">
             <Button type="button" variant="outline" onClick={() => choose(false)}>{t("consent.decline")}</Button>
             <Button type="button" onClick={() => choose(true)}>{t("consent.accept")}</Button>
           </div>

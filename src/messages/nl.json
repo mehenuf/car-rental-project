@@ -8,7 +8,8 @@
     "openMenu": "Menu openen",
     "accountMenu": "Accountmenu",
     "language": "Taal",
-    "mainNav": "Hoofdmenu"
+    "mainNav": "Hoofdmenu",
+    "toggleTheme": "Thema wisselen"
   },
   "nav": {
     "home": "Home",
@@ -87,7 +88,6 @@
     "location": "Locatie",
     "date": "Datum",
     "time": "Tijd",
-    "selectCity": "Kies je stad",
     "selectDate": "Kies een datum",
     "submit": "Zoeken",
     "errBothDates": "Kies zowel een ophaal- als een inleverdatum.",
@@ -134,7 +134,8 @@
     },
     "loadFailed": "Voertuigen laden mislukt",
     "titleIn": "Auto's in {place}",
-    "priceNeedsPlace": "Kies een locatie om op prijs te filteren."
+    "priceNeedsPlace": "Kies een locatie om op prijs te filteren.",
+    "sortBy": "Sorteren op"
   },
   "vehicle": {
     "perDay": "/dag",
@@ -184,8 +185,10 @@
     "cancel": "Annuleren",
     "confirm": "Boeking bevestigen",
     "submitting": "Bezig met boeken...",
-    "tripHint": "Kies wanneer je de auto nodig hebt. Tik op een datum of tijd om die te wijzigen; de prijs wordt direct bijgewerkt.",
-    "dropAfterPickup": "Inleveren moet na het ophalen zijn."
+    "dropAfterPickup": "Inleveren moet na het ophalen zijn.",
+    "pickupIn": "Ophalen in {city}",
+    "pickupInPast": "De ophaaltijd is al voorbij. Kies een later tijdstip.",
+    "driverAgeRange": "Vul een leeftijd in van 16 tot 99."
   },
   "quote": {
     "total": "Totaal",
@@ -342,7 +345,15 @@
     "typeOwner": "Mijn auto aanbieden",
     "typeOwnerBody": "Verdien met je auto als particuliere eigenaar.",
     "typeCompany": "Mijn verhuurbedrijf aanmelden",
-    "typeCompanyBody": "Beheer een wagenpark en vestigingen op BestCar."
+    "typeCompanyBody": "Beheer een wagenpark en vestigingen op BestCar.",
+    "nameRequired": "Vul je volledige naam in.",
+    "legalNotice": "Door een account aan te maken ga je akkoord met de {terms} en het {privacy}.",
+    "verifySpam": "Na een paar minuten niets ontvangen? Kijk in je spammap.",
+    "verifyWrong": "Verkeerd adres? Opnieuw beginnen",
+    "verifyBack": "Terug naar inloggen",
+    "forgotFailed": "We konden de e-mail niet versturen. Probeer het over een minuut opnieuw.",
+    "resetInvalidTitle": "Deze link is verlopen",
+    "requestNewLink": "Nieuwe link aanvragen"
   },
   "account": {
     "title": "Mijn account",
@@ -420,8 +431,7 @@
     "rejectedNote": "Reden: {note}",
     "pendingNote": "We controleren je rijbewijs.",
     "verifiedNote": "Je rijbewijs is geverifieerd.",
-    "uploadFailed": "Het bestand kon niet worden geüpload.",
-    "signIn": "Log in om je rijbewijs toe te voegen."
+    "uploadFailed": "Het bestand kon niet worden geüpload."
   },
   "security": {
     "title": "Beveiliging",
@@ -438,7 +448,6 @@
     "title": "Bon",
     "number": "Bonnr.",
     "issued": "Uitgegeven",
-    "paidWith": "Betaald met",
     "print": "Afdrukken",
     "note": "Dit is een betalingsbewijs. De factuur voor de huur wordt door het verhuurbedrijf uitgegeven.",
     "item": "Omschrijving",
@@ -660,7 +669,20 @@
     "login": "Inloggen",
     "register": "Account aanmaken",
     "privacy": "Privacybeleid",
-    "terms": "Algemene voorwaarden"
+    "terms": "Algemene voorwaarden",
+    "forgotPassword": "Wachtwoord vergeten",
+    "resetPassword": "Kies een nieuw wachtwoord",
+    "account": "Mijn account",
+    "accountDriver": "Rijbewijs",
+    "accountNotifications": "Meldingen",
+    "accountPrivacy": "Je privacy",
+    "receipt": "Bon",
+    "accountSecurity": "Beveiliging",
+    "trip": "Ritdetails",
+    "bookingConfirmation": "Je boeking",
+    "checkout": "Afrekenen",
+    "providerApply": "Word aanbieder",
+    "vehicle": "Huur de {name}. Categorie {category}, beoordeeld met {rating}/5 op basis van {count} beoordelingen."
   },
   "chat": {
     "title": "BestCar-assistent",
@@ -740,5 +762,9 @@
     "guessed": "We hebben dit gekozen op basis van je verbinding. Wijzig het wanneer je wilt.",
     "showing": "Auto's in {place}.",
     "showAll": "Alle locaties tonen"
+  },
+  "bookingLookup": {
+    "title": "We vinden die boeking niet",
+    "body": "De referentie is misschien verkeerd getypt, of de boeking is in een andere browser of met een ander account gemaakt. Log in om je boekingen te zien, of vraag het in de chat."
   }
 }

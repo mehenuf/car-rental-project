@@ -2,7 +2,7 @@
 // Usage: node scripts/perf/responsive-matrix.cjs http://localhost:3100   (prints a markdown table)
 const { chromium } = require("@playwright/test");
 const base = process.argv[2] || "http://localhost:3100";
-const PAGES = ["/en", "/en/cars", "/en/cars/honda-civic", "/en/about", "/en/contact", "/en/login", "/en/register"];
+const PAGES = ["/en", "/en/cars", "/en/cars/honda-civic", "/en/about", "/en/contact", "/en/login", "/en/register", "/en/forgot-password", "/en/reset-password", "/en/terms", "/en/privacy", "/en/nope", "/ar", "/ar/cars"];
 const SIZES = [
   ["320", 320, 800], ["360", 360, 800], ["375", 375, 812], ["414", 414, 896], ["480", 480, 900],
   ["768", 768, 1024], ["834", 834, 1112], ["1024", 1024, 768], ["1280", 1280, 800], ["1440", 1440, 900], ["1920", 1920, 1080],

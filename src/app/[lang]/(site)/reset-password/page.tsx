@@ -7,7 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { MIN_PASSWORD_LENGTH } from "@/lib/account/password";
+import { Link } from "@/lib/i18n/link";
 import { useLocaleRouter, useT } from "@/lib/i18n/provider";
+import { buttonVariants } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 
 /** The emailed link signs the visitor in briefly; this page lets them choose a new password. */
@@ -48,10 +50,17 @@ export default function ResetPasswordPage() {
     <div className="flex min-h-[calc(100vh-4rem)] items-center justify-center bg-muted/40 p-(--space-sm)">
       <Card className="w-full max-w-sm">
         <CardHeader className="items-center text-center">
-          <CardTitle as="h1" className="text-xl">{t("auth.resetTitle")}</CardTitle>
+          <CardTitle as="h1" className="text-xl">{ready === false ? t("auth.resetInvalidTitle") : t("auth.resetTitle")}</CardTitle>
           {done && <CardDescription>{t("auth.resetDone")}</CardDescription>}
           {ready === false && <CardDescription>{t("auth.resetInvalid")}</CardDescription>}
         </CardHeader>
+        {ready === false && (
+          <CardContent>
+            <Link href="/forgot-password" className={buttonVariants({ className: "w-full" })}>
+              {t("auth.requestNewLink")}
+            </Link>
+          </CardContent>
+        )}
         {ready && !done && (
           <CardContent>
             <form onSubmit={handleSubmit} className="flex flex-col gap-(--space-sm)">

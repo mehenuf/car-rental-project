@@ -4,6 +4,9 @@ import { LOCALES } from "@/lib/i18n/locales";
 import { citySlug } from "@/lib/seo/city";
 import { alternatesFor, localizedUrl } from "@/lib/seo/urls";
 
+// Vehicles and cities are added by hosts after a deploy, so regenerate hourly instead of once per build.
+export const revalidate = 3600;
+
 const STATIC_PATHS = ["/", "/cars", "/about", "/contact", "/privacy", "/terms"];
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

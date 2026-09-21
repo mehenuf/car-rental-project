@@ -12,7 +12,7 @@ import { BestSellersQuerySchema, searchParamsToObject } from "@/lib/schemas";
  * `getBestSellers` in queries.ts. Results are always all-time.
  */
 export const GET = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  await requireAdmin("reports.read");
   const { startDate, endDate, limit } = BestSellersQuerySchema.parse(
     searchParamsToObject(request.nextUrl.searchParams)
   );

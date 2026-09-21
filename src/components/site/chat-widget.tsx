@@ -156,10 +156,8 @@ export function ChatWidget() {
     window.addEventListener("scroll", scheduleCheck, { passive: true });
     window.addEventListener("resize", scheduleCheck);
     document.fonts?.ready.then(check);
-    // childList only (no attributes): a skeleton-to-data swap adds/removes
-    // nodes, which this catches directly. GSAP's own scroll-driven tweens
-    // only ever mutate `style` on existing nodes, so this stays silent
-    // during normal scroll animation instead of re-checking every frame.
+    // childList only (no attributes): a skeleton-to-data swap adds or removes nodes, which this catches directly,
+    // and style or class changes on existing nodes do not trigger a re-check.
     const mutationObserver = new MutationObserver(scheduleCheck);
     mutationObserver.observe(document.body, { childList: true, subtree: true });
 
@@ -312,7 +310,11 @@ export function ChatWidget() {
           role="dialog"
           aria-modal="false"
           aria-labelledby="chat-widget-title"
-          className="fixed inset-0 z-50 flex flex-col bg-card sm:inset-auto sm:end-6 sm:bottom-6 sm:h-[600px] sm:w-96 sm:rounded-2xl sm:border sm:border-border sm:shadow-xl"
+          onKeyDown={(event) => {
+            if (event.key === "Escape") setOpen(false);
+          }}
+          // Capped to the viewport so a short landscape phone still shows the title bar and the close button.
+          className="fixed inset-0 z-50 flex flex-col bg-card sm:inset-auto sm:end-6 sm:bottom-6 sm:h-[min(600px,calc(100dvh-3rem))] sm:w-96 sm:rounded-2xl sm:border sm:border-border sm:shadow-xl"
         >
           <div className="flex h-16 shrink-0 items-center justify-between border-b border-border px-(--space-sm)">
             <span id="chat-widget-title" className="font-heading text-base font-semibold text-foreground">

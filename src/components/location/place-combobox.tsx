@@ -169,10 +169,12 @@ export function PlaceCombobox({
           ref={listRef}
           id={listId}
           role="listbox"
+          // The list scrolls, so Chromium would make it a tab stop; the input keeps focus (aria-activedescendant).
+          tabIndex={-1}
           aria-label={label ?? t("location.choose")}
           className={cn(
             "max-h-72 overflow-y-auto overscroll-contain rounded-xl bg-popover p-1.5 text-popover-foreground ring-1 ring-border",
-            inline ? "mt-1" : "absolute inset-x-0 top-full z-50 mt-1 shadow-lg animate-in fade-in slide-in-from-top-1 duration-150"
+            inline ? "mt-1" : "absolute inset-x-0 top-full z-50 mt-1 shadow-lg animate-in fade-in slide-in-from-top-1 duration-(--motion-fast)"
           )}
         >
           {nearYou && (

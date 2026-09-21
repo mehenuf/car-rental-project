@@ -12,7 +12,7 @@ import { SalesByCountryQuerySchema, searchParamsToObject } from "@/lib/schemas";
  * on `getSalesByCountry` in queries.ts. Results are always all-time.
  */
 export const GET = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  await requireAdmin("reports.read");
   const { startDate, endDate } = SalesByCountryQuerySchema.parse(
     searchParamsToObject(request.nextUrl.searchParams)
   );

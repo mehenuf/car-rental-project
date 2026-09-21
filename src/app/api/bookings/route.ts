@@ -17,7 +17,7 @@ const isRateLimited = createRateLimiter({ name: "bookings", limit: 5, windowMs: 
 
 /** GET /api/bookings?status=&sortBy=&sortOrder=&page=&pageSize= — admin-only, lists all customer bookings. */
 export const GET = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  await requireAdmin("bookings.read");
   const query = BookingsQuerySchema.parse(
     searchParamsToObject(request.nextUrl.searchParams)
   );

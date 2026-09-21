@@ -51,7 +51,7 @@ export function HowItWorksSection() {
         {/* The road: a dashed lane line connecting the steps like mile markers. */}
         <div
           aria-hidden
-          className="absolute inset-x-0 top-1/2 hidden h-px origin-left -translate-y-1/2 transition-transform duration-[1400ms] ease-out group-data-[armed=true]/how:scale-x-0 md:block"
+          className="absolute inset-x-0 top-1/2 hidden h-px origin-left -translate-y-1/2 transition-transform duration-(--motion-slow) ease-out group-data-[armed=true]/how:scale-x-0 md:block"
           style={{
             backgroundImage:
               "repeating-linear-gradient(to right, color-mix(in oklch, var(--color-muted-foreground) 45%, transparent) 0, color-mix(in oklch, var(--color-muted-foreground) 45%, transparent) 16px, transparent 16px, transparent 32px)",
@@ -63,7 +63,7 @@ export function HowItWorksSection() {
             <li
               key={step.key}
               style={{ transitionDelay: `${300 + i * 220}ms` }}
-              className="flex flex-col items-center gap-3 text-center transition-[opacity,transform] duration-700 ease-out group-data-[armed=true]/how:translate-y-6 group-data-[armed=true]/how:opacity-0"
+              className="flex flex-col items-center gap-3 text-center transition-[opacity,transform] duration-(--motion-slow) ease-out group-data-[armed=true]/how:translate-y-6 group-data-[armed=true]/how:opacity-0"
             >
               <div className="relative flex size-16 items-center justify-center rounded-full bg-card text-accent-text ring-1 ring-border">
                 <step.icon className="size-7" />

@@ -34,6 +34,10 @@ export function RegisterForm({ initialType }: { initialType: AccountType }) {
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError(null);
+    if (!fullName.trim()) {
+      setError(t("auth.nameRequired"));
+      return;
+    }
     setLoading(true);
 
     const response = await fetch("/api/auth/signup", {
@@ -43,8 +47,12 @@ export function RegisterForm({ initialType }: { initialType: AccountType }) {
     });
 
     if (!response.ok) {
-      const body = await response.json().catch(() => null);
-      setError(body?.error?.message ?? t("auth.genericError"));
+      const body = (await response.json().catch(() => null)) as
+        | { error?: { message?: string; issues?: { message: string }[] } }
+        | null;
+      // The server answers "Invalid request" plus the reason for each field; show the reasons.
+      const reasons = body?.error?.issues?.map((issue) => issue.message).join(" ");
+      setError(reasons || body?.error?.message || t("auth.genericError"));
       setLoading(false);
       return;
     }
@@ -79,6 +87,15 @@ export function RegisterForm({ initialType }: { initialType: AccountType }) {
             <CardTitle as="h1" className="text-xl">{t("auth.verifyTitle")}</CardTitle>
             <CardDescription>{t("auth.verifyBody", { email: sentTo })}</CardDescription>
           </CardHeader>
+          <CardContent className="flex flex-col gap-(--space-xs) text-center">
+            <p className="text-sm text-muted-foreground">{t("auth.verifySpam")}</p>
+            <Button type="button" variant="outline" className="w-full" onClick={() => setSentTo(null)}>
+              {t("auth.verifyWrong")}
+            </Button>
+            <Link href="/login" className="text-sm font-medium text-primary hover:underline">
+              {t("auth.verifyBack")}
+            </Link>
+          </CardContent>
         </Card>
       </div>
     );
@@ -174,6 +191,20 @@ export function RegisterForm({ initialType }: { initialType: AccountType }) {
               {t("auth.signUpButton")}
             </Button>
           </form>
+
+          <p className="mt-(--space-sm) text-center text-xs text-muted-foreground">
+            {t("auth.legalNotice", { terms: "terms", privacy: "privacy" })
+              .split("")
+              .map((part, index) =>
+                part === "terms" ? (
+                  <Link key={index} href="/terms" className="font-medium text-primary hover:underline">{t("meta.terms")}</Link>
+                ) : part === "privacy" ? (
+                  <Link key={index} href="/privacy" className="font-medium text-primary hover:underline">{t("meta.privacy")}</Link>
+                ) : (
+                  part
+                )
+              )}
+          </p>
 
           <p className="mt-(--space-sm) text-center text-sm text-muted-foreground">
             {t("auth.haveAccount")}{" "}

@@ -51,7 +51,7 @@ export async function TwoWaysSection({ showcase }: { showcase: MarketplaceFacts[
                     alt={car.name}
                     fill
                     sizes="(min-width: 1024px) 220px, 30vw"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-105"
+                    className="object-cover transition-transform duration-(--motion-slow) ease-out group-hover:scale-105"
                   />
                   <span className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/70 to-transparent p-2 text-xs font-medium text-white">
                     {car.name}

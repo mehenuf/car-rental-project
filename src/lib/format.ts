@@ -5,6 +5,19 @@ export function formatCurrency(value: number, locale: Locale = "en"): string {
   return new Intl.NumberFormat(numberingLocale(locale), { style: "currency", currency: "USD" }).format(value);
 }
 
+/**
+ * A booking's total in the currency it was made in. `total_amount` is stored in major units of `currency`, so a
+ * booking in another currency is not shown as dollars. Older bookings without a currency fall back to dollars.
+ */
+export function formatBookingTotal(booking: { total_amount: number; currency?: string | null }, locale: Locale = "en"): string {
+  if (!booking.currency) return formatCurrency(booking.total_amount, locale);
+  try {
+    return new Intl.NumberFormat(numberingLocale(locale), { style: "currency", currency: booking.currency }).format(booking.total_amount);
+  } catch {
+    return formatCurrency(booking.total_amount, locale);
+  }
+}
+
 /** "Jane Doe" -> "JD"; falls back gracefully for a single word or an email. */
 export function initialsFor(name: string): string {
   return name

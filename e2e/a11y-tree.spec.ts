@@ -2,7 +2,7 @@ import { expect, test } from "@playwright/test";
 
 // What a screen reader is given: landmarks, the heading outline, accessible names and live regions. This reads the
 // accessibility tree the browser builds; it is not a substitute for listening with NVDA, JAWS or VoiceOver.
-const PAGES = ["/en", "/en/cars", "/en/cars/honda-civic", "/en/about", "/en/contact", "/en/login", "/en/register"];
+const PAGES = ["/en", "/en/cars", "/en/cars/honda-civic", "/en/about", "/en/contact", "/en/login", "/en/register", "/en/forgot-password", "/en/terms", "/en/privacy"];
 
 for (const path of PAGES) {
   test(`${path}: landmarks, heading outline and names`, async ({ page, baseURL }) => {

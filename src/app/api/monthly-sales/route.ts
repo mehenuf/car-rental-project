@@ -6,7 +6,7 @@ import { MonthlySalesQuerySchema, searchParamsToObject } from "@/lib/schemas";
 
 /** GET /api/monthly-sales?year=YYYY — 12 months of revenue, 0-filled for months with no data. Admin-only. */
 export const GET = withErrorHandling(async (request: NextRequest) => {
-  await requireAdmin();
+  await requireAdmin("reports.read");
   const { year } = MonthlySalesQuerySchema.parse(
     searchParamsToObject(request.nextUrl.searchParams)
   );

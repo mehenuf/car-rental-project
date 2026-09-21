@@ -8,7 +8,8 @@
     "openMenu": "Abrir menú",
     "accountMenu": "Menú de la cuenta",
     "language": "Idioma",
-    "mainNav": "Principal"
+    "mainNav": "Principal",
+    "toggleTheme": "Cambiar tema"
   },
   "nav": {
     "home": "Inicio",
@@ -87,7 +88,6 @@
     "location": "Lugar",
     "date": "Fecha",
     "time": "Hora",
-    "selectCity": "Elige tu ciudad",
     "selectDate": "Elige la fecha",
     "submit": "Buscar",
     "errBothDates": "Elige las fechas de recogida y de devolución.",
@@ -134,7 +134,8 @@
     },
     "loadFailed": "No se pudieron cargar los vehículos",
     "titleIn": "Coches en {place}",
-    "priceNeedsPlace": "Elige una ubicación para filtrar por precio."
+    "priceNeedsPlace": "Elige una ubicación para filtrar por precio.",
+    "sortBy": "Ordenar por"
   },
   "vehicle": {
     "perDay": "/día",
@@ -184,8 +185,10 @@
     "cancel": "Cancelar",
     "confirm": "Confirmar reserva",
     "submitting": "Reservando...",
-    "tripHint": "Elige cuándo necesitas el coche. Toca una fecha o una hora para cambiarla; el precio se actualiza al instante.",
-    "dropAfterPickup": "La devolución debe ser después de la recogida."
+    "dropAfterPickup": "La devolución debe ser después de la recogida.",
+    "pickupIn": "Recogida en {city}",
+    "pickupInPast": "La hora de recogida ya ha pasado. Elige una hora posterior.",
+    "driverAgeRange": "Introduce una edad entre 16 y 99."
   },
   "quote": {
     "total": "Total",
@@ -342,7 +345,15 @@
     "typeOwner": "Publicar mi coche",
     "typeOwnerBody": "Gana dinero con tu coche como propietario particular.",
     "typeCompany": "Publicar mi empresa de alquiler",
-    "typeCompanyBody": "Gestiona una flota y sucursales en BestCar."
+    "typeCompanyBody": "Gestiona una flota y sucursales en BestCar.",
+    "nameRequired": "Introduce tu nombre completo.",
+    "legalNotice": "Al crear una cuenta aceptas los {terms} y la {privacy}.",
+    "verifySpam": "¿No llega nada tras unos minutos? Revisa la carpeta de spam.",
+    "verifyWrong": "¿Dirección incorrecta? Empezar de nuevo",
+    "verifyBack": "Volver a iniciar sesión",
+    "forgotFailed": "No pudimos enviar el correo. Inténtalo de nuevo en un minuto.",
+    "resetInvalidTitle": "Este enlace ha caducado",
+    "requestNewLink": "Solicitar un enlace nuevo"
   },
   "account": {
     "title": "Mi cuenta",
@@ -420,8 +431,7 @@
     "rejectedNote": "Motivo: {note}",
     "pendingNote": "Estamos revisando tu permiso.",
     "verifiedNote": "Tu permiso está verificado.",
-    "uploadFailed": "No se pudo subir el archivo.",
-    "signIn": "Inicia sesión para añadir tu permiso de conducir."
+    "uploadFailed": "No se pudo subir el archivo."
   },
   "security": {
     "title": "Seguridad",
@@ -438,7 +448,6 @@
     "title": "Recibo",
     "number": "Recibo n.º",
     "issued": "Emitido",
-    "paidWith": "Pagado con",
     "print": "Imprimir",
     "note": "Este es un recibo de pago. La empresa de alquiler emite la factura del alquiler.",
     "item": "Concepto",
@@ -660,7 +669,20 @@
     "login": "Iniciar sesión",
     "register": "Crear cuenta",
     "privacy": "Política de privacidad",
-    "terms": "Términos y condiciones"
+    "terms": "Términos y condiciones",
+    "forgotPassword": "Contraseña olvidada",
+    "resetPassword": "Elige una contraseña nueva",
+    "account": "Mi cuenta",
+    "accountDriver": "Permiso de conducir",
+    "accountNotifications": "Notificaciones",
+    "accountPrivacy": "Tu privacidad",
+    "receipt": "Recibo",
+    "accountSecurity": "Seguridad",
+    "trip": "Detalles del viaje",
+    "bookingConfirmation": "Tu reserva",
+    "checkout": "Pago",
+    "providerApply": "Hazte proveedor",
+    "vehicle": "Alquila {name}. Categoría {category}, valorado con {rating}/5 según {count} reseñas."
   },
   "chat": {
     "title": "Asistente de BestCar",
@@ -741,5 +763,9 @@
     "guessed": "Lo elegimos según tu conexión. Puedes cambiarlo cuando quieras.",
     "showing": "Mostrando coches en {place}.",
     "showAll": "Ver todas las ubicaciones"
+  },
+  "bookingLookup": {
+    "title": "No encontramos esa reserva",
+    "body": "Puede que la referencia tenga un error, o que la reserva se hiciera en otro navegador o cuenta. Inicia sesión para ver tus reservas o pregunta en el chat."
   }
 }

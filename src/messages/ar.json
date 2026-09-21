@@ -8,7 +8,8 @@
     "openMenu": "فتح القائمة",
     "accountMenu": "قائمة الحساب",
     "language": "اللغة",
-    "mainNav": "الرئيسية"
+    "mainNav": "الرئيسية",
+    "toggleTheme": "تبديل المظهر"
   },
   "nav": {
     "home": "الرئيسية",
@@ -87,7 +88,6 @@
     "location": "الموقع",
     "date": "التاريخ",
     "time": "الوقت",
-    "selectCity": "اختر مدينتك",
     "selectDate": "اختر التاريخ",
     "submit": "بحث",
     "errBothDates": "يرجى اختيار تاريخ الاستلام وتاريخ التسليم.",
@@ -142,7 +142,8 @@
     },
     "loadFailed": "تعذّر تحميل المركبات",
     "titleIn": "سيارات في {place}",
-    "priceNeedsPlace": "اختر موقعًا للتصفية حسب السعر."
+    "priceNeedsPlace": "اختر موقعًا للتصفية حسب السعر.",
+    "sortBy": "ترتيب حسب"
   },
   "vehicle": {
     "perDay": "/يوم",
@@ -200,8 +201,10 @@
     "cancel": "إلغاء",
     "confirm": "تأكيد الحجز",
     "submitting": "جارٍ الحجز...",
-    "tripHint": "اختر متى تحتاج السيارة. اضغط على تاريخ أو وقت لتغييره، ويتحدّث السعر فورًا.",
-    "dropAfterPickup": "يجب أن يكون التسليم بعد الاستلام."
+    "dropAfterPickup": "يجب أن يكون التسليم بعد الاستلام.",
+    "pickupIn": "الاستلام من {city}",
+    "pickupInPast": "وقت الاستلام قد مضى بالفعل. اختر وقتًا لاحقًا.",
+    "driverAgeRange": "أدخل عمرًا بين 16 و99."
   },
   "quote": {
     "total": "الإجمالي",
@@ -370,7 +373,15 @@
     "typeOwner": "أعرض سيارتي",
     "typeOwnerBody": "اكسب من سيارتك كمالك فرد.",
     "typeCompany": "أسجّل شركة التأجير الخاصة بي",
-    "typeCompanyBody": "أدر أسطولًا وفروعًا على BestCar."
+    "typeCompanyBody": "أدر أسطولًا وفروعًا على BestCar.",
+    "nameRequired": "أدخل اسمك الكامل.",
+    "legalNotice": "بإنشاء حساب فإنك توافق على {terms} و{privacy}.",
+    "verifySpam": "لم يصلك شيء بعد بضع دقائق؟ تحقق من مجلد البريد غير الهام.",
+    "verifyWrong": "عنوان خاطئ؟ ابدأ من جديد",
+    "verifyBack": "العودة إلى تسجيل الدخول",
+    "forgotFailed": "تعذر إرسال البريد الإلكتروني. حاول مرة أخرى بعد دقيقة.",
+    "resetInvalidTitle": "انتهت صلاحية هذا الرابط",
+    "requestNewLink": "اطلب رابطًا جديدًا"
   },
   "account": {
     "title": "حسابي",
@@ -460,8 +471,7 @@
     "rejectedNote": "السبب: {note}",
     "pendingNote": "نحن نراجع رخصتك.",
     "verifiedNote": "رخصتك موثّقة.",
-    "uploadFailed": "تعذّر رفع الملف.",
-    "signIn": "سجّل الدخول لإضافة رخصة القيادة."
+    "uploadFailed": "تعذّر رفع الملف."
   },
   "security": {
     "title": "الأمان",
@@ -478,7 +488,6 @@
     "title": "إيصال",
     "number": "رقم الإيصال",
     "issued": "تاريخ الإصدار",
-    "paidWith": "طريقة الدفع",
     "print": "طباعة",
     "note": "هذا إيصال دفع. تصدر شركة التأجير فاتورة الإيجار الضريبية.",
     "item": "البند",
@@ -700,7 +709,20 @@
     "login": "تسجيل الدخول",
     "register": "إنشاء حساب",
     "privacy": "سياسة الخصوصية",
-    "terms": "الشروط والأحكام"
+    "terms": "الشروط والأحكام",
+    "forgotPassword": "نسيت كلمة المرور",
+    "resetPassword": "اختر كلمة مرور جديدة",
+    "account": "حسابي",
+    "accountDriver": "رخصة القيادة",
+    "accountNotifications": "الإشعارات",
+    "accountPrivacy": "خصوصيتك",
+    "receipt": "الإيصال",
+    "accountSecurity": "الأمان",
+    "trip": "تفاصيل الرحلة",
+    "bookingConfirmation": "حجزك",
+    "checkout": "الدفع",
+    "providerApply": "كن مزوّدًا",
+    "vehicle": "استأجر {name}. الفئة: {category}، تقييم {rating}/5 من {count} تقييمًا."
   },
   "chat": {
     "title": "مساعد BestCar",
@@ -784,5 +806,9 @@
     "guessed": "اخترنا هذا من اتصالك. يمكنك تغييره في أي وقت.",
     "showing": "عرض السيارات في {place}.",
     "showAll": "عرض كل المواقع"
+  },
+  "bookingLookup": {
+    "title": "لا نجد هذا الحجز",
+    "body": "ربما كُتب الرقم المرجعي خطأً، أو أن الحجز تم في متصفح أو حساب آخر. سجّل الدخول لعرض حجوزاتك، أو اسأل في الدردشة."
   }
 }

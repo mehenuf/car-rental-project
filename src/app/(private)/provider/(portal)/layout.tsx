@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default async function ProviderPortalLayout({ children }: { children: ReactNode }) {
   const context = await getProviderContext();
-  if (!context) redirect("/login");
+  if (!context) redirect("/login?next=%2Fprovider");
 
   // Not a provider yet, or not approved yet: the application page shows where things stand.
   const active = context.active;

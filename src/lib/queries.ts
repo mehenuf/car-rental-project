@@ -8,6 +8,7 @@ import { currencyExponent, majorToMinor, minorToMajor } from "@/lib/pricing/mone
 import { choosePlace, type VehiclePlace } from "@/lib/vehicle-place";
 import { buildPriceScope, type PriceScope } from "@/lib/price-scope";
 import { toSnapshot } from "@/lib/pricing/mappers";
+import { fetchPage, ilikeContains, type PageResult } from "@/lib/postgrest";
 import { quoteForBooking } from "@/lib/pricing/service";
 import type {
   BookingSource,
@@ -58,14 +59,6 @@ function previousPeriod(startDate: string, endDate: string): { start: string; en
     start: prevStart.toISOString().slice(0, 10),
     end: prevEnd.toISOString().slice(0, 10),
   };
-}
-
-/** Escapes every character PostgREST's filter-string grammar treats as
- * structural (`,` separates `.or()` clauses, `(`/`)` are grouping syntax,
- * `%`/`_` are ILIKE wildcards) so a search value can never inject
- * additional filter clauses — e.g. a value like `x,stock.eq.0`. */
-function escapePostgrestValue(value: string): string {
-  return value.replace(/[%_,()]/g, (c) => `\\${c}`);
 }
 
 function percentChange(current: number, previous: number): number | null {
@@ -164,13 +157,16 @@ export async function getVehicles(
     query = query.in("id", idFilter);
   }
   if (search) {
-    const escaped = escapePostgrestValue(search);
-    query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
+    const like = ilikeContains(search);
+    query = query.or(`name.ilike.${like},brand.ilike.${like},slug.ilike.${like}`);
   }
 
-  query = query.order(sortBy, { ascending: sortOrder === "asc" }).range(from, to);
-
-  const { data, error, count } = await query;
+  const ordered = query.order(sortBy, { ascending: sortOrder === "asc" });
+  const { data, error, count } = await fetchPage(
+    (a, b) => ordered.range(a, b) as unknown as PromiseLike<PageResult<Tables<"vehicles">>>,
+    from,
+    to
+  );
   if (error) throw new Error(`getVehicles: ${error.message}`);
 
   return { data: data ?? [], count: count ?? 0 };
@@ -210,6 +206,12 @@ async function attachPlaces(cards: VehicleCardData[], preferredBranchId?: number
     ...card,
     place: choosePlace(plans.filter((p) => p.vehicle_id === card.id), branches ?? [], preferredBranchId),
   }));
+}
+
+/** Where a single car is offered and its daily rate there, preferring the branch the visitor asked for. */
+export async function getVehiclePlace(vehicleId: string, preferredBranchId?: number): Promise<VehiclePlace | null> {
+  const [card] = await attachPlaces([{ id: vehicleId } as VehicleCardData], preferredBranchId);
+  return card?.place ?? null;
 }
 
 export async function getVehicleCards(
@@ -261,8 +263,8 @@ export async function getVehicleCards(
     query = query.in("id", idFilter);
   }
   if (search) {
-    const escaped = escapePostgrestValue(search);
-    query = query.or(`name.ilike.%${escaped}%,brand.ilike.%${escaped}%,slug.ilike.%${escaped}%`);
+    const like = ilikeContains(search);
+    query = query.or(`name.ilike.${like},brand.ilike.${like},slug.ilike.${like}`);
   }
 
   if (priceSort && branchPrices) {
@@ -278,12 +280,15 @@ export async function getVehicleCards(
     return { data: await attachPlaces(ordered.slice(from, to + 1), branchId), count: ordered.length };
   }
 
-  query = query.order(sortBy, { ascending: sortOrder === "asc" }).range(from, to);
-
-  const { data, error, count } = await query;
+  const ordered = query.order(sortBy, { ascending: sortOrder === "asc" });
+  const { data, error, count } = await fetchPage(
+    (a, b) => ordered.range(a, b) as unknown as PromiseLike<PageResult<VehicleCardData>>,
+    from,
+    to
+  );
   if (error) throw new Error(`getVehicleCards: ${error.message}`);
 
-  const cards = await attachPlaces((data ?? []) as unknown as VehicleCardData[], branchId);
+  const cards = await attachPlaces(data ?? [], branchId);
   return { data: cards, count: count ?? 0 };
 }
 
@@ -430,12 +435,17 @@ export async function getRecentTransactions(
   if (startDate) query = query.gte("created_at", `${startDate}T00:00:00.000Z`);
   if (endDate) query = query.lte("created_at", `${endDate}T23:59:59.999Z`);
   if (search) {
-    const escaped = escapePostgrestValue(search);
-    query = query.or(`customer_name.ilike.%${escaped}%,reference.ilike.%${escaped}%`);
+    const like = ilikeContains(search);
+    query = query.or(`customer_name.ilike.${like},reference.ilike.${like}`);
   }
-  query = query.order(sortBy, { ascending: sortOrder === "asc" }).range(from, to);
-
-  const { data, error, count } = await query;
+  const { data, error, count } = await fetchPage(
+    (a, b) =>
+      query.order(sortBy, { ascending: sortOrder === "asc" }).range(a, b) as unknown as PromiseLike<
+        PageResult<BookingWithVehicle>
+      >,
+    from,
+    to
+  );
   if (error) throw new Error(`getRecentTransactions: ${error.message}`);
 
   return { data: data ?? [], count: count ?? 0 };
