@@ -117,7 +117,7 @@ Vercel builds from `main`. The database migrations must be applied first: follow
 | [docs/PROVIDER-PORTAL.md](docs/PROVIDER-PORTAL.md) | Host portal and roles |
 | [docs/AI-AND-AUTOMATION.md](docs/AI-AND-AUTOMATION.md) | Chat assistant and the n8n lead workflow |
 | [docs/compliance/](docs/compliance/) | Privacy matrix, processing record, sub-processors, breach runbook, go-live legal checklist |
-| [docs/audits/](docs/audits/) | Frontend baseline, performance log, motion inventory, responsive matrix, AI-slop register, skill log |
+| [docs/audits/](docs/audits/) | Frontend baseline, performance log, motion inventory, responsive matrix, AI-slop register, findings register (110 audit findings and their status), design gate reviews, accessibility checklist, skill log |
 | [docs/superpowers/](docs/superpowers/) | Design specs and implementation plans per sub-project |
 
 ## Known limits
