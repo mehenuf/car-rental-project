@@ -1,9 +1,13 @@
 import { redirect } from "next/navigation";
+import { getPortalT } from "@/lib/i18n/portal";
 import { BookingsManager } from "@/components/provider/bookings-manager";
 import { getProviderContext } from "@/lib/provider/context";
 import { can } from "@/lib/provider/permissions";
 
-export const metadata = { title: "Bookings" };
+export async function generateMetadata() {
+  const t = await getPortalT();
+  return { title: t("portal.nav.bookings") };
+}
 
 export default async function ProviderBookingsPage() {
   const active = (await getProviderContext())?.active;

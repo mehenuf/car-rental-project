@@ -12,11 +12,12 @@ const STATUS_STYLES: Record<BookingStatus, string> = {
   no_show: "bg-destructive/15 text-destructive",
 };
 
-export function BookingStatusBadge({ status }: { status: BookingStatus }) {
+/** `label` replaces the English name (pages that have a language pass their own translation). */
+export function BookingStatusBadge({ status, label }: { status: BookingStatus; label?: string }) {
   return (
-    <Badge className={cn("border-0 gap-1.5", STATUS_STYLES[status])}>
+    <Badge className={cn("border-0 gap-1.5", label && "capitalize", STATUS_STYLES[status])}>
       <span className="size-1.5 rounded-full bg-current" aria-hidden />
-      {BOOKING_STATUS_LABELS[status]}
+      {label ?? BOOKING_STATUS_LABELS[status]}
     </Badge>
   );
 }

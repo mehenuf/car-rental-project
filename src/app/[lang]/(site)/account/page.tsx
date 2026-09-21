@@ -106,7 +106,7 @@ export default async function AccountPage() {
                     <p className="font-heading text-base font-semibold text-foreground">
                       {booking.vehicle?.name ?? t("account.vehicleUnavailable")}
                     </p>
-                    <BookingStatusBadge status={booking.status} />
+                    <BookingStatusBadge status={booking.status} label={t(`portal.status.${booking.status}`)} />
                   </div>
                   <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-muted-foreground">
                     <span className="inline-flex items-center gap-1">

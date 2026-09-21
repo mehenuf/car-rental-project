@@ -48,7 +48,7 @@ export default async function TripPage({ params }: { params: Promise<{ reference
       </Link>
       <div className="flex flex-wrap items-center gap-2">
         <h1 className="font-heading text-2xl font-bold text-foreground">{booking.vehicle?.name ?? t("trip.title")}</h1>
-        <BookingStatusBadge status={booking.status} />
+        <BookingStatusBadge status={booking.status} label={t(`portal.status.${booking.status}`)} />
       </div>
 
       <Card className="shadow-card ring-0">

@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { useApiData } from "@/hooks/use-api-data";
+import { useLocale, useT } from "@/lib/i18n/provider";
 import { uploadDocument } from "@/lib/provider/upload-client";
 import type { DocumentKind, ListingStatus } from "@/types/database";
 
@@ -36,23 +37,24 @@ interface UnitDoc {
   review_note: string | null;
 }
 
-const LISTING_LABEL: Record<ListingStatus, string> = {
-  draft: "Draft",
-  pending_review: "Waiting for review",
-  approved: "Live",
-  rejected: "Rejected",
+const LISTING_KEY: Record<ListingStatus, string> = {
+  draft: "listingDraft",
+  pending_review: "listingPending",
+  approved: "listingLive",
+  rejected: "listingRejected",
 };
 
-async function call(url: string, method: string, body?: unknown): Promise<void> {
+async function call(url: string, method: string, body?: unknown, fallback = "Something went wrong."): Promise<void> {
   const res = await fetch(url, { method, headers: { "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
   if (!res.ok) {
     const data = await res.json().catch(() => null);
-    throw new Error(data?.error?.message ?? "Something went wrong.");
+    throw new Error(data?.error?.message ?? fallback);
   }
 }
 
 /** A private owner's paperwork for one car: registration and insurance. */
 function UnitDocumentsDialog({ unit, onClose }: { unit: Unit | null; onClose: () => void }) {
+  const t = useT();
   const [refresh, setRefresh] = useState(0);
   const [busy, setBusy] = useState<DocumentKind | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -67,7 +69,7 @@ function UnitDocumentsDialog({ unit, onClose }: { unit: Unit | null; onClose: ()
       await uploadDocument({ kind, file, fleetUnitId: unit.id });
       setRefresh((n) => n + 1);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "The upload failed.");
+      setError(err instanceof Error ? err.message : t("portal.fleet.uploadFailed"));
     } finally {
       setBusy(null);
     }
@@ -78,8 +80,8 @@ function UnitDocumentsDialog({ unit, onClose }: { unit: Unit | null; onClose: ()
     <Dialog open={unit !== null} onOpenChange={(open) => !open && onClose()}>
       <DialogContent className="sm:max-w-lg">
         <DialogHeader>
-          <DialogTitle>Documents for {unit?.vehicle_name}</DialogTitle>
-          <DialogDescription>Upload the registration and your insurance certificate, then submit the car for review.</DialogDescription>
+          <DialogTitle>{t("portal.fleet.docsTitle", { name: unit?.vehicle_name ?? "" })}</DialogTitle>
+          <DialogDescription>{t("portal.fleet.docsDesc")}</DialogDescription>
         </DialogHeader>
         <ul className="flex flex-col gap-2">
           {(["vehicle_registration", "insurance"] as const).map((kind) => {
@@ -87,8 +89,8 @@ function UnitDocumentsDialog({ unit, onClose }: { unit: Unit | null; onClose: ()
             return (
               <li key={kind} className="flex items-center justify-between gap-2 rounded-lg border border-border p-2 text-sm">
                 <span>
-                  <span className="font-medium text-foreground">{kind === "insurance" ? "Insurance certificate" : "Vehicle registration"}</span>
-                  <span className="block text-muted-foreground">{latest ? `${latest.file_name} (${latest.status})` : "Not uploaded yet"}</span>
+                  <span className="font-medium text-foreground">{kind === "insurance" ? t("portal.fleet.insurance") : t("portal.fleet.registration")}</span>
+                  <span className="block text-muted-foreground">{latest ? `${latest.file_name} (${latest.status})` : t("portal.fleet.notUploaded")}</span>
                   {latest?.status === "rejected" && latest.review_note && <span className="block text-destructive">{latest.review_note}</span>}
                 </span>
                 <input
@@ -98,7 +100,7 @@ function UnitDocumentsDialog({ unit, onClose }: { unit: Unit | null; onClose: ()
                   type="file"
                   accept="application/pdf,image/jpeg,image/png"
                   className="sr-only"
-                  aria-label={`Upload ${kind.replace("_", " ")}`}
+                  aria-label={t("portal.fleet.uploadAria", { kind: kind === "insurance" ? t("portal.fleet.insurance") : t("portal.fleet.registration") })}
                   onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) void upload(kind, file);
@@ -106,7 +108,7 @@ function UnitDocumentsDialog({ unit, onClose }: { unit: Unit | null; onClose: ()
                   }}
                 />
                 <Button type="button" size="sm" variant="outline" disabled={busy !== null} onClick={() => inputs.current[kind]?.click()}>
-                  {busy === kind ? "Uploading..." : latest ? "Replace" : "Upload"}
+                  {busy === kind ? t("portal.fleet.uploading") : latest ? t("portal.fleet.replace") : t("portal.fleet.upload")}
                 </Button>
               </li>
             );
@@ -119,6 +121,8 @@ function UnitDocumentsDialog({ unit, onClose }: { unit: Unit | null; onClose: ()
 }
 
 export function FleetManager({ individual, canWrite }: { individual: boolean; canWrite: boolean }) {
+  const t = useT();
+  const locale = useLocale();
   const [refresh, setRefresh] = useState(0);
   const [adding, setAdding] = useState(false);
   const [docsFor, setDocsFor] = useState<Unit | null>(null);
@@ -145,7 +149,7 @@ export function FleetManager({ individual, canWrite }: { individual: boolean; ca
       await fn();
       setRefresh((n) => n + 1);
     } catch (err) {
-      setMessage(err instanceof Error ? err.message : "Something went wrong.");
+      setMessage(err instanceof Error ? err.message : t("portal.common.somethingWrong"));
     }
   }
 
@@ -166,14 +170,14 @@ export function FleetManager({ individual, canWrite }: { individual: boolean; ca
         }),
       });
       const body = await res.json();
-      if (!res.ok) throw new Error(body?.error?.message ?? "Could not add the car.");
+      if (!res.ok) throw new Error(body?.error?.message ?? t("portal.fleet.addFailed"));
       setAdding(false);
       setPlate("");
       setVin("");
       setPrice("");
       setRefresh((n) => n + 1);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Could not add the car.");
+      setError(err instanceof Error ? err.message : t("portal.fleet.addFailed"));
     } finally {
       setBusy(false);
     }
@@ -183,16 +187,14 @@ export function FleetManager({ individual, canWrite }: { individual: boolean; ca
     <div className="flex flex-col gap-(--space-md)">
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div className="flex flex-col gap-1">
-          <h1 className="font-heading text-2xl font-bold text-foreground">{individual ? "My cars" : "Fleet"}</h1>
+          <h1 className="font-heading text-2xl font-bold text-foreground">{individual ? t("portal.nav.myCars") : t("portal.nav.fleet")}</h1>
           <p className="text-sm text-muted-foreground">
-            {individual
-              ? "Each car is reviewed before it goes live. Set when it can be booked on the Availability page."
-              : "Your cars are live as soon as you add them. Take one off the road by setting it to maintenance or retired."}
+            {individual ? t("portal.fleet.introIndividual") : t("portal.fleet.introCompany")}
           </p>
         </div>
         {canWrite && (
           <Button type="button" onClick={() => setAdding(true)}>
-            <Plus className="size-4" aria-hidden /> Add a car
+            <Plus className="size-4" aria-hidden /> {t("portal.fleet.addCar")}
           </Button>
         )}
       </div>
@@ -201,20 +203,20 @@ export function FleetManager({ individual, canWrite }: { individual: boolean; ca
 
       <Card className="shadow-card ring-0">
         <CardContent className="p-0">
-          {units.status === "loading" && <p className="p-(--space-sm) text-sm text-muted-foreground">Loading...</p>}
+          {units.status === "loading" && <p className="p-(--space-sm) text-sm text-muted-foreground">{t("portal.common.loading")}</p>}
           {units.status === "error" && <p className="p-(--space-sm) text-sm text-destructive">{units.error}</p>}
-          {units.status === "success" && rows.length === 0 && <p className="p-(--space-sm) text-sm text-muted-foreground">No cars yet.</p>}
+          {units.status === "success" && rows.length === 0 && <p className="p-(--space-sm) text-sm text-muted-foreground">{t("portal.fleet.noCars")}</p>}
           {rows.length > 0 && (
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Car</TableHead>
-                  <TableHead>Plate</TableHead>
-                  {!individual && <TableHead>Branch</TableHead>}
-                  <TableHead>Mileage</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Listing</TableHead>
-                  <TableHead className="text-right">Actions</TableHead>
+                  <TableHead>{t("portal.fleet.colCar")}</TableHead>
+                  <TableHead>{t("portal.fleet.colPlate")}</TableHead>
+                  {!individual && <TableHead>{t("portal.fleet.colBranch")}</TableHead>}
+                  <TableHead>{t("portal.fleet.colMileage")}</TableHead>
+                  <TableHead>{t("portal.fleet.colStatus")}</TableHead>
+                  <TableHead>{t("portal.fleet.colListing")}</TableHead>
+                  <TableHead className="text-end">{t("portal.fleet.colActions")}</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -223,32 +225,32 @@ export function FleetManager({ individual, canWrite }: { individual: boolean; ca
                     <TableCell className="font-medium">{u.vehicle_name}</TableCell>
                     <TableCell>{u.plate}</TableCell>
                     {!individual && <TableCell>{u.branch_name}</TableCell>}
-                    <TableCell>{u.mileage_km.toLocaleString()} km</TableCell>
+                    <TableCell>{u.mileage_km.toLocaleString(locale)} km</TableCell>
                     <TableCell>
                       {canWrite ? (
                         <select
-                          aria-label={`Status of ${u.plate}`}
+                          aria-label={t("portal.fleet.statusOf", { plate: u.plate })}
                           value={u.status}
-                          onChange={(e) => act(() => call(`/api/provider/units/${u.id}`, "PATCH", { status: e.target.value }))}
+                          onChange={(e) => act(() => call(`/api/provider/units/${u.id}`, "PATCH", { status: e.target.value }, t("portal.common.somethingWrong")))}
                           className="h-8 rounded-lg border border-input bg-transparent px-2 text-sm"
                         >
-                          <option value="active">Active</option>
-                          <option value="maintenance">Maintenance</option>
-                          <option value="retired">Retired</option>
+                          <option value="active">{t("portal.fleet.statusActive")}</option>
+                          <option value="maintenance">{t("portal.fleet.statusMaintenance")}</option>
+                          <option value="retired">{t("portal.fleet.statusRetired")}</option>
                         </select>
                       ) : (
-                        <span className="capitalize">{u.status}</span>
+                        <span>{t(`portal.fleet.status${u.status[0]!.toUpperCase()}${u.status.slice(1)}`)}</span>
                       )}
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">{LISTING_LABEL[u.listing_status]}</Badge>
+                      <Badge variant="outline">{t(`portal.fleet.${LISTING_KEY[u.listing_status]}`)}</Badge>
                       {u.listing_status === "rejected" && u.review_note && <span className="mt-1 block text-xs text-destructive">{u.review_note}</span>}
                     </TableCell>
-                    <TableCell className="text-right">
+                    <TableCell className="text-end">
                       {individual && canWrite && (u.listing_status === "draft" || u.listing_status === "rejected") && (
                         <span className="inline-flex gap-1.5">
-                          <Button type="button" size="sm" variant="outline" onClick={() => setDocsFor(u)}>Documents</Button>
-                          <Button type="button" size="sm" onClick={() => act(() => call(`/api/provider/units/${u.id}/submit`, "POST"))}>Submit for review</Button>
+                          <Button type="button" size="sm" variant="outline" onClick={() => setDocsFor(u)}>{t("portal.fleet.documents")}</Button>
+                          <Button type="button" size="sm" onClick={() => act(() => call(`/api/provider/units/${u.id}/submit`, "POST", undefined, t("portal.common.somethingWrong")))}>{t("portal.fleet.submit")}</Button>
                         </span>
                       )}
                     </TableCell>
@@ -263,42 +265,42 @@ export function FleetManager({ individual, canWrite }: { individual: boolean; ca
       <Dialog open={adding} onOpenChange={setAdding}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Add a car</DialogTitle>
-            <DialogDescription>Pick the model from our catalogue. {individual && "You will upload its documents next."}</DialogDescription>
+            <DialogTitle>{t("portal.fleet.addTitle")}</DialogTitle>
+            <DialogDescription>{individual ? t("portal.fleet.addDescOwner") : t("portal.fleet.addDesc")}</DialogDescription>
           </DialogHeader>
           <form onSubmit={addCar} className="flex flex-col gap-(--space-sm)">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="car-model">Model</Label>
+              <Label htmlFor="car-model">{t("portal.fleet.model")}</Label>
               <select id="car-model" value={vehicleId} onChange={(e) => setVehicleId(e.target.value)} required className="h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm">
-                <option value="" disabled>{catalogue.status === "loading" ? "Loading..." : "Choose a model"}</option>
+                <option value="" disabled>{catalogue.status === "loading" ? t("portal.common.loading") : t("portal.fleet.chooseModel")}</option>
                 {catalogue.status === "success" && catalogue.data.data.map((v) => <option key={v.id} value={v.id}>{v.name}</option>)}
               </select>
             </div>
             {!individual && branchList.length > 1 && (
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="car-branch">Branch</Label>
+                <Label htmlFor="car-branch">{t("portal.fleet.branch")}</Label>
                 <select id="car-branch" value={branchId || String(branchList[0]?.id ?? "")} onChange={(e) => setBranchId(e.target.value)} className="h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm">
                   {branchList.map((b) => <option key={b.id} value={b.id}>{b.name} ({b.city})</option>)}
                 </select>
               </div>
             )}
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="car-plate">Licence plate</Label>
+              <Label htmlFor="car-plate">{t("portal.fleet.plate")}</Label>
               <Input id="car-plate" value={plate} onChange={(e) => setPlate(e.target.value)} required minLength={2} />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="car-vin">VIN (optional)</Label>
+              <Label htmlFor="car-vin">{t("portal.fleet.vin")}</Label>
               <Input id="car-vin" value={vin} onChange={(e) => setVin(e.target.value)} />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="car-price">Daily price</Label>
+              <Label htmlFor="car-price">{t("portal.fleet.dailyPrice")}</Label>
               <Input id="car-price" type="number" min="0" step="0.01" value={price} onChange={(e) => setPrice(e.target.value)} />
-              <p className="text-xs text-muted-foreground">Needed if you have no price for this model yet. You can refine prices, seasons and extras later.</p>
+              <p className="text-xs text-muted-foreground">{t("portal.fleet.priceHelp")}</p>
             </div>
             {error && <p role="alert" className="text-sm text-destructive">{error}</p>}
             <DialogFooter className="-mx-4 -mb-4">
-              <Button type="button" variant="outline" onClick={() => setAdding(false)}>Cancel</Button>
-              <Button type="submit" disabled={busy || !vehicleId}>{busy ? "Adding..." : "Add car"}</Button>
+              <Button type="button" variant="outline" onClick={() => setAdding(false)}>{t("portal.common.cancel")}</Button>
+              <Button type="submit" disabled={busy || !vehicleId}>{busy ? t("portal.fleet.adding") : t("portal.fleet.addSubmit")}</Button>
             </DialogFooter>
           </form>
         </DialogContent>
