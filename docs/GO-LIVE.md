@@ -286,7 +286,7 @@ insert into policy_versions (kind, version) values ('terms', '2027-01');
 ## Quick checklist
 
 1. [ ] Backup taken
-2. [ ] Migrations `0012`–`0018` applied and verified
+2. [x] Migrations `0012`–`0018` applied and verified (0018 applied 2026-09-21; the public key is refused on `daily_stats` and the two revenue views)
 3. [ ] Storage buckets exist and are private
 4. [ ] Supabase Auth: URLs set, TOTP on, email sender or `AUTH_REQUIRE_EMAIL_VERIFICATION=false`
 5. [ ] Vercel variables: `QUOTE_SIGNING_SECRET`, `CRON_SECRET`, `CONSENT_SALT`, `NEXT_PUBLIC_SITE_URL`

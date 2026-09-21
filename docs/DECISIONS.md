@@ -28,3 +28,9 @@ Accounts can sign in immediately unless `AUTH_REQUIRE_EMAIL_VERIFICATION=true`, 
 
 ## Payments run through a provider layer with an append-only ledger
 Stripe (test mode) and simulated local methods sit behind one interface; the ledger is double-entry and append-only, and payouts are simulated.
+
+## The function region matches the database region (2026-09-21)
+The Supabase project is in `ap-northeast-1` (Tokyo) and the functions ran in Vercel's default Washington region, so every database call crossed the Pacific (250 to 960 ms per query measured). `vercel.json` now pins `regions: ["hnd1"]` (Tokyo). Trade-off: visitors far from Tokyo pay the distance on the first byte of a dynamic page, but a page makes several database calls and the database is the larger distance. Re-measure after the next deploy and compare with the figures in `docs/audits/performance-log.md`.
+
+## Seeded ratings and cities are treated as real data for now (2026-09-21)
+The 24 cars, 60 reviews and 207 bookings come from demo data. The owner decided not to label them as samples yet; they are to be replaced once the pieces that make ratings and cities real (real hosts, real completed trips) are in place. Until then the "reviews from real trips" wording describes how ratings are earned, and the numbers on the site are demo values. This is recorded here so the gap is a known, dated decision and not a surprise.
