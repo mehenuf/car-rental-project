@@ -11,6 +11,8 @@ const DYNAMIC_KEYS = [
   ...["viewUpcoming", "viewActive", "viewPast", "viewAll", "fuelEmpty", "fuelFull"].map((k) => `portal.bookings.${k}`),
   ...["statusActive", "statusMaintenance", "statusRetired", "listingDraft", "listingPending", "listingLive", "listingRejected"].map((k) => `portal.fleet.${k}`),
   ...["statusScheduled", "statusPaid", "statusHold", "statusCancelled"].map((k) => `portal.payouts.${k}`),
+  ...["stateFree", "stateBooking", "stateTransfer", "stateMaintenance", "stateOwnerBlock", "stateUnavailable"].map((k) => `portal.calendar.${k}`),
+  ...["tabPrices", "tabExtras", "tabPolicy", "tabPromos", "tabOneWay", "perDay", "perRental"].map((k) => `portal.pricing.${k}`),
 ];
 
 describe("host portal translations", () => {
@@ -30,5 +32,7 @@ describe("host portal translations", () => {
     expect(t("portal.payouts.ending", { bank: "Sparkasse", last4: "4242" })).toBe("Sparkasse mit Endziffern 4242");
     expect(t("portal.fleet.docsTitle", { name: "Golf" })).toContain("Golf");
     expect(t("portal.bookings.photosReady", { count: 3 })).toContain("3");
+    expect(t("portal.calendar.cellLabel", { plate: "B-XY 12", date: "2026-05-01", state: "Frei" })).toContain("B-XY 12");
+    expect(t("portal.pricing.seasonLine", { from: "2026-06-01", to: "2026-08-31", price: "99,00" })).toContain("99,00");
   });
 });

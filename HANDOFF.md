@@ -123,7 +123,7 @@ Lighthouse recipe: `CHROME_PATH=<playwright chromium> npx lighthouse@12 <url> --
 5. Have a native reader per language skim auth, booking and portal strings. About 300 strings were written by an AI and are unreviewed.
 
 **Portal translation, remaining stages** (all portal UI is under `src/components/provider/*` and `src/app/(private)/provider/(portal)/*`; pattern: add keys under `portal.<screen>.*` to all 11 files, use `useT()`/`getPortalT()`, use `formatMinor(..., numberingLocale(locale))`, logical CSS `ms/me/text-end` instead of left/right; add dynamic keys to `src/lib/portal-messages.test.ts`):
-- Stage 4: calendar/availability (`calendar-view.tsx`), pricing (`pricing-manager.tsx`, 415 lines), reviews (`reviews-manager.tsx`).
+- Stage 4 is done (2026-09-23): calendar/availability, pricing and reviews, with page titles; 122 keys under `portal.calendar/pricing/reviews`; data-driven keys are guarded in `src/lib/portal-messages.test.ts`.
 - Stage 5: disputes (`disputes-manager.tsx`), team (`team-manager.tsx`), settings (`settings-panel.tsx`), onboarding and the application form (`onboarding-panel.tsx`, `apply-form.tsx`, `attestation-card.tsx`), and the document status words shown next to uploads.
 - Server-side API error messages are English everywhere; translating them is a separate task.
 - The Terms and Privacy pages are English-only by design (a notice says so in other languages).
@@ -161,5 +161,5 @@ Weak staff test password on the live database (owner action above); seeded data 
 
 1. Read this file, then `git log --oneline -15`, then `docs/audits/findings-register.md` (open items) and the tail of `docs/audits/skill-orchestration-log.md`.
 2. Confirm CI is green (`api.github.com/repos/mehenuf/car-rental-project/actions/runs?per_page=3`) and `npx tsc --noEmit && npx eslint . && npx vitest run` pass before changing anything.
-3. Ask the owner what to take next; the default is portal stage 4, then stage 5, then the performance ideas in section 8.
+3. Ask the owner what to take next; the default is portal stage 5, then the performance ideas in section 8.
 4. After every batch: run the checks, measure if performance was touched, update `docs/audits/*` and this file, commit as the owner without attribution, push, and check CI.
