@@ -13,6 +13,15 @@ const DYNAMIC_KEYS = [
   ...["statusScheduled", "statusPaid", "statusHold", "statusCancelled"].map((k) => `portal.payouts.${k}`),
   ...["stateFree", "stateBooking", "stateTransfer", "stateMaintenance", "stateOwnerBlock", "stateUnavailable"].map((k) => `portal.calendar.${k}`),
   ...["tabPrices", "tabExtras", "tabPolicy", "tabPromos", "tabOneWay", "perDay", "perRental"].map((k) => `portal.pricing.${k}`),
+  ...["sideCustomer", "sideProvider", "sidePlatform", "inspPickup", "inspReturn"].map((k) => `portal.disputes.${k}`),
+  ...["awaiting_response", "negotiating", "agreed", "escalated", "resolved", "dismissed"].map((k) => `disputes.status.${k}`),
+  ...["listing_mismatch", "overcharge", "service_problem", "damage", "cleanliness_or_fees"].map((k) => `disputes.types.${k}`),
+  ...["open", "message", "evidence", "offer", "accept", "contest", "escalate", "decision"].map((k) => `disputes.kind.${k}`),
+  ...["roleOwner", "roleManager", "roleAgent"].map((k) => `portal.team.${k}`),
+  ...["business_licence", "id_document", "drivers_licence", "vehicle_registration", "insurance"].map((k) => `portal.docs.kind_${k}`),
+  ...["pending", "accepted", "rejected"].map((k) => `portal.docs.status_${k}`),
+  ...["draft", "submitted", "under_review", "approved", "rejected", "suspended"].flatMap((k) => [`portal.docs.provider_${k}`, `portal.apply.status_${k}`]),
+  ...["problemType", "problemEmpty", "problemSize"].map((k) => `portal.apply.${k}`),
 ];
 
 describe("host portal translations", () => {
@@ -33,6 +42,7 @@ describe("host portal translations", () => {
     expect(t("portal.fleet.docsTitle", { name: "Golf" })).toContain("Golf");
     expect(t("portal.bookings.photosReady", { count: 3 })).toContain("3");
     expect(t("portal.calendar.cellLabel", { plate: "B-XY 12", date: "2026-05-01", state: "Frei" })).toContain("B-XY 12");
+    expect(t("portal.settings.profileNote", { name: "Muster GmbH", registration: "", status: "Genehmigt" })).toContain("Muster GmbH");
     expect(t("portal.pricing.seasonLine", { from: "2026-06-01", to: "2026-08-31", price: "99,00" })).toContain("99,00");
   });
 });

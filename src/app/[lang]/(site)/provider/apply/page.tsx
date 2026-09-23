@@ -16,15 +16,13 @@ export default async function ProviderApplyPage({ searchParams }: { searchParams
   const { type } = await searchParams;
   const defaultType = type === "individual" ? "individual" : "company";
   const context = await getProviderContext();
+  const t = await getT();
 
   if (!context) {
-    // The front door for new hosts is translated; the application and the portal behind it are English only for now.
-    const t = await getT();
     return (
       <div className="mx-auto flex max-w-lg flex-col gap-(--space-md) px-(--space-sm) py-(--space-2xl) text-center">
         <h1 className="font-heading text-3xl font-bold text-foreground">{t("providerApply.title")}</h1>
         <p className="text-muted-foreground">{t("providerApply.body")}</p>
-        <p className="text-sm text-muted-foreground">{t("providerApply.englishOnly")}</p>
         <div className="flex justify-center gap-(--space-xs)">
           <Link href="/login?next=%2Fprovider%2Fapply" className={buttonVariants({ size: "lg" })}>
             {t("header.logIn")}
@@ -67,12 +65,10 @@ export default async function ProviderApplyPage({ searchParams }: { searchParams
     <div className="mx-auto flex max-w-3xl flex-col gap-(--space-md) px-(--space-sm) py-(--space-xl)">
       <div className="flex flex-col gap-1">
         <h1 className="font-heading text-3xl font-bold tracking-tight text-foreground">
-          {active ? `Your application: ${active.provider.displayName}` : "Become a provider"}
+          {active ? t("portal.apply.titleActive", { name: active.provider.displayName }) : t("portal.apply.title")}
         </h1>
         <p className="text-muted-foreground">
-          {active
-            ? "Finish these steps and our team will review your account."
-            : "Tell us about your business or your car. You can add your fleet once you are approved."}
+          {active ? t("portal.apply.introActive") : t("portal.apply.introNew")}
         </p>
       </div>
       {content}

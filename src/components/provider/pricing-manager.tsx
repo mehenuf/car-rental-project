@@ -9,12 +9,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useApiData } from "@/hooks/use-api-data";
+import { numberingLocale } from "@/lib/i18n/locales";
 import { useLocale, useT } from "@/lib/i18n/provider";
 import { cn } from "@/lib/utils";
 
 function useMoney2() {
   const locale = useLocale();
-  return (v: number) => new Intl.NumberFormat(locale, { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
+  return (v: number) => new Intl.NumberFormat(numberingLocale(locale), { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(v);
 }
 
 const selectClass = "h-9 rounded-lg border border-input bg-transparent px-2.5 text-sm";

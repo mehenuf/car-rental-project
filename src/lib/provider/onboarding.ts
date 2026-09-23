@@ -72,12 +72,20 @@ export function missingUnitDocuments(documents: readonly DocumentLike[]): Docume
 export const ALLOWED_MIME_TYPES = ["application/pdf", "image/jpeg", "image/png"] as const;
 export const MAX_DOCUMENT_BYTES = 5 * 1024 * 1024;
 
-/** Returns a customer-facing problem, or null when the file may be uploaded. */
-export function validateDocument(file: { mimeType: string; sizeBytes: number }): string | null {
-  if (!(ALLOWED_MIME_TYPES as readonly string[]).includes(file.mimeType)) return "Only PDF, JPG or PNG files are accepted.";
-  if (file.sizeBytes <= 0) return "The file is empty.";
-  if (file.sizeBytes > MAX_DOCUMENT_BYTES) return "Files must be 5 MB or smaller.";
+/** Why a file cannot be uploaded, as a code a screen can translate, or null when it may be. */
+export function documentProblem(file: { mimeType: string; sizeBytes: number }): "type" | "empty" | "size" | null {
+  if (!(ALLOWED_MIME_TYPES as readonly string[]).includes(file.mimeType)) return "type";
+  if (file.sizeBytes <= 0) return "empty";
+  if (file.sizeBytes > MAX_DOCUMENT_BYTES) return "size";
   return null;
+}
+
+const PROBLEM_TEXT = { type: "Only PDF, JPG or PNG files are accepted.", empty: "The file is empty.", size: "Files must be 5 MB or smaller." } as const;
+
+/** Returns a customer-facing problem in English (used by the API), or null when the file may be uploaded. */
+export function validateDocument(file: { mimeType: string; sizeBytes: number }): string | null {
+  const problem = documentProblem(file);
+  return problem ? PROBLEM_TEXT[problem] : null;
 }
 
 /** `{owner id}/{unique id}-{safe file name}`: no user-controlled path segments, no traversal, bounded length. */

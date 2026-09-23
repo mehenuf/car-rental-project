@@ -7,6 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useApiData } from "@/hooks/use-api-data";
+import { numberingLocale, type Locale } from "@/lib/i18n/locales";
 import { useLocale, useT } from "@/lib/i18n/provider";
 import { buildUnitRow, monthDays, type CellState } from "@/lib/provider/calendar";
 import { cn } from "@/lib/utils";
@@ -46,7 +47,7 @@ function shiftMonth(month: string, delta: number): string {
   return new Date(Date.UTC(y, m - 1 + delta, 1)).toISOString().slice(0, 7);
 }
 
-const dayOf = (iso: string, tz: string, locale: string) => new Intl.DateTimeFormat(locale, { timeZone: tz, dateStyle: "medium" }).format(new Date(iso));
+const dayOf = (iso: string, tz: string, locale: Locale) => new Intl.DateTimeFormat(numberingLocale(locale), { timeZone: tz, dateStyle: "medium" }).format(new Date(iso));
 
 /** Month view of every car: bookings, maintenance, blocks and (for private owners) the windows a car may be booked in. */
 export function CalendarView({ individual, canWrite }: { individual: boolean; canWrite: boolean }) {
@@ -129,7 +130,7 @@ export function CalendarView({ individual, canWrite }: { individual: boolean; ca
           <Button type="button" size="icon" variant="outline" aria-label={t("portal.calendar.prevMonth")} onClick={() => setMonth(shiftMonth(month, -1))}>
             <ChevronLeft />
           </Button>
-          <span className="min-w-28 text-center font-medium text-foreground">{new Intl.DateTimeFormat(locale, { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${month}-01T00:00:00Z`))}</span>
+          <span className="min-w-28 text-center font-medium text-foreground">{new Intl.DateTimeFormat(numberingLocale(locale), { month: "long", year: "numeric", timeZone: "UTC" }).format(new Date(`${month}-01T00:00:00Z`))}</span>
           <Button type="button" size="icon" variant="outline" aria-label={t("portal.calendar.nextMonth")} onClick={() => setMonth(shiftMonth(month, 1))}>
             <ChevronRight />
           </Button>

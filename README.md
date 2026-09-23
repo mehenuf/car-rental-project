@@ -91,7 +91,7 @@ Set these in `.env.local` locally and in Vercel for production.
 
 ```
 src/app/[lang]/(site)/   public site, account and provider-application pages (per language)
-src/app/(private)/       admin console and provider portal (English)
+src/app/(private)/       admin console (English) and provider portal (11 languages, language negotiated by the proxy)
 src/app/api/             route handlers (docs/API.md documents the core public and admin routes only, 19 of 95; the rest follow the folder names)
 src/components/          site, ui (shadcn), admin, provider, location
 src/lib/                 pure logic and services: pricing, payments, comms, account, admin, disputes, reviews,

@@ -1,8 +1,12 @@
 import { redirect } from "next/navigation";
+import { getPortalT } from "@/lib/i18n/portal";
 import { SettingsPanel } from "@/components/provider/settings-panel";
 import { getProviderContext } from "@/lib/provider/context";
 
-export const metadata = { title: "Settings" };
+export async function generateMetadata() {
+  const t = await getPortalT();
+  return { title: t("portal.nav.settings") };
+}
 
 export default async function ProviderSettingsPage() {
   const active = (await getProviderContext())?.active;
