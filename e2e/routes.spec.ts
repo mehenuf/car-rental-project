@@ -32,7 +32,9 @@ test.describe("unknown addresses", () => {
     await expect(page.getByRole("heading", { level: 1, name: ar.notFound.title })).toBeVisible();
   });
 
-  test("an unknown car shows the 404 and tells crawlers not to index it", async ({ page, baseURL }) => {
+  test("an unknown car shows the 404 and tells crawlers not to index it", async ({ page, baseURL, request }) => {
+    // Without a database the car lookup fails and the page shows an error instead, which is a different outcome.
+    test.skip(!(await hasSampleData(request)), "needs a database with the sample data");
     // The vehicle page streams behind a loading skeleton, so Next answers 200 and cannot change the status later
     // (documented in next/dist/docs, loading.md, "Status Codes"). The noindex tag is what keeps it out of search.
     await acceptCookies(page, baseURL);
