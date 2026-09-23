@@ -176,6 +176,10 @@ already have (Supabase keys, `GROQ_API_KEY`, `GEMINI_API_KEY`, `N8N_WEBHOOK_URL`
 Without the optional ones, the site still works: emails and texts are logged instead of sent, and payments are
 simulated.
 
+### Keep preview deployments away from real data
+
+Variables created in the Vercel dashboard apply to every environment unless you untick some. Untick **Preview** and **Development** for `SUPABASE_SERVICE_ROLE_KEY`, `STRIPE_*`, `RESEND_*` and `TWILIO_*`, so a pull-request preview cannot read or write real bookings, and point Preview at a separate Supabase project if you need previews to work. As a safety net, set `PRODUCTION_SUPABASE_URL` to the production project URL for **both** Production and Preview: a preview whose `NEXT_PUBLIC_SUPABASE_URL` equals it then refuses to start (`src/lib/security/preview-guard.ts`). This checks only when that variable is set, so it does not replace the scoping above. `ALLOW_PREVIEW_PRODUCTION_DATA=true` overrides it on purpose.
+
 After adding or changing any variable, you must **redeploy** (step 6) for it to take effect.
 
 ---

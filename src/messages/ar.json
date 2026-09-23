@@ -148,7 +148,6 @@
   "vehicle": {
     "perDay": "/يوم",
     "soldOut": "نفدت الكمية",
-    "rentNow": "استأجر الآن",
     "addFavorite": "إضافة {name} إلى المفضلة",
     "removeFavorite": "إزالة {name} من المفضلة",
     "features": "المزايا",
@@ -765,7 +764,7 @@
       "step1": "سجّل وصف سيارتك",
       "step2": "نراجع مستنداتك",
       "step3": "استلم أرباحك بعد كل رحلة",
-      "ctaOwner": "اعرض سيارتي",
+      "ctaOwner": "أدرج سيارتك",
       "ctaCompany": "سجّل شركتي"
     },
     "cities": {

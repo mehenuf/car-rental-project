@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/lib/i18n/link";
 import { useT } from "@/lib/i18n/provider";
+import { setPreferenceCookie } from "@/lib/client-cookie";
 import { CONSENT_COOKIE, analyticsAllowed, encodeConsent, needsBanner } from "@/lib/consent";
 
 function readCookie(): string | undefined {
@@ -32,7 +33,7 @@ export function ConsentManager() {
   }, []);
 
   function choose(analytics: boolean) {
-    document.cookie = `${CONSENT_COOKIE}=${encodeConsent({ analytics })}; path=/; max-age=31536000; samesite=lax`;
+    setPreferenceCookie(CONSENT_COOKIE, encodeConsent({ analytics }));
     setState({ ready: true, banner: false, analytics });
     // Keep a record of the choice with the policy version (best effort; the cookie is what counts in the browser).
     void fetch("/api/consent", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ analytics }) }).catch(() => undefined);

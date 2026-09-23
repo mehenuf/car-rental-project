@@ -83,6 +83,6 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   }
 
   const cookieStore = await cookies();
-  cookieStore.set(ACTIVE_PROVIDER_COOKIE, provider.id, { httpOnly: true, sameSite: "lax", path: "/", maxAge: 60 * 60 * 24 * 90 });
+  cookieStore.set(ACTIVE_PROVIDER_COOKIE, provider.id, { httpOnly: true, sameSite: "lax", secure: process.env.NODE_ENV === "production", path: "/", maxAge: 60 * 60 * 24 * 90 });
   return NextResponse.json({ provider_id: provider.id, status: "draft" }, { status: 201 });
 });

@@ -140,7 +140,6 @@
   "vehicle": {
     "perDay": "/jour",
     "soldOut": "Épuisé",
-    "rentNow": "Louer",
     "addFavorite": "Ajouter {name} aux favoris",
     "removeFavorite": "Retirer {name} des favoris",
     "features": "Équipements",
@@ -725,7 +724,7 @@
       "step1": "Inscrivez-vous et décrivez votre voiture",
       "step2": "Nous vérifions vos documents",
       "step3": "Soyez payé après chaque location",
-      "ctaOwner": "Proposer ma voiture",
+      "ctaOwner": "Proposez votre voiture",
       "ctaCompany": "Inscrire mon entreprise"
     },
     "cities": {

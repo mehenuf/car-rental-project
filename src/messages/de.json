@@ -140,7 +140,6 @@
   "vehicle": {
     "perDay": "/Tag",
     "soldOut": "Ausgebucht",
-    "rentNow": "Jetzt mieten",
     "addFavorite": "{name} zu Favoriten hinzufügen",
     "removeFavorite": "{name} aus Favoriten entfernen",
     "features": "Ausstattung",
@@ -725,7 +724,7 @@
       "step1": "Registrieren und Auto beschreiben",
       "step2": "Wir prüfen Ihre Dokumente",
       "step3": "Nach jeder Fahrt bezahlt werden",
-      "ctaOwner": "Mein Auto anbieten",
+      "ctaOwner": "Fahrzeug anbieten",
       "ctaCompany": "Mein Unternehmen registrieren"
     },
     "cities": {

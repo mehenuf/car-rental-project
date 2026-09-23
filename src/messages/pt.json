@@ -140,7 +140,6 @@
   "vehicle": {
     "perDay": "/dia",
     "soldOut": "Esgotado",
-    "rentNow": "Alugar",
     "addFavorite": "Adicionar {name} aos favoritos",
     "removeFavorite": "Remover {name} dos favoritos",
     "features": "Características",
@@ -725,7 +724,7 @@
       "step1": "Cadastre-se e descreva seu carro",
       "step2": "Analisamos seus documentos",
       "step3": "Receba após cada viagem",
-      "ctaOwner": "Anunciar meu carro",
+      "ctaOwner": "Anuncie seu carro",
       "ctaCompany": "Cadastrar minha empresa"
     },
     "cities": {

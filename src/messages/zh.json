@@ -138,7 +138,6 @@
   "vehicle": {
     "perDay": "/天",
     "soldOut": "已订完",
-    "rentNow": "立即租车",
     "addFavorite": "将 {name} 加入收藏",
     "removeFavorite": "将 {name} 从收藏中移除",
     "features": "配置特色",
@@ -715,7 +714,7 @@
       "step1": "注册并描述您的车",
       "step2": "我们审核您的证件",
       "step3": "每次行程后收款",
-      "ctaOwner": "发布我的车",
+      "ctaOwner": "发布您的车辆",
       "ctaCompany": "登记我的公司"
     },
     "cities": {

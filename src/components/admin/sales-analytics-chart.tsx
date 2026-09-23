@@ -70,9 +70,8 @@ export function SalesAnalyticsChart({
   const url = `/api/monthly-sales?year=${year}&_r=${refreshKey}`;
   const result = useApiData<MonthlySales[]>(url);
 
-  const chartData = (
-    result.status === "success" ? result.data : MONTH_LABELS.map((_, i) => ({ month: i + 1, revenue: 0 }))
-  ).map(
+  // On an error there is nothing to draw: twelve zero months would read as real zero revenue.
+  const chartData = (result.status === "success" ? result.data : []).map(
     (row) => ({
       monthLabel: MONTH_LABELS[row.month - 1],
       revenue: row.revenue,
@@ -100,11 +99,11 @@ export function SalesAnalyticsChart({
       </CardHeader>
       <CardContent>
         {result.status === "error" && (
-          <p className="mb-2 text-sm text-destructive">{result.error}</p>
+          <p role="alert" className="mb-2 text-sm text-destructive">{result.error}</p>
         )}
         {result.status === "loading" ? (
           <Skeleton className="h-64 w-full" />
-        ) : (
+        ) : result.status === "error" ? null : (
           <div className="h-64 w-full">
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData} margin={{ top: 8, right: 8, left: 0, bottom: 0 }}>

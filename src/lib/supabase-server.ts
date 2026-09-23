@@ -1,5 +1,6 @@
 import "server-only";
 import { createClient } from "@supabase/supabase-js";
+import { assertNotProductionDataInPreview } from "@/lib/security/preview-guard";
 import type { Database } from "@/types/database";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -10,6 +11,8 @@ if (!supabaseUrl || !serviceRoleKey) {
     "Missing NEXT_PUBLIC_SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables."
   );
 }
+
+assertNotProductionDataInPreview(process.env);
 
 /**
  * Privileged Supabase client. Uses the service role key, which bypasses

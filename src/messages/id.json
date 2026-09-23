@@ -138,7 +138,6 @@
   "vehicle": {
     "perDay": "/hari",
     "soldOut": "Habis",
-    "rentNow": "Sewa Sekarang",
     "addFavorite": "Tambahkan {name} ke favorit",
     "removeFavorite": "Hapus {name} dari favorit",
     "features": "Fitur",
@@ -715,7 +714,7 @@
       "step1": "Daftar dan jelaskan mobil Anda",
       "step2": "Kami memeriksa dokumen Anda",
       "step3": "Dibayar setelah setiap perjalanan",
-      "ctaOwner": "Sewakan mobil saya",
+      "ctaOwner": "Sewakan mobil Anda",
       "ctaCompany": "Daftarkan perusahaan saya"
     },
     "cities": {

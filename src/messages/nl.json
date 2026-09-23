@@ -140,7 +140,6 @@
   "vehicle": {
     "perDay": "/dag",
     "soldOut": "Uitverkocht",
-    "rentNow": "Nu huren",
     "addFavorite": "{name} aan favorieten toevoegen",
     "removeFavorite": "{name} uit favorieten verwijderen",
     "features": "Kenmerken",
@@ -725,7 +724,7 @@
       "step1": "Registreer en beschrijf je auto",
       "step2": "Wij controleren je documenten",
       "step3": "Word betaald na elke rit",
-      "ctaOwner": "Mijn auto aanbieden",
+      "ctaOwner": "Bied je auto aan",
       "ctaCompany": "Mijn bedrijf aanmelden"
     },
     "cities": {

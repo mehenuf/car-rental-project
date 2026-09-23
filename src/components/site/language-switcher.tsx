@@ -9,12 +9,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { setPreferenceCookie } from "@/lib/client-cookie";
 import { LOCALES, LOCALE_COOKIE, LOCALE_NAMES, type Locale } from "@/lib/i18n/locales";
 import { stripLocale, withLocale } from "@/lib/i18n/negotiate";
 import { useLocale, useT } from "@/lib/i18n/provider";
 
 function rememberLocale(locale: Locale) {
-  document.cookie = `${LOCALE_COOKIE}=${locale}; path=/; max-age=31536000; samesite=lax`;
+  setPreferenceCookie(LOCALE_COOKIE, locale);
 }
 
 /** Switch language on the same page: remembers the choice in a cookie, then navigates. */

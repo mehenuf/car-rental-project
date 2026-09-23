@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { setPreferenceCookie } from "@/lib/client-cookie";
 import { CONSENT_COOKIE, analyticsAllowed, encodeConsent } from "@/lib/consent";
 import { useLocaleRouter, useT } from "@/lib/i18n/provider";
 import { supabase } from "@/lib/supabase";
@@ -29,7 +30,7 @@ export function PrivacyPanel({ email, accepted }: { email: string; accepted: { k
   const [message, setMessage] = useState<{ text: string; ok: boolean } | null>(null);
 
   function saveConsent(value: boolean) {
-    document.cookie = `${CONSENT_COOKIE}=${encodeConsent({ analytics: value })}; path=/; max-age=31536000; samesite=lax`;
+    setPreferenceCookie(CONSENT_COOKIE, encodeConsent({ analytics: value }));
     setAnalytics(value);
     void fetch("/api/consent", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ analytics: value }) }).catch(() => undefined);
     setMessage({ text: t("privacy.saved"), ok: true });

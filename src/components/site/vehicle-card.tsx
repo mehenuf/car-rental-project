@@ -102,7 +102,7 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
           </span>
         ) : (
           <Link href={href} className={buttonVariants({ size: "sm" })}>
-            {t("vehicle.rentNow")}
+            {t("booking.bookNow")}
           </Link>
         )}
       </div>

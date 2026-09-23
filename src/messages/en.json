@@ -140,7 +140,6 @@
   "vehicle": {
     "perDay": "/day",
     "soldOut": "Sold Out",
-    "rentNow": "Rent Now",
     "addFavorite": "Add {name} to favorites",
     "removeFavorite": "Remove {name} from favorites",
     "features": "Features",
@@ -725,7 +724,7 @@
       "step1": "Register and describe your car",
       "step2": "We review your documents",
       "step3": "Get paid after each trip",
-      "ctaOwner": "List my car",
+      "ctaOwner": "List your car",
       "ctaCompany": "Register my company"
     },
     "cities": {

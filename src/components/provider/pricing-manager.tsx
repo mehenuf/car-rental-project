@@ -189,6 +189,8 @@ function ExtrasTab() {
 
   return (
     <div className="flex flex-col gap-(--space-sm)">
+      {extras.status === "loading" && <p className="text-sm text-muted-foreground">{t("portal.common.loading")}</p>}
+      {extras.status === "error" && <p role="alert" className="text-sm text-destructive">{extras.error}</p>}
       {extras.status === "success" && extras.data.data.length === 0 && <p className="text-sm text-muted-foreground">{t("portal.pricing.noExtras")}</p>}
       <ul className="flex flex-col divide-y divide-border text-sm">
         {extras.status === "success" && extras.data.data.map((x) => (
@@ -326,6 +328,8 @@ function PromosTab() {
 
   return (
     <div className="flex flex-col gap-(--space-sm)">
+      {promos.status === "loading" && <p className="text-sm text-muted-foreground">{t("portal.common.loading")}</p>}
+      {promos.status === "error" && <p role="alert" className="text-sm text-destructive">{promos.error}</p>}
       {promos.status === "success" && promos.data.data.length === 0 && <p className="text-sm text-muted-foreground">{t("portal.pricing.noPromos")}</p>}
       <ul className="flex flex-col divide-y divide-border text-sm">
         {promos.status === "success" && promos.data.data.map((p) => (
@@ -366,6 +370,7 @@ function OneWayTab() {
 
   const list = branches.status === "success" ? branches.data.data : [];
   const name = (id: number) => list.find((b) => b.id === id)?.name ?? String(id);
+  if (branches.status === "error") return <p role="alert" className="text-sm text-destructive">{branches.error}</p>;
   if (branches.status === "success" && list.length < 2) return <p className="text-sm text-muted-foreground">{t("portal.pricing.needTwo")}</p>;
 
   function set(e: FormEvent) {
@@ -379,6 +384,7 @@ function OneWayTab() {
 
   return (
     <div className="flex flex-col gap-(--space-sm)">
+      {fees.status === "error" && <p role="alert" className="text-sm text-destructive">{fees.error}</p>}
       <ul className="flex flex-col divide-y divide-border text-sm">
         {fees.status === "success" && fees.data.data.map((x) => (
           <li key={`${x.from_branch_id}-${x.to_branch_id}`} className="flex items-center justify-between py-2">

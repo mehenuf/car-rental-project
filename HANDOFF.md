@@ -28,21 +28,21 @@ BestCar is a multi-provider car-rental marketplace: renters search and book, hos
 7. **Gitignored local files** (only on the owner's machine, not in the repo): `CLAUDE.md`, `AGENTS.md` (says the Next.js here has breaking changes), `PRODUCT.md`, `DESIGN.md`, `PROJECT_CONTEXT.md`, `.claude/`, `.env.local`. Their essentials are folded into this file; do not commit them.
 8. Ask the owner before anything hard to reverse or outward-facing that they have not approved (for example applying SQL to the production database: they ran migration 0018 themselves).
 
-## 3. State right now (2026-09-21, commit `d4ddfeb`)
+## 3. State right now (2026-09-23, commit `7a0c1ab`; the measurements below were taken at `d4ddfeb` and the tests were re-run at `7a0c1ab`)
 
 | Area | State |
 |---|---|
 | Types / lint | `tsc` 0 errors; eslint 0 errors (1 harmless warning from generated coverage output) |
-| Unit tests | 618 pass (Vitest, 71 files) |
-| Browser tests | 99 pass locally; in CI (no database) 76 pass and 23 skip by design |
-| CI on `main` | Green at `d4ddfeb`. It was red for about a dozen runs before `9e69462` (see lessons) |
+| Unit tests | 630 pass (Vitest, 74 files) |
+| Browser tests | 100 pass locally; in CI (no database) 76 pass and 23 skip by design |
+| CI on `main` | Green at `7c7d3a2` (stage 4); stage 5 commit `7a0c1ab` was pushed and its run had not finished when this was written, so check it. Green at `d4ddfeb` before that. It was red for about a dozen runs before `9e69462` (see lessons) |
 | SQL tests | 16 test files plus helpers, pass in CI on Postgres 16 (not runnable on the owner's machine: no local PostgreSQL) |
 | Migrations | `0001` to `0018` written; **all applied to production** (0018 on 2026-09-21, verified: public key gets "permission denied" on `daily_stats`, `v_best_sellers`, `v_sales_by_country`) |
 | Lighthouse mobile (live) | home 85-86, cars 86, vehicle 78-80, about 91. **Target 95 NOT met.** Desktop 96-99. (Started at 54 for home) |
 | Smoothness | 0 slow frames of about 260 while scrolling home, cars, vehicle; no long tasks |
 | Accessibility | axe clean on public pages and 12 admin pages at 1280 and 390 px; touch targets 44 px on coarse pointers; keyboard, focus trap, reduced motion checked. **No real screen-reader session has been run** |
 | Responsive | 14 pages by 13 sizes, no overflow (`scripts/perf/responsive-matrix.cjs`) |
-| Audit findings | 110 findings in `docs/audits/findings-register.md`: 66 fixed, 17 partly, 2 accepted, 25 open (all open items are P2) |
+| Audit findings | 110 findings in `docs/audits/findings-register.md`: 69 fixed, 20 partly, 4 accepted, 17 open (all open items are P2) |
 | Server speed | Warm first byte on live: cars 0.35-0.45 s, vehicle page 0.36-0.46 s after the Tokyo region pin. Cold requests were 1.8-2.3 s before the pin and were not re-measured |
 
 ## 4. History of the work (what was done, in order)
@@ -129,7 +129,7 @@ Lighthouse recipe: `CHROME_PATH=<playwright chromium> npx lighthouse@12 <url> --
 
 **Performance (target mobile 95 not met; expect 85-92 realistically):** remaining weight is React and Next runtime (about 155 KB gz) plus Base UI positioning and menu code needed above the fold. Ideas: render more of the home page without client components; lazy-hydrate the search bar's time selects; replace the three Base UI Selects in the search bar with native selects on touch; verify with `bundle-composition.cjs` and Lighthouse. Cold-start latency and the seeded database round trips also matter. Re-measure Lighthouse after the Tokyo region pin (only response times were re-measured).
 
-**Open audit findings (25, all P2)** in `docs/audits/findings-register.md`: landscape header height (A4/B8), test gaps (filter outcomes TG-06, flake risks TG-08, weak assertions TG-09, soft 404 for unknown vehicle TG-10/F9, tests that skip without a database TG-03), lead scoring trusts client name/email (SEC-API-2), account enumeration on sign-up (SEC-API-8), unsigned n8n webhooks (SEC-PRIV-007), cookie `Secure` flags and consent salt (SEC-COOKIE-009), preview deployments could use production keys (DEVOPS-3), dependency freshness (DEVOPS-10), one action verb pair "Rent Now"/"Book Now" (VAC-7), About page weight and label (VAC-8/9), empty-state alignment (F7), cancel message disappears on refresh (F10), unused CSS tokens (DC-05), library functions used only by tests (DC-08), duplicated reveal observer in how-it-works (DC-10), swallowed secondary fetch errors (F6), only one `loading.tsx` (F5 partly done for admin lists).
+**Open audit findings (17, all P2; F10, F7, VAC-7 fixed and F9/TG-10, SEC-COOKIE-009, F6, DEVOPS-3 moved on 2026-09-23)** in `docs/audits/findings-register.md`: landscape header height (A4/B8), test gaps (filter outcomes TG-06, flake risks TG-08, weak assertions TG-09, soft 404 for unknown vehicle TG-10/F9, tests that skip without a database TG-03), lead scoring trusts client name/email (SEC-API-2), account enumeration on sign-up (SEC-API-8), unsigned n8n webhooks (SEC-PRIV-007), cookie `Secure` flags and consent salt (SEC-COOKIE-009), preview deployments could use production keys (DEVOPS-3), dependency freshness (DEVOPS-10), one action verb pair "Rent Now"/"Book Now" (VAC-7), About page weight and label (VAC-8/9), empty-state alignment (F7), cancel message disappears on refresh (F10), unused CSS tokens (DC-05), library functions used only by tests (DC-08), duplicated reveal observer in how-it-works (DC-10), swallowed secondary fetch errors (F6), only one `loading.tsx` (F5 partly done for admin lists).
 
 **Other unfinished items:** host-editable vehicle description field (S13); Code Reviewer and Architecture Designer skills never run on the shared systems; a second Fool pass in "Test the evidence" mode on the About and Contact claims; a host test account and signed-in portal e2e tests (skip when absent); e2e for checkout and confirmation pages (need a seeded booking or mocks); Stitch `DESIGN.md` export (conditional, not needed); real Supabase preview/staging project; `docs/API.md` documents only 19 of 95 routes.
 

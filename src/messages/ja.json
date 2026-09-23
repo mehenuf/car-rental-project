@@ -138,7 +138,6 @@
   "vehicle": {
     "perDay": "/日",
     "soldOut": "満車",
-    "rentNow": "今すぐ借りる",
     "addFavorite": "{name}をお気に入りに追加",
     "removeFavorite": "{name}をお気に入りから削除",
     "features": "装備・特徴",

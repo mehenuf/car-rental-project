@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
+import { setPreferenceCookie } from "@/lib/client-cookie";
 import { pickDefaultPlace, type Place } from "@/lib/location/places";
 
 const COOKIE = "bc_loc";
@@ -62,7 +63,7 @@ export function LocationProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const select = useCallback((place: Place) => {
-    document.cookie = `${COOKIE}=${place.id}; path=/; max-age=31536000; samesite=lax`;
+    setPreferenceCookie(COOKIE, String(place.id));
     setChosenId(place.id);
   }, []);
 

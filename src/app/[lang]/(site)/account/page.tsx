@@ -8,6 +8,7 @@ import { BookingStatusBadge } from "@/components/admin/booking-status-badge";
 import { ClaimBookings } from "@/components/site/claim-bookings";
 import { VehicleImage } from "@/components/site/vehicle-image";
 import { CancelBookingButton } from "@/components/site/cancel-booking-button";
+import { CancelOutcome } from "@/components/site/cancel-outcome";
 import { countClaimable } from "@/lib/account/trips";
 import { formatBookingTotal, formatDate } from "@/lib/format";
 import { readRequestIdentity } from "@/lib/guest";
@@ -158,6 +159,7 @@ export default async function AccountPage() {
                       paid={booking.payment_status === "paid"}
                     />
                   )}
+                  {booking.status === "cancelled" && <CancelOutcome bookingId={booking.id} />}
                 </div>
               </CardContent>
             </Card>

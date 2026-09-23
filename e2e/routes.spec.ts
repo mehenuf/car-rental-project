@@ -32,6 +32,15 @@ test.describe("unknown addresses", () => {
     await expect(page.getByRole("heading", { level: 1, name: ar.notFound.title })).toBeVisible();
   });
 
+  test("an unknown car shows the 404 and tells crawlers not to index it", async ({ page, baseURL }) => {
+    // The vehicle page streams behind a loading skeleton, so Next answers 200 and cannot change the status later
+    // (documented in next/dist/docs, loading.md, "Status Codes"). The noindex tag is what keeps it out of search.
+    await acceptCookies(page, baseURL);
+    await page.goto("/en/cars/no-such-car-zzz");
+    await expect(page.getByRole("heading", { level: 1, name: "Page not found" })).toBeVisible();
+    await expect(page.locator('meta[name="robots"]').first()).toHaveAttribute("content", /noindex/);
+  });
+
   test("an unknown booking reference explains itself instead of showing a car 404", async ({ page, baseURL, request }) => {
     const places = await request.get("/api/locations");
     test.skip(!places.ok() || (await places.json()).length === 0, "needs a database");
