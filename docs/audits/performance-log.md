@@ -85,3 +85,19 @@ After `vercel.json` set `regions: ["hnd1"]` (the database is in `ap-northeast-1`
 | Vehicle page | 0.62 to 0.66 s (one 1.04 s) | **0.36 to 0.46 s** (one 0.69 s) |
 
 The vehicle page, which makes the most database calls, is about 40% faster. The cars list changed little because it already had fewer sequential calls. Cold requests were not re-measured. Lighthouse was not re-run after this change.
+
+## Fourth pass, 2026-09-23: after the Tokyo region pin, then the vehicle page
+
+Lighthouse 12, mobile with simulated throttling, live site, run one at a time from the development machine. Single runs vary by 5 to 10 points, so ranges are given.
+
+**Baseline after the region pin (Measured, one run each, before any change below):** home 91, cars 92, vehicle 82 (LCP 4.2 s), about 93. Up from 85–86, 86, 78–80 and 91 on 09-21, so the region pin helped; it had not been re-measured until now.
+
+**Vehicle page, cause 1 (Measured):** the LCP element is the gallery photo. Lighthouse's discovery audit said `fetchpriority=high` was not applied, because Next 16 deprecated the `priority` prop and the photo had neither the attribute nor eager loading. The page also waited for the similar-cars query (several sequential database calls) before it could stream. Fix: `fetchPriority="high"` and `loading="eager"` on the first photo, and the similar-cars list moved into its own `Suspense` boundary so it streams after the photo, price and booking panel. Result, three runs: LCP 4.2 s to 3.7–3.8 s, score 79 to 85 (the spread is TBT noise); the audit now reports the hint as applied.
+
+**Vehicle page, cause 2 (Measured):** its first load was 358 KB gzipped against 261 KB for the home page. The extra was one 83 KB gzipped chunk, the whole of Zod, imported only so the booking dialog could check a name and an email before posting (the server validates again). Fix: `src/lib/booking-form.ts` (about 20 lines, unit-tested, plus a browser test), and the panel builds the request body itself. First load 358 KB to **273 KB gzipped** (1222 KB to 852 KB raw). Side effect: the dialog used to show the schema's raw English messages ("customer_name is required") in every language; it now shows translated ones. Live after deploy, three runs: **87, 87, 88** (LCP 3.3–3.8 s, TBT 130–210 ms), against 82 before.
+
+**Cars list (Measured, observed):** the first card's photo was `loading="lazy"`, so the browser waited for layout before requesting the largest paint. The first card now loads eagerly at high priority (`VehicleCard first`, also on the city page). Live runs after deploy: 89, 79, 88, then 87, 92, 78, 77, 88. **The score is bimodal, 77–79 or 87–92:** with near-identical observed image timings, the slow runs have about 340–370 ms of element render delay against about 75 ms in the fast ones, because the main thread is busy hydrating when the photo arrives, and the simulated throttling multiplies that. I did not establish that this change helped the cars list, and it did not remove the spread. Only less JavaScript overall would, which is the framework-runtime problem below.
+
+**Home:** unchanged by this pass, 89–92 in five runs.
+
+**Still open (Observed):** the account trips page still ships the whole of Zod (327 KB gzipped first load; its dispute panel imports `disputes/rules`, which imports Zod). The login, register, driver and host-application pages ship the Supabase auth client (65 KB gzipped), which they need. The 95 target remains unmet; a realistic expectation is high 80s to low 90s.
