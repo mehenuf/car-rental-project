@@ -15,7 +15,8 @@ import { cn } from "@/lib/utils";
 import type { VehicleCardData } from "@/lib/queries";
 import { useLocale, useT } from "@/lib/i18n/provider";
 
-export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData; searchQuery?: string }) {
+/** `first` marks the card that is the first thing in view on a list page: its photo is fetched at once and at high priority instead of waiting for layout like the lazy ones below it. */
+export function VehicleCard({ vehicle, searchQuery, first = false }: { vehicle: VehicleCardData; searchQuery?: string; first?: boolean }) {
   const t = useT();
   const locale = useLocale();
   const href = `/cars/${vehicle.slug}${searchQuery ? `?${searchQuery}` : ""}`;
@@ -82,6 +83,8 @@ export function VehicleCard({ vehicle, searchQuery }: { vehicle: VehicleCardData
           alt={vehicle.name}
           fill
           sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+          loading={first ? "eager" : undefined}
+          fetchPriority={first ? "high" : undefined}
           className="object-cover transition-transform duration-(--motion-medium) group-hover:scale-105"
         />
         {soldOut && (

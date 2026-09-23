@@ -46,7 +46,7 @@ export default async function CityPage({ params }: { params: Promise<{ city: str
         <p className="text-muted-foreground">{t("cityPage.empty", { city: name })}</p>
       ) : (
         <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-2 xl:grid-cols-3">
-          {vehicles.map((v) => <VehicleCard key={v.id} vehicle={v} />)}
+          {vehicles.map((v, index) => <VehicleCard key={v.id} vehicle={v} first={index === 0} />)}
         </div>
       )}
     </div>

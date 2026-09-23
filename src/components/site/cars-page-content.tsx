@@ -161,8 +161,8 @@ export async function CarsPageContent({
             </div>
           ) : (
             <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-2 xl:grid-cols-3">
-              {data.map((vehicle) => (
-                <VehicleCard key={vehicle.id} vehicle={vehicle} searchQuery={searchQuery} />
+              {data.map((vehicle, index) => (
+                <VehicleCard key={vehicle.id} vehicle={vehicle} searchQuery={searchQuery} first={index === 0} />
               ))}
             </div>
           )}
