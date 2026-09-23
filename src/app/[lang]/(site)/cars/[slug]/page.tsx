@@ -2,6 +2,7 @@ import { jsonLdString, vehicleLd } from "@/lib/seo/jsonld";
 import { localizedUrl } from "@/lib/seo/urls";
 import { getLocale } from "@/lib/i18n/dictionary";
 import { pageMetadata } from "@/lib/seo/metadata";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Check, Cog, DoorOpen, Fuel as FuelIcon, Star, Users } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
@@ -18,6 +19,7 @@ import { VehicleCard } from "@/components/site/vehicle-card";
 import { ScrollReveal } from "@/components/site/scroll-reveal";
 import { VehicleReviews } from "@/components/site/vehicle-reviews";
 import { getT } from "@/lib/i18n/dictionary";
+import type { Tables } from "@/types/database";
 
 export async function generateMetadata({
   params,
@@ -69,12 +71,10 @@ export default async function VehicleDetailPage({
   if (!vehicle) notFound();
 
   // The branch whose city and daily rate the page shows, and the branch the quote is priced from.
-  const [place, { data: sameCategory }, translation] = await Promise.all([
+  const [place, translation] = await Promise.all([
     getVehiclePlace(vehicle.id, toBranchId(pickupLocationId)),
-    getVehicleCards({ category: [vehicle.category], pageSize: 4 }),
     getVehicleTranslation(vehicle.id, locale),
   ]);
-  const similar = sameCategory.filter((v) => v.id !== vehicle.id).slice(0, 3);
 
   const text = localizedVehicleText(vehicle, translation);
   const images = [vehicle.image_url, ...vehicle.gallery.filter((url) => url !== vehicle.image_url)];
@@ -171,17 +171,28 @@ export default async function VehicleDetailPage({
         <VehicleReviews vehicleId={vehicle.id} />
       </div>
 
-      {similar.length > 0 && (
-        <ScrollReveal className="mt-(--space-xl) flex flex-col gap-(--space-md)" delay={0.2}>
-          <h2 className="font-heading text-lg font-semibold text-foreground">{t("vehicle.similar")}</h2>
-          <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-2 lg:grid-cols-3">
-            {similar.map((v) => (
-              <VehicleCard key={v.id} vehicle={v} />
-            ))}
-          </div>
-        </ScrollReveal>
-      )}
+      {/* Streams in after the page: the photo, price and booking panel do not wait for this list. */}
+      <Suspense fallback={<div className="mt-(--space-xl) min-h-72" aria-hidden />}>
+        <SimilarVehicles vehicleId={vehicle.id} category={vehicle.category} />
+      </Suspense>
     </div>
+  );
+}
+
+async function SimilarVehicles({ vehicleId, category }: { vehicleId: string; category: Tables<"vehicles">["category"] }) {
+  const t = await getT();
+  const { data } = await getVehicleCards({ category: [category], pageSize: 4 });
+  const similar = data.filter((v) => v.id !== vehicleId).slice(0, 3);
+  if (similar.length === 0) return null;
+  return (
+    <ScrollReveal className="mt-(--space-xl) flex flex-col gap-(--space-md)" delay={0.2}>
+      <h2 className="font-heading text-lg font-semibold text-foreground">{t("vehicle.similar")}</h2>
+      <div className="grid grid-cols-1 gap-(--space-sm) sm:grid-cols-2 lg:grid-cols-3">
+        {similar.map((v) => (
+          <VehicleCard key={v.id} vehicle={v} />
+        ))}
+      </div>
+    </ScrollReveal>
   );
 }
 

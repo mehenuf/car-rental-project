@@ -22,7 +22,10 @@ export function VehicleGallery({ images, name }: { images: string[]; name: strin
             fill
             sizes="(min-width: 1024px) 700px, 100vw"
             className="object-cover"
-            priority
+            // The first photo is the largest paint on the page: fetch it at once and at high priority. (Next 16 deprecates
+            // the priority prop; its docs say to use fetchPriority instead of preload for this.)
+            loading={active === 0 ? "eager" : undefined}
+            fetchPriority={active === 0 ? "high" : undefined}
           />
         )}
       </div>
