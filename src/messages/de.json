@@ -188,7 +188,8 @@
     "pickupIn": "Abholung in {city}",
     "pickupInPast": "Die Abholzeit liegt bereits in der Vergangenheit. Wählen Sie eine spätere Zeit.",
     "driverAgeRange": "Geben Sie ein Alter von 16 bis 99 ein.",
-    "payNextStep": "Die Zahlung erfolgt im nächsten Schritt. Das Auto wird 15 Minuten für Sie reserviert."
+    "payNextStep": "Die Zahlung erfolgt im nächsten Schritt. Das Auto wird 15 Minuten für Sie reserviert.",
+    "emailInvalid": "Geben Sie eine gültige E-Mail-Adresse ein."
   },
   "quote": {
     "total": "Gesamt",

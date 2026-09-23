@@ -188,7 +188,8 @@
     "pickupIn": "Ophalen in {city}",
     "pickupInPast": "De ophaaltijd is al voorbij. Kies een later tijdstip.",
     "driverAgeRange": "Vul een leeftijd in van 16 tot 99.",
-    "payNextStep": "Je betaalt in de volgende stap. De auto wordt 15 minuten voor je vastgehouden."
+    "payNextStep": "Je betaalt in de volgende stap. De auto wordt 15 minuten voor je vastgehouden.",
+    "emailInvalid": "Voer een geldig e-mailadres in."
   },
   "quote": {
     "total": "Totaal",

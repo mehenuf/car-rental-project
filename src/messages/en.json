@@ -188,7 +188,8 @@
     "pickupIn": "Pick-up in {city}",
     "pickupInPast": "The pick-up time has already passed. Choose a later time.",
     "driverAgeRange": "Enter an age from 16 to 99.",
-    "payNextStep": "You pay on the next step. The car is held for you for 15 minutes."
+    "payNextStep": "You pay on the next step. The car is held for you for 15 minutes.",
+    "emailInvalid": "Enter a valid email address."
   },
   "quote": {
     "total": "Total",

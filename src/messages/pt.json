@@ -188,7 +188,8 @@
     "pickupIn": "Retirada em {city}",
     "pickupInPast": "A hora de retirada já passou. Escolha uma hora posterior.",
     "driverAgeRange": "Introduza uma idade entre 16 e 99.",
-    "payNextStep": "Paga no passo seguinte. O carro fica reservado para si durante 15 minutos."
+    "payNextStep": "Paga no passo seguinte. O carro fica reservado para si durante 15 minutos.",
+    "emailInvalid": "Introduza um endereço de e-mail válido."
   },
   "quote": {
     "total": "Total",

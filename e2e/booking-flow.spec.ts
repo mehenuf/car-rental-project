@@ -125,6 +125,26 @@ test.describe("booking panel", () => {
     expect(body.source).toBe("web");
   });
 
+  test("a blank name or an address without a domain gets a readable message and nothing is sent", async ({ page }) => {
+    // The browser lets both through (spaces satisfy required, a@b is a valid address to it), so this is our own check.
+    const sent = await mockBookingApis(page);
+    const response = await page.goto(`${VEHICLE}?${FUTURE}`);
+    test.skip(!response || response.status() !== 200, "needs the sample vehicle");
+    await page.getByRole("button", { name: "Book Now" }).click();
+    const dialog = page.getByRole("dialog", { name: "Complete your booking" });
+    await dialog.getByLabel("Full name").fill("   ");
+    await dialog.getByLabel("Email").fill("a@b");
+    await dialog.getByRole("button", { name: "Confirm Booking" }).click();
+    await expect(dialog.getByRole("alert").filter({ hasText: "Enter your full name." })).toBeVisible();
+    await expect(dialog.getByRole("alert").filter({ hasText: "Enter a valid email address." })).toBeVisible();
+    expect(sent.booking).toHaveLength(0);
+    // Fixing both lets the booking through.
+    await dialog.getByLabel("Full name").fill("Test Renter");
+    await dialog.getByLabel("Email").fill("renter@example.com");
+    await dialog.getByRole("button", { name: "Confirm Booking" }).click();
+    await expect(page).toHaveURL(/\/en\/checkout\/BC-TEST01$/);
+  });
+
   test("a missing name or email in the dialog is caught before anything is sent", async ({ page }) => {
     const sent = await mockBookingApis(page);
     const response = await page.goto(`${VEHICLE}?${FUTURE}`);

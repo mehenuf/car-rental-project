@@ -21,7 +21,7 @@ import { TimeSelectField } from "@/components/site/time-select-field";
 import { DEFAULT_TIME, combineDateAndTime, defaultTrip, parseTime } from "@/lib/booking-time";
 import { QuoteBreakdown } from "@/components/site/quote-breakdown";
 import { useQuote, type QuoteParams } from "@/hooks/use-quote";
-import { CreateBookingSchema } from "@/lib/schemas";
+import { validateContact } from "@/lib/booking-form";
 import { formatCurrency } from "@/lib/format";
 import { formatMinor } from "@/lib/pricing/money";
 import type { VehiclePlace } from "@/lib/vehicle-place";
@@ -217,30 +217,15 @@ export function VehicleBookingPanel({
     e.preventDefault();
     if (!pickupAt || !dropoffAt || !quoteReady || !quoteData) return;
 
-    const result = CreateBookingSchema.safeParse({
-      vehicle_id: vehicle.id,
-      customer_name: name,
-      email,
-      phone: phone.trim() ? phone : undefined,
-      pickup_branch_id: pickupBranchId,
-      dropoff_branch_id: dropoffBranchId,
-      pickup_at: pickupAt,
-      dropoff_at: dropoffAt,
-      extras: extrasList,
-      promo_code: appliedPromo ?? undefined,
-      driver_age: driverAge ?? undefined,
-      source: "web",
-    });
-
-    if (!result.success) {
-      const errors: Record<string, string> = {};
-      for (const issue of result.error.issues) {
-        const key = issue.path[0];
-        if (typeof key === "string" && !errors[key]) errors[key] = issue.message;
-      }
-      setFieldErrors(errors);
+    const problems = validateContact({ name, email });
+    if (problems.customer_name || problems.email) {
+      setFieldErrors({
+        ...(problems.customer_name ? { customer_name: t("auth.nameRequired") } : {}),
+        ...(problems.email ? { email: t("booking.emailInvalid") } : {}),
+      });
       return;
     }
+    if (dropoffAt.getTime() <= pickupAt.getTime()) return;
 
     setFieldErrors({});
     setSubmitError(null);
@@ -250,9 +235,18 @@ export function VehicleBookingPanel({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          ...result.data,
-          pickup_at: result.data.pickup_at.toISOString(),
-          dropoff_at: result.data.dropoff_at.toISOString(),
+          vehicle_id: vehicle.id,
+          customer_name: name.trim(),
+          email: email.trim(),
+          phone: phone.trim() ? phone.trim() : undefined,
+          pickup_branch_id: pickupBranchId,
+          dropoff_branch_id: dropoffBranchId,
+          pickup_at: pickupAt.toISOString(),
+          dropoff_at: dropoffAt.toISOString(),
+          extras: extrasList,
+          promo_code: appliedPromo ?? undefined,
+          driver_age: driverAge ?? undefined,
+          source: "web",
           // Proves which price the customer saw; a changed price comes back as 409.
           quote_token: quoteData.token,
         }),

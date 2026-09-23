@@ -184,7 +184,8 @@
     "pickupIn": "Pengambilan di {city}",
     "pickupInPast": "Waktu pengambilan sudah lewat. Pilih waktu yang lebih lambat.",
     "driverAgeRange": "Masukkan usia antara 16 dan 99.",
-    "payNextStep": "Anda membayar di langkah berikutnya. Mobil ditahan untuk Anda selama 15 menit."
+    "payNextStep": "Anda membayar di langkah berikutnya. Mobil ditahan untuk Anda selama 15 menit.",
+    "emailInvalid": "Masukkan alamat email yang valid."
   },
   "quote": {
     "total": "Total",

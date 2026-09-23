@@ -184,7 +184,8 @@
     "pickupIn": "取车地点：{city}",
     "pickupInPast": "取车时间已过，请选择更晚的时间。",
     "driverAgeRange": "请输入 16 至 99 之间的年龄。",
-    "payNextStep": "下一步付款。我们会为您保留车辆 15 分钟。"
+    "payNextStep": "下一步付款。我们会为您保留车辆 15 分钟。",
+    "emailInvalid": "请输入有效的邮箱地址。"
   },
   "quote": {
     "total": "合计",

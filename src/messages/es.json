@@ -188,7 +188,8 @@
     "pickupIn": "Recogida en {city}",
     "pickupInPast": "La hora de recogida ya ha pasado. Elige una hora posterior.",
     "driverAgeRange": "Introduce una edad entre 16 y 99.",
-    "payNextStep": "Pagas en el siguiente paso. El coche queda reservado para ti durante 15 minutos."
+    "payNextStep": "Pagas en el siguiente paso. El coche queda reservado para ti durante 15 minutos.",
+    "emailInvalid": "Introduce un correo electrónico válido."
   },
   "quote": {
     "total": "Total",
